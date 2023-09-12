@@ -1,0 +1,5 @@
+{
+  "title": "Email Confirmation",
+  "emailConfirmed": "Email has been confirmed!",
+  "emailConfirmFailed": "Email confirmation failed!"
+}

@@ -1,0 +1,23 @@
+{
+  "app-name": "APP",
+  "loading": "Loading ...",
+  "navigation": {
+    "home": "Home",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "profile": "Profile",
+    "logout": "Logout"
+  },
+  "formInputs": {
+    "avatarInput": {
+      "dropzoneText": "Drop the image here ...",
+      "selectFile": "Select an image"
+    }
+  },
+  "leavePage": {
+    "title": "Leave this page?",
+    "message": "Changes you made may not be saved",
+    "stay": "Stay on Page",
+    "leave": "Leave Page"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "title": "Sign In",
+  "actions": {
+    "submit": "Sign In",
+    "createAccount": "Create Account",
+    "forgotPassword": "Forgot Password?"
+  },
+  "inputs": {
+    "email": {
+      "label": "Email",
+      "validation": {
+        "required": "Email is required",
+        "invalid": "Email is not valid",
+        "server": {
+          "emailNotExists": "Email does not exist"
+        }
+      }
+    },
+    "password": {
+      "label": "Password",
+      "validation": {
+        "required": "Password is required",
+        "min": "Password must be at least 6 characters long",
+        "server": {
+          "incorrectPassword": "Password is not valid"
+        }
+      }
+    }
+  }
+}
