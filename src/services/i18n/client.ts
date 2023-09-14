@@ -8,10 +8,10 @@ import {
 } from "react-i18next";
 import resourcesToBackend from "i18next-resources-to-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
-import { getOptions, languages, fallbackLanguage } from "./config";
-import { useParams } from "next/navigation";
+import { getOptions, languages } from "./config";
 import useStoreLanguage from "./use-store-language";
 import useStoreLanguageActions from "./use-store-language-actions";
+import useLanguage from "./use-language";
 
 const runsOnServerSide = typeof window === "undefined";
 
@@ -34,8 +34,7 @@ i18next
   });
 
 export function useTranslation(namespace: string, options?: object) {
-  const params = useParams();
-  const language = (params.language as string) || fallbackLanguage;
+  const language = useLanguage();
   const { language: cookies } = useStoreLanguage();
   const { setLanguage: setCookie } = useStoreLanguageActions();
   const originalInstance = useTranslationOriginal(namespace, options);
@@ -59,7 +58,7 @@ export function useTranslation(namespace: string, options?: object) {
     useEffect(() => {
       if (cookies === language) return;
       setCookie(language);
-    }, [language, cookies]);
+    }, [language, cookies, setCookie]);
   }
 
   return originalInstance;

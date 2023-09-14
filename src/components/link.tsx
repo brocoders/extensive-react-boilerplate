@@ -1,17 +1,16 @@
+import useLanguage from "@/services/i18n/use-language";
 import {
   LeavePageActionsContext,
   LeavePageContext,
 } from "@/services/leave-page/leave-page-context";
 import NextLink, { LinkProps } from "next/link";
-import { useParams } from "next/navigation";
 import { forwardRef, useContext } from "react";
 
 const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
   props,
   ref
 ) {
-  const params = useParams();
-  const language = params.language as string;
+  const language = useLanguage();
   const { isLeavePage } = useContext(LeavePageContext);
   const { setLeavePage, openModal } = useContext(LeavePageActionsContext);
   let href = props.href;
