@@ -5,6 +5,7 @@
   "root": true,
   "rules": {
     "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-namespace": "off",
     "no-restricted-syntax": [
       "error",
       {

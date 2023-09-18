@@ -57,6 +57,7 @@ function FormActions() {
       color="primary"
       type="submit"
       disabled={isSubmitting}
+      data-testid="sign-up-submit"
     >
       {t("sign-up:actions.submit")}
     </Button>
@@ -132,6 +133,7 @@ function Form() {
                 label={t("sign-up:inputs.firstName.label")}
                 type="text"
                 autoFocus
+                testId="firstName"
               />
             </Grid>
 
@@ -140,6 +142,7 @@ function Form() {
                 name="lastName"
                 label={t("sign-up:inputs.lastName.label")}
                 type="text"
+                testId="lastName"
               />
             </Grid>
 
@@ -148,6 +151,7 @@ function Form() {
                 name="email"
                 label={t("sign-up:inputs.email.label")}
                 type="email"
+                testId="email"
               />
             </Grid>
 
@@ -156,6 +160,7 @@ function Form() {
                 name="password"
                 label={t("sign-up:inputs.password.label")}
                 type="password"
+                testId="password"
               />
             </Grid>
 

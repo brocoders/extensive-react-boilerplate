@@ -47,6 +47,7 @@ function FormActions() {
       color="primary"
       type="submit"
       disabled={isSubmitting}
+      data-testid="sign-in-submit"
     >
       {t("sign-in:actions.submit")}
     </Button>
@@ -111,6 +112,7 @@ function Form() {
                 name="email"
                 label={t("sign-in:inputs.email.label")}
                 type="email"
+                testId="email"
                 autoFocus
               />
             </Grid>
@@ -120,6 +122,7 @@ function Form() {
                 name="password"
                 label={t("sign-in:inputs.password.label")}
                 type="password"
+                testId="password"
               />
             </Grid>
             <Grid item xs={12}>

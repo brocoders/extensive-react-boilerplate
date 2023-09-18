@@ -156,7 +156,11 @@ function ResponsiveAppBar() {
           ) : user ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Profile menu">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <IconButton
+                  onClick={handleOpenUserMenu}
+                  sx={{ p: 0 }}
+                  data-testid="profile-menu-item"
+                >
                   <Avatar
                     alt={user?.firstName + " " + user?.lastName}
                     src={user.photo?.path}
@@ -193,6 +197,7 @@ function ResponsiveAppBar() {
                     logOut();
                     handleCloseUserMenu();
                   }}
+                  data-testid="logout-menu-item"
                 >
                   <Typography textAlign="center">
                     {t("common:navigation.logout")}
