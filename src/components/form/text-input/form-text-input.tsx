@@ -19,6 +19,7 @@ type TextInputProps = {
   disabled?: boolean;
   readOnly?: boolean;
   error?: string;
+  testId?: string;
 };
 
 const TextInput = forwardRef<
@@ -54,8 +55,12 @@ const TextInput = forwardRef<
       variant="outlined"
       fullWidth
       error={!!props.error}
+      data-testid={props.testId}
       helperText={props.error}
       disabled={props.disabled}
+      FormHelperTextProps={{
+        ["data-testid" as string]: `${props.testId}-error`,
+      }}
       InputProps={{
         readOnly: props.readOnly,
         endAdornment:
@@ -96,6 +101,7 @@ function FormTextInput<
           error={fieldState.error?.message}
           disabled={props.disabled}
           readOnly={props.readOnly}
+          testId={props.testId}
         />
       )}
     />

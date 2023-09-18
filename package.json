@@ -26,6 +26,7 @@
     "i18next-browser-languagedetector": "^7.1.0",
     "i18next-resources-to-backend": "^1.1.4",
     "js-cookie": "^3.0.5",
+    "nanoid": "^5.0.1",
     "next": "13.4.17",
     "notistack": "^3.0.1",
     "react": "18.2.0",
@@ -40,6 +41,7 @@
     "@types/js-cookie": "^3.0.3",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.1",
+    "cypress": "^13.2.0",
     "eslint-config-prettier": "^9.0.0",
     "husky": "^8.0.3"
   }
