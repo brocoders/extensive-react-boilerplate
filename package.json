@@ -36,7 +36,7 @@
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.45.4",
     "react-i18next": "^13.2.2",
-    "typescript": "5.1.6",
+    "typescript": "5.2.2",
     "yup": "^1.2.0"
   },
   "devDependencies": {
