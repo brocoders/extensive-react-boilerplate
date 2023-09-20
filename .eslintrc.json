@@ -13,6 +13,18 @@
         "message": "\"watch\" re-render the whole form component. Use hook \"useWatch\" instead."
       },
       {
+        "selector": "VariableDeclarator > ObjectPattern > Property[key.name=formState]",
+        "message": "\"formState\" re-render the whole form component. Use hook \"useFormState\" instead."
+      },
+      {
+        "selector": "VariableDeclarator[init.callee.name=useFormState][id.type=Identifier]",
+        "message": "Use destructuring assignment for \"useFormState\". Example: \"const { isDirty } = useFormState()\". Returned formState is wrapped with Proxy to improve render performance and skip extra computation if specific state is not subscribed, so make sure you deconstruct or read it before render in order to enable the subscription. More info here https://react-hook-form.com/docs/useformstate#rules"
+      },
+      {
+        "selector": "MemberExpression[object.name=control]",
+        "message": "Do not access any of the properties inside this object directly. It's for internal usage only. More info here: https://react-hook-form.com/docs/useform/control"
+      },
+      {
         "selector": "VariableDeclaration[declarations.0.init.callee.name=useForm] ~ VariableDeclaration[declarations.0.init.callee.name=useWatch]",
         "message": "\"useWatch\" in main form component (which use \"useForm\") will re-render the whole form component. Move your useWatch's logic to separate component."
       },
