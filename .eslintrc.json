@@ -79,6 +79,14 @@
       {
         "selector": "Property[key.name=/^(padding|margin|paddingLeft|paddingRight|paddingTop|paddingBottom|paddingVertical|marginLeft|marginRight|marginTop|marginBottom|marginVertical)$/][value.type=/^(Literal|UnaryExpression)$/]:not([value.value=\"0 !important\"]):not([value.value=\"0\"]):not([value.value=\"0 auto\"]):not([value.value=\"auto\"])",
         "message": "Use theme.spacing() instead of literal."
+      },
+      {
+        "selector": "CallExpression[callee.name=/^(useQuery|useInfiniteQuery)$/] Property[key.name=queryKey]:not(:has(Identifier[name=key]))",
+        "message": "Use key created via createQueryKeys function instead of your solution"
+      },
+      {
+        "selector": "CallExpression[callee.name=refresh]",
+        "message": "Do not use refresh() function for update or change result in react-query. Use \"queryClient.resetQueries\" or pass new filter data to queryKey."
       }
     ],
     "no-restricted-imports": [

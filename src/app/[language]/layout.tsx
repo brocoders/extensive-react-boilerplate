@@ -15,6 +15,9 @@ import { getServerTranslation } from "@/services/i18n";
 import StoreLanguageProvider from "@/services/i18n/store-language-provider";
 import ThemeProvider from "@/components/theme-provider";
 import LeavePageProvider from "@/services/leave-page/leave-page-provider";
+import QueryClientProvider from "@/services/react-query/query-client-provider";
+import queryClient from "@/services/react-query/query-client";
+import ReactQueryDevtools from "@/services/react-query/react-query-devtools";
 
 type Props = {
   params: { language: string };
@@ -42,19 +45,22 @@ export default function RootLayout({
   return (
     <html lang={language} dir={dir(language)}>
       <body>
-        <ThemeProvider>
-          <CssBaseline />
-          <SnackbarProvider maxSnack={3}>
-            <StoreLanguageProvider>
-              <AuthProvider>
-                <LeavePageProvider>
-                  <ResponsiveAppBar />
-                  {children}
-                </LeavePageProvider>
-              </AuthProvider>
-            </StoreLanguageProvider>
-          </SnackbarProvider>
-        </ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <ThemeProvider>
+            <CssBaseline />
+            <SnackbarProvider maxSnack={3}>
+              <StoreLanguageProvider>
+                <AuthProvider>
+                  <LeavePageProvider>
+                    <ResponsiveAppBar />
+                    {children}
+                  </LeavePageProvider>
+                </AuthProvider>
+              </StoreLanguageProvider>
+            </SnackbarProvider>
+          </ThemeProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );
