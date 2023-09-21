@@ -37,7 +37,7 @@ export default async function Home({ params }: Props) {
                   key="1"
                   target="_blank"
                   rel="noopener noreferrer"
-                  href="https://github.com/brocoders/react-boilerplate"
+                  href="https://github.com/brocoders/react-boilerplate/blob/main/docs/README.md"
                 >
                   {}
                 </MuiLink>,
