@@ -52,6 +52,12 @@
    npm install
    ```
 
+1. Copy example environment file
+
+   ```bash
+   cp example.env.local .env.local
+   ```
+
 1. Build application
 
    ```bash
