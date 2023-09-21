@@ -1,5 +1,7 @@
 # ReactJS Boilerplate (WIP 🚧)
 
+[Full documentation here](/docs/README.md)
+
 ## Getting Started
 
 First, run the development server:
