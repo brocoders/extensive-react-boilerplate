@@ -5,6 +5,7 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import {
@@ -22,6 +23,23 @@ type AvatarInputProps = {
   value?: FileEntity;
   disabled?: boolean;
 };
+
+const AvatarInputContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  position: "relative",
+  flexDirection: "column",
+  alignItems: "center",
+  padding: theme.spacing(2),
+  marginTop: theme.spacing(2),
+  border: "1px dashed",
+  borderColor: theme.palette.divider,
+  borderRadius: theme.shape.borderRadius,
+  cursor: "pointer",
+
+  "&:hover": {
+    borderColor: theme.palette.text.primary,
+  },
+}));
 
 function AvatarInput(props: AvatarInputProps) {
   const { t } = useTranslation();
@@ -50,17 +68,7 @@ function AvatarInput(props: AvatarInputProps) {
   });
 
   return (
-    <Box
-      {...getRootProps()}
-      sx={{
-        display: "flex",
-        position: "relative",
-        flexDirection: "column",
-        alignItems: "center",
-        p: 2,
-        mt: 2,
-      }}
-    >
+    <AvatarInputContainer {...getRootProps()}>
       {isDragActive && (
         <Box
           sx={{
@@ -101,12 +109,19 @@ function AvatarInput(props: AvatarInputProps) {
           <input {...getInputProps()} />
         </Button>
       </Box>
+
+      <Box sx={{ mt: 1 }}>
+        <Typography>
+          {t("common:formInputs.avatarInput.dragAndDrop")}
+        </Typography>
+      </Box>
+
       {props.error && (
         <Box sx={{ mt: 1 }}>
           <Typography sx={{ color: "red" }}>{props.error}</Typography>
         </Box>
       )}
-    </Box>
+    </AvatarInputContainer>
   );
 }
 
