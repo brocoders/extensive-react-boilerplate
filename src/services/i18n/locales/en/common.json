@@ -11,6 +11,7 @@
   "formInputs": {
     "avatarInput": {
       "dropzoneText": "Drop the image here ...",
+      "dragAndDrop": "Or drag 'n' drop some files here",
       "selectFile": "Select an image"
     }
   },
