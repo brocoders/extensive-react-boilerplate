@@ -28,6 +28,29 @@ export function useAuthLoginService() {
     [fetchBase]
   );
 }
+
+export type AuthGoogleLoginRequest = {
+  idToken: string;
+};
+
+export type AuthGoogleLoginResponse = Tokens & {
+  user: User;
+};
+
+export function useAuthGoogleLoginService() {
+  const fetchBase = useFetchBase();
+
+  return useCallback(
+    (data: AuthGoogleLoginRequest) => {
+      return fetchBase(`${API_URL}/v1/auth/google/login`, {
+        method: "POST",
+        body: JSON.stringify(data),
+      }).then(wrapperFetchJsonResponse<AuthGoogleLoginResponse>);
+    },
+    [fetchBase]
+  );
+}
+
 export type AuthSignUpRequest = {
   email: string;
   password: string;
