@@ -20,6 +20,7 @@ import useLeavePage from "@/services/leave-page/use-leave-page";
 import Box from "@mui/material/Box";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
+import { UserProviderEnum } from "@/services/api/types/user";
 
 type EditProfileBasicInfoFormData = {
   firstName: string;
@@ -160,8 +161,8 @@ function FormBasicInfo() {
     <FormProvider {...methods}>
       <Container maxWidth="xs">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} mt={3}>
+          <Grid container spacing={2} mb={3} mt={3}>
+            <Grid item xs={12}>
               <Typography variant="h6">{t("profile:title1")}</Typography>
             </Grid>
             <Grid item xs={12}>
@@ -260,7 +261,7 @@ function FormChangePassword() {
       <Container maxWidth="xs">
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2} mb={2}>
-            <Grid item xs={12} mt={3}>
+            <Grid item xs={12}>
               <Typography variant="h6">{t("profile:title2")}</Typography>
             </Grid>
             <Grid item xs={12}>
@@ -307,11 +308,19 @@ function FormChangePassword() {
   );
 }
 
+function FormChangePasswordWrapper() {
+  const { user } = useAuth();
+
+  return user?.provider === UserProviderEnum.EMAIL ? (
+    <FormChangePassword />
+  ) : null;
+}
+
 function EditProfile() {
   return (
     <>
       <FormBasicInfo />
-      <FormChangePassword />
+      <FormChangePasswordWrapper />
     </>
   );
 }

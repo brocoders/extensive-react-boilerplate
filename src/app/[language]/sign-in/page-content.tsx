@@ -16,6 +16,10 @@ import Link from "@/components/link";
 import Box from "@mui/material/Box";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
+import SocialAuth from "@/services/social-auth/social-auth";
+import Divider from "@mui/material/Divider";
+import Chip from "@mui/material/Chip";
+import { isGoogleAuthEnabled } from "@/services/social-auth/google/google-config";
 
 type SignInFormData = {
   email: string;
@@ -145,6 +149,16 @@ function Form() {
                 </Button>
               </Box>
             </Grid>
+
+            {[isGoogleAuthEnabled].some(Boolean) && (
+              <Grid item xs={12}>
+                <Divider sx={{ mb: 2 }}>
+                  <Chip label={t("sign-in:or")} />
+                </Divider>
+
+                <SocialAuth />
+              </Grid>
+            )}
           </Grid>
         </form>
       </Container>
