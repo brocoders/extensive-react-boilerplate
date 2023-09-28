@@ -1,8 +1,24 @@
 "use client";
 
-import GoogleSignIn from "./google/google-auth";
+import Grid from "@mui/material/Grid";
+import FacebookAuth from "./facebook/facebook-auth";
+import { isFacebookAuthEnabled } from "./facebook/facebook-config";
+import GoogleAuth from "./google/google-auth";
 import { isGoogleAuthEnabled } from "./google/google-config";
 
 export default function SocialAuth() {
-  return <>{isGoogleAuthEnabled && <GoogleSignIn />}</>;
+  return (
+    <Grid container spacing={2}>
+      {isGoogleAuthEnabled && (
+        <Grid item xs={12}>
+          <GoogleAuth />
+        </Grid>
+      )}
+      {isFacebookAuthEnabled && (
+        <Grid item xs={12}>
+          <FacebookAuth />
+        </Grid>
+      )}
+    </Grid>
+  );
 }

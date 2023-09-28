@@ -20,6 +20,7 @@ import SocialAuth from "@/services/social-auth/social-auth";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
 import { isGoogleAuthEnabled } from "@/services/social-auth/google/google-config";
+import { isFacebookAuthEnabled } from "@/services/social-auth/facebook/facebook-config";
 
 type SignInFormData = {
   email: string;
@@ -150,7 +151,7 @@ function Form() {
               </Box>
             </Grid>
 
-            {[isGoogleAuthEnabled].some(Boolean) && (
+            {[isGoogleAuthEnabled, isFacebookAuthEnabled].some(Boolean) && (
               <Grid item xs={12}>
                 <Divider sx={{ mb: 2 }}>
                   <Chip label={t("sign-in:or")} />

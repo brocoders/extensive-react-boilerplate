@@ -9,7 +9,7 @@ import { useState } from "react";
 import { FullPageLoader } from "@/components/full-page-loader";
 import useLanguage from "@/services/i18n/use-language";
 
-export default function GoogleSignIn() {
+export default function GoogleAuth() {
   const { setUser } = useAuthActions();
   const { setTokensInfo } = useAuthTokens();
   const authGoogleLoginService = useAuthGoogleLoginService();

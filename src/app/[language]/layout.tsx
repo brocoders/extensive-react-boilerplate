@@ -18,7 +18,8 @@ import LeavePageProvider from "@/services/leave-page/leave-page-provider";
 import QueryClientProvider from "@/services/react-query/query-client-provider";
 import queryClient from "@/services/react-query/query-client";
 import ReactQueryDevtools from "@/services/react-query/react-query-devtools";
-import GoogleOAuthProvider from "@/services/social-auth/google/google-auth-provider";
+import GoogleAuthProvider from "@/services/social-auth/google/google-auth-provider";
+import FacebookAuthProvider from "@/services/social-auth/facebook/facebook-auth-provider";
 
 type Props = {
   params: { language: string };
@@ -53,12 +54,14 @@ export default function RootLayout({
             <SnackbarProvider maxSnack={3}>
               <StoreLanguageProvider>
                 <AuthProvider>
-                  <GoogleOAuthProvider>
-                    <LeavePageProvider>
-                      <ResponsiveAppBar />
-                      {children}
-                    </LeavePageProvider>
-                  </GoogleOAuthProvider>
+                  <GoogleAuthProvider>
+                    <FacebookAuthProvider>
+                      <LeavePageProvider>
+                        <ResponsiveAppBar />
+                        {children}
+                      </LeavePageProvider>
+                    </FacebookAuthProvider>
+                  </GoogleAuthProvider>
                 </AuthProvider>
               </StoreLanguageProvider>
             </SnackbarProvider>
