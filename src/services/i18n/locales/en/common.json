@@ -20,5 +20,10 @@
     "message": "Changes you made may not be saved",
     "stay": "Stay on Page",
     "leave": "Leave Page"
+  },
+  "auth": {
+    "facebook": {
+      "action": "Login with Facebook"
+    }
   }
 }
