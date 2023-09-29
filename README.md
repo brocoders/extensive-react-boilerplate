@@ -1,6 +1,14 @@
 # ReactJS Boilerplate (WIP 🚧)
 
+## Description
+
+ReactJS Boilerplate for typical project.
+
 [Full documentation here](/docs/README.md)
+
+Demo: <https://react-boilerplate-coral.vercel.app>
+
+Backend: <https://github.com/brocoders/nestjs-boilerplate>
 
 ## Getting Started
 
