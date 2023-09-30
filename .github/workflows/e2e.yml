@@ -17,8 +17,8 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          build: cp example.env.local .env.local
-          start: npm run dev
+          build: npm run build:cypress
+          start: npm run start
       - name: Artifacts
         uses: actions/upload-artifact@v3
         if: failure()

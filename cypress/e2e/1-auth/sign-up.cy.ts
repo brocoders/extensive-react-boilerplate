@@ -26,6 +26,7 @@ describe("Sign Up", () => {
     cy.get('[data-testid="sign-up-submit"]').click();
     cy.get('[data-testid="profile-menu-item"]').click();
     cy.get('[data-testid="logout-menu-item"]').click();
+    cy.get('[data-testid="profile-menu-item"]').should("not.exist");
     cy.visit("/sign-up");
     cy.get('[data-testid="firstName"]').type(`FirstName${nanoid()}`);
     cy.get('[data-testid="lastName"]').type(`LastName${nanoid()}`);

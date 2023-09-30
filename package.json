@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:cypress": "cp example.env.local .env.local && next build",
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install"
