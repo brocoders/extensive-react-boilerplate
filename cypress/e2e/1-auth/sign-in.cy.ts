@@ -19,7 +19,7 @@ describe("Sign In", () => {
     });
     cy.get('[data-testid="profile-menu-item"]').click();
     cy.get('[data-testid="logout-menu-item"]').click();
-
+    cy.get('[data-testid="profile-menu-item"]').should("not.exist");
     cy.visit("/sign-in");
   });
 
