@@ -15,7 +15,7 @@ export default function SocialAuth() {
         </Grid>
       )}
       {isFacebookAuthEnabled && (
-        <Grid item xs={12}>
+        <Grid container item xs={12} direction="column">
           <FacebookAuth />
         </Grid>
       )}
