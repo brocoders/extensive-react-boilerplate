@@ -42,6 +42,7 @@ const AvatarInputContainer = styled(Box)(({ theme }) => ({
 }));
 
 function AvatarInput(props: AvatarInputProps) {
+  const { onChange } = props;
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const fetchFileUpload = useFileUploadService();
@@ -50,11 +51,11 @@ function AvatarInput(props: AvatarInputProps) {
       setIsLoading(true);
       const { status, data } = await fetchFileUpload(acceptedFiles[0]);
       if (status === HTTP_CODES_ENUM.CREATED) {
-        props.onChange(data);
+        onChange(data);
       }
       setIsLoading(false);
     },
-    [fetchFileUpload, props.onChange]
+    [fetchFileUpload, onChange]
   );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -63,7 +64,7 @@ function AvatarInput(props: AvatarInputProps) {
       "image/png": [],
     },
     maxFiles: 1,
-    maxSize: 1024 * 1024 * 2,
+    maxSize: 1024 * 1024 * 2, // 2MB
     disabled: isLoading || props.disabled,
   });
 

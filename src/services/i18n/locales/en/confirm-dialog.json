@@ -1,0 +1,8 @@
+{
+  "title": "Confirmation",
+  "message": "Are you sure you want to do this action?",
+  "actions": {
+    "yes": "Yes",
+    "no": "No"
+  }
+}

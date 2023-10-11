@@ -20,6 +20,7 @@ import queryClient from "@/services/react-query/query-client";
 import ReactQueryDevtools from "@/services/react-query/react-query-devtools";
 import GoogleAuthProvider from "@/services/social-auth/google/google-auth-provider";
 import FacebookAuthProvider from "@/services/social-auth/facebook/facebook-auth-provider";
+import ConfirmDialogProvider from "@/components/confirm-dialog/confirm-dialog-provider";
 
 type Props = {
   params: { language: string };
@@ -53,16 +54,18 @@ export default function RootLayout({
             <CssBaseline />
             <SnackbarProvider maxSnack={3}>
               <StoreLanguageProvider>
-                <AuthProvider>
-                  <GoogleAuthProvider>
-                    <FacebookAuthProvider>
-                      <LeavePageProvider>
-                        <ResponsiveAppBar />
-                        {children}
-                      </LeavePageProvider>
-                    </FacebookAuthProvider>
-                  </GoogleAuthProvider>
-                </AuthProvider>
+                <ConfirmDialogProvider>
+                  <AuthProvider>
+                    <GoogleAuthProvider>
+                      <FacebookAuthProvider>
+                        <LeavePageProvider>
+                          <ResponsiveAppBar />
+                          {children}
+                        </LeavePageProvider>
+                      </FacebookAuthProvider>
+                    </GoogleAuthProvider>
+                  </AuthProvider>
+                </ConfirmDialogProvider>
               </StoreLanguageProvider>
             </SnackbarProvider>
           </ThemeProvider>
