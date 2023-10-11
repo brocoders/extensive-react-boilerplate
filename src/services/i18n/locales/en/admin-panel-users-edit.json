@@ -1,0 +1,64 @@
+{
+  "title1": "Edit user",
+  "title2": "Change password",
+  "actions": {
+    "submit": "Save",
+    "cancel": "Cancel"
+  },
+  "inputs": {
+    "email": {
+      "label": "Email",
+      "validation": {
+        "invalid": "Email is invalid",
+        "required": "Email is required",
+        "server": {
+          "emailAlreadyExists": "Email already exists"
+        }
+      }
+    },
+    "firstName": {
+      "label": "First Name",
+      "validation": {
+        "required": "First Name is required"
+      }
+    },
+    "lastName": {
+      "label": "Last Name",
+      "validation": {
+        "required": "Last Name is required"
+      }
+    },
+    "role": {
+      "label": "Role",
+      "validation": {
+        "required": "Last Name is required"
+      },
+      "options": {
+        "1": "Admin",
+        "2": "User"
+      }
+    },
+    "password": {
+      "label": "Password",
+      "validation": {
+        "required": "Password is required",
+        "min": "Password must be at least 6 characters long"
+      }
+    },
+    "passwordConfirmation": {
+      "label": "Password confirmation",
+      "validation": {
+        "required": "Password confirmation is required",
+        "match": "Password confirmation must match password"
+      }
+    }
+  },
+  "alerts": {
+    "password": {
+      "success": "Password has been updated successfully"
+    },
+    "user": {
+      "success": "User's profile has been updated successfully"
+    }
+  }
+}

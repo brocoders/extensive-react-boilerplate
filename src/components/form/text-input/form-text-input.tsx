@@ -20,6 +20,7 @@ type TextInputProps = {
   readOnly?: boolean;
   error?: string;
   testId?: string;
+  autoComplete?: string;
 };
 
 const TextInput = forwardRef<
@@ -58,6 +59,7 @@ const TextInput = forwardRef<
       data-testid={props.testId}
       helperText={props.error}
       disabled={props.disabled}
+      autoComplete={props.autoComplete}
       FormHelperTextProps={{
         ["data-testid" as string]: `${props.testId}-error`,
       }}
