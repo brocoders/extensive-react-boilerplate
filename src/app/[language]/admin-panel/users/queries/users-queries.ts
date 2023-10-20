@@ -32,7 +32,8 @@ export const useUserListQuery = ({
 
   const query = useInfiniteQuery({
     queryKey: usersQueryKeys.list().sub.by({ sort, filter }).key,
-    queryFn: async ({ pageParam = 1 }) => {
+    initialPageParam: 1,
+    queryFn: async ({ pageParam }) => {
       const { status, data } = await fetch({
         page: pageParam,
         limit: 10,
@@ -50,7 +51,7 @@ export const useUserListQuery = ({
     getNextPageParam: (lastPage) => {
       return lastPage?.nextPage;
     },
-    cacheTime: 0,
+    gcTime: 0,
   });
 
   return query;
