@@ -6,7 +6,13 @@ import { useTranslation } from "@/services/i18n/client";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { useCallback, useMemo, useRef, useState } from "react";
+import {
+  PropsWithChildren,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useUserListQuery, usersQueryKeys } from "./queries/users-queries";
 import { TableVirtuoso } from "react-virtuoso";
 import TableCell from "@mui/material/TableCell";
@@ -31,10 +37,45 @@ import useConfirmDialog from "@/components/confirm-dialog/use-confirm-dialog";
 import { useDeleteUsersService } from "@/services/api/services/users";
 import removeDuplicatesFromArrayObjects from "@/services/helpers/remove-duplicates-from-array-of-objects";
 import { InfiniteData, useQueryClient } from "@tanstack/react-query";
+import UserFilter from "./user-filter";
+import { useRouter, useSearchParams } from "next/navigation";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import { UserFilterType, UserSortType } from "./user-filter-types";
+import { SortEnum } from "@/services/api/types/sort-type";
+
+type UsersKeys = keyof User;
 
 const TableCellLoadingContainer = styled(TableCell)(() => ({
   padding: 0,
 }));
+
+function TableSortCellWrapper(
+  props: PropsWithChildren<{
+    width?: number;
+    orderBy: UsersKeys;
+    order: SortEnum;
+    column: UsersKeys;
+    handleRequestSort: (
+      event: React.MouseEvent<unknown>,
+      property: UsersKeys
+    ) => void;
+  }>
+) {
+  return (
+    <TableCell
+      style={{ width: props.width }}
+      sortDirection={props.orderBy === props.column ? props.order : false}
+    >
+      <TableSortLabel
+        active={props.orderBy === props.column}
+        direction={props.orderBy === props.column ? props.order : SortEnum.ASC}
+        onClick={(event) => props.handleRequestSort(event, props.column)}
+      >
+        {props.children}
+      </TableSortLabel>
+    </TableCell>
+  );
+}
 
 function Actions({ user }: { user: User }) {
   const [open, setOpen] = useState(false);
@@ -70,9 +111,26 @@ function Actions({ user }: { user: User }) {
     if (isConfirmed) {
       setOpen(false);
 
+      const searchParams = new URLSearchParams(window.location.search);
+      const searchParamsFilter = searchParams.get("filter");
+      const searchParamsSort = searchParams.get("sort");
+
+      let filter: UserFilterType | undefined = undefined;
+      let sort: UserSortType | undefined = undefined;
+
+      if (searchParamsFilter) {
+        filter = JSON.parse(searchParamsFilter);
+      }
+
+      if (searchParamsSort) {
+        sort = JSON.parse(searchParamsSort);
+      }
+
       const previousData = queryClient.getQueryData<
         InfiniteData<{ nextPage: number; data: User[] }>
-      >(usersQueryKeys.list().key);
+      >(usersQueryKeys.list().sub.by({ sort, filter }).key);
+
+      await queryClient.cancelQueries({ queryKey: usersQueryKeys.list().key });
 
       const newData = {
         ...previousData,
@@ -82,7 +140,10 @@ function Actions({ user }: { user: User }) {
         })),
       };
 
-      queryClient.setQueryData(usersQueryKeys.list().key, newData);
+      queryClient.setQueryData(
+        usersQueryKeys.list().sub.by({ sort, filter }).key,
+        newData
+      );
 
       await fetchUserDelete({
         id: user.id,
@@ -173,8 +234,49 @@ function Actions({ user }: { user: User }) {
 function Users() {
   const { t: tUsers } = useTranslation("admin-panel-users");
   const { t: tRoles } = useTranslation("admin-panel-roles");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [{ order, orderBy }, setSort] = useState<{
+    order: SortEnum;
+    orderBy: UsersKeys;
+  }>(() => {
+    const searchParamsSort = searchParams.get("sort");
+    if (searchParamsSort) {
+      return JSON.parse(searchParamsSort);
+    }
+    return { order: SortEnum.DESC, orderBy: "id" };
+  });
+
+  const handleRequestSort = (
+    event: React.MouseEvent<unknown>,
+    property: UsersKeys
+  ) => {
+    const isAsc = orderBy === property && order === SortEnum.ASC;
+    const searchParams = new URLSearchParams(window.location.search);
+    const newOrder = isAsc ? SortEnum.DESC : SortEnum.ASC;
+    const newOrderBy = property;
+    searchParams.set(
+      "sort",
+      JSON.stringify({ order: newOrder, orderBy: newOrderBy })
+    );
+    setSort({
+      order: newOrder,
+      orderBy: newOrderBy,
+    });
+    router.push(window.location.pathname + "?" + searchParams.toString());
+  };
+
+  const filter = useMemo(() => {
+    const searchParamsFilter = searchParams.get("filter");
+    if (searchParamsFilter) {
+      return JSON.parse(searchParamsFilter);
+    }
+
+    return undefined;
+  }, [searchParams]);
+
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
-    useUserListQuery();
+    useUserListQuery({ filter, sort: { order, orderBy } });
 
   const handleScroll = useCallback(() => {
     if (!hasNextPage || isFetchingNextPage) return;
@@ -197,14 +299,20 @@ function Users() {
               {tUsers("admin-panel-users:title")}
             </Typography>
           </Grid>
-          <Grid item xs="auto">
-            <Button
-              variant="contained"
-              LinkComponent={Link}
-              href="/admin-panel/users/create"
-            >
-              {tUsers("admin-panel-users:actions.create")}
-            </Button>
+          <Grid container item xs="auto" wrap="nowrap" spacing={2}>
+            <Grid item xs="auto">
+              <UserFilter />
+            </Grid>
+            <Grid item xs="auto">
+              <Button
+                variant="contained"
+                LinkComponent={Link}
+                href="/admin-panel/users/create"
+                color="success"
+              >
+                {tUsers("admin-panel-users:actions.create")}
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
 
@@ -219,20 +327,35 @@ function Users() {
               <>
                 <TableRow>
                   <TableCell style={{ width: 50 }}></TableCell>
-                  <TableCell style={{ width: 250 }}>
+                  <TableSortCellWrapper
+                    width={100}
+                    orderBy={orderBy}
+                    order={order}
+                    column="id"
+                    handleRequestSort={handleRequestSort}
+                  >
                     {tUsers("admin-panel-users:table.column1")}
-                  </TableCell>
-                  <TableCell>
+                  </TableSortCellWrapper>
+                  <TableCell style={{ width: 200 }}>
                     {tUsers("admin-panel-users:table.column2")}
                   </TableCell>
-                  <TableCell style={{ width: 100 }}>
+                  <TableSortCellWrapper
+                    orderBy={orderBy}
+                    order={order}
+                    column="email"
+                    handleRequestSort={handleRequestSort}
+                  >
                     {tUsers("admin-panel-users:table.column3")}
+                  </TableSortCellWrapper>
+
+                  <TableCell style={{ width: 80 }}>
+                    {tUsers("admin-panel-users:table.column4")}
                   </TableCell>
-                  <TableCell style={{ width: 150 }}></TableCell>
+                  <TableCell style={{ width: 130 }}></TableCell>
                 </TableRow>
                 {isFetchingNextPage && (
                   <TableRow>
-                    <TableCellLoadingContainer colSpan={5}>
+                    <TableCellLoadingContainer colSpan={6}>
                       <LinearProgress />
                     </TableCellLoadingContainer>
                   </TableRow>
@@ -247,14 +370,15 @@ function Users() {
                     src={user?.photo?.path}
                   />
                 </TableCell>
-                <TableCell style={{ width: 250 }}>
+                <TableCell style={{ width: 100 }}>{user?.id}</TableCell>
+                <TableCell style={{ width: 200 }}>
                   {user?.firstName} {user?.lastName}
                 </TableCell>
                 <TableCell>{user?.email}</TableCell>
-                <TableCell style={{ width: 100 }}>
+                <TableCell style={{ width: 80 }}>
                   {tRoles(`role.${user?.role?.id}`)}
                 </TableCell>
-                <TableCell style={{ width: 150 }}>
+                <TableCell style={{ width: 130 }}>
                   {!!user && <Actions user={user} />}
                 </TableCell>
               </>

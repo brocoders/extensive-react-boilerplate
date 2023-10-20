@@ -12,8 +12,9 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
+import OutlinedInput from "@mui/material/OutlinedInput";
 
-type SelectInputProps<T extends object> = {
+type MultipleSelectInputProps<T extends object> = {
   label: string;
   type?: string;
   autoFocus?: boolean;
@@ -23,14 +24,15 @@ type SelectInputProps<T extends object> = {
   testId?: string;
   keyValue: keyof T;
   options: T[];
+  renderValue: (option: T[]) => React.ReactNode;
   renderOption: (option: T) => React.ReactNode;
 };
 
-function SelectInputRaw<T extends object>(
-  props: SelectInputProps<T> & {
+function MultipleSelectInputRaw<T extends object>(
+  props: MultipleSelectInputProps<T> & {
     name: string;
-    value: T | undefined | null;
-    onChange: (value: T) => void;
+    value: T[] | undefined | null;
+    onChange: (value: T[]) => void;
     onBlur: () => void;
   },
   ref?: ForwardedRef<HTMLDivElement | null>
@@ -43,25 +45,38 @@ function SelectInputRaw<T extends object>(
           ref={ref}
           labelId={`select-label-${props.name}`}
           id={`select-${props.name}`}
-          value={props.value?.[props.keyValue]?.toString() ?? ""}
-          label={props.label}
+          value={props.value?.map(
+            (value) => value?.[props.keyValue]?.toString() ?? ""
+          )}
+          input={<OutlinedInput label={props.label} />}
+          multiple
           inputProps={{
             readOnly: props.readOnly,
           }}
           onChange={(event) => {
-            const newValue = props.options.find(
-              (option) =>
-                option[props.keyValue]?.toString() === event.target.value ??
-                false
-            );
-            if (!newValue) return;
+            const value = event.target.value;
+            const seletedStrings =
+              typeof value === "string" ? value.split(",") : value;
+
+            const newValue = seletedStrings
+              .map((selectedString) => {
+                const option = props.options.find(
+                  (option) =>
+                    option[props.keyValue]?.toString() === selectedString
+                );
+
+                if (!option) return undefined;
+
+                return option;
+              })
+              .filter((option) => option !== undefined) as T[];
 
             props.onChange(newValue);
           }}
           onBlur={props.onBlur}
           data-testid={props.testId}
           renderValue={() => {
-            return props.value ? props.renderOption(props.value) : undefined;
+            return props.value ? props.renderValue(props.value) : undefined;
           }}
         >
           {props.options.map((option) => (
@@ -83,21 +98,23 @@ function SelectInputRaw<T extends object>(
   );
 }
 
-const SelectInput = forwardRef(SelectInputRaw) as never as <T extends object>(
-  props: SelectInputProps<T> & {
+const MultipleSelectInput = forwardRef(MultipleSelectInputRaw) as never as <
+  T extends object
+>(
+  props: MultipleSelectInputProps<T> & {
     name: string;
     value: T | undefined | null;
     onChange: (value: T) => void;
     onBlur: () => void;
   } & { ref?: ForwardedRef<HTMLDivElement | null> }
-) => ReturnType<typeof SelectInputRaw>;
+) => ReturnType<typeof MultipleSelectInputRaw>;
 
-function FormSelectInput<
+function FormMultipleSelectInput<
   TFieldValues extends FieldValues = FieldValues,
   T extends object = object,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >(
-  props: SelectInputProps<T> &
+  props: MultipleSelectInputProps<T> &
     Pick<ControllerProps<TFieldValues, TName>, "name" | "defaultValue">
 ) {
   return (
@@ -105,7 +122,7 @@ function FormSelectInput<
       name={props.name}
       defaultValue={props.defaultValue}
       render={({ field, fieldState }) => (
-        <SelectInput<T>
+        <MultipleSelectInput<T>
           {...field}
           label={props.label}
           autoFocus={props.autoFocus}
@@ -116,6 +133,7 @@ function FormSelectInput<
           testId={props.testId}
           options={props.options}
           renderOption={props.renderOption}
+          renderValue={props.renderValue}
           keyValue={props.keyValue}
         />
       )}
@@ -123,4 +141,4 @@ function FormSelectInput<
   );
 }
 
-export default FormSelectInput;
+export default FormMultipleSelectInput;

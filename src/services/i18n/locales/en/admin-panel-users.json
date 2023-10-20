@@ -1,9 +1,10 @@
 {
   "title": "Users",
   "table": {
-    "column1": "Name",
-    "column2": "Email",
-    "column3": "Role"
+    "column1": "ID",
+    "column2": "Name",
+    "column3": "Email",
+    "column4": "Role"
   },
   "actions": {
     "add": "Add User",
@@ -15,6 +16,21 @@
     "delete": {
       "title": "Delete User",
       "message": "Are you sure you want to delete this user?"
+    }
+  },
+  "filter": {
+    "actions": {
+      "filter": "Filter",
+      "apply": "Apply"
+    },
+    "inputs": {
+      "role": {
+        "label": "Role",
+        "options": {
+          "1": "Admin",
+          "2": "User"
+        }
+      }
     }
   }
 }
