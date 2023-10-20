@@ -2,22 +2,42 @@ import { useGetUsersService } from "@/services/api/services/users";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { createQueryKeys } from "@/services/react-query/query-key-factory";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { UserFilterType, UserSortType } from "../user-filter-types";
 
 export const usersQueryKeys = createQueryKeys(["users"], {
   list: () => ({
     key: [],
+    sub: {
+      by: ({
+        sort,
+        filter,
+      }: {
+        filter: UserFilterType | undefined;
+        sort?: UserSortType | undefined;
+      }) => ({
+        key: [sort, filter],
+      }),
+    },
   }),
 });
 
-export const useUserListQuery = () => {
+export const useUserListQuery = ({
+  sort,
+  filter,
+}: {
+  filter?: UserFilterType | undefined;
+  sort?: UserSortType | undefined;
+} = {}) => {
   const fetch = useGetUsersService();
 
   const query = useInfiniteQuery({
-    queryKey: usersQueryKeys.list().key,
+    queryKey: usersQueryKeys.list().sub.by({ sort, filter }).key,
     queryFn: async ({ pageParam = 1 }) => {
       const { status, data } = await fetch({
         page: pageParam,
         limit: 10,
+        filters: filter,
+        sort: sort ? [sort] : undefined,
       });
 
       if (status === HTTP_CODES_ENUM.OK) {

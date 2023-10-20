@@ -14,6 +14,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
+// Need for leave page logic
+// eslint-disable-next-line no-restricted-imports
 import NextLink from "next/link";
 import { useTranslation } from "../i18n/client";
 
