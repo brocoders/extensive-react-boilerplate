@@ -6,6 +6,7 @@ import { User } from "../types/user";
 import { InfinityPaginationType } from "../types/infinity-pagination";
 import { Role } from "../types/role";
 import { SortEnum } from "../types/sort-type";
+import { RequestConfigType } from "./types/request-config";
 
 export type UsersRequest = {
   page: number;
@@ -25,7 +26,7 @@ export function useGetUsersService() {
   const fetch = useFetch();
 
   return useCallback(
-    (data: UsersRequest) => {
+    (data: UsersRequest, requestConfig?: RequestConfigType) => {
       const requestUrl = new URL(`${API_URL}/v1/users`);
       requestUrl.searchParams.append("page", data.page.toString());
       requestUrl.searchParams.append("limit", data.limit.toString());
@@ -38,6 +39,7 @@ export function useGetUsersService() {
 
       return fetch(requestUrl, {
         method: "GET",
+        ...requestConfig,
       }).then(wrapperFetchJsonResponse<UsersResponse>);
     },
     [fetch]
@@ -54,9 +56,10 @@ export function useGetUserService() {
   const fetch = useFetch();
 
   return useCallback(
-    (data: UserRequest) => {
+    (data: UserRequest, requestConfig?: RequestConfigType) => {
       return fetch(`${API_URL}/v1/users/${data.id}`, {
         method: "GET",
+        ...requestConfig,
       }).then(wrapperFetchJsonResponse<UserResponse>);
     },
     [fetch]
@@ -76,10 +79,11 @@ export function usePostUserService() {
   const fetch = useFetch();
 
   return useCallback(
-    (data: UserPostRequest) => {
+    (data: UserPostRequest, requestConfig?: RequestConfigType) => {
       return fetch(`${API_URL}/v1/users`, {
         method: "POST",
         body: JSON.stringify(data),
+        ...requestConfig,
       }).then(wrapperFetchJsonResponse<UserPostResponse>);
     },
     [fetch]
@@ -101,10 +105,11 @@ export function usePatchUserService() {
   const fetch = useFetch();
 
   return useCallback(
-    (data: UserPatchRequest) => {
+    (data: UserPatchRequest, requestConfig?: RequestConfigType) => {
       return fetch(`${API_URL}/v1/users/${data.id}`, {
         method: "PATCH",
         body: JSON.stringify(data.data),
+        ...requestConfig,
       }).then(wrapperFetchJsonResponse<UserPatchResponse>);
     },
     [fetch]
@@ -121,9 +126,10 @@ export function useDeleteUsersService() {
   const fetch = useFetch();
 
   return useCallback(
-    (data: UsersDeleteRequest) => {
+    (data: UsersDeleteRequest, requestConfig?: RequestConfigType) => {
       return fetch(`${API_URL}/v1/users/${data.id}`, {
         method: "DELETE",
+        ...requestConfig,
       }).then(wrapperFetchJsonResponse<UsersDeleteResponse>);
     },
     [fetch]

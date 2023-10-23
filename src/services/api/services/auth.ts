@@ -5,6 +5,7 @@ import { API_URL } from "../config";
 import { User } from "../types/user";
 import { Tokens } from "../types/tokens";
 import wrapperFetchJsonResponse from "../wrapper-fetch-json-response";
+import { RequestConfigType } from "./types/request-config";
 
 export type AuthLoginRequest = {
   email: string;
@@ -63,10 +64,11 @@ export function useAuthFacebookLoginService() {
   const fetchBase = useFetchBase();
 
   return useCallback(
-    (data: AuthFacebookLoginRequest) => {
+    (data: AuthFacebookLoginRequest, requestConfig?: RequestConfigType) => {
       return fetchBase(`${API_URL}/v1/auth/facebook/login`, {
         method: "POST",
         body: JSON.stringify(data),
+        ...requestConfig,
       }).then(wrapperFetchJsonResponse<AuthFacebookLoginResponse>);
     },
     [fetchBase]
@@ -84,10 +86,11 @@ export function useAuthSignUpService() {
   const fetchBase = useFetchBase();
 
   return useCallback(
-    (data: AuthSignUpRequest) => {
+    (data: AuthSignUpRequest, requestConfig?: RequestConfigType) => {
       return fetchBase(`${API_URL}/v1/auth/email/register`, {
         method: "POST",
         body: JSON.stringify(data),
+        ...requestConfig,
       }).then(wrapperFetchJsonResponse<AuthSignUpResponse>);
     },
     [fetchBase]
@@ -104,10 +107,11 @@ export function useAuthConfirmEmailService() {
   const fetchBase = useFetchBase();
 
   return useCallback(
-    (data: AuthConfirmEmailRequest) => {
+    (data: AuthConfirmEmailRequest, requestConfig?: RequestConfigType) => {
       return fetchBase(`${API_URL}/v1/auth/email/confirm`, {
         method: "POST",
         body: JSON.stringify(data),
+        ...requestConfig,
       }).then(wrapperFetchJsonResponse<AuthConfirmEmailResponse>);
     },
     [fetchBase]
@@ -124,10 +128,11 @@ export function useAuthForgotPasswordService() {
   const fetchBase = useFetchBase();
 
   return useCallback(
-    (data: AuthForgotPasswordRequest) => {
+    (data: AuthForgotPasswordRequest, requestConfig?: RequestConfigType) => {
       return fetchBase(`${API_URL}/v1/auth/forgot/password`, {
         method: "POST",
         body: JSON.stringify(data),
+        ...requestConfig,
       }).then(wrapperFetchJsonResponse<AuthForgotPasswordResponse>);
     },
     [fetchBase]
@@ -145,10 +150,11 @@ export function useAuthResetPasswordService() {
   const fetchBase = useFetchBase();
 
   return useCallback(
-    (data: AuthResetPasswordRequest) => {
+    (data: AuthResetPasswordRequest, requestConfig?: RequestConfigType) => {
       return fetchBase(`${API_URL}/v1/auth/reset/password`, {
         method: "POST",
         body: JSON.stringify(data),
+        ...requestConfig,
       }).then(wrapperFetchJsonResponse<AuthResetPasswordResponse>);
     },
     [fetchBase]
@@ -165,10 +171,11 @@ export function useAuthPatchMeService() {
   const fetch = useFetch();
 
   return useCallback(
-    (data: AuthPatchMeRequest) => {
+    (data: AuthPatchMeRequest, requestConfig?: RequestConfigType) => {
       return fetch(`${API_URL}/v1/auth/me`, {
         method: "PATCH",
         body: JSON.stringify(data),
+        ...requestConfig,
       }).then(wrapperFetchJsonResponse<AuthPatchMeResponse>);
     },
     [fetch]

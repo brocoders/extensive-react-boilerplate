@@ -33,13 +33,18 @@ export const useUserListQuery = ({
   const query = useInfiniteQuery({
     queryKey: usersQueryKeys.list().sub.by({ sort, filter }).key,
     initialPageParam: 1,
-    queryFn: async ({ pageParam }) => {
-      const { status, data } = await fetch({
-        page: pageParam,
-        limit: 10,
-        filters: filter,
-        sort: sort ? [sort] : undefined,
-      });
+    queryFn: async ({ pageParam, signal }) => {
+      const { status, data } = await fetch(
+        {
+          page: pageParam,
+          limit: 10,
+          filters: filter,
+          sort: sort ? [sort] : undefined,
+        },
+        {
+          signal,
+        }
+      );
 
       if (status === HTTP_CODES_ENUM.OK) {
         return {
