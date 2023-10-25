@@ -269,7 +269,7 @@ function Users() {
   const filter = useMemo(() => {
     const searchParamsFilter = searchParams.get("filter");
     if (searchParamsFilter) {
-      return JSON.parse(searchParamsFilter);
+      return JSON.parse(searchParamsFilter) as UserFilterType;
     }
 
     return undefined;
