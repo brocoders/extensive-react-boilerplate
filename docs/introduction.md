@@ -28,6 +28,7 @@ Backend: <https://github.com/brocoders/nestjs-boilerplate>
 - [x] [React Hook Form](https://react-hook-form.com/)
 - [x] React Query
 - [x] Auth (Sign in, Sign up, Reset password, Confirm email, Refresh Token)
+- [x] Users management (CRUD)
 - [x] File upload
 - [x] E2E tests (Cypress)
 - [x] ESLint
