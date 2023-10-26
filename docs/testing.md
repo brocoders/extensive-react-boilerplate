@@ -30,6 +30,6 @@ This boilerplate uses [Cypress](https://www.cypress.io/) for E2E testing.
 
 ---
 
-Previous: [Installing and Running](installing-and-running.md)
+Previous: [Architecture](architecture.md)
 
 Next: [Forms](forms.md)

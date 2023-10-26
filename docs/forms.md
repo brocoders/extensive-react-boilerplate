@@ -6,7 +6,7 @@
   - [Introduction](#introduction)
   - [Rules](#rules)
     - [Do not depend your form's structure on backend's request or response](#do-not-depend-your-forms-structure-on-backends-request-or-response)
-    - [Use `reset` function for set data for editing.](#use-reset-function-for-set-data-for-editing)
+    - [Use the `reset` function to set data for editing.](#use-the-reset-function-to-set-data-for-editing)
 
 ## Introduction
 
@@ -16,7 +16,7 @@ For building forms we use [react-hook-form](https://react-hook-form.com/) packag
 
 ### Do not depend your form's structure on backend's request or response
 
-Often backend send or receive data comfortable for them, but not for frontend and this grow bad forms. To avoid problem with this we recommend to use `transform` function for transform data from backend to frontend and vice versa.
+Often, the backend sends or receives data in a format comfortable for them, but not for the frontend, leading to poorly designed forms. To avoid problems like this, we recommend using the transform function to convert data from the backend to the frontend and vice versa.
 
 Example:
 
@@ -61,9 +61,9 @@ const onSubmit = (data) => {
 };
 ```
 
-### Use `reset` function for set data for editing.
+### Use the `reset` function to set data for editing.
 
-`reset` function is provided by `useForm` hook. Do not use `setValue` function for set data for editing. This function is provided by `useForm` hook too, but will not put data as default values, this can grow bugs with form's state, like `isDirty`, etc.
+The `reset` function is provided by the `useForm` hook. Do not use the `setValue` function to set data for editing. This function is also provided by the `useForm` hook, but it will not set data as default values. This can lead to bugs in the form's state, such as `isDirty`, etc.
 
 ---
 
