@@ -74,4 +74,4 @@
 
 Previous: [Introduction](introduction.md)
 
-Next: [Testing](testing.md)
+Next: [Architecture](architecture.md)
