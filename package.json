@@ -16,7 +16,7 @@
     "@fontsource/roboto": "^5.0.8",
     "@hookform/resolvers": "^3.2.0",
     "@mui/icons-material": "5.14.16",
-    "@mui/material": "5.14.16",
+    "@mui/material": "5.14.17",
     "@react-oauth/google": "^0.11.1",
     "@tanstack/react-query": "^5.0.0",
     "@tanstack/react-query-devtools": "^5.0.0",
