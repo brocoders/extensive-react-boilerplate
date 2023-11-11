@@ -52,3 +52,14 @@ npm run dev
 <img width="1552" alt="Users list" src="https://github.com/brocoders/react-boilerplate/assets/6001723/244409c0-2235-4018-b062-44fb54ea4321">
 
 <img width="1552" alt="Create user" src="https://github.com/brocoders/react-boilerplate/assets/6001723/cb86a3e1-331f-4bd7-9668-3c6cf44eb372">
+
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
