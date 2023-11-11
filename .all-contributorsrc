@@ -1,4 +1,21 @@
 {
   "projectName": "react-boilerplate",
-  "projectOwner": "brocoders"
+  "projectOwner": "brocoders",
+  "files": [
+    "README.md"
+  ],
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributorsPerLine": 7,
+  "contributors": [
+    {
+      "login": "Shchepotin",
+      "name": "Vladyslav Shchepotin",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6001723?v=4",
+      "profile": "https://github.com/Shchepotin",
+      "contributions": [
+        "maintenance"
+      ]
+    }
+  ]
 }
