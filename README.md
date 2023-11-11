@@ -7,6 +7,7 @@
   - [Getting Started](#getting-started)
   - [Features](#features)
   - [Screenshots](#screenshots)
+  - [Contributors](#contributors)
 
 ## Description
 
@@ -39,7 +40,7 @@ npm run dev
 - [x] Auth (Sign in, Sign up, Reset password, Confirm email, Refresh Token)
 - [x] User management (CRUD)
 - [x] File Upload
-- [x] E2E tests (Cypress)
+- [x] E2E tests ([Cypress](https://www.cypress.io/))
 - [x] ESLint
 - [x] CI (GitHub Actions)
 
