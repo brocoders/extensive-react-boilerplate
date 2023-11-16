@@ -36,50 +36,47 @@ function SelectInputRaw<T extends object>(
   ref?: ForwardedRef<HTMLDivElement | null>
 ) {
   return (
-    <>
-      <FormControl fullWidth error={!!props.error} disabled={props.disabled}>
-        <InputLabel id={`select-label-${props.name}`}>{props.label}</InputLabel>
-        <Select
-          ref={ref}
-          labelId={`select-label-${props.name}`}
-          id={`select-${props.name}`}
-          value={props.value?.[props.keyValue]?.toString() ?? ""}
-          label={props.label}
-          inputProps={{
-            readOnly: props.readOnly,
-          }}
-          onChange={(event) => {
-            const newValue = props.options.find(
-              (option) =>
-                option[props.keyValue]?.toString() === event.target.value ??
-                false
-            );
-            if (!newValue) return;
+    <FormControl fullWidth error={!!props.error} disabled={props.disabled}>
+      <InputLabel id={`select-label-${props.name}`}>{props.label}</InputLabel>
+      <Select
+        ref={ref}
+        labelId={`select-label-${props.name}`}
+        id={`select-${props.name}`}
+        value={props.value?.[props.keyValue]?.toString() ?? ""}
+        label={props.label}
+        inputProps={{
+          readOnly: props.readOnly,
+        }}
+        onChange={(event) => {
+          const newValue = props.options.find(
+            (option) =>
+              option[props.keyValue]?.toString() === event.target.value ?? false
+          );
+          if (!newValue) return;
 
-            props.onChange(newValue);
-          }}
-          onBlur={props.onBlur}
-          data-testid={props.testId}
-          renderValue={() => {
-            return props.value ? props.renderOption(props.value) : undefined;
-          }}
-        >
-          {props.options.map((option) => (
-            <MenuItem
-              key={option[props.keyValue]?.toString()}
-              value={option[props.keyValue]?.toString()}
-            >
-              {props.renderOption(option)}
-            </MenuItem>
-          ))}
-        </Select>
-        {!!props.error && (
-          <FormHelperText data-textid={`${props.testId}-error`}>
-            {props.error}
-          </FormHelperText>
-        )}
-      </FormControl>
-    </>
+          props.onChange(newValue);
+        }}
+        onBlur={props.onBlur}
+        data-testid={props.testId}
+        renderValue={() => {
+          return props.value ? props.renderOption(props.value) : undefined;
+        }}
+      >
+        {props.options.map((option) => (
+          <MenuItem
+            key={option[props.keyValue]?.toString()}
+            value={option[props.keyValue]?.toString()}
+          >
+            {props.renderOption(option)}
+          </MenuItem>
+        ))}
+      </Select>
+      {!!props.error && (
+        <FormHelperText data-textid={`${props.testId}-error`}>
+          {props.error}
+        </FormHelperText>
+      )}
+    </FormControl>
   );
 }
 

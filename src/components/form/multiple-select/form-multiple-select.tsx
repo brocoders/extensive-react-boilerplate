@@ -38,63 +38,61 @@ function MultipleSelectInputRaw<T extends object>(
   ref?: ForwardedRef<HTMLDivElement | null>
 ) {
   return (
-    <>
-      <FormControl fullWidth error={!!props.error} disabled={props.disabled}>
-        <InputLabel id={`select-label-${props.name}`}>{props.label}</InputLabel>
-        <Select
-          ref={ref}
-          labelId={`select-label-${props.name}`}
-          id={`select-${props.name}`}
-          value={props.value?.map(
-            (value) => value?.[props.keyValue]?.toString() ?? ""
-          )}
-          input={<OutlinedInput label={props.label} />}
-          multiple
-          inputProps={{
-            readOnly: props.readOnly,
-          }}
-          onChange={(event) => {
-            const value = event.target.value;
-            const seletedStrings =
-              typeof value === "string" ? value.split(",") : value;
-
-            const newValue = seletedStrings
-              .map((selectedString) => {
-                const option = props.options.find(
-                  (option) =>
-                    option[props.keyValue]?.toString() === selectedString
-                );
-
-                if (!option) return undefined;
-
-                return option;
-              })
-              .filter((option) => option !== undefined) as T[];
-
-            props.onChange(newValue);
-          }}
-          onBlur={props.onBlur}
-          data-testid={props.testId}
-          renderValue={() => {
-            return props.value ? props.renderValue(props.value) : undefined;
-          }}
-        >
-          {props.options.map((option) => (
-            <MenuItem
-              key={option[props.keyValue]?.toString()}
-              value={option[props.keyValue]?.toString()}
-            >
-              {props.renderOption(option)}
-            </MenuItem>
-          ))}
-        </Select>
-        {!!props.error && (
-          <FormHelperText data-textid={`${props.testId}-error`}>
-            {props.error}
-          </FormHelperText>
+    <FormControl fullWidth error={!!props.error} disabled={props.disabled}>
+      <InputLabel id={`select-label-${props.name}`}>{props.label}</InputLabel>
+      <Select
+        ref={ref}
+        labelId={`select-label-${props.name}`}
+        id={`select-${props.name}`}
+        value={props.value?.map(
+          (value) => value?.[props.keyValue]?.toString() ?? ""
         )}
-      </FormControl>
-    </>
+        input={<OutlinedInput label={props.label} />}
+        multiple
+        inputProps={{
+          readOnly: props.readOnly,
+        }}
+        onChange={(event) => {
+          const value = event.target.value;
+          const selectedStrings =
+            typeof value === "string" ? value.split(",") : value;
+
+          const newValue = selectedStrings
+            .map((selectedString) => {
+              const option = props.options.find(
+                (option) =>
+                  option[props.keyValue]?.toString() === selectedString
+              );
+
+              if (!option) return undefined;
+
+              return option;
+            })
+            .filter((option) => option !== undefined) as T[];
+
+          props.onChange(newValue);
+        }}
+        onBlur={props.onBlur}
+        data-testid={props.testId}
+        renderValue={() => {
+          return props.value ? props.renderValue(props.value) : undefined;
+        }}
+      >
+        {props.options.map((option) => (
+          <MenuItem
+            key={option[props.keyValue]?.toString()}
+            value={option[props.keyValue]?.toString()}
+          >
+            {props.renderOption(option)}
+          </MenuItem>
+        ))}
+      </Select>
+      {!!props.error && (
+        <FormHelperText data-textid={`${props.testId}-error`}>
+          {props.error}
+        </FormHelperText>
+      )}
+    </FormControl>
   );
 }
 
