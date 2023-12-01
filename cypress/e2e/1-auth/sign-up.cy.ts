@@ -36,3 +36,11 @@ describe("Sign Up", () => {
     cy.get('[data-testid="email-error"]').should("be.visible");
   });
 });
+
+describe.only("check redirects", () => {
+  it("check user redirected from sing in to sign up page", () => {
+    cy.visit("/sign-in")
+    cy.contains('Create Account').click()
+    cy.url().should('include', '/sign-up')
+  })
+})
