@@ -1,4 +1,6 @@
-# ReactJS Boilerplate
+# Extensive React Boilerplate
+[![image](https://github.com/brocoders/react-boilerplate/assets/72293912/052e74be-7de0-4a4a-92a6-e6a4b68fd4b5)](https://github.com/new?template_name=react-boilerplate&template_owner=brocoders)
+
 
 ## Table of Contents <!-- omit in toc -->
 
