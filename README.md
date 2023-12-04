@@ -1,4 +1,4 @@
-# ReactJS Boilerplate
+# Extensive React Boilerplate
 
 ## Table of Contents <!-- omit in toc -->
 
