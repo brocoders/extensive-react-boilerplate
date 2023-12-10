@@ -133,7 +133,7 @@ function FormEditUser() {
   const fetchPatchUser = usePatchUserService();
   const { t } = useTranslation("admin-panel-users-edit");
   const validationSchema = useValidationEditUserSchema();
-  const userId = Number(Array.isArray(params.id) ? params.id[0] : params.id);
+  const userId = Array.isArray(params.id) ? params.id[0] : params.id;
   const { enqueueSnackbar } = useSnackbar();
 
   const methods = useForm<EditUserFormData>({
@@ -282,7 +282,7 @@ function FormChangePasswordUser() {
   const fetchPatchUser = usePatchUserService();
   const { t } = useTranslation("admin-panel-users-edit");
   const validationSchema = useValidationChangePasswordSchema();
-  const userId = Number(Array.isArray(params.id) ? params.id[0] : params.id);
+  const userId = Array.isArray(params.id) ? params.id[0] : params.id;
   const { enqueueSnackbar } = useSnackbar();
 
   const methods = useForm<ChangeUserPasswordFormData>({
