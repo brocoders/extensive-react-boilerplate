@@ -116,7 +116,10 @@ function Actions({ user }: { user: User }) {
       const searchParamsSort = searchParams.get("sort");
 
       let filter: UserFilterType | undefined = undefined;
-      let sort: UserSortType | undefined = undefined;
+      let sort: UserSortType | undefined = {
+        order: SortEnum.DESC,
+        orderBy: "id",
+      };
 
       if (searchParamsFilter) {
         filter = JSON.parse(searchParamsFilter);
