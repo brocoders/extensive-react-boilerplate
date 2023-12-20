@@ -176,6 +176,7 @@ function Form() {
                   variant="contained"
                   color="inherit"
                   LinkComponent={Link}
+                  data-testid="login"
                   href="/sign-in"
                 >
                   {t("sign-up:actions.accountAlreadyExists")}
