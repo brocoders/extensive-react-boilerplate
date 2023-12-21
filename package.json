@@ -20,7 +20,7 @@
     "@react-oauth/google": "^0.12.0",
     "@tanstack/react-query": "^5.0.0",
     "@tanstack/react-query-devtools": "^5.0.0",
-    "@types/node": "20.9.0",
+    "@types/node": "20.10.5",
     "@types/react": "18.2.45",
     "@types/react-dom": "18.2.18",
     "accept-language": "^3.0.18",
