@@ -12,7 +12,7 @@
 Cypress.Commands.add(
   "createNewUser",
   ({ firstName, lastName, email, password }) => {
-    cy.request('POST', `${Cypress.env("apiUrl")}/auth/email/register`, {
+    cy.request('POST', `${Cypress.env("apiUrl")}/v1/auth/email/register`, {
         "firstName": firstName,
         "lastName": lastName,
         "email": email,

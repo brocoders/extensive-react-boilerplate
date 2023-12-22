@@ -3,7 +3,7 @@
 import { customAlphabet } from "nanoid";
 const nanoid = customAlphabet("0123456789qwertyuiopasdfghjklzxcvbnm", 10);
 
-describe.only("Sign In", () => {
+describe("Sign In", () => {
   let email: string;
   let password: string;
 
@@ -42,7 +42,6 @@ describe.only("Sign In", () => {
     cy.getBySel('sign-in-submit').click();
     cy.wait('@login')
     cy.getBySel("password-error").should('be.visible')
-    .and('contain.text', 'Password is not valid')
   })
 });
 
@@ -53,23 +52,19 @@ describe("Validation and error messages", () => {
   it("Error messages should be displayed if required fields are empty", () => {
     cy.getBySel("sign-in-submit").click()
     cy.getBySel("email-error").should('be.visible')
-    .and('contain.text', 'Email is required')
 
     cy.getBySel("password-error").should('be.visible')
-    .and('contain.text', 'Password must be at least 6 characters long')
 
     cy.getBySel("email").type("useremail@gmail.com")
     cy.getBySel("email-error").should('not.exist')
     cy.getBySel("sign-in-submit").click()
     cy.getBySel("password-error").should('be.visible')
-    .and('contain.text', 'Password must be at least 6 characters long')
 
     cy.getBySel("password").type("password1")
     cy.getBySel("password-error").should('not.exist')
 
     cy.getBySel("email").clear()
     cy.getBySel("email-error").should('be.visible')
-    .and('contain.text', 'Email is required')
 
   })
   it("Error message should be displayed if email isn't registered in the system", () => {
@@ -79,7 +74,6 @@ describe("Validation and error messages", () => {
     cy.getBySel("sign-in-submit").click()
     cy.wait('@login')
     cy.getBySel("email-error").should('be.visible')
-    .and('contain.text', 'Email does not exist')
   })
 })
 

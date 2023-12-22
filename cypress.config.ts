@@ -1,4 +1,6 @@
 import { defineConfig } from "cypress";
+require('dotenv').config()
+require('dotenv').config({ path: ".env.local"})
 
 export default defineConfig({
   e2e: {
@@ -10,8 +12,8 @@ export default defineConfig({
     viewportWidth: 1200,
     baseUrl: "http://localhost:3000",
     watchForFileChanges: false,
-    env: {
-      apiUrl: 'https://nestjs-boilerplate-test.herokuapp.com/api/v1'
-    },
   },
+  env: {
+    apiUrl: process.env.NEXT_PUBLIC_API_URL,
+  }
 });
