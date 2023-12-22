@@ -20,7 +20,7 @@ jobs:
           build: npm run build:cypress
           start: npm run start
       - name: Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: cypress-screenshots

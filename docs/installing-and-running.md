@@ -15,7 +15,7 @@
 1. Clone repository
 
    ```bash
-   git clone --depth 1 https://github.com/brocoders/react-boilerplate.git my-app
+   git clone --depth 1 https://github.com/brocoders/extensive-react-boilerplate.git my-app
    ```
 
 1. Install dependencies
@@ -42,7 +42,7 @@
 1. Clone repository
 
    ```bash
-   git clone --depth 1 https://github.com/brocoders/react-boilerplate.git my-app
+   git clone --depth 1 https://github.com/brocoders/extensive-react-boilerplate.git my-app
    ```
 
 1. Install dependencies
