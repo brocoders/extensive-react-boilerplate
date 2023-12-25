@@ -1,9 +1,19 @@
 {
-  "extends": ["next", "prettier", "plugin:@typescript-eslint/recommended"],
+  "extends": ["next", "plugin:@typescript-eslint/recommended", "prettier"],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "prettier"],
   "root": true,
   "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "tabWidth": 2,
+        "semi": true,
+        "endOfLine": "auto",
+        "singleQuote": false,
+        "trailingComma": "es5"
+      }
+    ],
     "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/no-namespace": "off",
     "no-restricted-syntax": [

@@ -134,8 +134,8 @@ function Form() {
               <LinkItem
                 component={Link}
                 href="/forgot-password"
-                data-testid="forgot-password">
-
+                data-testid="forgot-password"
+              >
                 {t("sign-in:actions.forgotPassword")}
               </LinkItem>
             </Grid>

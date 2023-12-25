@@ -85,7 +85,7 @@ const TextInput = forwardRef<
 
 function FormTextInput<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >(
   props: Pick<ControllerProps<TFieldValues, TName>, "name" | "defaultValue"> &
     TextInputProps

@@ -92,7 +92,7 @@ const SelectInput = forwardRef(SelectInputRaw) as never as <T extends object>(
 function FormSelectInput<
   TFieldValues extends FieldValues = FieldValues,
   T extends object = object,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >(
   props: SelectInputProps<T> &
     Pick<ControllerProps<TFieldValues, TName>, "name" | "defaultValue">

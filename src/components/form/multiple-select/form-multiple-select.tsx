@@ -97,7 +97,7 @@ function MultipleSelectInputRaw<T extends object>(
 }
 
 const MultipleSelectInput = forwardRef(MultipleSelectInputRaw) as never as <
-  T extends object
+  T extends object,
 >(
   props: MultipleSelectInputProps<T> & {
     name: string;
@@ -110,7 +110,7 @@ const MultipleSelectInput = forwardRef(MultipleSelectInputRaw) as never as <
 function FormMultipleSelectInput<
   TFieldValues extends FieldValues = FieldValues,
   T extends object = object,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >(
   props: MultipleSelectInputProps<T> &
     Pick<ControllerProps<TFieldValues, TName>, "name" | "defaultValue">

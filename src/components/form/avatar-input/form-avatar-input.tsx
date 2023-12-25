@@ -128,7 +128,7 @@ function AvatarInput(props: AvatarInputProps) {
 
 function FormAvatarInput<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >(
   props: Pick<ControllerProps<TFieldValues, TName>, "name" | "defaultValue"> & {
     disabled?: boolean;

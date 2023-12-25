@@ -100,7 +100,7 @@ const CheckboxInput = forwardRef(CheckboxInputRaw) as never as <T>(
 function FormCheckboxInput<
   TFieldValues extends FieldValues = FieldValues,
   T = unknown,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >(
   props: CheckboxInputProps<T> &
     Pick<ControllerProps<TFieldValues, TName>, "name" | "defaultValue">
