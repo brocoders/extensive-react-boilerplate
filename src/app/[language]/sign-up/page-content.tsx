@@ -90,9 +90,8 @@ function Form() {
   const { handleSubmit, setError } = methods;
 
   const onSubmit = async (formData: SignUpFormData) => {
-    const { data: dataSignUp, status: statusSignUp } = await fetchAuthSignUp(
-      formData
-    );
+    const { data: dataSignUp, status: statusSignUp } =
+      await fetchAuthSignUp(formData);
 
     if (statusSignUp === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
       (Object.keys(dataSignUp.errors) as Array<keyof SignUpFormData>).forEach(
@@ -176,6 +175,7 @@ function Form() {
                   variant="contained"
                   color="inherit"
                   LinkComponent={Link}
+                  data-testid="login"
                   href="/sign-in"
                 >
                   {t("sign-up:actions.accountAlreadyExists")}

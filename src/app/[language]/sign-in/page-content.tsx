@@ -131,7 +131,11 @@ function Form() {
               />
             </Grid>
             <Grid item xs={12}>
-              <LinkItem component={Link} href="/forgot-password">
+              <LinkItem
+                component={Link}
+                href="/forgot-password"
+                data-testid="forgot-password"
+              >
                 {t("sign-in:actions.forgotPassword")}
               </LinkItem>
             </Grid>
@@ -145,6 +149,7 @@ function Form() {
                   color="inherit"
                   LinkComponent={Link}
                   href="/sign-up"
+                  data-testid="create-account"
                 >
                   {t("sign-in:actions.createAccount")}
                 </Button>

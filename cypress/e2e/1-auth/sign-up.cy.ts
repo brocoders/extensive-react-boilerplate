@@ -9,30 +9,70 @@ describe("Sign Up", () => {
   });
 
   it("Successful Sign Up", () => {
-    cy.get('[data-testid="firstName"]').type(`FirstName${nanoid()}`);
-    cy.get('[data-testid="lastName"]').type(`LastName${nanoid()}`);
-    cy.get('[data-testid="email"]').type(`test${nanoid()}@example.com`);
-    cy.get('[data-testid="password"]').type(nanoid());
-    cy.get('[data-testid="sign-up-submit"]').click();
+    cy.getBySel("firstName").type(`FirstName${nanoid()}`);
+    cy.getBySel("lastName").type(`LastName${nanoid()}`);
+    cy.getBySel("email").type(`test${nanoid()}@example.com`);
+    cy.getBySel("password").type(nanoid());
+    cy.getBySel("sign-up-submit").click();
     cy.location("pathname").should("not.include", "/sign-up");
   });
 
   it("Fail on Sign Up with existing email", () => {
     const email = `test${nanoid()}@example.com`;
-    cy.get('[data-testid="firstName"]').type(`FirstName${nanoid()}`);
-    cy.get('[data-testid="lastName"]').type(`LastName${nanoid()}`);
-    cy.get('[data-testid="email"]').type(email);
-    cy.get('[data-testid="password"]').type(nanoid());
-    cy.get('[data-testid="sign-up-submit"]').click();
-    cy.get('[data-testid="profile-menu-item"]').click();
-    cy.get('[data-testid="logout-menu-item"]').click();
-    cy.get('[data-testid="profile-menu-item"]').should("not.exist");
-    cy.visit("/sign-up");
-    cy.get('[data-testid="firstName"]').type(`FirstName${nanoid()}`);
-    cy.get('[data-testid="lastName"]').type(`LastName${nanoid()}`);
-    cy.get('[data-testid="email"]').type(email);
-    cy.get('[data-testid="password"]').type(nanoid());
-    cy.get('[data-testid="sign-up-submit"]').click();
-    cy.get('[data-testid="email-error"]').should("be.visible");
+
+    cy.createNewUser({
+      email,
+      password: nanoid(),
+      firstName: `FirstName${nanoid()}`,
+      lastName: `LastName${nanoid()}`,
+    });
+
+    cy.getBySel("firstName").type(`FirstName${nanoid()}`);
+    cy.getBySel("lastName").type(`LastName${nanoid()}`);
+    cy.getBySel("email").type(email);
+    cy.getBySel("password").type(nanoid());
+    cy.getBySel("sign-up-submit").click();
+    cy.getBySel("email-error").should("be.visible");
+  });
+
+  it("Check validation of rquired fields errors", () => {
+    cy.getBySel("sign-up-submit").click();
+    cy.getBySel("firstName-error").should("be.visible");
+    cy.getBySel("lastName-error").should("be.visible");
+    cy.getBySel("email-error").should("be.visible");
+    cy.getBySel("password-error").should("be.visible");
+
+    cy.getBySel("firstName").type(`FirstName${nanoid()}`);
+    cy.getBySel("firstName-error").should("not.exist");
+
+    cy.getBySel("lastName").type(`LastName${nanoid()}`);
+    cy.getBySel("lastName-error").should("not.exist");
+
+    cy.getBySel("email").type(`test${nanoid()}@example.com`);
+    cy.getBySel("email-error").should("not.exist");
+
+    cy.getBySel("password").type(nanoid());
+    cy.getBySel("password-error").should("not.exist");
+
+    cy.getBySel("sign-up-submit").click();
+    cy.location("pathname").should("not.include", "/sign-up");
+  });
+
+  it("Check validation for password", () => {
+    cy.getBySel("firstName").type(`FirstName${nanoid()}`);
+    cy.getBySel("lastName").type(`LastName${nanoid()}`);
+    cy.getBySel("email").type(`test${nanoid()}@example.com`);
+
+    cy.getBySel("password").type("p{enter}");
+    cy.getBySel("password-error").should("be.visible");
+
+    cy.getBySel("password").type("assw{enter}");
+    cy.getBySel("password-error").should("be.visible");
+
+    cy.getBySel("password").type("1{enter}");
+    cy.getBySel("password-error").should("not.exist");
+
+    cy.getBySel("password").type("{backspace}");
+    cy.getBySel("password-error").should("be.visible");
   });
 });
