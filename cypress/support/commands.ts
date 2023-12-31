@@ -12,24 +12,20 @@
 Cypress.Commands.add(
   "createNewUser",
   ({ firstName, lastName, email, password }) => {
-    cy.request('POST', `${Cypress.env("apiUrl")}/v1/auth/email/register`, {
-        "firstName": firstName,
-        "lastName": lastName,
-        "email": email,
-        "password": password
-    })
-    .then((response) => {
-      expect(response.status).to.eq(204)
-    })
+    cy.request("POST", `${Cypress.env("apiUrl")}/v1/auth/email/register`, {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password,
+    }).then((response) => {
+      expect(response.status).to.eq(204);
+    });
   }
 );
 
-Cypress.Commands.add(
-  "getBySel",
-  ( selector ) => {
-    return cy.get(`[data-testid=${selector}]`);
-  }
-);
+Cypress.Commands.add("getBySel", (selector) => {
+  return cy.get(`[data-testid=${selector}]`);
+});
 
 export {};
 
@@ -42,9 +38,7 @@ declare global {
         firstName: string;
         lastName: string;
       }): Chainable<void>;
-      getBySel(
-        selector: string
-      ): Chainable<JQuery<HTMLElement>>;
+      getBySel(selector: string): Chainable<JQuery<HTMLElement>>;
     }
   }
 }
