@@ -30,7 +30,9 @@
     "i18next": "^23.4.6",
     "i18next-browser-languagedetector": "^7.1.0",
     "i18next-resources-to-backend": "^1.1.4",
+    "imap": "^0.8.19",
     "js-cookie": "^3.0.5",
+    "mailparser": "^3.6.5",
     "nanoid": "^5.0.1",
     "next": "14.0.4",
     "notistack": "^3.0.1",
@@ -44,7 +46,9 @@
     "yup": "^1.2.0"
   },
   "devDependencies": {
+    "@types/imap": "^0.8.40",
     "@types/js-cookie": "^3.0.3",
+    "@types/mailparser": "^3.4.4",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.1",
     "cypress": "^13.6.2",
