@@ -16,6 +16,10 @@
     ],
     "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/no-namespace": "off",
+    "array-callback-return": "error",
+    "eqeqeq": "error",
+    "no-alert": "error",
+    "no-return-assign": "error",
     "no-restricted-syntax": [
       "error",
       {
@@ -97,6 +101,10 @@
       {
         "selector": "CallExpression[callee.name=refresh]",
         "message": "Do not use refresh() function for update or change result in react-query. Use \"queryClient.resetQueries\" or pass new filter data to queryKey."
+      },
+      {
+        "selector": "ExpressionStatement[expression.callee.object.name=JSON][expression.callee.property.name=parse][expression.arguments.0.callee.object.name=JSON][expression.arguments.0.callee.property.name=stringify]",
+        "message": "Do not use JSON.parse(JSON.stringify(...)) for deep copy. Use structuredClone instead."
       }
     ],
     "no-restricted-imports": [
