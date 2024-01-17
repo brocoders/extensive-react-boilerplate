@@ -19,6 +19,7 @@ import { useTranslation } from "@/services/i18n/client";
 import Link from "@/components/link";
 import { RoleEnum } from "@/services/api/types/role";
 import Divider from "@mui/material/Divider";
+import ThemeModeToggle from "./theme/theme-toggle";
 
 function ResponsiveAppBar() {
   const { t } = useTranslation("common");
@@ -66,7 +67,6 @@ function ResponsiveAppBar() {
           >
             {t("common:app-name")}
           </Typography>
-
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -180,7 +180,7 @@ function ResponsiveAppBar() {
               </Button>
             )}
           </Box>
-
+          <ThemeModeToggle />
           {!isLoaded ? (
             <CircularProgress color="inherit" />
           ) : user ? (
