@@ -28,32 +28,26 @@ export async function getLatestEmail() {
     imap.openBox("INBOX", true, (error, box) => {
       if (error) reject(error);
 
-      imap.once("mail", () => {
-        const fetchImap = imap.seq.fetch(`${box.messages.total}:*`, {
-          bodies: "",
-        });
+      const fetchImap = imap.seq.fetch(`${box.messages.total}:*`, {
+        bodies: "",
+      });
 
-        fetchImap.on("message", (message) => {
-          message.on("body", (stream) => {
-            let content = "";
+      fetchImap.on("message", (message) => {
+        message.on("body", (stream) => {
+          let content = "";
 
-            stream.on("data", (chunk) => {
-              content += chunk.toString("utf-8");
-            });
+          stream.on("data", (chunk) => {
+            content += chunk.toString("utf-8");
+          });
 
-            stream.once("end", () => {
-              mailParser.simpleParser(content, (error, mail) => {
-                if (error) reject(error);
+          stream.once("end", () => {
+            mailParser.simpleParser(content, (error, mail) => {
+              if (error) reject(error);
 
-                resolve(mail);
-              });
+              resolve(mail);
             });
           });
         });
-      });
-
-      imap.subscribeBox("INBOX", (error) => {
-        if (error) reject(error);
       });
     });
   });
