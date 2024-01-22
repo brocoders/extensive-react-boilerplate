@@ -21,6 +21,7 @@ import ReactQueryDevtools from "@/services/react-query/react-query-devtools";
 import GoogleAuthProvider from "@/services/social-auth/google/google-auth-provider";
 import FacebookAuthProvider from "@/services/social-auth/facebook/facebook-auth-provider";
 import ConfirmDialogProvider from "@/components/confirm-dialog/confirm-dialog-provider";
+import ThemeJoy from "@/app/[language]/register-joy-theme";
 
 type Props = {
   params: { language: string };
@@ -48,6 +49,7 @@ export default function RootLayout({
   return (
     <html lang={language} dir={dir(language)}>
       <body>
+        <ThemeJoy />
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />
           <ThemeProvider>
