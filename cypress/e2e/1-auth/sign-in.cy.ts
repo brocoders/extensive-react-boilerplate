@@ -29,6 +29,7 @@ describe("Sign In", () => {
 
   it("Successful Sign In with redirect", () => {
     cy.visit("/profile");
+    cy.location("pathname").should("include", "/sign-in");
     cy.getBySel("email").type(email);
     cy.getBySel("password").type(password);
     cy.getBySel("sign-in-submit").click();

@@ -38,6 +38,7 @@ function FormActions() {
       color="primary"
       type="submit"
       disabled={isSubmitting}
+      data-testid="send-email"
     >
       {t("forgot-password:actions.submit")}
     </Button>
@@ -97,6 +98,7 @@ function Form() {
                 name="email"
                 label={t("forgot-password:inputs.email.label")}
                 type="email"
+                testId="email"
               />
             </Grid>
 

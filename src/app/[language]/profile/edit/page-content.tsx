@@ -80,6 +80,7 @@ function BasicInfoFormActions() {
       color="primary"
       type="submit"
       disabled={isSubmitting}
+      data-testid="save-profile"
     >
       {t("profile:actions.submit")}
     </Button>
@@ -97,6 +98,7 @@ function ChangePasswordFormActions() {
       color="primary"
       type="submit"
       disabled={isSubmitting}
+      data-testid="save-password"
     >
       {t("profile:actions.submit")}
     </Button>
@@ -173,6 +175,7 @@ function FormBasicInfo() {
               <FormTextInput<EditProfileBasicInfoFormData>
                 name="firstName"
                 label={t("profile:inputs.firstName.label")}
+                testId="firstName"
               />
             </Grid>
 
@@ -180,6 +183,7 @@ function FormBasicInfo() {
               <FormTextInput<EditProfileBasicInfoFormData>
                 name="lastName"
                 label={t("profile:inputs.lastName.label")}
+                testId="lastName"
               />
             </Grid>
 
@@ -191,6 +195,7 @@ function FormBasicInfo() {
                   color="inherit"
                   LinkComponent={Link}
                   href="/profile"
+                  data-testid="cancel-editProfile"
                 >
                   {t("profile:actions.cancel")}
                 </Button>
@@ -269,6 +274,7 @@ function FormChangePassword() {
                 name="oldPassword"
                 label={t("profile:inputs.oldPassword.label")}
                 type="password"
+                testId="oldPassword"
               />
             </Grid>
 
@@ -277,6 +283,7 @@ function FormChangePassword() {
                 name="password"
                 label={t("profile:inputs.password.label")}
                 type="password"
+                testId="newPassword"
               />
             </Grid>
 
@@ -285,6 +292,7 @@ function FormChangePassword() {
                 name="passwordConfirmation"
                 label={t("profile:inputs.passwordConfirmation.label")}
                 type="password"
+                testId="passwordConfirmation"
               />
             </Grid>
 
@@ -296,6 +304,7 @@ function FormChangePassword() {
                   color="inherit"
                   LinkComponent={Link}
                   href="/profile"
+                  data-testid="cancel-editPassword"
                 >
                   {t("profile:actions.cancel")}
                 </Button>

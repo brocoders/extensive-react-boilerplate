@@ -27,6 +27,24 @@ Cypress.Commands.add("getBySel", (selector) => {
   return cy.get(`[data-testid=${selector}]`);
 });
 
+Cypress.Commands.add("login", ({ email, password }) => {
+  const signinPath = "/sign-in";
+
+  cy.intercept("POST", "/api/v1/auth/email/login").as("login");
+
+  cy.location("pathname").then((currentPath) => {
+    if (currentPath !== signinPath) {
+      cy.visit(signinPath);
+    }
+  });
+
+  cy.getBySel("email").type(email);
+  cy.getBySel("password").type(password);
+  cy.getBySel("sign-in-submit").click();
+  cy.wait("@login");
+  cy.location("pathname").should("not.include", "/sign-in");
+});
+
 export {};
 
 declare global {
@@ -39,6 +57,7 @@ declare global {
         lastName: string;
       }): Chainable<void>;
       getBySel(selector: string): Chainable<JQuery<HTMLElement>>;
+      login(params: { email: string; password: string }): Chainable<void>;
     }
   }
 }

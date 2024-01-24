@@ -217,6 +217,7 @@ function ResponsiveAppBar() {
                   onClick={handleCloseUserMenu}
                   component={Link}
                   href="/profile"
+                  data-testid="user-profile"
                 >
                   <Typography textAlign="center">
                     {t("common:navigation.profile")}
