@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 
+import { ParsedMail } from "mailparser";
 import { customAlphabet } from "nanoid";
 const nanoid = customAlphabet("0123456789qwertyuiopasdfghjklzxcvbnm", 10);
 
@@ -62,8 +63,7 @@ describe("Forgot Password Functionality", () => {
   });
 
   context("change password", () => {
-    let newPassword: string;
-    newPassword = "p1ssword";
+    const newPassword = "p1ssword";
 
     beforeEach(() => {
       cy.intercept("POST", "/api/v1/auth/forgot/password").as("emailSend");
@@ -80,14 +80,20 @@ describe("Forgot Password Functionality", () => {
     it("should send a password reset email and navigate to reset password page", () => {
       cy.task("mail:receive", null, { timeout: 40000 }).then((email) => {
         // check that email is ok
-        cy.visit(email.text.split(" ")[0]);
+        const url = (email as ParsedMail).text?.split(" ")[0];
+        if (url) {
+          cy.visit(url);
+        }
       });
       cy.location("pathname").should("include", "/password-change");
     });
 
     it("should handle errors for invalid password", () => {
       cy.task("mail:receive", null, { timeout: 40000 }).then((email) => {
-        cy.visit(email.text.split(" ")[0]);
+        const url = (email as ParsedMail).text?.split(" ")[0];
+        if (url) {
+          cy.visit(url);
+        }
       });
 
       cy.getBySel("set-password").click();
@@ -106,7 +112,10 @@ describe("Forgot Password Functionality", () => {
       cy.intercept("POST", "/api/v1/auth/reset/password").as("resetPassword");
       cy.intercept("POST", "/api/v1/auth/email/login").as("login");
       cy.task("mail:receive", null, { timeout: 40000 }).then((email) => {
-        cy.visit(email.text.split(" ")[0]);
+        const url = (email as ParsedMail).text?.split(" ")[0];
+        if (url) {
+          cy.visit(url);
+        }
       });
       cy.getBySel("password").type(newPassword);
       cy.getBySel("passwordConfirmation").type(newPassword);

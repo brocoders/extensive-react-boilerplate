@@ -120,8 +120,7 @@ describe("User Profile", () => {
   });
 
   it("Change user password", () => {
-    let newPassword: string;
-    newPassword = "passw1";
+    const newPassword = "passw1";
     cy.intercept("PATCH", "api/v1/auth/me").as("profileUpdate");
     cy.intercept("POST", "api/v1/auth/logout").as("logout");
     cy.intercept("POST", "/api/v1/auth/email/login").as("login");
@@ -154,8 +153,7 @@ describe("User Profile", () => {
   });
 
   it("Check validation for password", () => {
-    let newPassword: string;
-    newPassword = "passw1";
+    const newPassword = "passw1";
     cy.intercept("PATCH", "api/v1/auth/me").as("profileUpdate");
 
     cy.visit("/profile/edit");
