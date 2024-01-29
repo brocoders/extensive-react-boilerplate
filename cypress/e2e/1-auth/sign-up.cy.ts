@@ -9,8 +9,8 @@ describe("Sign Up", () => {
   });
 
   it("Successful Sign Up", () => {
-    cy.getBySel("firstName").type(`FirstName${nanoid()}`);
-    cy.getBySel("lastName").type(`LastName${nanoid()}`);
+    cy.getBySel("first-name").type(`FirstName${nanoid()}`);
+    cy.getBySel("last-name").type(`LastName${nanoid()}`);
     cy.getBySel("email").type(`test${nanoid()}@example.com`);
     cy.getBySel("password").type(nanoid());
     cy.getBySel("sign-up-submit").click();
@@ -27,8 +27,8 @@ describe("Sign Up", () => {
       lastName: `LastName${nanoid()}`,
     });
 
-    cy.getBySel("firstName").type(`FirstName${nanoid()}`);
-    cy.getBySel("lastName").type(`LastName${nanoid()}`);
+    cy.getBySel("first-name").type(`FirstName${nanoid()}`);
+    cy.getBySel("last-name").type(`LastName${nanoid()}`);
     cy.getBySel("email").type(email);
     cy.getBySel("password").type(nanoid());
     cy.getBySel("sign-up-submit").click();
@@ -37,16 +37,16 @@ describe("Sign Up", () => {
 
   it("Check validation of rquired fields errors", () => {
     cy.getBySel("sign-up-submit").click();
-    cy.getBySel("firstName-error").should("be.visible");
-    cy.getBySel("lastName-error").should("be.visible");
+    cy.getBySel("first-name-error").should("be.visible");
+    cy.getBySel("last-name-error").should("be.visible");
     cy.getBySel("email-error").should("be.visible");
     cy.getBySel("password-error").should("be.visible");
 
-    cy.getBySel("firstName").type(`FirstName${nanoid()}`);
-    cy.getBySel("firstName-error").should("not.exist");
+    cy.getBySel("first-name").type(`FirstName${nanoid()}`);
+    cy.getBySel("first-name-error").should("not.exist");
 
-    cy.getBySel("lastName").type(`LastName${nanoid()}`);
-    cy.getBySel("lastName-error").should("not.exist");
+    cy.getBySel("last-name").type(`LastName${nanoid()}`);
+    cy.getBySel("last-name-error").should("not.exist");
 
     cy.getBySel("email").type(`test${nanoid()}@example.com`);
     cy.getBySel("email-error").should("not.exist");
@@ -59,8 +59,8 @@ describe("Sign Up", () => {
   });
 
   it("Check validation for password", () => {
-    cy.getBySel("firstName").type(`FirstName${nanoid()}`);
-    cy.getBySel("lastName").type(`LastName${nanoid()}`);
+    cy.getBySel("first-name").type(`FirstName${nanoid()}`);
+    cy.getBySel("last-name").type(`LastName${nanoid()}`);
     cy.getBySel("email").type(`test${nanoid()}@example.com`);
 
     cy.getBySel("password").type("p{enter}");

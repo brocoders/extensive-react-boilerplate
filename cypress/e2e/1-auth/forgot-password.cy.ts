@@ -98,14 +98,14 @@ describe("Forgot Password Functionality", () => {
 
       cy.getBySel("set-password").click();
       cy.getBySel("password-error").should("be.visible");
-      cy.getBySel("passwordConfirmation-error").should("be.visible");
+      cy.getBySel("password-confirmation-error").should("be.visible");
       cy.getBySel("password").type(newPassword);
       cy.getBySel("password-error").should("not.exist");
 
-      cy.getBySel("passwordConfirmation").type("mismatchpassword");
-      cy.getBySel("passwordConfirmation-error").should("be.visible");
-      cy.getBySel("passwordConfirmation").type(`{selectAll}${newPassword}`);
-      cy.getBySel("passwordConfirmation-error").should("not.exist");
+      cy.getBySel("password-confirmation").type("mismatchpassword");
+      cy.getBySel("password-confirmation-error").should("be.visible");
+      cy.getBySel("password-confirmation").type(`{selectAll}${newPassword}`);
+      cy.getBySel("password-confirmation-error").should("not.exist");
     });
 
     it("should reset password successfully", () => {
@@ -118,7 +118,7 @@ describe("Forgot Password Functionality", () => {
         }
       });
       cy.getBySel("password").type(newPassword);
-      cy.getBySel("passwordConfirmation").type(newPassword);
+      cy.getBySel("password-confirmation").type(newPassword);
       cy.getBySel("set-password").click();
       cy.wait("@resetPassword").then((request) => {
         expect(request.response?.statusCode).to.equal(204);
@@ -126,7 +126,7 @@ describe("Forgot Password Functionality", () => {
       });
       cy.location("pathname").should("include", "/sign-in");
 
-      //check user cannot login with old password
+      // check user cannot login with old password
       cy.getBySel("email").type(email);
       cy.getBySel("password").type(password);
       cy.getBySel("sign-in-submit").click();
@@ -135,7 +135,7 @@ describe("Forgot Password Functionality", () => {
         cy.getBySel("password-error").should("be.visible");
       });
 
-      //check user is allowed to login with the new password
+      // check user is allowed to login with the new password
       cy.getBySel("password").type(`{selectAll}${newPassword}`);
       cy.getBySel("password-error").should("not.exist");
       cy.getBySel("sign-in-submit").click();

@@ -127,7 +127,7 @@ function Form() {
                 name="passwordConfirmation"
                 label={t("password-change:inputs.passwordConfirmation.label")}
                 type="password"
-                testId="passwordConfirmation"
+                testId="password-confirmation"
               />
             </Grid>
 

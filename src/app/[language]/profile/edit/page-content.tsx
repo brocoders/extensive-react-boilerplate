@@ -175,7 +175,7 @@ function FormBasicInfo() {
               <FormTextInput<EditProfileBasicInfoFormData>
                 name="firstName"
                 label={t("profile:inputs.firstName.label")}
-                testId="firstName"
+                testId="first-name"
               />
             </Grid>
 
@@ -183,7 +183,7 @@ function FormBasicInfo() {
               <FormTextInput<EditProfileBasicInfoFormData>
                 name="lastName"
                 label={t("profile:inputs.lastName.label")}
-                testId="lastName"
+                testId="last-name"
               />
             </Grid>
 
@@ -195,7 +195,7 @@ function FormBasicInfo() {
                   color="inherit"
                   LinkComponent={Link}
                   href="/profile"
-                  data-testid="cancel-editProfile"
+                  data-testid="cancel-edit-profile"
                 >
                   {t("profile:actions.cancel")}
                 </Button>
@@ -274,7 +274,7 @@ function FormChangePassword() {
                 name="oldPassword"
                 label={t("profile:inputs.oldPassword.label")}
                 type="password"
-                testId="oldPassword"
+                testId="old-password"
               />
             </Grid>
 
@@ -283,7 +283,7 @@ function FormChangePassword() {
                 name="password"
                 label={t("profile:inputs.password.label")}
                 type="password"
-                testId="newPassword"
+                testId="new-password"
               />
             </Grid>
 
@@ -292,7 +292,7 @@ function FormChangePassword() {
                 name="passwordConfirmation"
                 label={t("profile:inputs.passwordConfirmation.label")}
                 type="password"
-                testId="passwordConfirmation"
+                testId="password-confirmation"
               />
             </Grid>
 

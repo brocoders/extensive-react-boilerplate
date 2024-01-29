@@ -224,7 +224,7 @@ function FormEditUser() {
             <Grid item xs={12}>
               <FormTextInput<EditUserFormData>
                 name="firstName"
-                testId="firstName"
+                testId="first-name"
                 label={t("admin-panel-users-edit:inputs.firstName.label")}
               />
             </Grid>
@@ -232,7 +232,7 @@ function FormEditUser() {
             <Grid item xs={12}>
               <FormTextInput<EditUserFormData>
                 name="lastName"
-                testId="lastName"
+                testId="last-name"
                 label={t("admin-panel-users-edit:inputs.lastName.label")}
               />
             </Grid>

@@ -33,20 +33,20 @@ describe("User Profile", () => {
     cy.getBySel("user-email").should("contain.text", email);
     cy.getBySel("edit-profile").click();
     cy.location("pathname").should("include", "/profile/edit");
-    cy.get('[data-testid="firstName"] input').should(
+    cy.get('[data-testid="first-name"] input').should(
       "contain.value",
       firstName
     );
-    cy.get('[data-testid="lastName"] input').should("contain.value", lastName);
+    cy.get('[data-testid="last-name"] input').should("contain.value", lastName);
   });
 
   it("Update user data", () => {
     cy.intercept("PATCH", "api/v1/auth/me").as("profileUpdate");
     cy.visit("/profile/edit");
-    cy.getBySel("firstName").type(`{selectAll}James`);
-    cy.get('[data-testid="firstName"] input').should("contain.value", "James");
-    cy.getBySel("lastName").type(`{selectAll}Bond`);
-    cy.get('[data-testid="lastName"] input').should("contain.value", "Bond");
+    cy.getBySel("first-name").type(`{selectAll}James`);
+    cy.get('[data-testid="first-name"] input').should("contain.value", "James");
+    cy.getBySel("last-name").type(`{selectAll}Bond`);
+    cy.get('[data-testid="last-name"] input').should("contain.value", "Bond");
     cy.getBySel("save-profile").click();
 
     cy.wait("@profileUpdate").then((request) => {
@@ -61,11 +61,11 @@ describe("User Profile", () => {
     cy.getBySel("user-email").should("contain.text", email);
     cy.getBySel("edit-profile").click();
     cy.location("pathname").should("include", "/profile/edit");
-    cy.getBySel("firstName")
+    cy.getBySel("first-name")
       .children("div")
       .children("input")
       .should("contain.value", "James");
-    cy.getBySel("lastName")
+    cy.getBySel("last-name")
       .children("div")
       .children("input")
       .should("contain.value", "Bond");
@@ -89,7 +89,7 @@ describe("User Profile", () => {
     cy.getBySel("save-profile").click();
     cy.wait("@profileUpdate").then((request) => {
       expect(request.response?.statusCode).to.equal(200);
-      cy.getBySel("cancel-editProfile").click();
+      cy.getBySel("cancel-edit-profile").click();
       cy.get("img")
         .should("be.visible")
         .and("have.attr", "src", request.response?.body.photo.path);
@@ -99,17 +99,17 @@ describe("User Profile", () => {
   it("Whant to leave page", () => {
     cy.visit("/profile/edit");
 
-    cy.getBySel("firstName").type(`{selectAll}James`);
-    cy.getBySel("cancel-editProfile").click();
+    cy.getBySel("first-name").type(`{selectAll}James`);
+    cy.getBySel("cancel-edit-profile").click();
 
     cy.getBySel("want-to-leave-modal").should("be.visible");
     cy.getBySel("stay").click();
 
     cy.getBySel("want-to-leave-modal").should("not.exist");
     cy.location("pathname").should("include", "/profile/edit");
-    cy.get('[data-testid="firstName"] input').should("contain.value", "James");
+    cy.get('[data-testid="first-name"] input').should("contain.value", "James");
 
-    cy.getBySel("cancel-editProfile").click();
+    cy.getBySel("cancel-edit-profile").click();
     cy.getBySel("want-to-leave-modal").should("be.visible");
     cy.getBySel("leave").click();
     cy.location("pathname").should("include", "/profile");
@@ -126,9 +126,9 @@ describe("User Profile", () => {
     cy.intercept("POST", "/api/v1/auth/email/login").as("login");
 
     cy.visit("/profile/edit");
-    cy.getBySel("oldPassword").type(password);
-    cy.getBySel("newPassword").type(newPassword);
-    cy.getBySel("passwordConfirmation").type(newPassword);
+    cy.getBySel("old-password").type(password);
+    cy.getBySel("new-password").type(newPassword);
+    cy.getBySel("password-confirmation").type(newPassword);
     cy.getBySel("save-password").click();
     cy.wait("@profileUpdate").then((request) => {
       expect(request.response?.statusCode).to.equal(200);
@@ -158,33 +158,33 @@ describe("User Profile", () => {
 
     cy.visit("/profile/edit");
     cy.getBySel("save-password").click();
-    cy.getBySel("oldPassword-error").should("be.visible");
-    cy.getBySel("newPassword-error").should("be.visible");
-    cy.getBySel("passwordConfirmation-error").should("be.visible");
+    cy.getBySel("old-password-error").should("be.visible");
+    cy.getBySel("new-password-error").should("be.visible");
+    cy.getBySel("password-confirmation-error").should("be.visible");
 
-    cy.getBySel("oldPassword").type("incorrectpassword");
-    cy.getBySel("oldPassword-error").should("not.exist");
+    cy.getBySel("old-password").type("incorrectpassword");
+    cy.getBySel("old-password-error").should("not.exist");
 
-    cy.getBySel("newPassword").type("passw{enter}");
-    cy.getBySel("newPassword-error").should("be.visible");
-    cy.getBySel("newPassword").type("1{enter}");
-    cy.getBySel("newPassword-error").should("not.exist");
+    cy.getBySel("new-password").type("passw{enter}");
+    cy.getBySel("new-password-error").should("be.visible");
+    cy.getBySel("new-password").type("1{enter}");
+    cy.getBySel("new-password-error").should("not.exist");
 
-    cy.getBySel("passwordConfirmation").type(newPassword);
-    cy.getBySel("passwordConfirmation-error").should("not.exist");
-    cy.getBySel("passwordConfirmation").type("{selectAll}different password");
-    cy.getBySel("passwordConfirmation-error").should("be.visible");
-    cy.getBySel("passwordConfirmation").type(`{selectAll}${newPassword}`);
-    cy.getBySel("passwordConfirmation-error").should("not.exist");
+    cy.getBySel("password-confirmation").type(newPassword);
+    cy.getBySel("password-confirmation-error").should("not.exist");
+    cy.getBySel("password-confirmation").type("{selectAll}different password");
+    cy.getBySel("password-confirmation-error").should("be.visible");
+    cy.getBySel("password-confirmation").type(`{selectAll}${newPassword}`);
+    cy.getBySel("password-confirmation-error").should("not.exist");
 
     cy.getBySel("save-password").click();
     cy.wait("@profileUpdate").then((request) => {
       expect(request.response?.statusCode).to.equal(422);
-      cy.getBySel("oldPassword-error").should("be.visible");
+      cy.getBySel("old-password-error").should("be.visible");
     });
 
-    cy.getBySel("oldPassword").type(`{selectAll}${password}`);
-    cy.getBySel("oldPassword-error").should("not.exist");
+    cy.getBySel("old-password").type(`{selectAll}${password}`);
+    cy.getBySel("old-password-error").should("not.exist");
     cy.getBySel("save-password").click();
     cy.wait("@profileUpdate").then((request) => {
       expect(request.response?.statusCode).to.equal(200);
