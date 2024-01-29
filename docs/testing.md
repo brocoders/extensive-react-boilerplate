@@ -30,6 +30,6 @@ This boilerplate uses [Cypress](https://www.cypress.io/) for E2E testing.
 
 ---
 
-Previous: [Architecture](architecture.md)
+Previous: [Auth](auth.md)
 
 Next: [Forms](forms.md)

@@ -56,4 +56,4 @@ Pages are located in the `src/app/[language]` folder. We use `[language]` direct
 
 Previous: [Installing and Running](installing-and-running.md)
 
-Next: [Testing](testing.md)
+Next: [Auth](auth.md)
