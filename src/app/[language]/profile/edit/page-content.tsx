@@ -304,7 +304,7 @@ function FormChangePassword() {
                   color="inherit"
                   LinkComponent={Link}
                   href="/profile"
-                  data-testid="cancel-editPassword"
+                  data-testid="cancel-edit-password"
                 >
                   {t("profile:actions.cancel")}
                 </Button>
