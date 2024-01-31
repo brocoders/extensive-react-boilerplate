@@ -92,7 +92,7 @@ describe("User Profile", () => {
     });
   });
 
-  it("Whant to leave page", () => {
+  it("Want to leave page", () => {
     cy.visit("/profile/edit");
 
     cy.getBySel("first-name").type(`{selectAll}James`);
