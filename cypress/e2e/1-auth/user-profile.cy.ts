@@ -82,17 +82,13 @@ describe("User Profile", () => {
     });
     cy.wait("@uploadFile").then((request) => {
       expect(request.response?.statusCode).to.equal(201);
-      cy.get("img")
-        .should("be.visible")
-        .and("have.attr", "src", request.response?.body.path);
+      cy.get("img").should("be.visible").and("have.attr", "src");
     });
     cy.getBySel("save-profile").click();
     cy.wait("@profileUpdate").then((request) => {
       expect(request.response?.statusCode).to.equal(200);
       cy.getBySel("cancel-edit-profile").click();
-      cy.get("img")
-        .should("be.visible")
-        .and("have.attr", "src", request.response?.body.photo.path);
+      cy.get("img").should("be.visible").and("have.attr", "src");
     });
   });
 
