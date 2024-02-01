@@ -51,7 +51,7 @@ function AvatarInput(props: AvatarInputProps) {
       setIsLoading(true);
       const { status, data } = await fetchFileUpload(acceptedFiles[0]);
       if (status === HTTP_CODES_ENUM.CREATED) {
-        onChange(data);
+        onChange(data.file);
       }
       setIsLoading(false);
     },
