@@ -49,6 +49,7 @@ function FormActions() {
       color="primary"
       type="submit"
       disabled={isSubmitting}
+      data-testid="set-password"
     >
       {t("password-change:actions.submit")}
     </Button>
@@ -118,6 +119,7 @@ function Form() {
                 name="password"
                 label={t("password-change:inputs.password.label")}
                 type="password"
+                testId="password"
               />
             </Grid>
             <Grid item xs={12}>
@@ -125,6 +127,7 @@ function Form() {
                 name="passwordConfirmation"
                 label={t("password-change:inputs.passwordConfirmation.label")}
                 type="password"
+                testId="password-confirmation"
               />
             </Grid>
 

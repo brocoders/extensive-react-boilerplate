@@ -94,6 +94,7 @@ function Modal() {
       onClose={closeModal}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      data-testid="want-to-leave-modal"
     >
       <DialogTitle id="alert-dialog-title">
         {t("common:leavePage.title")}
@@ -104,7 +105,12 @@ function Modal() {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={closeModal} color="primary" autoFocus>
+        <Button
+          onClick={closeModal}
+          color="primary"
+          autoFocus
+          data-testid="stay"
+        >
           {t("common:leavePage.stay")}
         </Button>
 
@@ -117,6 +123,7 @@ function Modal() {
           // @ts-ignore
           href={href}
           replace={!!leavePage?.replace}
+          data-testid="leave"
         >
           {t("common:leavePage.leave")}
         </Button>

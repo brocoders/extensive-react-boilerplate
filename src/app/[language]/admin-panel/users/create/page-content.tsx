@@ -193,7 +193,7 @@ function FormCreateUser() {
             <Grid item xs={12}>
               <FormTextInput<CreateUserFormData>
                 name="firstName"
-                testId="firstName"
+                testId="first-name"
                 label={t("admin-panel-users-create:inputs.firstName.label")}
               />
             </Grid>
@@ -201,7 +201,7 @@ function FormCreateUser() {
             <Grid item xs={12}>
               <FormTextInput<CreateUserFormData>
                 name="lastName"
-                testId="lastName"
+                testId="last-name"
                 label={t("admin-panel-users-create:inputs.lastName.label")}
               />
             </Grid>

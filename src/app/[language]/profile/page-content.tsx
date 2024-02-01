@@ -24,14 +24,15 @@ function Profile() {
         <Grid item xs="auto">
           <StyledAvatar
             alt={user?.firstName + " " + user?.lastName}
+            data-testid="user-icon"
             src={user?.photo?.path}
           />
         </Grid>
         <Grid item>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h3" gutterBottom data-testid="user-name">
             {user?.firstName} {user?.lastName}
           </Typography>
-          <Typography variant="h5" gutterBottom>
+          <Typography variant="h5" gutterBottom data-testid="user-email">
             {user?.email}
           </Typography>
           <Grid container>
@@ -41,6 +42,7 @@ function Profile() {
                 color="primary"
                 LinkComponent={Link}
                 href="/profile/edit"
+                data-testid="edit-profile"
               >
                 {t("profile:actions.edit")}
               </Button>

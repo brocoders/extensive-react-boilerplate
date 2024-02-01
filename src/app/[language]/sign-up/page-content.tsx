@@ -137,7 +137,7 @@ function Form() {
                 label={t("sign-up:inputs.firstName.label")}
                 type="text"
                 autoFocus
-                testId="firstName"
+                testId="first-name"
               />
             </Grid>
 
@@ -146,7 +146,7 @@ function Form() {
                 name="lastName"
                 label={t("sign-up:inputs.lastName.label")}
                 type="text"
-                testId="lastName"
+                testId="last-name"
               />
             </Grid>
 
