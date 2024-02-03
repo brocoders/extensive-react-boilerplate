@@ -54,7 +54,7 @@
     "cypress": "^13.6.2",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.2",
-    "husky": "^8.0.3",
+    "husky": "^9.0.0",
     "is-ci": "^3.0.1",
     "prettier": "^3.1.1"
   }
