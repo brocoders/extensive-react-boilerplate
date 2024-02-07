@@ -142,15 +142,6 @@ function ResponsiveAppBar() {
                 ]}
             </Menu>
           </Box>
-          <Box
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-            }}
-          >
-            <ModeThemeSwitcher />
-          </Box>
-
           <Typography
             variant="h5"
             noWrap
@@ -267,6 +258,14 @@ function ResponsiveAppBar() {
               </Button>
             </Box>
           )}
+          <Box
+            sx={{
+              mr: 2,
+              display: { xs: "flex", md: "none" },
+            }}
+          >
+            <ModeThemeSwitcher />
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
