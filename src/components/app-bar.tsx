@@ -19,6 +19,7 @@ import { useTranslation } from "@/services/i18n/client";
 import Link from "@/components/link";
 import { RoleEnum } from "@/services/api/types/role";
 import Divider from "@mui/material/Divider";
+import ThemeSwitchButton from "@/components/switch-theme-button";
 
 function ResponsiveAppBar() {
   const { t } = useTranslation("common");
@@ -238,6 +239,7 @@ function ResponsiveAppBar() {
             </Box>
           ) : (
             <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
+              <ThemeSwitchButton />
               <Button
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
@@ -256,6 +258,13 @@ function ResponsiveAppBar() {
               </Button>
             </Box>
           )}
+          <Box
+            sx={{
+              display: { xs: "flex", md: "none" },
+            }}
+          >
+            <ThemeSwitchButton />
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
