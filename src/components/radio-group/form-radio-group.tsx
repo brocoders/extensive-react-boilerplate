@@ -81,7 +81,7 @@ function RadioInputRaw<T>(
 const RadioInput = forwardRef(RadioInputRaw) as never as <T>(
   props: RadioInputProps<T> & {
     name: string;
-    value: T[] | undefined | null;
+    value: T | undefined | null;
     onChange: (value: T[]) => void;
     onBlur: () => void;
   } & { ref?: ForwardedRef<HTMLDivElement | null> }
