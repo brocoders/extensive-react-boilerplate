@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import {
   Controller,
@@ -15,10 +15,12 @@ import {
   FieldValues,
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import IconButton from "@mui/material/IconButton";
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 
 type AvatarInputProps = {
   error?: string;
-  onChange: (value: FileEntity) => void;
+  onChange: (value: FileEntity | null) => void;
   onBlur: () => void;
   value?: FileEntity;
   disabled?: boolean;
@@ -39,6 +41,38 @@ const AvatarInputContainer = styled(Box)(({ theme }) => ({
   "&:hover": {
     borderColor: theme.palette.text.primary,
   },
+}));
+
+const StyledIconButton = styled(IconButton)(({ theme }) => ({
+  left: theme.spacing(2.25),
+  top: theme.spacing(1.87),
+}));
+
+const StyledWrapperAvatar = styled(Box)(() => ({
+  position: "relative",
+  width: "28%",
+}));
+
+const StyledOverlay = styled(Box)(() => {
+  return {
+    width: 100,
+    height: 100,
+    borderRadius: "50%",
+    position: "absolute",
+    top: 0,
+    right: 0,
+    background: "rgba(0, 0, 0, 0.5)",
+    transition: ".5s ease",
+    opacity: 0,
+    "&:hover": {
+      opacity: 1,
+    },
+  };
+});
+
+const StyledAvatar = styled(Avatar)(({}) => ({
+  width: 100,
+  height: 100,
 }));
 
 function AvatarInput(props: AvatarInputProps) {
@@ -68,6 +102,13 @@ function AvatarInput(props: AvatarInputProps) {
     disabled: isLoading || props.disabled,
   });
 
+  const removeAvatarHandle = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
+    onChange(null);
+  };
+
   return (
     <AvatarInputContainer {...getRootProps()}>
       {isDragActive && (
@@ -95,13 +136,23 @@ function AvatarInput(props: AvatarInputProps) {
           </Typography>
         </Box>
       )}
-      <Avatar
-        sx={{
-          width: 100,
-          height: 100,
-        }}
-        src={props.value?.path}
-      />
+      {props?.value ? (
+        <StyledWrapperAvatar>
+          <StyledAvatar src={props.value?.path} />
+          <StyledOverlay>
+            <StyledIconButton
+              disableRipple
+              onClick={removeAvatarHandle}
+              color="inherit"
+            >
+              <ClearOutlinedIcon color="error" sx={{ width: 50, height: 50 }} />
+            </StyledIconButton>
+          </StyledOverlay>
+        </StyledWrapperAvatar>
+      ) : (
+        <StyledAvatar src={props.value?.path} />
+      )}
+
       <Box sx={{ mt: 2 }}>
         <Button variant="contained" component="label" disabled={isLoading}>
           {isLoading
