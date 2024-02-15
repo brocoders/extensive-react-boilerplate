@@ -37,6 +37,15 @@
         "test",
         "bug"
       ]
+    },
+    {
+      "login": "LiudmylaKostenko",
+      "name": "Liudmyla Kostenko",
+      "avatar_url": "https://avatars.githubusercontent.com/u/55603883?v=4",
+      "profile": "https://github.com/LiudmylaKostenko",
+      "contributions": [
+        "code"
+      ]
     }
   ]
 }
