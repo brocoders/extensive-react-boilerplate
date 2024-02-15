@@ -43,25 +43,24 @@ const AvatarInputContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-const StyledIconButton = styled(IconButton)(({ theme }) => ({
-  left: theme.spacing(2.25),
-  top: theme.spacing(1.87),
-}));
-
 const StyledWrapperAvatar = styled(Box)(() => ({
   position: "relative",
-  width: "28%",
+  width: 100,
+  height: 100,
 }));
 
 const StyledOverlay = styled(Box)(() => {
   return {
-    width: 100,
-    height: 100,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: "50%",
     position: "absolute",
     top: 0,
     right: 0,
-    background: "rgba(0, 0, 0, 0.5)",
+    left: 0,
+    bottom: 0,
+    background: "rgba(0, 0, 0, 0.7)",
     transition: ".5s ease",
     opacity: 0,
     "&:hover": {
@@ -140,13 +139,15 @@ function AvatarInput(props: AvatarInputProps) {
         <StyledWrapperAvatar>
           <StyledAvatar src={props.value?.path} />
           <StyledOverlay>
-            <StyledIconButton
+            <IconButton
               disableRipple
               onClick={removeAvatarHandle}
               color="inherit"
             >
-              <ClearOutlinedIcon color="error" sx={{ width: 50, height: 50 }} />
-            </StyledIconButton>
+              <ClearOutlinedIcon
+                sx={{ width: 50, height: 50, color: "white" }}
+              />
+            </IconButton>
           </StyledOverlay>
         </StyledWrapperAvatar>
       ) : (
