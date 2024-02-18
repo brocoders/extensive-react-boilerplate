@@ -13,6 +13,8 @@ import { useSnackbar } from "notistack";
 import { useRouter } from "next/navigation";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
+import { useEffect, useMemo, useState } from "react";
+import Alert from "@mui/material/Alert";
 
 type PasswordChangeFormData = {
   password: string;
@@ -56,6 +58,42 @@ function FormActions() {
   );
 }
 
+function ExpiresAlert() {
+  const { t } = useTranslation("password-change");
+  const [currentTime, setCurrentTime] = useState(() => Date.now());
+
+  const expires = useMemo(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    return Number(params.get("expires"));
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = Date.now();
+      setCurrentTime(now);
+
+      if (expires < now) {
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [expires]);
+
+  const isExpired = expires < currentTime;
+
+  return (
+    isExpired && (
+      <Grid item xs={12}>
+        <Alert severity="error" data-testid="reset-link-expired-alert">
+          {t("password-change:alerts.expired")}
+        </Alert>
+      </Grid>
+    )
+  );
+}
+
 function Form() {
   const { enqueueSnackbar } = useSnackbar();
   const fetchAuthResetPassword = useAuthResetPasswordService();
@@ -67,6 +105,7 @@ function Form() {
     resolver: yupResolver(validationSchema),
     defaultValues: {
       password: "",
+      passwordConfirmation: "",
     },
   });
 
@@ -114,6 +153,7 @@ function Form() {
             <Grid item xs={12} mt={3}>
               <Typography variant="h6">{t("password-change:title")}</Typography>
             </Grid>
+            <ExpiresAlert />
             <Grid item xs={12}>
               <FormTextInput<PasswordChangeFormData>
                 name="password"
