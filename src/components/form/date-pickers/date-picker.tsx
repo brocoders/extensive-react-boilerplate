@@ -1,9 +1,8 @@
 import * as React from "react";
 import {
+  DatePicker,
+  DateView,
   LocalizationProvider,
-  TimePicker,
-  TimeStepOptions,
-  TimeView,
 } from "@mui/x-date-pickers";
 import {
   Controller,
@@ -14,71 +13,56 @@ import {
 import { ForwardedRef, forwardRef } from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import useLanguage from "@/services/i18n/use-language";
-import en from "date-fns/locale/en-US";
+import { getValueByKey } from "@/components/form/date-pickers/helper";
 
-export const getValueByKey = (language: string) => {
-  switch (language) {
-    case "en":
-      return en;
-    default:
-      return en;
-  }
-};
-
-type TimePickerFieldProps = {
+type ValueDateType = Date | null | undefined;
+type DatePickerFieldProps = {
   disabled?: boolean;
   className?: string;
-  views?: readonly TimeView[] | undefined;
+  views?: readonly DateView[] | undefined;
+  minDate?: Date;
+  maxDate?: Date;
   autoFocus?: boolean;
   readOnly?: boolean;
   label: string;
   testId?: string;
   error?: string;
-  defaultValue?: string | null | undefined;
-  format?: string;
-  minTime?: string | undefined;
-  maxTime?: string | undefined;
-  timeSteps?: TimeStepOptions | undefined;
+  defaultValue?: ValueDateType;
 };
-
-const TimePickerInput = forwardRef(TimePickerInputRaw) as never as (
-  props: TimePickerFieldProps & {
+const DatePickerInput = forwardRef(DatePickerInputRaw) as never as (
+  props: DatePickerFieldProps & {
     name: string;
-    value: string | undefined | null;
-    onChange: (value: string | null) => void;
+    value: ValueDateType;
+    onChange: (value: ValueDateType) => void;
     onBlur: () => void;
   } & { ref?: ForwardedRef<HTMLDivElement | null> }
-) => ReturnType<typeof TimePickerInputRaw>;
+) => ReturnType<typeof DatePickerInputRaw>;
 
-function TimePickerInputRaw(
-  props: TimePickerFieldProps & {
+function DatePickerInputRaw(
+  props: DatePickerFieldProps & {
     name: string;
-    value: string | undefined | null;
-    onChange: (value: string | null) => void;
+    value: Date | undefined | null;
+    onChange: (value: Date | null) => void;
     onBlur: () => void;
   },
   ref?: ForwardedRef<HTMLDivElement | null>
 ) {
   const language = useLanguage();
-  const onAcceptHandle = (value: string | number | Date | null) => {
-    const selectedTime = new Date(value ?? new Date()).toLocaleTimeString();
-    props.onChange(selectedTime);
-  };
 
   return (
     <LocalizationProvider
       dateAdapter={AdapterDateFns}
       adapterLocale={getValueByKey(language)}
     >
-      <TimePicker
+      <DatePicker
         ref={ref}
         name={props.name}
         label={props.label}
         value={props.value}
+        onClose={props.onBlur}
         disabled={props.disabled}
         autoFocus={props.autoFocus}
         defaultValue={props.defaultValue}
-        onClose={props.onBlur}
         slotProps={{
           textField: {
             helperText: props.error,
@@ -87,22 +71,20 @@ function TimePickerInputRaw(
             },
           },
         }}
-        onAccept={onAcceptHandle}
+        onAccept={props.onChange}
+        minDate={props.minDate}
+        maxDate={props.maxDate}
         views={props.views}
-        format={props.format}
         data-testid={props.testId}
-        minTime={props.minTime}
-        maxTime={props.maxTime}
-        timeSteps={props.timeSteps}
       />
     </LocalizationProvider>
   );
 }
-function FormTimePickerInput<
+function FormDatePickerInput<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >(
-  props: TimePickerFieldProps &
+  props: DatePickerFieldProps &
     Pick<ControllerProps<TFieldValues, TName>, "name" | "defaultValue">
 ) {
   return (
@@ -111,7 +93,7 @@ function FormTimePickerInput<
       defaultValue={props.defaultValue}
       render={({ field, fieldState }) => {
         return (
-          <TimePickerInput
+          <DatePickerInput
             {...field}
             defaultValue={props.defaultValue}
             autoFocus={props.autoFocus}
@@ -120,11 +102,9 @@ function FormTimePickerInput<
             readOnly={props.readOnly}
             views={props.views}
             testId={props.testId}
-            format={props.format}
+            minDate={props.minDate}
+            maxDate={props.maxDate}
             error={fieldState.error?.message}
-            minTime={props.minTime}
-            maxTime={props.maxTime}
-            timeSteps={props.timeSteps}
           />
         );
       }}
@@ -132,4 +112,4 @@ function FormTimePickerInput<
   );
 }
 
-export default FormTimePickerInput;
+export default FormDatePickerInput;
