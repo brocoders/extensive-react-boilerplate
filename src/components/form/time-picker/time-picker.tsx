@@ -46,6 +46,7 @@ const TimePickerInput = forwardRef(TimePickerInputRaw) as never as (
     name: string;
     value: string | undefined | null;
     onChange: (value: string | null) => void;
+    onBlur: () => void;
   } & { ref?: ForwardedRef<HTMLDivElement | null> }
 ) => ReturnType<typeof TimePickerInputRaw>;
 
@@ -54,6 +55,7 @@ function TimePickerInputRaw(
     name: string;
     value: string | undefined | null;
     onChange: (value: string | null) => void;
+    onBlur: () => void;
   },
   ref?: ForwardedRef<HTMLDivElement | null>
 ) {
@@ -70,11 +72,13 @@ function TimePickerInputRaw(
     >
       <TimePicker
         ref={ref}
+        name={props.name}
         label={props.label}
         value={props.value}
         disabled={props.disabled}
         autoFocus={props.autoFocus}
         defaultValue={props.defaultValue}
+        onClose={props.onBlur}
         slotProps={{
           textField: {
             helperText: props.error,
@@ -83,7 +87,7 @@ function TimePickerInputRaw(
             },
           },
         }}
-        onAccept={(time) => onAcceptHandle(time)}
+        onAccept={onAcceptHandle}
         views={props.views}
         format={props.format}
         data-testid={props.testId}
