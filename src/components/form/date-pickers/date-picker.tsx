@@ -41,8 +41,8 @@ const DatePickerInput = forwardRef(DatePickerInputRaw) as never as (
 function DatePickerInputRaw(
   props: DatePickerFieldProps & {
     name: string;
-    value: Date | undefined | null;
-    onChange: (value: Date | null) => void;
+    value: ValueDateType;
+    onChange: (value: ValueDateType) => void;
     onBlur: () => void;
   },
   ref?: ForwardedRef<HTMLDivElement | null>
