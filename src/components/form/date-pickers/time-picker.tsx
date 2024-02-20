@@ -16,6 +16,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import useLanguage from "@/services/i18n/use-language";
 import { getValueByKey } from "@/components/form/date-pickers/helper";
 
+type ValueDateType = Date | null | undefined;
 type TimePickerFieldProps = {
   disabled?: boolean;
   className?: string;
@@ -25,18 +26,18 @@ type TimePickerFieldProps = {
   label: string;
   testId?: string;
   error?: string;
-  defaultValue?: string | null | undefined;
+  defaultValue?: ValueDateType;
   format?: string;
-  minTime?: string | undefined;
-  maxTime?: string | undefined;
+  minTime?: Date | undefined;
+  maxTime?: Date | undefined;
   timeSteps?: TimeStepOptions | undefined;
 };
 
 const TimePickerInput = forwardRef(TimePickerInputRaw) as never as (
   props: TimePickerFieldProps & {
     name: string;
-    value: string | undefined | null;
-    onChange: (value: string | null) => void;
+    value: ValueDateType;
+    onChange: (value: ValueDateType) => void;
     onBlur: () => void;
   } & { ref?: ForwardedRef<HTMLDivElement | null> }
 ) => ReturnType<typeof TimePickerInputRaw>;
@@ -44,17 +45,13 @@ const TimePickerInput = forwardRef(TimePickerInputRaw) as never as (
 function TimePickerInputRaw(
   props: TimePickerFieldProps & {
     name: string;
-    value: string | undefined | null;
-    onChange: (value: string | null) => void;
+    value: ValueDateType;
+    onChange: (value: ValueDateType) => void;
     onBlur: () => void;
   },
   ref?: ForwardedRef<HTMLDivElement | null>
 ) {
   const language = useLanguage();
-  const onAcceptHandle = (value: string | number | Date | null) => {
-    const selectedTime = new Date(value ?? new Date()).toLocaleTimeString();
-    props.onChange(selectedTime);
-  };
 
   return (
     <LocalizationProvider
@@ -78,7 +75,7 @@ function TimePickerInputRaw(
             },
           },
         }}
-        onAccept={onAcceptHandle}
+        onAccept={props.onChange}
         views={props.views}
         format={props.format}
         data-testid={props.testId}
