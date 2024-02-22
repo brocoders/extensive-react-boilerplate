@@ -4,13 +4,14 @@ import Visibility from "@mui/icons-material/Visibility";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
-import { ChangeEvent, forwardRef, useState } from "react";
+import React, { ChangeEvent, forwardRef, useState } from "react";
 import {
   Controller,
   ControllerProps,
   FieldPath,
   FieldValues,
 } from "react-hook-form";
+import { InputBaseComponentProps } from "@mui/material/InputBase/InputBase";
 
 type TextInputProps = {
   label: string;
@@ -21,6 +22,10 @@ type TextInputProps = {
   error?: string;
   testId?: string;
   autoComplete?: string;
+  inputComponent?: React.ElementType<InputBaseComponentProps>;
+  multiline?: boolean;
+  minRows?: number;
+  maxRows?: number;
 };
 
 const TextInput = forwardRef<
@@ -63,8 +68,12 @@ const TextInput = forwardRef<
       FormHelperTextProps={{
         ["data-testid" as string]: `${props.testId}-error`,
       }}
+      multiline={props.multiline}
+      minRows={props.minRows}
+      maxRows={props.maxRows}
       InputProps={{
         readOnly: props.readOnly,
+        inputComponent: props.inputComponent,
         endAdornment:
           props.type === "password" ? (
             <InputAdornment position="end">
@@ -104,6 +113,10 @@ function FormTextInput<
           disabled={props.disabled}
           readOnly={props.readOnly}
           testId={props.testId}
+          multiline={props.multiline}
+          minRows={props.minRows}
+          maxRows={props.maxRows}
+          inputComponent={props.inputComponent}
         />
       )}
     />
