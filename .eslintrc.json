@@ -105,6 +105,10 @@
       {
         "selector": "ExpressionStatement[expression.callee.object.name=JSON][expression.callee.property.name=parse][expression.arguments.0.callee.object.name=JSON][expression.arguments.0.callee.property.name=stringify]",
         "message": "Do not use JSON.parse(JSON.stringify(...)) for deep copy. Use structuredClone instead."
+      },
+      {
+        "selector": "CallExpression[callee.name=it][arguments.0.value!=/^should/]",
+        "message": "\"it\" should start with \"should\""
       }
     ],
     "no-restricted-imports": [
