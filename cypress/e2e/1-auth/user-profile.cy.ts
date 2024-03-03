@@ -25,7 +25,7 @@ describe("User Profile", () => {
     cy.login({ email, password });
   });
 
-  it("Open user profile and check data is displayed", () => {
+  it("should be successful open page and check data is displayed", () => {
     cy.getBySel("PersonIcon").click();
     cy.getBySel("user-profile").click();
     cy.location("pathname").should("include", "/profile");
@@ -40,7 +40,7 @@ describe("User Profile", () => {
     cy.get('[data-testid="last-name"] input').should("contain.value", lastName);
   });
 
-  it("Update user data", () => {
+  it("should be successful update user data", () => {
     cy.intercept("PATCH", "api/v1/auth/me").as("profileUpdate");
     cy.visit("/profile/edit");
     cy.getBySel("first-name").type(`{selectAll}James`);
@@ -71,7 +71,7 @@ describe("User Profile", () => {
       .should("contain.value", "Bond");
   });
 
-  it("Upload profile image", () => {
+  it("should be successful upload avatar", () => {
     cy.fixture("profileImage.jpg", null).as("userImage");
     cy.intercept("PATCH", "api/v1/auth/me").as("profileUpdate");
     cy.intercept("POST", "api/v1/files/upload").as("uploadFile");
@@ -92,7 +92,7 @@ describe("User Profile", () => {
     });
   });
 
-  it("Want to leave page", () => {
+  it("should be successful show leave page modal on unsaved changes", () => {
     cy.visit("/profile/edit");
 
     cy.getBySel("first-name").type(`{selectAll}James`);
@@ -115,7 +115,7 @@ describe("User Profile", () => {
     cy.getBySel("user-email").should("be.visible").and("contain.text", email);
   });
 
-  it("Change user password", () => {
+  it("should be successful change user password", () => {
     const newPassword = "passw1";
     cy.intercept("PATCH", "api/v1/auth/me").as("profileUpdate");
     cy.intercept("POST", "api/v1/auth/logout").as("logout");
@@ -148,7 +148,7 @@ describe("User Profile", () => {
     cy.location("pathname").should("not.include", "/sign-in");
   });
 
-  it("Check validation for password", () => {
+  it("should be successful with validations for password", () => {
     const newPassword = "passw1";
     cy.intercept("PATCH", "api/v1/auth/me").as("profileUpdate");
 

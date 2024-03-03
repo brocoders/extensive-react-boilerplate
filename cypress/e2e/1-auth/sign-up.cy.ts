@@ -8,7 +8,7 @@ describe("Sign Up", () => {
     cy.visit("/sign-up");
   });
 
-  it("Successful Sign Up", () => {
+  it("should be successful", () => {
     cy.getBySel("first-name").type(`FirstName${nanoid()}`);
     cy.getBySel("last-name").type(`LastName${nanoid()}`);
     cy.getBySel("email").type(`test${nanoid()}@example.com`);
@@ -17,7 +17,7 @@ describe("Sign Up", () => {
     cy.location("pathname").should("not.include", "/sign-up");
   });
 
-  it("Fail on Sign Up with existing email", () => {
+  it("should be fail with existing email", () => {
     const email = `test${nanoid()}@example.com`;
 
     cy.createNewUser({
@@ -35,7 +35,7 @@ describe("Sign Up", () => {
     cy.getBySel("email-error").should("be.visible");
   });
 
-  it("Check validation of rquired fields errors", () => {
+  it("should show validation errors for required fields", () => {
     cy.getBySel("sign-up-submit").click();
     cy.getBySel("first-name-error").should("be.visible");
     cy.getBySel("last-name-error").should("be.visible");
@@ -58,7 +58,7 @@ describe("Sign Up", () => {
     cy.location("pathname").should("not.include", "/sign-up");
   });
 
-  it("Check validation for password", () => {
+  it("should show validation errors for password field", () => {
     cy.getBySel("first-name").type(`FirstName${nanoid()}`);
     cy.getBySel("last-name").type(`LastName${nanoid()}`);
     cy.getBySel("email").type(`test${nanoid()}@example.com`);

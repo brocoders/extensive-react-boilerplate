@@ -4,7 +4,7 @@ import { ParsedMail } from "mailparser";
 import { customAlphabet } from "nanoid";
 const nanoid = customAlphabet("0123456789qwertyuiopasdfghjklzxcvbnm", 10);
 
-describe("Forgot Password Functionality", () => {
+describe("Forgot Password", () => {
   let email: string;
   let password: string;
   let firstName: string;
@@ -25,7 +25,7 @@ describe("Forgot Password Functionality", () => {
 
     cy.visit("/sign-in");
   });
-  context("check forgot password page", () => {
+  context("page with form", () => {
     it("should display forgot password link and navigate to the reset password page", () => {
       cy.getBySel("forgot-password").should("be.visible").click();
       cy.location("pathname").should("include", "/forgot-password");
