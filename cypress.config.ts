@@ -7,7 +7,8 @@ export default defineConfig({
   e2e: {
     setupNodeEvents(on) {
       on("task", {
-        "mail:receive": async () => getLatestEmail(),
+        "mail:receive": async ({ email }: { email: string }) =>
+          getLatestEmail({ email }),
       });
     },
     // Need for waiting api server

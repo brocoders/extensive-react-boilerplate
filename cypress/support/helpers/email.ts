@@ -21,30 +21,40 @@ function connectImap() {
   return Promise.resolve();
 }
 
-export async function getLatestEmail() {
+export async function getLatestEmail({ email }: { email: string }) {
   await connectImap();
 
   return new Promise((resolve, reject) => {
-    imap.openBox("INBOX", true, (error, box) => {
+    imap.openBox("INBOX", true, (error) => {
       if (error) reject(error);
 
-      const fetchImap = imap.seq.fetch(`${box.messages.total}:*`, {
-        bodies: "",
-      });
+      imap.search(["ALL", ["TO", email]], function (error, results) {
+        if (error) reject(error);
 
-      fetchImap.on("message", (message) => {
-        message.on("body", (stream) => {
-          let content = "";
+        if (results.length === 0) {
+          reject(Error("No emails found to the target email address."));
+          imap.end();
+          return;
+        }
 
-          stream.on("data", (chunk) => {
-            content += chunk.toString("utf-8");
-          });
+        const lastEmailUid = results[results.length - 1];
 
-          stream.once("end", () => {
-            mailParser.simpleParser(content, (error, mail) => {
-              if (error) reject(error);
+        const fetchImap = imap.fetch([lastEmailUid], { bodies: "" });
 
-              resolve(mail);
+        fetchImap.on("message", (message) => {
+          message.on("body", (stream) => {
+            let content = "";
+
+            stream.on("data", (chunk) => {
+              content += chunk.toString("utf-8");
+            });
+
+            stream.once("end", () => {
+              mailParser.simpleParser(content, (error, mail) => {
+                if (error) reject(error);
+
+                resolve(mail);
+              });
             });
           });
         });
