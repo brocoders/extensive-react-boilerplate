@@ -78,7 +78,7 @@ describe("Forgot Password", () => {
     });
 
     it("should send a password reset email and navigate to reset password page", () => {
-      cy.task("mail:receive", null, { timeout: 40000 }).then((email) => {
+      cy.task("mail:receive", { email }, { timeout: 40000 }).then((email) => {
         // check that email is ok
         const url = (email as ParsedMail).text?.split(" ")[0];
         if (url) {
@@ -89,7 +89,7 @@ describe("Forgot Password", () => {
     });
 
     it("should handle errors for invalid password", () => {
-      cy.task("mail:receive", null, { timeout: 40000 }).then((email) => {
+      cy.task("mail:receive", { email }, { timeout: 40000 }).then((email) => {
         const url = (email as ParsedMail).text?.split(" ")[0];
         if (url) {
           cy.visit(url);
@@ -111,7 +111,7 @@ describe("Forgot Password", () => {
     it("should reset password successfully", () => {
       cy.intercept("POST", "/api/v1/auth/reset/password").as("resetPassword");
       cy.intercept("POST", "/api/v1/auth/email/login").as("login");
-      cy.task("mail:receive", null, { timeout: 40000 }).then((email) => {
+      cy.task("mail:receive", { email }, { timeout: 40000 }).then((email) => {
         const url = (email as ParsedMail).text?.split(" ")[0];
         if (url) {
           cy.visit(url);
