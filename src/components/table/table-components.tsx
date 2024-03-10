@@ -6,6 +6,7 @@ import TableHead from "@mui/material/TableHead";
 import TableFooter from "@mui/material/TableFooter";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { TableComponents as TableComponentsType } from "react-virtuoso";
 
 const TableComponents = {
   Scroller: forwardRef<HTMLDivElement>(function Scroller(props, ref) {
@@ -14,8 +15,8 @@ const TableComponents = {
   Table: (props: TableProps) => (
     <Table stickyHeader {...props} style={{ borderCollapse: "separate" }} />
   ),
-  TableHead: TableHead,
-  TableFoot: TableFooter,
+  TableHead: TableHead as unknown as TableComponentsType["TableHead"],
+  TableFoot: TableFooter as unknown as TableComponentsType["TableFoot"],
   TableRow: TableRow,
   TableBody: forwardRef<HTMLTableSectionElement, TableBodyProps>(
     function BodyTable(props, ref) {
