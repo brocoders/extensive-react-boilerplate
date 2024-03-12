@@ -159,6 +159,7 @@ function Actions({ user }: { user: User }) {
       size="small"
       variant="contained"
       LinkComponent={Link}
+      data-testid="edit"
       href={`/admin-panel/users/edit/${user.id}`}
     >
       {tUsers("admin-panel-users:actions.edit")}
@@ -219,6 +220,7 @@ function Actions({ user }: { user: User }) {
                           bgcolor: "error.light",
                         },
                       }}
+                      data-testid="delete"
                       onClick={handleDelete}
                     >
                       {tUsers("admin-panel-users:actions.delete")}
@@ -312,6 +314,7 @@ function Users() {
                 LinkComponent={Link}
                 href="/admin-panel/users/create"
                 color="success"
+                data-testid="create-user"
               >
                 {tUsers("admin-panel-users:actions.create")}
               </Button>

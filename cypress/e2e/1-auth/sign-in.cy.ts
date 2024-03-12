@@ -2,6 +2,7 @@
 
 import { customAlphabet } from "nanoid";
 const nanoid = customAlphabet("0123456789qwertyuiopasdfghjklzxcvbnm", 10);
+const adminUser = Cypress.env("admin");
 
 describe("Sign In", () => {
   context("main flow", () => {
@@ -26,6 +27,14 @@ describe("Sign In", () => {
       cy.getBySel("password").type(password);
       cy.getBySel("sign-in-submit").click();
       cy.location("pathname").should("not.include", "/sign-in");
+    });
+
+    it("should be successful for admin user", () => {
+      cy.getBySel("email").type(adminUser.email);
+      cy.getBySel("password").type(adminUser.password);
+      cy.getBySel("sign-in-submit").click();
+      cy.location("pathname").should("not.include", "/sign-in");
+      cy.getBySel("users-list").should("be.visible");
     });
 
     it("should be successful with redirect", () => {

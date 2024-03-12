@@ -13,11 +13,16 @@ export default defineConfig({
     },
     // Need for waiting api server
     defaultCommandTimeout: 60000,
+    requestTimeout: 120000,
     viewportWidth: 1200,
     baseUrl: "http://localhost:3000",
     watchForFileChanges: false,
   },
   env: {
     apiUrl: process.env.NEXT_PUBLIC_API_URL,
+    admin: {
+      email: process.env.TEST_ADMIN_USER,
+      password: process.env.TEST_ADMIN_PASSWORD,
+    },
   },
 });

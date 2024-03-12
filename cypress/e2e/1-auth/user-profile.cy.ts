@@ -97,10 +97,14 @@ describe("User Profile", () => {
 
     cy.getBySel("first-name").type(`{selectAll}James`);
     cy.getBySel("cancel-edit-profile").click();
-
     cy.getBySel("want-to-leave-modal").should("be.visible");
     cy.getBySel("stay").click();
+    cy.getBySel("want-to-leave-modal").should("not.exist");
+    cy.location("pathname").should("include", "/profile/edit");
 
+    cy.getBySel("home-page").click();
+    cy.getBySel("want-to-leave-modal").should("be.visible");
+    cy.getBySel("stay").click();
     cy.getBySel("want-to-leave-modal").should("not.exist");
     cy.location("pathname").should("include", "/profile/edit");
     cy.get('[data-testid="first-name"] input').should("contain.value", "James");

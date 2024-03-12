@@ -39,9 +39,7 @@ const useValidationSchema = () => {
     email: yup
       .string()
       .email(t("admin-panel-users-create:inputs.email.validation.invalid"))
-      .required(
-        t("admin-panel-users-create:inputs.firstName.validation.required")
-      ),
+      .required(t("admin-panel-users-create:inputs.email.validation.required")),
     firstName: yup
       .string()
       .required(
@@ -92,6 +90,7 @@ function CreateUserFormActions() {
       color="primary"
       type="submit"
       disabled={isSubmitting}
+      data-testid="save-user"
     >
       {t("admin-panel-users-create:actions.submit")}
     </Button>
@@ -234,6 +233,7 @@ function FormCreateUser() {
                   color="inherit"
                   LinkComponent={Link}
                   href="/admin-panel/users"
+                  data-testid="cancel-user"
                 >
                   {t("admin-panel-users-create:actions.cancel")}
                 </Button>

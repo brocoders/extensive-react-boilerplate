@@ -65,6 +65,7 @@ function SelectInputRaw<T extends object>(
         {props.options.map((option) => (
           <MenuItem
             key={option[props.keyValue]?.toString()}
+            data-testid={option[props.keyValue]?.toString()}
             value={option[props.keyValue]?.toString()}
           >
             {props.renderOption(option)}

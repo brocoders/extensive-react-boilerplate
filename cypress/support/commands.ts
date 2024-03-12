@@ -43,6 +43,20 @@ Cypress.Commands.add("login", ({ email, password }) => {
   cy.getBySel("sign-in-submit").click();
   cy.wait("@login");
   cy.location("pathname").should("not.include", "/sign-in");
+  cy.getCookie("auth-token-data").should("exist");
+});
+
+Cypress.Commands.add("logout", () => {
+  cy.intercept("POST", "/api/v1/auth/logout").as("logout");
+  cy.getBySel("profile-menu-item").click();
+  cy.getBySel("logout-menu-item").click();
+  cy.wait("@logout").then((request) => {
+    expect(request.response?.statusCode).to.equal(204);
+  });
+  cy.getBySel("home-page").should("be.visible");
+  cy.getBySel("sign-in").should("be.visible");
+  cy.getBySel("sign-up").should("be.visible");
+  cy.getCookie("auth-token-data").should("not.exist");
 });
 
 export {};
@@ -58,6 +72,7 @@ declare global {
       }): Chainable<void>;
       getBySel(selector: string): Chainable<JQuery<HTMLElement>>;
       login(params: { email: string; password: string }): Chainable<void>;
+      logout(): Chainable<void>;
     }
   }
 }
