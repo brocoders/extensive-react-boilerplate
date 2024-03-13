@@ -49,8 +49,8 @@
     "yup": "^1.2.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^18.6.1",
-    "@commitlint/config-conventional": "^18.6.2",
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
     "@release-it/conventional-changelog": "^8.0.1",
     "@types/imap": "^0.8.40",
     "@types/js-cookie": "^3.0.3",
