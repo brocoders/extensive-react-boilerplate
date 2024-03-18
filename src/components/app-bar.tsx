@@ -166,6 +166,7 @@ function ResponsiveAppBar() {
               sx={{ my: 2, color: "white", display: "block" }}
               component={Link}
               href="/"
+              data-testid="home-page"
             >
               {t("common:navigation.home")}
             </Button>
@@ -176,6 +177,7 @@ function ResponsiveAppBar() {
                 sx={{ my: 2, color: "white", display: "block" }}
                 component={Link}
                 href="/admin-panel/users"
+                data-testid="users-list"
               >
                 {t("common:navigation.users")}
               </Button>
@@ -245,6 +247,7 @@ function ResponsiveAppBar() {
                 sx={{ my: 2, color: "white", display: "block" }}
                 component={Link}
                 href="/sign-in"
+                data-testid="sign-in"
               >
                 {t("common:navigation.signIn")}
               </Button>
@@ -253,6 +256,7 @@ function ResponsiveAppBar() {
                 sx={{ my: 2, color: "white", display: "block" }}
                 component={Link}
                 href="/sign-up"
+                data-testid="sign-up"
               >
                 {t("common:navigation.signUp")}
               </Button>

@@ -103,6 +103,7 @@ function EditUserFormActions() {
       variant="contained"
       color="primary"
       type="submit"
+      data-testid="save-profile"
       disabled={isSubmitting}
     >
       {t("admin-panel-users-edit:actions.submit")}
@@ -120,6 +121,7 @@ function ChangePasswordUserFormActions() {
       variant="contained"
       color="primary"
       type="submit"
+      data-testid="save-password"
       disabled={isSubmitting}
     >
       {t("admin-panel-users-edit:actions.submit")}
@@ -336,6 +338,7 @@ function FormChangePasswordUser() {
               <FormTextInput<ChangeUserPasswordFormData>
                 name="password"
                 type="password"
+                testId="password"
                 label={t("admin-panel-users-edit:inputs.password.label")}
               />
             </Grid>
@@ -343,6 +346,7 @@ function FormChangePasswordUser() {
             <Grid item xs={12}>
               <FormTextInput<ChangeUserPasswordFormData>
                 name="passwordConfirmation"
+                testId="password-confirmation"
                 label={t(
                   "admin-panel-users-edit:inputs.passwordConfirmation.label"
                 )}

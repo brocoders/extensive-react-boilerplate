@@ -76,6 +76,7 @@ function ConfirmDialogProvider({ children }: { children: React.ReactNode }) {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        data-testid="confirm-dialog"
       >
         <DialogTitle id="alert-dialog-title">
           {confirmDialogInfo.title}
@@ -86,10 +87,10 @@ function ConfirmDialogProvider({ children }: { children: React.ReactNode }) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={onCancel}>
+          <Button onClick={onCancel} data-testid="cancel-button">
             {confirmDialogInfo.cancelButtonText}
           </Button>
-          <Button onClick={onSuccess} autoFocus>
+          <Button onClick={onSuccess} data-testid="confirm-button" autoFocus>
             {confirmDialogInfo.successButtonText}
           </Button>
         </DialogActions>
