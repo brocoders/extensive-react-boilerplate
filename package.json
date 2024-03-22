@@ -45,7 +45,7 @@
     "react-hook-form": "^7.45.4",
     "react-i18next": "^14.0.0",
     "react-virtuoso": "4.7.4",
-    "typescript": "5.4.2",
+    "typescript": "5.4.3",
     "yup": "^1.2.0"
   },
   "devDependencies": {
