@@ -74,7 +74,7 @@ const useValidationSchema = () => {
     role: yup
       .object()
       .shape({
-        id: yup.number().required(),
+        id: yup.mixed<string | number>().required(),
         name: yup.string(),
       })
       .required(t("admin-panel-users-create:inputs.role.validation.required")),

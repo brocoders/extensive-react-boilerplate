@@ -104,7 +104,7 @@ function ResponsiveAppBar() {
               </MenuItem>
 
               {!!user?.role &&
-                [RoleEnum.ADMIN].includes(user?.role?.id) && [
+                [RoleEnum.ADMIN].includes(Number(user?.role?.id)) && [
                   <MenuItem
                     key="users"
                     onClick={handleCloseNavMenu}
@@ -170,16 +170,17 @@ function ResponsiveAppBar() {
               {t("common:navigation.home")}
             </Button>
 
-            {!!user?.role && [RoleEnum.ADMIN].includes(user?.role?.id) && (
-              <Button
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-                component={Link}
-                href="/admin-panel/users"
-              >
-                {t("common:navigation.users")}
-              </Button>
-            )}
+            {!!user?.role &&
+              [RoleEnum.ADMIN].includes(Number(user?.role?.id)) && (
+                <Button
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                  component={Link}
+                  href="/admin-panel/users"
+                >
+                  {t("common:navigation.users")}
+                </Button>
+              )}
           </Box>
 
           {!isLoaded ? (
