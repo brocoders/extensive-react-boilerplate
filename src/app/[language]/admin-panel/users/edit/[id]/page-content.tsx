@@ -62,7 +62,7 @@ const useValidationEditUserSchema = () => {
     role: yup
       .object()
       .shape({
-        id: yup.number().required(),
+        id: yup.mixed<string | number>().required(),
         name: yup.string(),
       })
       .required(t("admin-panel-users-edit:inputs.role.validation.required")),
@@ -189,7 +189,7 @@ function FormEditUser() {
           firstName: user?.firstName ?? "",
           lastName: user?.lastName ?? "",
           role: {
-            id: user?.role?.id,
+            id: Number(user?.role?.id),
           },
           photo: user?.photo,
         });

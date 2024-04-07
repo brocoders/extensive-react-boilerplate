@@ -4,6 +4,6 @@ export enum RoleEnum {
 }
 
 export type Role = {
-  id: RoleEnum;
+  id: number | string;
   name?: string;
 };

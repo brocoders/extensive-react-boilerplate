@@ -32,7 +32,9 @@ function withPageRequiredAuth(
     useEffect(() => {
       const check = () => {
         if (
-          (user && user?.role?.id && optionRoles.includes(user?.role.id)) ||
+          (user &&
+            user?.role?.id &&
+            optionRoles.includes(Number(user?.role.id))) ||
           !isLoaded
         )
           return;
@@ -57,7 +59,9 @@ function withPageRequiredAuth(
       check();
     }, [user, isLoaded, router, language]);
 
-    return user && user?.role?.id && optionRoles.includes(user?.role.id) ? (
+    return user &&
+      user?.role?.id &&
+      optionRoles.includes(Number(user?.role.id)) ? (
       <Component {...props} />
     ) : null;
   };
