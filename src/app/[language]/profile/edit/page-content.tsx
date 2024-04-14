@@ -34,6 +34,11 @@ type EditProfileChangePasswordFormData = {
   passwordConfirmation: string;
 };
 
+type EditProfileChangeEmailFormData = {
+  email: string;
+  emailConfirmation: string;
+};
+
 const useValidationBasicInfoSchema = () => {
   const { t } = useTranslation("profile");
 
@@ -44,6 +49,29 @@ const useValidationBasicInfoSchema = () => {
     lastName: yup
       .string()
       .required(t("profile:inputs.lastName.validation.required")),
+  });
+};
+
+const useValidationChangeEmailSchema = () => {
+  const { t } = useTranslation("profile");
+  const { user } = useAuth();
+
+  return yup.object().shape({
+    email: yup
+      .string()
+      .notOneOf(
+        [user?.email],
+        t("profile:inputs.email.validation.currentEmail")
+      )
+      .email(t("profile:inputs.email.validation.email"))
+      .required(t("profile:inputs.email.validation.required")),
+    emailConfirmation: yup
+      .string()
+      .oneOf(
+        [yup.ref("email")],
+        t("profile:inputs.emailConfirmation.validation.match")
+      )
+      .required(t("profile:inputs.emailConfirmation.validation.required")),
   });
 };
 
@@ -87,6 +115,24 @@ function BasicInfoFormActions() {
   );
 }
 
+function ChangeEmailFormActions() {
+  const { t } = useTranslation("profile");
+  const { isSubmitting, isDirty } = useFormState();
+  useLeavePage(isDirty);
+
+  return (
+    <Button
+      variant="contained"
+      color="primary"
+      type="submit"
+      disabled={isSubmitting}
+      data-testid="save-email"
+    >
+      {t("profile:actions.submit")}
+    </Button>
+  );
+}
+
 function ChangePasswordFormActions() {
   const { t } = useTranslation("profile");
   const { isSubmitting, isDirty } = useFormState();
@@ -124,7 +170,7 @@ function FormBasicInfo() {
 
   const { handleSubmit, setError, reset } = methods;
 
-  const onSubmit = async (formData: EditProfileBasicInfoFormData) => {
+  const onSubmit = handleSubmit(async (formData) => {
     const { data, status } = await fetchAuthPatchMe(formData);
 
     if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
@@ -149,7 +195,7 @@ function FormBasicInfo() {
         variant: "success",
       });
     }
-  };
+  });
 
   useEffect(() => {
     reset({
@@ -162,7 +208,7 @@ function FormBasicInfo() {
   return (
     <FormProvider {...methods}>
       <Container maxWidth="xs">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={onSubmit}>
           <Grid container spacing={2} mb={3} mt={3}>
             <Grid item xs={12}>
               <Typography variant="h6">{t("profile:title1")}</Typography>
@@ -208,6 +254,103 @@ function FormBasicInfo() {
   );
 }
 
+function FormChangeEmail() {
+  const fetchAuthPatchMe = useAuthPatchMeService();
+  const { enqueueSnackbar } = useSnackbar();
+  const { t } = useTranslation("profile");
+  const validationSchema = useValidationChangeEmailSchema();
+  const { user } = useAuth();
+
+  const methods = useForm<EditProfileChangeEmailFormData>({
+    resolver: yupResolver(validationSchema),
+    defaultValues: {
+      email: "",
+      emailConfirmation: "",
+    },
+  });
+
+  const { handleSubmit, reset, setError } = methods;
+
+  const onSubmit = handleSubmit(async (formData) => {
+    const { data, status } = await fetchAuthPatchMe({
+      email: formData.email,
+    });
+
+    if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
+      (
+        Object.keys(data.errors) as Array<keyof EditProfileChangeEmailFormData>
+      ).forEach((key) => {
+        setError(key, {
+          type: "manual",
+          message: t(
+            `profile:inputs.${key}.validation.server.${data.errors[key]}`
+          ),
+        });
+      });
+
+      return;
+    }
+
+    if (status === HTTP_CODES_ENUM.OK) {
+      reset();
+
+      enqueueSnackbar(t("profile:alerts.email.success"), {
+        variant: "success",
+        autoHideDuration: 15000,
+      });
+    }
+  });
+
+  return (
+    <FormProvider {...methods}>
+      <Container maxWidth="xs">
+        <form onSubmit={onSubmit}>
+          <Grid container spacing={2} mb={3}>
+            <Grid item xs={12}>
+              <Typography variant="h6">{t("profile:title2")}</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="body1">{user?.email}</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <FormTextInput<EditProfileChangeEmailFormData>
+                name="email"
+                label={t("profile:inputs.email.label")}
+                type="email"
+                testId="email"
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormTextInput<EditProfileChangeEmailFormData>
+                name="emailConfirmation"
+                label={t("profile:inputs.emailConfirmation.label")}
+                type="email"
+                testId="email-confirmation"
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <ChangeEmailFormActions />
+              <Box ml={1} component="span">
+                <Button
+                  variant="contained"
+                  color="inherit"
+                  LinkComponent={Link}
+                  href="/profile"
+                  data-testid="cancel-edit-email"
+                >
+                  {t("profile:actions.cancel")}
+                </Button>
+              </Box>
+            </Grid>
+          </Grid>
+        </form>
+      </Container>
+    </FormProvider>
+  );
+}
+
 function FormChangePassword() {
   const fetchAuthPatchMe = useAuthPatchMeService();
   const { t } = useTranslation("profile");
@@ -225,7 +368,7 @@ function FormChangePassword() {
 
   const { handleSubmit, setError, reset } = methods;
 
-  const onSubmit = async (formData: EditProfileChangePasswordFormData) => {
+  const onSubmit = handleSubmit(async (formData) => {
     const { data, status } = await fetchAuthPatchMe({
       password: formData.password,
       oldPassword: formData.oldPassword,
@@ -249,25 +392,21 @@ function FormChangePassword() {
     }
 
     if (status === HTTP_CODES_ENUM.OK) {
-      reset({
-        oldPassword: "",
-        password: "",
-        passwordConfirmation: "",
-      });
+      reset();
 
       enqueueSnackbar(t("profile:alerts.password.success"), {
         variant: "success",
       });
     }
-  };
+  });
 
   return (
     <FormProvider {...methods}>
       <Container maxWidth="xs">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={onSubmit}>
           <Grid container spacing={2} mb={2}>
             <Grid item xs={12}>
-              <Typography variant="h6">{t("profile:title2")}</Typography>
+              <Typography variant="h6">{t("profile:title3")}</Typography>
             </Grid>
             <Grid item xs={12}>
               <FormTextInput<EditProfileChangePasswordFormData>
@@ -317,6 +456,12 @@ function FormChangePassword() {
   );
 }
 
+function FormChangeEmailWrapper() {
+  const { user } = useAuth();
+
+  return user?.provider === UserProviderEnum.EMAIL ? <FormChangeEmail /> : null;
+}
+
 function FormChangePasswordWrapper() {
   const { user } = useAuth();
 
@@ -329,6 +474,7 @@ function EditProfile() {
   return (
     <>
       <FormBasicInfo />
+      <FormChangeEmailWrapper />
       <FormChangePasswordWrapper />
     </>
   );
