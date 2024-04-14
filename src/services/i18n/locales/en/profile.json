@@ -1,7 +1,8 @@
 {
   "title": "Profile",
   "title1": "Edit Profile",
-  "title2": "Change Password",
+  "title2": "Change Email",
+  "title3": "Change Password",
   "actions": {
     "edit": "Edit",
     "submit": "Save",
@@ -18,6 +19,24 @@
       "label": "Last Name",
       "validation": {
         "required": "Last Name is required"
+      }
+    },
+    "email": {
+      "label": "New Email",
+      "validation": {
+        "required": "Email is required",
+        "email": "Email must be valid",
+        "currentEmail": "Email must be different from current email",
+        "server": {
+          "emailExists": "Email is already taken"
+        }
+      }
+    },
+    "emailConfirmation": {
+      "label": "Email Confirmation",
+      "validation": {
+        "required": "Email Confirmation is required",
+        "match": "Email Confirmation must match email"
       }
     },
     "oldPassword": {
@@ -38,14 +57,17 @@
       }
     },
     "passwordConfirmation": {
-      "label": "Password confirmation",
+      "label": "Password Confirmation",
       "validation": {
-        "required": "Password confirmation is required",
-        "match": "Password confirmation must match password"
+        "required": "Password Confirmation is required",
+        "match": "Password Confirmation must match password"
       }
     }
   },
   "alerts": {
+    "email": {
+      "success": "Request to change email has been sent to your new email address. Please check your email and click on the link to confirm the change."
+    },
     "password": {
       "success": "Password has been updated successfully"
     },

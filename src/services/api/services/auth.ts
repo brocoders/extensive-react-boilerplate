@@ -118,6 +118,27 @@ export function useAuthConfirmEmailService() {
   );
 }
 
+export type AuthConfirmNewEmailRequest = {
+  hash: string;
+};
+
+export type AuthConfirmNewEmailResponse = void;
+
+export function useAuthConfirmNewEmailService() {
+  const fetchBase = useFetchBase();
+
+  return useCallback(
+    (data: AuthConfirmNewEmailRequest, requestConfig?: RequestConfigType) => {
+      return fetchBase(`${API_URL}/v1/auth/email/confirm/new`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<AuthConfirmNewEmailResponse>);
+    },
+    [fetchBase]
+  );
+}
+
 export type AuthForgotPasswordRequest = {
   email: string;
 };
@@ -162,7 +183,7 @@ export function useAuthResetPasswordService() {
 }
 
 export type AuthPatchMeRequest =
-  | Partial<Pick<User, "firstName" | "lastName">>
+  | Partial<Pick<User, "firstName" | "lastName" | "email">>
   | { password: string; oldPassword: string };
 
 export type AuthPatchMeResponse = User;
@@ -177,6 +198,22 @@ export function useAuthPatchMeService() {
         body: JSON.stringify(data),
         ...requestConfig,
       }).then(wrapperFetchJsonResponse<AuthPatchMeResponse>);
+    },
+    [fetch]
+  );
+}
+
+export type AuthGetMeResponse = User;
+
+export function useAuthGetMeService() {
+  const fetch = useFetch();
+
+  return useCallback(
+    (requestConfig?: RequestConfigType) => {
+      return fetch(`${API_URL}/v1/auth/me`, {
+        method: "GET",
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<AuthGetMeResponse>);
     },
     [fetch]
   );
