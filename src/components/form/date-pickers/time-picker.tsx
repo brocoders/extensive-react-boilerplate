@@ -12,7 +12,7 @@ import {
   FieldValues,
 } from "react-hook-form";
 import { ForwardedRef, forwardRef } from "react";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import useLanguage from "@/services/i18n/use-language";
 import { getValueByKey } from "@/components/form/date-pickers/helper";
 
