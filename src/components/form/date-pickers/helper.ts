@@ -1,10 +1,10 @@
-import en from "date-fns/locale/en-US";
+import { enUS } from "date-fns/locale/en-US";
 
 export const getValueByKey = (language: string) => {
   switch (language) {
     case "en":
-      return en;
+      return enUS;
     default:
-      return en;
+      return enUS;
   }
 };
