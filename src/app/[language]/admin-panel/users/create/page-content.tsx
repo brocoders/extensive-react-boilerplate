@@ -123,7 +123,7 @@ function FormCreateUser() {
 
   const { handleSubmit, setError } = methods;
 
-  const onSubmit = async (formData: CreateUserFormData) => {
+  const onSubmit = handleSubmit(async (formData) => {
     const { data, status } = await fetchPostUser(formData);
     if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
       (Object.keys(data.errors) as Array<keyof CreateUserFormData>).forEach(
@@ -144,12 +144,12 @@ function FormCreateUser() {
       });
       router.push("/admin-panel/users");
     }
-  };
+  });
 
   return (
     <FormProvider {...methods}>
       <Container maxWidth="xs">
-        <form onSubmit={handleSubmit(onSubmit)} autoComplete="create-new-user">
+        <form onSubmit={onSubmit} autoComplete="create-new-user">
           <Grid container spacing={2} mb={3} mt={3}>
             <Grid item xs={12}>
               <Typography variant="h6">

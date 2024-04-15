@@ -149,7 +149,7 @@ function FormEditUser() {
 
   const { handleSubmit, setError, reset } = methods;
 
-  const onSubmit = async (formData: EditUserFormData) => {
+  const onSubmit = handleSubmit(async (formData) => {
     const isEmailDirty = methods.getFieldState("email").isDirty;
     const { data, status } = await fetchPatchUser({
       id: userId,
@@ -177,7 +177,7 @@ function FormEditUser() {
         variant: "success",
       });
     }
-  };
+  });
 
   useEffect(() => {
     const getInitialDataForEdit = async () => {
@@ -202,7 +202,7 @@ function FormEditUser() {
   return (
     <FormProvider {...methods}>
       <Container maxWidth="xs">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={onSubmit}>
           <Grid container spacing={2} mb={3} mt={3}>
             <Grid item xs={12}>
               <Typography variant="h6">
@@ -295,7 +295,7 @@ function FormChangePasswordUser() {
 
   const { handleSubmit, setError, reset } = methods;
 
-  const onSubmit = async (formData: ChangeUserPasswordFormData) => {
+  const onSubmit = handleSubmit(async (formData) => {
     const { data, status } = await fetchPatchUser({
       id: userId,
       data: formData,
@@ -319,12 +319,12 @@ function FormChangePasswordUser() {
         variant: "success",
       });
     }
-  };
+  });
 
   return (
     <FormProvider {...methods}>
       <Container maxWidth="xs">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={onSubmit}>
           <Grid container spacing={2} mb={3} mt={3}>
             <Grid item xs={12}>
               <Typography variant="h6">

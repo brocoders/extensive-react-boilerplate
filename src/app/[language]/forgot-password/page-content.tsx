@@ -60,7 +60,7 @@ function Form() {
 
   const { handleSubmit, setError } = methods;
 
-  const onSubmit = async (formData: ForgotPasswordFormData) => {
+  const onSubmit = handleSubmit(async (formData) => {
     const { data, status } = await fetchAuthForgotPassword(formData);
 
     if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
@@ -83,12 +83,12 @@ function Form() {
         variant: "success",
       });
     }
-  };
+  });
 
   return (
     <FormProvider {...methods}>
       <Container maxWidth="xs">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={onSubmit}>
           <Grid container spacing={2} mb={2}>
             <Grid item xs={12} mt={3}>
               <Typography variant="h6">{t("forgot-password:title")}</Typography>
