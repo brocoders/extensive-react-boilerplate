@@ -89,7 +89,7 @@ function Form() {
 
   const { handleSubmit, setError } = methods;
 
-  const onSubmit = async (formData: SignUpFormData) => {
+  const onSubmit = handleSubmit(async (formData) => {
     const { data: dataSignUp, status: statusSignUp } =
       await fetchAuthSignUp(formData);
 
@@ -121,12 +121,12 @@ function Form() {
       });
       setUser(dataSignIn.user);
     }
-  };
+  });
 
   return (
     <FormProvider {...methods}>
       <Container maxWidth="xs">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={onSubmit}>
           <Grid container spacing={2} mb={2}>
             <Grid item xs={12} mt={3}>
               <Typography variant="h6">{t("sign-up:title")}</Typography>

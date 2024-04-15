@@ -111,7 +111,7 @@ function Form() {
 
   const { handleSubmit, setError } = methods;
 
-  const onSubmit = async (formData: PasswordChangeFormData) => {
+  const onSubmit = handleSubmit(async (formData) => {
     const params = new URLSearchParams(window.location.search);
     const hash = params.get("hash");
     if (!hash) return;
@@ -143,12 +143,12 @@ function Form() {
 
       router.replace("/sign-in");
     }
-  };
+  });
 
   return (
     <FormProvider {...methods}>
       <Container maxWidth="xs">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={onSubmit}>
           <Grid container spacing={2} mb={2}>
             <Grid item xs={12} mt={3}>
               <Typography variant="h6">{t("password-change:title")}</Typography>
