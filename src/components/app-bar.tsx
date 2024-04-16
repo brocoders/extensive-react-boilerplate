@@ -20,6 +20,7 @@ import Link from "@/components/link";
 import { RoleEnum } from "@/services/api/types/role";
 import Divider from "@mui/material/Divider";
 import ThemeSwitchButton from "@/components/switch-theme-button";
+import { IS_SIGN_UP_ENABLED } from "@/services/auth/config";
 
 function ResponsiveAppBar() {
   const { t } = useTranslation("common");
@@ -129,16 +130,18 @@ function ResponsiveAppBar() {
                       {t("common:navigation.signIn")}
                     </Typography>
                   </MenuItem>,
-                  <MenuItem
-                    key="sign-up"
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    href="/sign-up"
-                  >
-                    <Typography textAlign="center">
-                      {t("common:navigation.signUp")}
-                    </Typography>
-                  </MenuItem>,
+                  IS_SIGN_UP_ENABLED ? (
+                    <MenuItem
+                      key="sign-up"
+                      onClick={handleCloseNavMenu}
+                      component={Link}
+                      href="/sign-up"
+                    >
+                      <Typography textAlign="center">
+                        {t("common:navigation.signUp")}
+                      </Typography>
+                    </MenuItem>
+                  ) : null,
                 ]}
             </Menu>
           </Box>
@@ -249,14 +252,16 @@ function ResponsiveAppBar() {
               >
                 {t("common:navigation.signIn")}
               </Button>
-              <Button
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-                component={Link}
-                href="/sign-up"
-              >
-                {t("common:navigation.signUp")}
-              </Button>
+              {IS_SIGN_UP_ENABLED && (
+                <Button
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                  component={Link}
+                  href="/sign-up"
+                >
+                  {t("common:navigation.signUp")}
+                </Button>
+              )}
             </Box>
           )}
           <Box

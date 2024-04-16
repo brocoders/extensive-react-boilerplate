@@ -21,6 +21,7 @@ import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
 import { isGoogleAuthEnabled } from "@/services/social-auth/google/google-config";
 import { isFacebookAuthEnabled } from "@/services/social-auth/facebook/facebook-config";
+import { IS_SIGN_UP_ENABLED } from "@/services/auth/config";
 
 type SignInFormData = {
   email: string;
@@ -143,17 +144,19 @@ function Form() {
             <Grid item xs={12}>
               <FormActions />
 
-              <Box ml={1} component="span">
-                <Button
-                  variant="contained"
-                  color="inherit"
-                  LinkComponent={Link}
-                  href="/sign-up"
-                  data-testid="create-account"
-                >
-                  {t("sign-in:actions.createAccount")}
-                </Button>
-              </Box>
+              {IS_SIGN_UP_ENABLED && (
+                <Box ml={1} component="span">
+                  <Button
+                    variant="contained"
+                    color="inherit"
+                    LinkComponent={Link}
+                    href="/sign-up"
+                    data-testid="create-account"
+                  >
+                    {t("sign-in:actions.createAccount")}
+                  </Button>
+                </Box>
+              )}
             </Grid>
 
             {[isGoogleAuthEnabled, isFacebookAuthEnabled].some(Boolean) && (
