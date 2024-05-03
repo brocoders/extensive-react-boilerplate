@@ -51,6 +51,7 @@
   "devDependencies": {
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0",
+    "@playwright/test": "^1.43.1",
     "@release-it/conventional-changelog": "^8.0.1",
     "@types/imap": "^0.8.40",
     "@types/js-cookie": "^3.0.3",
