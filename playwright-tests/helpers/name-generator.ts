@@ -2861,19 +2861,17 @@ function getRandomInt(min: number, max: number) {
 }
 
 export const generateName = () => {
-  let name =
+  return (
     capFirst(name1[getRandomInt(0, name1.length + 1)]) +
     " " +
-    capFirst(name2[getRandomInt(0, name2.length + 1)]);
-  return name;
+    capFirst(name2[getRandomInt(0, name2.length + 1)])
+  );
 };
 
 export const generateFirstName = () => {
-  let name = capFirst(name1[getRandomInt(0, name1.length + 1)]);
-  return name;
+  return capFirst(name1[getRandomInt(0, name1.length + 1)]);
 };
 
 export const generateLastName = () => {
-  let name = capFirst(name2[getRandomInt(0, name2.length + 1)]);
-  return name;
+  return capFirst(name2[getRandomInt(0, name2.length + 1)]);
 };
