@@ -3,7 +3,7 @@ import {
   generateFirstName,
   generateLastName,
 } from "../helpers/name-generator.js";
-import { APIcreateNewUser } from "../helpers/api-requests.js";
+import { ApiCreateNewUser } from "../helpers/api-requests.js";
 import { getLatestEmail } from "../helpers/email.js";
 
 let nanoid: string;
@@ -56,13 +56,13 @@ test.describe("Forgot Password page with form", () => {
   });
 });
 
-test.describe("change password", () => {
+test.describe("Change password", () => {
   test.beforeEach(async ({ page }) => {
     nanoid = String(Date.now());
     email = `test${nanoid}@example.com`;
     password = nanoid;
     newPassword = "p1ssword";
-    await APIcreateNewUser(
+    await ApiCreateNewUser(
       email,
       password,
       generateFirstName(),

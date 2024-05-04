@@ -1,10 +1,11 @@
-import { Page, expect, request } from "@playwright/test";
 import dotenv from "dotenv";
 dotenv.config({ path: ".env.local" });
 
-const apiURL = process.env.NEXT_PUBLIC_API_URL;
+import { Page, expect, request } from "@playwright/test";
 
-export async function APIcreateNewUser(
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+export async function ApiCreateNewUser(
   email: string,
   password: string,
   firstName: string,
@@ -12,7 +13,7 @@ export async function APIcreateNewUser(
 ) {
   const createRequestContext = await request.newContext();
   const response = await createRequestContext.post(
-    apiURL + "/v1/auth/email/register",
+    apiUrl + "/v1/auth/email/register",
     {
       data: {
         firstName,
@@ -26,7 +27,7 @@ export async function APIcreateNewUser(
   expect(response.status()).toBe(204);
 }
 
-export async function UIlogin(email: string, password: string, page: Page) {
+export async function UiLogin(email: string, password: string, page: Page) {
   await page.getByLabel("Email").fill(email);
   await page.getByLabel("Password", { exact: true }).fill(password);
   const apiUserLoggedIn = page.waitForResponse(

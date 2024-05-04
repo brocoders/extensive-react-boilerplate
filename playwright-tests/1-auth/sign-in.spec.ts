@@ -3,7 +3,7 @@ import {
   generateFirstName,
   generateLastName,
 } from "../helpers/name-generator.js";
-import { APIcreateNewUser } from "../helpers/api-requests.js";
+import { ApiCreateNewUser } from "../helpers/api-requests.js";
 
 let nanoid: string;
 let email: string;
@@ -14,7 +14,7 @@ test.describe("Sign In", () => {
     nanoid = String(Date.now());
     email = `test${nanoid}@example.com`;
     password = nanoid;
-    await APIcreateNewUser(
+    await ApiCreateNewUser(
       email,
       password,
       generateFirstName(),

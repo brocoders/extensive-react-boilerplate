@@ -6,13 +6,20 @@
 
 - [Testing](#testing)
   - [Introduction](#introduction)
+  - [Installation](#installation)
   - [Running tests](#running-tests)
 
 ---
 
 ## Introduction
 
-This boilerplate uses [Cypress](https://www.cypress.io/) for E2E testing.
+This boilerplate uses [Playwright](https://playwright.dev/) for E2E testing.
+
+## Installation
+
+```bash
+npx playwright install
+```
 
 ## Running tests
 
@@ -22,10 +29,16 @@ This boilerplate uses [Cypress](https://www.cypress.io/) for E2E testing.
    npm run dev
    ```
 
-1. Run Cypress
+1. Run Playwright
 
    ```bash
-    npx cypress open
+    npx playwright test --ui
+    ```
+
+    or
+
+    ```bash
+    npx playwright test
     ```
 
 ---

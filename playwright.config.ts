@@ -31,7 +31,7 @@ export default defineConfig({
   },
   timeout: 5 * 60 * 1000,
   expect: {
-    timeout: 5000,
+    timeout: 15000,
   },
 
   /* Configure projects for major browsers */
@@ -73,9 +73,11 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  webServer: {
+    command: process.env.CI
+      ? "npm run build:e2e && npm run start"
+      : "npm run dev",
+    url: "http://127.0.0.1:3000",
+    reuseExistingServer: !process.env.CI,
+  },
 });

@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:cypress": "cp example.env.local .env.local && next build",
+    "build:e2e": "cp -n example.env.local .env.local && next build",
     "start": "next start",
     "lint": "next lint",
     "prepare": "is-ci || husky",
