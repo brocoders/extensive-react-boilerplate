@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
-    dirs: ["src", "cypress/e2e"],
+    dirs: ["src", "playwright-tests"],
   },
 };
 

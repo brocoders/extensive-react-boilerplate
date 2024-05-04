@@ -4,7 +4,7 @@
 
 ## Table of Contents <!-- omit in toc -->
 
-- [ReactJS Boilerplate](#reactjs-boilerplate)
+- [Extensive React Boilerplate](#extensive-react-boilerplate)
   - [Description](#description)
   - [Getting Started](#getting-started)
   - [Features](#features)
@@ -42,7 +42,7 @@ npm run dev
 - [x] Auth (Sign in, Sign up, Reset password, Confirm email, Refresh Token)
 - [x] User management (CRUD)
 - [x] File Upload
-- [x] E2E tests ([Cypress](https://www.cypress.io/))
+- [x] E2E tests ([Playwright](https://playwright.dev/))
 - [x] ESLint
 - [x] CI (GitHub Actions)
 
