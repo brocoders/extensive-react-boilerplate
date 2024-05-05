@@ -88,7 +88,7 @@ test.describe("User Profile", () => {
         response.url().endsWith("/files/upload") && response.status() === 201
     );
     const fileChooserPromise = page.waitForEvent("filechooser");
-    await page.getByTestId("photos").click();
+    await page.getByTestId("photo").click();
     const fileChooser = await fileChooserPromise;
     await fileChooser.setFiles(
       path.join(__dirname, "../helpers/profileImage.jpg")
