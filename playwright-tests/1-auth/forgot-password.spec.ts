@@ -1,15 +1,7 @@
 import { test, expect } from "@playwright/test";
-import {
-  generateFirstName,
-  generateLastName,
-} from "../helpers/name-generator.js";
-import { ApiCreateNewUser } from "../helpers/api-requests.js";
+import { faker } from "@faker-js/faker";
+import { apiCreateNewUser } from "../helpers/api-requests.js";
 import { getLatestEmail } from "../helpers/email.js";
-
-let nanoid: string;
-let email: string;
-let password: string;
-let newPassword: string;
 
 test.describe("Forgot Password page with form", () => {
   test.beforeEach(async ({ page }) => {
@@ -33,17 +25,23 @@ test.describe("Forgot Password page with form", () => {
     await expect(page.getByTestId("email-error")).toBeVisible();
 
     // Test submitting with an invalid email
-    await page.getByLabel("Email").fill("invalidemail");
+    await page.getByTestId("email").locator("input").fill("invalidemail");
     await page.getByTestId("send-email").click();
     await expect(page.getByTestId("email-error")).toBeVisible();
 
-    await page.getByLabel("Email").fill("someemail@email.com");
+    await page
+      .getByTestId("email")
+      .locator("input")
+      .fill("someemail@email.com");
     await expect(page.getByTestId("email-error")).not.toBeVisible();
   });
 
   test("should handle errors for an invalid email", async ({ page }) => {
     await page.goto("/forgot-password");
-    await page.getByLabel("Email").fill("nonexistentemail@mail.com");
+    await page
+      .getByTestId("email")
+      .locator("input")
+      .fill("nonexistentemail@mail.com");
     await page.getByTestId("send-email").click();
     const apiEmailSent = page.waitForResponse(
       (response) =>
@@ -57,19 +55,24 @@ test.describe("Forgot Password page with form", () => {
 });
 
 test.describe("Change password", () => {
+  let email: string;
+  let password: string;
+  let newPassword: string;
+
   test.beforeEach(async ({ page }) => {
-    nanoid = String(Date.now());
-    email = `test${nanoid}@example.com`;
-    password = nanoid;
+    email = faker.internet.email({
+      provider: "example.com",
+    });
+    password = faker.internet.password();
     newPassword = "p1ssword";
-    await ApiCreateNewUser(
+    await apiCreateNewUser(
       email,
       password,
-      generateFirstName(),
-      generateLastName()
+      faker.person.firstName(),
+      faker.person.lastName()
     );
     await page.goto("/forgot-password");
-    await page.getByLabel("Email").fill(email);
+    await page.getByTestId("email").locator("input").fill(email);
     const apiEmailSent = page.waitForResponse(
       (response) =>
         response.url().endsWith("auth/forgot/password") &&
@@ -104,11 +107,17 @@ test.describe("Change password", () => {
     await page.getByTestId("set-password").click();
     await expect(page.getByTestId("password-error")).toBeVisible();
     await expect(page.getByTestId("password-confirmation-error")).toBeVisible();
-    await page.getByLabel("Password", { exact: true }).fill(newPassword);
+    await page.getByTestId("password").locator("input").fill(newPassword);
     await expect(page.getByTestId("password-error")).not.toBeVisible();
-    await page.getByLabel("Password confirmation").fill("mismatchpassword");
+    await page
+      .getByTestId("password-confirmation")
+      .locator("input")
+      .fill("mismatchpassword");
     await expect(page.getByTestId("password-confirmation-error")).toBeVisible();
-    await page.getByLabel("Password confirmation").fill(newPassword);
+    await page
+      .getByTestId("password-confirmation")
+      .locator("input")
+      .fill(newPassword);
     await expect(
       page.getByTestId("password-confirmation-error")
     ).not.toBeVisible();
@@ -121,8 +130,11 @@ test.describe("Change password", () => {
       page.goto(url);
     }
     await page.waitForURL(/\/password-change/);
-    await page.getByLabel("Password", { exact: true }).fill(newPassword);
-    await page.getByLabel("Password confirmation").fill(newPassword);
+    await page.getByTestId("password").locator("input").fill(newPassword);
+    await page
+      .getByTestId("password-confirmation")
+      .locator("input")
+      .fill(newPassword);
     const apiPasswordReset = page.waitForResponse(
       (response) =>
         response.url().endsWith("auth/reset/password") &&
@@ -133,8 +145,8 @@ test.describe("Change password", () => {
     await expect(page.locator("#notistack-snackbar")).toBeVisible();
     await expect(page).toHaveURL(/\/sign-in/);
 
-    await page.getByLabel("Email").fill(email);
-    await page.getByLabel("Password", { exact: true }).fill(password);
+    await page.getByTestId("email").locator("input").fill(email);
+    await page.getByTestId("password").locator("input").fill(password);
     const apiLogInFailed = page.waitForResponse(
       (response) =>
         response.url().endsWith("auth/email/login") && response.status() === 422
@@ -142,7 +154,7 @@ test.describe("Change password", () => {
     await page.getByTestId("sign-in-submit").click();
     await apiLogInFailed;
 
-    await page.getByLabel("Password", { exact: true }).fill(newPassword);
+    await page.getByTestId("password").locator("input").fill(newPassword);
     const apiUserLoggedIn = page.waitForResponse(
       (response) =>
         response.url().endsWith("auth/email/login") && response.status() === 200

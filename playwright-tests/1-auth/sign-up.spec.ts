@@ -1,11 +1,6 @@
 import { test, expect } from "@playwright/test";
-import {
-  generateFirstName,
-  generateLastName,
-} from "../helpers/name-generator.js";
-import { ApiCreateNewUser } from "../helpers/api-requests.js";
-
-const nanoid = String(Date.now());
+import { faker } from "@faker-js/faker";
+import { apiCreateNewUser } from "../helpers/api-requests.js";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/sign-up");
@@ -13,10 +8,26 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("Sign Up", () => {
   test("should be successful", async ({ page }) => {
-    await page.getByLabel("First Name").fill(generateFirstName());
-    await page.getByLabel("Last Name").fill(generateLastName());
-    await page.getByLabel("Email").fill(`test${nanoid + 1}@example.com`);
-    await page.getByLabel("Password", { exact: true }).fill(nanoid);
+    await page
+      .getByTestId("first-name")
+      .locator("input")
+      .fill(faker.person.firstName());
+    await page
+      .getByTestId("last-name")
+      .locator("input")
+      .fill(faker.person.lastName());
+    await page
+      .getByTestId("email")
+      .locator("input")
+      .fill(
+        faker.internet.email({
+          provider: "example.com",
+        })
+      );
+    await page
+      .getByTestId("password")
+      .locator("input")
+      .fill(faker.internet.password());
     const apiUserCreated = page.waitForResponse((request) =>
       request.url().endsWith("/auth/email/register")
     );
@@ -26,14 +37,23 @@ test.describe("Sign Up", () => {
   });
 
   test("should fail with existing email", async ({ page }) => {
-    const email = `test${nanoid + 2}@example.com`;
-    const firstName = generateFirstName();
-    const lastName = generateLastName();
-    await ApiCreateNewUser(email, nanoid, firstName, lastName);
-    await page.getByLabel("First Name").fill(generateFirstName());
-    await page.getByLabel("Last Name").fill(generateLastName());
-    await page.getByLabel("Email").fill(email);
-    await page.getByLabel("Password", { exact: true }).fill(nanoid);
+    const email = faker.internet.email({
+      provider: "example.com",
+    });
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+    const password = faker.internet.password();
+    await apiCreateNewUser(email, password, firstName, lastName);
+    await page
+      .getByTestId("first-name")
+      .locator("input")
+      .fill(faker.person.firstName());
+    await page
+      .getByTestId("last-name")
+      .locator("input")
+      .fill(faker.person.lastName());
+    await page.getByTestId("email").locator("input").fill(email);
+    await page.getByTestId("password").locator("input").fill(password);
     await page.getByTestId("sign-up-submit").click();
     await expect(page.getByTestId("email-error")).toBeVisible();
   });
@@ -47,16 +67,32 @@ test.describe("Sign Up", () => {
     await expect(page.getByTestId("email-error")).toBeVisible();
     await expect(page.getByTestId("password-error")).toBeVisible();
 
-    await page.getByLabel("First Name").fill(generateFirstName());
+    await page
+      .getByTestId("first-name")
+      .locator("input")
+      .fill(faker.person.firstName());
     await expect(page.getByTestId("first-name-error")).not.toBeVisible();
 
-    await page.getByLabel("Last Name").fill(generateLastName());
+    await page
+      .getByTestId("last-name")
+      .locator("input")
+      .fill(faker.person.lastName());
     await expect(page.getByTestId("last-name-error")).not.toBeVisible();
 
-    await page.getByLabel("Email").fill(`test${nanoid + 3}@example.com`);
+    await page
+      .getByTestId("email")
+      .locator("input")
+      .fill(
+        faker.internet.email({
+          provider: "example.com",
+        })
+      );
     await expect(page.getByTestId("email-error")).not.toBeVisible();
 
-    await page.getByLabel("Password", { exact: true }).fill(nanoid);
+    await page
+      .getByTestId("password")
+      .locator("input")
+      .fill(faker.internet.password());
     await expect(page.getByTestId("password-error")).not.toBeVisible();
 
     const apiUserCreated = page.waitForResponse((request) =>
@@ -68,21 +104,34 @@ test.describe("Sign Up", () => {
   });
 
   test("should show validation errors for password field", async ({ page }) => {
-    await page.getByLabel("First Name").fill(generateFirstName());
-    await page.getByLabel("Last Name").fill(generateLastName());
-    await page.getByLabel("Email").fill(`test${nanoid + 4}@example.com`);
+    await page
+      .getByTestId("first-name")
+      .locator("input")
+      .fill(faker.person.firstName());
+    await page
+      .getByTestId("last-name")
+      .locator("input")
+      .fill(faker.person.lastName());
+    await page
+      .getByTestId("email")
+      .locator("input")
+      .fill(
+        faker.internet.email({
+          provider: "example.com",
+        })
+      );
 
-    await page.getByLabel("Password", { exact: true }).fill("p");
+    await page.getByTestId("password").locator("input").fill("p");
     await page.getByTestId("sign-up-submit").click();
     await expect(page.getByTestId("password-error")).toBeVisible();
 
-    await page.getByLabel("Password", { exact: true }).fill("passw");
+    await page.getByTestId("password").locator("input").fill("passw");
     await expect(page.getByTestId("password-error")).toBeVisible();
 
-    await page.getByLabel("Password", { exact: true }).fill("passw1");
+    await page.getByTestId("password").locator("input").fill("passw1");
     await expect(page.getByTestId("password-error")).not.toBeVisible();
 
-    await page.getByLabel("Password", { exact: true }).fill("passw");
+    await page.getByTestId("password").locator("input").fill("passw");
     await expect(page.getByTestId("password-error")).toBeVisible();
   });
 });

@@ -31,7 +31,7 @@ export default defineConfig({
   },
   timeout: 5 * 60 * 1000,
   expect: {
-    timeout: 15000,
+    timeout: 20 * 1000,
   },
 
   /* Configure projects for major browsers */

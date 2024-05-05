@@ -25,7 +25,7 @@ export default async function Home({ params }: Props) {
     <Container maxWidth="md">
       <Grid container spacing={3} wrap="nowrap" pt={3}>
         <Grid item>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h3" data-testid="home-title" gutterBottom>
             {t("title")}
           </Typography>
           <Typography>

@@ -1,12 +1,9 @@
 import { test, expect } from "@playwright/test";
-import {
-  generateFirstName,
-  generateLastName,
-} from "../helpers/name-generator.js";
-import { ApiCreateNewUser, UiLogin } from "../helpers/api-requests.js";
+import { faker } from "@faker-js/faker";
+import { apiCreateNewUser } from "../helpers/api-requests.js";
+import { login } from "../helpers/login.js";
 import path from "path";
 
-let nanoid: string;
 let email: string;
 let password: string;
 let firstName: string;
@@ -15,14 +12,15 @@ let newPassword: string;
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/sign-in");
-  nanoid = String(Date.now());
-  email = `test${nanoid}@example.com`;
-  password = nanoid;
-  firstName = generateFirstName();
-  lastName = generateLastName();
+  email = faker.internet.email({
+    provider: "example.com",
+  });
+  password = faker.internet.password();
+  firstName = faker.person.firstName();
+  lastName = faker.person.lastName();
 
-  await ApiCreateNewUser(email, password, firstName, lastName);
-  await UiLogin(email, password, page);
+  await apiCreateNewUser(email, password, firstName, lastName);
+  await login(email, password, page);
 });
 
 test.describe("User Profile", () => {
@@ -35,19 +33,29 @@ test.describe("User Profile", () => {
     await expect(page.getByTestId("user-name")).toHaveText(
       firstName + " " + lastName
     );
-    await expect(page.getByTestId("user-email")).toHaveText(email);
+    await expect(page.getByTestId("user-email")).toHaveText(email, {
+      ignoreCase: true,
+    });
     await page.getByTestId("edit-profile").click();
     await page.waitForURL(/\/profile\/edit/);
-    await expect(page.getByLabel("First Name")).toHaveValue(firstName);
-    await expect(page.getByLabel("Last Name")).toHaveValue(lastName);
+    await expect(page.getByTestId("first-name").locator("input")).toHaveValue(
+      firstName
+    );
+    await expect(page.getByTestId("last-name").locator("input")).toHaveValue(
+      lastName
+    );
   });
 
   test("should be successful update user data", async ({ page }) => {
     await page.goto("/profile/edit");
-    await page.getByLabel("First Name").fill("James");
-    await expect(page.getByLabel("First Name")).toHaveValue("James");
-    await page.getByLabel("Last Name").fill("Bond");
-    await expect(page.getByLabel("Last Name")).toHaveValue("Bond");
+    await page.getByTestId("first-name").locator("input").fill("James");
+    await expect(page.getByTestId("first-name").locator("input")).toHaveValue(
+      "James"
+    );
+    await page.getByTestId("last-name").locator("input").fill("Bond");
+    await expect(page.getByTestId("last-name").locator("input")).toHaveValue(
+      "Bond"
+    );
     const apiProfileUpdate = page.waitForResponse(
       (response) =>
         response.url().endsWith("auth/me") && response.status() === 200
@@ -60,11 +68,17 @@ test.describe("User Profile", () => {
     await page.getByTestId("user-profile").click();
     await page.waitForURL(/\/profile/);
     await expect(page.getByTestId("user-name")).toHaveText("James Bond");
-    await expect(page.getByTestId("user-email")).toHaveText(email);
+    await expect(page.getByTestId("user-email")).toHaveText(email, {
+      ignoreCase: true,
+    });
     await page.getByTestId("edit-profile").click();
     await page.waitForURL(/\/profile\/edit/);
-    await expect(page.getByLabel("First Name")).toHaveValue("James");
-    await expect(page.getByLabel("Last Name")).toHaveValue("Bond");
+    await expect(page.getByTestId("first-name").locator("input")).toHaveValue(
+      "James"
+    );
+    await expect(page.getByTestId("last-name").locator("input")).toHaveValue(
+      "Bond"
+    );
   });
 
   test("should be successful upload avatar", async ({ page }) => {
@@ -74,7 +88,7 @@ test.describe("User Profile", () => {
         response.url().endsWith("/files/upload") && response.status() === 201
     );
     const fileChooserPromise = page.waitForEvent("filechooser");
-    await page.getByRole("button", { name: "Select an image" }).click();
+    await page.getByTestId("photos").click();
     const fileChooser = await fileChooserPromise;
     await fileChooser.setFiles(
       path.join(__dirname, "../helpers/profileImage.jpg")
@@ -88,7 +102,9 @@ test.describe("User Profile", () => {
     await page.getByTestId("save-profile").click();
     await apiProfileUpdate;
     await page.getByTestId("cancel-edit-profile").click();
-    await expect(page.getByTestId("user-email")).toHaveText(email);
+    await expect(page.getByTestId("user-email")).toHaveText(email, {
+      ignoreCase: true,
+    });
     await expect(page.getByTestId("user-icon").getByRole("img")).toBeVisible();
     await expect(
       page.getByTestId("user-icon").getByRole("img")
@@ -99,14 +115,16 @@ test.describe("User Profile", () => {
     page,
   }) => {
     await page.goto("/profile/edit");
-    await page.getByLabel("First Name").fill("James");
+    await page.getByTestId("first-name").locator("input").fill("James");
     await page.getByTestId("cancel-edit-profile").click();
     await expect(page.getByTestId("want-to-leave-modal")).toBeVisible();
     await page.getByTestId("stay").click();
 
     await expect(page.getByTestId("want-to-leave-modal")).not.toBeVisible();
     await expect(page).toHaveURL(/\/profile\/edit/);
-    await expect(page.getByLabel("First Name")).toHaveValue("James");
+    await expect(page.getByTestId("first-name").locator("input")).toHaveValue(
+      "James"
+    );
 
     await page.getByTestId("cancel-edit-profile").click();
     await expect(page.getByTestId("want-to-leave-modal")).toBeVisible();
@@ -120,9 +138,12 @@ test.describe("User Profile", () => {
   test("should be successful change user password", async ({ page }) => {
     newPassword = "password1";
     await page.goto("/profile/edit");
-    await page.getByLabel("Old Password").fill(password);
-    await page.getByLabel("New Password").fill(newPassword);
-    await page.getByLabel("Password confirmation").fill(newPassword);
+    await page.getByTestId("old-password").locator("input").fill(password);
+    await page.getByTestId("new-password").locator("input").fill(newPassword);
+    await page
+      .getByTestId("password-confirmation")
+      .locator("input")
+      .fill(newPassword);
     const apiPasswordUpdate = page.waitForResponse(
       (response) =>
         response.url().endsWith("api/v1/auth/me") && response.status() === 200
@@ -138,8 +159,8 @@ test.describe("User Profile", () => {
     await page.getByTestId("logout-menu-item").click();
     await apiProfileUpdate;
 
-    await page.getByLabel("Email").fill(email);
-    await page.getByLabel("Password", { exact: true }).fill(password);
+    await page.getByTestId("email").locator("input").fill(email);
+    await page.getByTestId("password").locator("input").fill(password);
     const apiUserLoginFailed = page.waitForResponse(
       (response) =>
         response.url().endsWith("auth/email/login") && response.status() === 422
@@ -148,7 +169,7 @@ test.describe("User Profile", () => {
     await apiUserLoginFailed;
     await expect(page.getByTestId("password-error")).toBeVisible();
 
-    await page.getByLabel("Password", { exact: true }).fill(newPassword);
+    await page.getByTestId("password").locator("input").fill(newPassword);
     const apiUserLoggedIn = page.waitForResponse(
       (response) =>
         response.url().endsWith("auth/email/login") && response.status() === 200
@@ -168,21 +189,33 @@ test.describe("User Profile", () => {
     await expect(page.getByTestId("new-password-error")).toBeVisible();
     await expect(page.getByTestId("password-confirmation-error")).toBeVisible();
 
-    await page.getByLabel("Old Password").fill("incorrectpassword");
+    await page
+      .getByTestId("old-password")
+      .locator("input")
+      .fill("incorrectpassword");
     await expect(page.getByTestId("old-password-error")).not.toBeVisible();
 
-    await page.getByLabel("New Password").fill("passw");
+    await page.getByTestId("new-password").locator("input").fill("passw");
     await expect(page.getByTestId("new-password-error")).toBeVisible();
-    await page.getByLabel("New Password").fill(newPassword);
+    await page.getByTestId("new-password").locator("input").fill(newPassword);
     await expect(page.getByTestId("new-password-error")).not.toBeVisible();
 
-    await page.getByLabel("Password confirmation").fill(newPassword);
+    await page
+      .getByTestId("password-confirmation")
+      .locator("input")
+      .fill(newPassword);
     await expect(
       page.getByTestId("password-confirmation-error")
     ).not.toBeVisible();
-    await page.getByLabel("Password confirmation").fill("different password");
+    await page
+      .getByTestId("password-confirmation")
+      .locator("input")
+      .fill("different password");
     await expect(page.getByTestId("password-confirmation-error")).toBeVisible();
-    await page.getByLabel("Password confirmation").fill(newPassword);
+    await page
+      .getByTestId("password-confirmation")
+      .locator("input")
+      .fill(newPassword);
     await expect(
       page.getByTestId("password-confirmation-error")
     ).not.toBeVisible();
@@ -195,7 +228,7 @@ test.describe("User Profile", () => {
     await apiPasswordUpdateFailed;
     await expect(page.getByTestId("old-password-error")).toBeVisible();
 
-    await page.getByLabel("Old Password").fill(password);
+    await page.getByTestId("old-password").locator("input").fill(password);
     await expect(page.getByTestId("old-password-error")).not.toBeVisible();
 
     const apiPasswordUpdate = page.waitForResponse(
