@@ -1,6 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config({ path: ".env.local" });
-
 import { expect, request } from "@playwright/test";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
