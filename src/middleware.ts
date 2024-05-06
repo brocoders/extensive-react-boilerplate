@@ -9,14 +9,13 @@ import {
 
 acceptLanguage.languages([...languages]);
 
-export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|assets|favicon.ico|sw.js).*)"],
-};
+const PUBLIC_FILE = /\.(.*)$/;
 
 export function middleware(req: NextRequest) {
   if (
-    req.nextUrl.pathname.indexOf("icon") > -1 ||
-    req.nextUrl.pathname.indexOf("chrome") > -1
+    req.nextUrl.pathname.startsWith("/_next") ||
+    req.nextUrl.pathname.includes("/api/") ||
+    PUBLIC_FILE.test(req.nextUrl.pathname)
   ) {
     return NextResponse.next();
   }
@@ -29,10 +28,7 @@ export function middleware(req: NextRequest) {
   if (!language) language = fallbackLanguage;
 
   // Redirect if language in path is not supported
-  if (
-    !languages.some((loc) => req.nextUrl.pathname.startsWith(`/${loc}`)) &&
-    !req.nextUrl.pathname.startsWith("/_next")
-  ) {
+  if (!languages.some((loc) => req.nextUrl.pathname.startsWith(`/${loc}`))) {
     return NextResponse.redirect(
       new URL(
         `/${language}${req.nextUrl.pathname}${req.nextUrl.search}`,
