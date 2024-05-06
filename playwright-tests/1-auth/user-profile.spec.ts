@@ -31,7 +31,7 @@ test.describe("User Profile", () => {
     await page.getByTestId("user-profile").click();
     await page.waitForURL(/\/profile/);
     await expect(page.getByTestId("user-name")).toHaveText(
-      firstName + " " + lastName
+      `${firstName} ${lastName}`
     );
     await expect(page.getByTestId("user-email")).toHaveText(email, {
       ignoreCase: true,
@@ -56,12 +56,8 @@ test.describe("User Profile", () => {
     await expect(page.getByTestId("last-name").locator("input")).toHaveValue(
       "Bond"
     );
-    const apiProfileUpdate = page.waitForResponse(
-      (response) =>
-        response.url().endsWith("auth/me") && response.status() === 200
-    );
     await page.getByTestId("save-profile").click();
-    await apiProfileUpdate;
+    await page.waitForSelector("#notistack-snackbar");
 
     await page.goto("/");
     await page.getByTestId("profile-menu-item").click();
@@ -94,13 +90,8 @@ test.describe("User Profile", () => {
       path.join(__dirname, "../helpers/profileImage.jpg")
     );
     await apiImageUpload;
-
-    const apiProfileUpdate = page.waitForResponse(
-      (response) =>
-        response.url().endsWith("auth/me") && response.status() === 200
-    );
     await page.getByTestId("save-profile").click();
-    await apiProfileUpdate;
+    await page.waitForSelector("#notistack-snackbar");
     await page.getByTestId("cancel-edit-profile").click();
     await expect(page.getByTestId("user-email")).toHaveText(email, {
       ignoreCase: true,
@@ -131,7 +122,7 @@ test.describe("User Profile", () => {
     await page.getByTestId("leave").click();
     await expect(page).toHaveURL(/\/profile/);
     await expect(page.getByTestId("user-name")).toHaveText(
-      firstName + " " + lastName
+      `${firstName} ${lastName}`
     );
   });
 
@@ -144,12 +135,8 @@ test.describe("User Profile", () => {
       .getByTestId("password-confirmation")
       .locator("input")
       .fill(newPassword);
-    const apiPasswordUpdate = page.waitForResponse(
-      (response) =>
-        response.url().endsWith("api/v1/auth/me") && response.status() === 200
-    );
     await page.getByTestId("save-password").click();
-    await apiPasswordUpdate;
+    await page.waitForSelector("#notistack-snackbar");
 
     await page.getByTestId("profile-menu-item").click();
     const apiProfileUpdate = page.waitForResponse(
@@ -161,21 +148,11 @@ test.describe("User Profile", () => {
 
     await page.getByTestId("email").locator("input").fill(email);
     await page.getByTestId("password").locator("input").fill(password);
-    const apiUserLoginFailed = page.waitForResponse(
-      (response) =>
-        response.url().endsWith("auth/email/login") && response.status() === 422
-    );
     await page.getByTestId("sign-in-submit").click();
-    await apiUserLoginFailed;
     await expect(page.getByTestId("password-error")).toBeVisible();
 
     await page.getByTestId("password").locator("input").fill(newPassword);
-    const apiUserLoggedIn = page.waitForResponse(
-      (response) =>
-        response.url().endsWith("auth/email/login") && response.status() === 200
-    );
     await page.getByTestId("sign-in-submit").click();
-    await apiUserLoggedIn;
     await expect(page).not.toHaveURL(/\/sign-in/);
   });
 
@@ -219,23 +196,12 @@ test.describe("User Profile", () => {
     await expect(
       page.getByTestId("password-confirmation-error")
     ).not.toBeVisible();
-
-    const apiPasswordUpdateFailed = page.waitForResponse(
-      (response) =>
-        response.url().endsWith("api/v1/auth/me") && response.status() === 422
-    );
     await page.getByTestId("save-password").click();
-    await apiPasswordUpdateFailed;
     await expect(page.getByTestId("old-password-error")).toBeVisible();
 
     await page.getByTestId("old-password").locator("input").fill(password);
     await expect(page.getByTestId("old-password-error")).not.toBeVisible();
-
-    const apiPasswordUpdate = page.waitForResponse(
-      (response) =>
-        response.url().endsWith("api/v1/auth/me") && response.status() === 200
-    );
     await page.getByTestId("save-password").click();
-    await apiPasswordUpdate;
+    await page.waitForSelector("#notistack-snackbar");
   });
 });

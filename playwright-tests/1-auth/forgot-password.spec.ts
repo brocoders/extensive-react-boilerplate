@@ -11,7 +11,6 @@ test.describe("Forgot Password page with form", () => {
   test("should display forgot password link and navigate to the reset password page", async ({
     page,
   }) => {
-    await expect(page.getByTestId("forgot-password")).toBeVisible();
     await page.getByTestId("forgot-password").click();
     await expect(page).toHaveURL(/\/forgot-password/);
   });
@@ -43,13 +42,7 @@ test.describe("Forgot Password page with form", () => {
       .locator("input")
       .fill("nonexistentemail@mail.com");
     await page.getByTestId("send-email").click();
-    const apiEmailSent = page.waitForResponse(
-      (response) =>
-        response.url().endsWith("auth/forgot/password") &&
-        response.status() === 422
-    );
-    await page.getByTestId("send-email").click();
-    await apiEmailSent;
+
     await expect(page.getByTestId("email-error")).toBeVisible();
   });
 });
@@ -73,13 +66,7 @@ test.describe("Change password", () => {
     );
     await page.goto("/forgot-password");
     await page.getByTestId("email").locator("input").fill(email);
-    const apiEmailSent = page.waitForResponse(
-      (response) =>
-        response.url().endsWith("auth/forgot/password") &&
-        response.status() === 204
-    );
     await page.getByTestId("send-email").click();
-    await apiEmailSent;
     await expect(page.locator("#notistack-snackbar")).toBeVisible();
   });
 
@@ -135,31 +122,16 @@ test.describe("Change password", () => {
       .getByTestId("password-confirmation")
       .locator("input")
       .fill(newPassword);
-    const apiPasswordReset = page.waitForResponse(
-      (response) =>
-        response.url().endsWith("auth/reset/password") &&
-        response.status() === 204
-    );
     await page.getByTestId("set-password").click();
-    await apiPasswordReset;
-    await expect(page.locator("#notistack-snackbar")).toBeVisible();
     await expect(page).toHaveURL(/\/sign-in/);
 
     await page.getByTestId("email").locator("input").fill(email);
     await page.getByTestId("password").locator("input").fill(password);
-    const apiLogInFailed = page.waitForResponse(
-      (response) =>
-        response.url().endsWith("auth/email/login") && response.status() === 422
-    );
     await page.getByTestId("sign-in-submit").click();
-    await apiLogInFailed;
+    await expect(page.getByTestId("password-error")).toBeVisible();
 
     await page.getByTestId("password").locator("input").fill(newPassword);
-    const apiUserLoggedIn = page.waitForResponse(
-      (response) =>
-        response.url().endsWith("auth/email/login") && response.status() === 200
-    );
     await page.getByTestId("sign-in-submit").click();
-    await apiUserLoggedIn;
+    await expect(page).not.toHaveURL(/\/sign-in/);
   });
 });

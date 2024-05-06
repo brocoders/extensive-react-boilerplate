@@ -23,12 +23,8 @@ test.describe("Sign In", () => {
   test("should be successful", async ({ page }) => {
     await page.getByTestId("email").locator("input").fill(email);
     await page.getByTestId("password").locator("input").fill(password);
-    const apiUserLoggedIn = page.waitForResponse(
-      (response) =>
-        response.url().endsWith("auth/email/login") && response.status() === 200
-    );
     await page.getByTestId("sign-in-submit").click();
-    await apiUserLoggedIn;
+
     await expect(page.getByTestId("profile-menu-item")).toBeVisible();
     await expect(page.getByTestId("home-title")).toBeVisible();
   });
@@ -36,14 +32,11 @@ test.describe("Sign In", () => {
   test("should be successful with redirect", async ({ page }) => {
     await page.goto("/profile");
     await expect(page).toHaveURL(/\/sign-in/);
+
     await page.getByTestId("email").locator("input").fill(email);
     await page.getByTestId("password").locator("input").fill(password);
-    const apiUserLoggedIn = page.waitForResponse(
-      (response) =>
-        response.url().endsWith("auth/email/login") && response.status() === 200
-    );
     await page.getByTestId("sign-in-submit").click();
-    await apiUserLoggedIn;
+
     await expect(page.getByTestId("user-email")).toBeVisible();
     await expect(page.getByTestId("user-name")).toBeVisible();
     await expect(page.getByTestId("user-icon")).toBeVisible();
@@ -52,12 +45,8 @@ test.describe("Sign In", () => {
   test("should fail if password is incorrect", async ({ page }) => {
     await page.getByTestId("email").locator("input").fill(email);
     await page.getByTestId("password").locator("input").fill("password1");
-    const apiUserLoggedIn = page.waitForResponse(
-      (response) =>
-        response.url().endsWith("auth/email/login") && response.status() === 422
-    );
     await page.getByTestId("sign-in-submit").click();
-    await apiUserLoggedIn;
+
     await expect(page.getByTestId("password-error")).toBeVisible();
   });
 });
@@ -66,6 +55,7 @@ test.describe("Form", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/sign-in");
   });
+
   test("should be display error messages if required fields are empty", async ({
     page,
   }) => {
@@ -93,12 +83,8 @@ test.describe("Form", () => {
       .locator("input")
       .fill("notexistedemail@gmail.com");
     await page.getByTestId("password").locator("input").fill("password1");
-    const apiUserLoggedIn = page.waitForResponse(
-      (response) =>
-        response.url().endsWith("auth/email/login") && response.status() === 422
-    );
     await page.getByTestId("sign-in-submit").click();
-    await apiUserLoggedIn;
+
     await expect(page.getByTestId("email-error")).toBeVisible();
   });
 

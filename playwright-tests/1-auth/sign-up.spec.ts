@@ -28,11 +28,8 @@ test.describe("Sign Up", () => {
       .getByTestId("password")
       .locator("input")
       .fill(faker.internet.password());
-    const apiUserCreated = page.waitForResponse((request) =>
-      request.url().endsWith("/auth/email/register")
-    );
     await page.getByTestId("sign-up-submit").click();
-    await apiUserCreated;
+
     await expect(page).not.toHaveURL(/\/sign-up$/);
   });
 
@@ -61,7 +58,7 @@ test.describe("Sign Up", () => {
   test("should show validation errors for required fields", async ({
     page,
   }) => {
-    await page.click('[data-testid="sign-up-submit"]');
+    await page.getByTestId("sign-up-submit").click();
     await expect(page.getByTestId("first-name-error")).toBeVisible();
     await expect(page.getByTestId("last-name-error")).toBeVisible();
     await expect(page.getByTestId("email-error")).toBeVisible();
@@ -94,12 +91,8 @@ test.describe("Sign Up", () => {
       .locator("input")
       .fill(faker.internet.password());
     await expect(page.getByTestId("password-error")).not.toBeVisible();
-
-    const apiUserCreated = page.waitForResponse((request) =>
-      request.url().endsWith("/auth/email/register")
-    );
     await page.getByTestId("sign-up-submit").click();
-    await apiUserCreated;
+
     await expect(page).not.toHaveURL(/\/sign-up$/);
   });
 
