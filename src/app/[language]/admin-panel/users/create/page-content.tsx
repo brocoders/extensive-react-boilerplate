@@ -157,7 +157,10 @@ function FormCreateUser() {
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <FormAvatarInput<CreateUserFormData> name="photo" />
+              <FormAvatarInput<CreateUserFormData>
+                name="photo"
+                testId="photo"
+              />
             </Grid>
 
             <Grid item xs={12}>

@@ -1,4 +1,4 @@
-import mailParser from "mailparser";
+import mailParser, { ParsedMail } from "mailparser";
 import Imap from "imap";
 
 const imap = new Imap({
@@ -21,7 +21,11 @@ function connectImap() {
   return Promise.resolve();
 }
 
-export async function getLatestEmail({ email }: { email: string }) {
+export async function getLatestEmail({
+  email,
+}: {
+  email: string;
+}): Promise<ParsedMail> {
   await connectImap();
 
   return new Promise((resolve, reject) => {

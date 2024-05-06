@@ -17,11 +17,7 @@ As far as this boilerplate uses [Next.js](https://nextjs.org/) framework for bui
 
 ```txt
 .
-├── cypress <-- Here are your E2E tests
-│   ├── downloads
-│   ├── e2e <-- Here are your specs
-│   ├── fixtures
-│   └── support
+├── playwright-tests <-- Here are your E2E tests
 ├── public
 └── src
     ├── app

@@ -210,7 +210,7 @@ function FormEditUser() {
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <FormAvatarInput<EditUserFormData> name="photo" />
+              <FormAvatarInput<EditUserFormData> name="photo" testId="photo" />
             </Grid>
 
             <Grid item xs={12}>

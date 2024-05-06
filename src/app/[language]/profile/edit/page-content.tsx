@@ -214,7 +214,10 @@ function FormBasicInfo() {
               <Typography variant="h6">{t("profile:title1")}</Typography>
             </Grid>
             <Grid item xs={12}>
-              <FormAvatarInput<EditProfileBasicInfoFormData> name="photo" />
+              <FormAvatarInput<EditProfileBasicInfoFormData>
+                name="photo"
+                testId="photo"
+              />
             </Grid>
 
             <Grid item xs={12}>

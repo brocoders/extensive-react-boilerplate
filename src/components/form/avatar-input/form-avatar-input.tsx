@@ -24,6 +24,7 @@ type AvatarInputProps = {
   onBlur: () => void;
   value?: FileEntity;
   disabled?: boolean;
+  testId?: string;
 };
 
 const AvatarInputContainer = styled(Box)(({ theme }) => ({
@@ -155,7 +156,12 @@ function AvatarInput(props: AvatarInputProps) {
       )}
 
       <Box sx={{ mt: 2 }}>
-        <Button variant="contained" component="label" disabled={isLoading}>
+        <Button
+          variant="contained"
+          component="label"
+          disabled={isLoading}
+          data-testid={props.testId}
+        >
           {isLoading
             ? t("common:loading")
             : t("common:formInputs.avatarInput.selectFile")}
@@ -184,6 +190,7 @@ function FormAvatarInput<
 >(
   props: Pick<ControllerProps<TFieldValues, TName>, "name" | "defaultValue"> & {
     disabled?: boolean;
+    testId?: string;
   }
 ) {
   return (
@@ -197,6 +204,7 @@ function FormAvatarInput<
           value={field.value}
           error={fieldState.error?.message}
           disabled={props.disabled}
+          testId={props.testId}
         />
       )}
     />
