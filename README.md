@@ -1,7 +1,8 @@
 # Extensive React Boilerplate
+
 [![image](https://github.com/brocoders/extensive-react-boilerplate/assets/72293912/052e74be-7de0-4a4a-92a6-e6a4b68fd4b5)](https://github.com/new?template_name=extensive-react-boilerplate&template_owner=brocoders)
 
-#### Belongs to the [bc boilerplates](https://bcboilerplates.com/) ecosystem
+**Belongs to the [bc boilerplates](https://bcboilerplates.com/) ecosystem**
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -11,6 +12,7 @@
   - [Features](#features)
   - [Screenshots](#screenshots)
   - [Contributors](#contributors)
+  - [Support](#support)
 
 ## Description
 
@@ -78,8 +80,6 @@ npm run dev
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-
-
 
 ## Support
 
