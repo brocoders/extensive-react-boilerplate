@@ -3,5 +3,8 @@
     "source.fixAll.eslint": "explicit"
   },
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "markdown.extension.toc.levels": "2..6",
+  "markdown.extension.orderedList.autoRenumber": false,
+  "typescript.preferences.importModuleSpecifier": "relative"
 }
