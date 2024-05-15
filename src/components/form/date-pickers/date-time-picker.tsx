@@ -66,6 +66,7 @@ function DateTimePickerInputRaw(
         slotProps={{
           textField: {
             helperText: props.error,
+            error: !!props.error,
             InputProps: {
               readOnly: props.readOnly,
             },
