@@ -23,7 +23,14 @@ export default async function Home({ params }: Props) {
 
   return (
     <Container maxWidth="md">
-      <Grid container spacing={3} wrap="nowrap" pt={3}>
+      <Grid
+        container
+        spacing={3}
+        wrap="nowrap"
+        pt={3}
+        direction="column"
+        sx={{ height: "90vh", justifyContent: "space-between" }}
+      >
         <Grid item>
           <Typography variant="h3" data-testid="home-title" gutterBottom>
             {t("title")}
@@ -44,6 +51,9 @@ export default async function Home({ params }: Props) {
               ]}
             />
           </Typography>
+        </Grid>
+        <Grid item sx={{ mx: "auto" }}>
+          <MuiLink href="/privacy-policy">Privacy Policy</MuiLink>
         </Grid>
       </Grid>
     </Container>
