@@ -12,10 +12,12 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import FormTextInput from "@/components/form/text-input/form-text-input";
+import FormCheckboxInput from "@/components/form/checkbox/form-checkbox";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "@/components/link";
 import Box from "@mui/material/Box";
+import MuiLink from "@mui/material/Link";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 import Divider from "@mui/material/Divider";
@@ -24,11 +26,17 @@ import SocialAuth from "@/services/social-auth/social-auth";
 import { isGoogleAuthEnabled } from "@/services/social-auth/google/google-config";
 import { isFacebookAuthEnabled } from "@/services/social-auth/facebook/facebook-config";
 
+type TPolicy = {
+  id: string;
+  name: string;
+};
+
 type SignUpFormData = {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
+  policy: TPolicy[];
 };
 
 const useValidationSchema = () => {
@@ -49,6 +57,10 @@ const useValidationSchema = () => {
       .string()
       .min(6, t("sign-up:inputs.password.validation.min"))
       .required(t("sign-up:inputs.password.validation.required")),
+    policy: yup
+      .array()
+      .min(1, t("sign-up:inputs.policy.validation.required"))
+      .required(),
   });
 };
 
@@ -76,6 +88,9 @@ function Form() {
   const fetchAuthSignUp = useAuthSignUpService();
   const { t } = useTranslation("sign-up");
   const validationSchema = useValidationSchema();
+  const policyOptions = [
+    { id: "policy", name: t("sign-up:inputs.policy.agreement") },
+  ];
 
   const methods = useForm<SignUpFormData>({
     resolver: yupResolver(validationSchema),
@@ -84,6 +99,7 @@ function Form() {
       lastName: "",
       email: "",
       password: "",
+      policy: policyOptions,
     },
   });
 
@@ -165,6 +181,24 @@ function Form() {
                 label={t("sign-up:inputs.password.label")}
                 type="password"
                 testId="password"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormCheckboxInput
+                name="policy"
+                label=""
+                testId="policy"
+                options={policyOptions}
+                keyValue="id"
+                keyExtractor={(option) => option.id.toString()}
+                renderOption={(option) => (
+                  <span>
+                    {option.name}
+                    <MuiLink href="/privacy-policy">
+                      {t("sign-up:inputs.policy.label")}
+                    </MuiLink>
+                  </span>
+                )}
               />
             </Grid>
 

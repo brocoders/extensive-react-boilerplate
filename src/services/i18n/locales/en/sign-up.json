@@ -36,6 +36,13 @@
           "incorrectPassword": "Password is not valid"
         }
       }
+    },
+    "policy": {
+      "label": "Privacy Policy",
+      "agreement": "I have read and accept ",
+      "validation": {
+        "required": "Consent to the Privacy Policy is required"
+      }
     }
   },
   "or": "OR"
