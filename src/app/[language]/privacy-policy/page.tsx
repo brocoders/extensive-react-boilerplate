@@ -109,9 +109,9 @@ async function PrivacyPolicy({ params }: Props) {
           <MuiLink
             target="_blank"
             rel="external noopener noreferrer"
-            href="https://react-boilerplate-coral.vercel.app/en"
+            href="https://react-boilerplate-coral.vercel.app/"
           >
-            https://react-boilerplate-coral.vercel.app/en
+            https://react-boilerplate-coral.vercel.app
           </MuiLink>
         </ListItem>
         <ListItem sx={{ display: "list-item" }}>
