@@ -80,7 +80,7 @@ function CheckboxInputRaw<T>(
         ))}
       </FormGroup>
       {!!props.error && (
-        <FormHelperText data-textid={`${props.testId}-error`}>
+        <FormHelperText data-testid={`${props.testId}-error`}>
           {props.error}
         </FormHelperText>
       )}

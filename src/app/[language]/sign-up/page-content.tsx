@@ -187,7 +187,7 @@ function Form() {
               <FormCheckboxInput
                 name="policy"
                 label=""
-                testId="policy"
+                testId="privacy"
                 options={policyOptions}
                 keyValue="id"
                 keyExtractor={(option) => option.id.toString()}
