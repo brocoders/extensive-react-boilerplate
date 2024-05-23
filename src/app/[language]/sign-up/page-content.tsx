@@ -99,7 +99,7 @@ function Form() {
       lastName: "",
       email: "",
       password: "",
-      policy: policyOptions,
+      policy: [],
     },
   });
 
@@ -194,7 +194,7 @@ function Form() {
                 renderOption={(option) => (
                   <span>
                     {option.name}
-                    <MuiLink href="/privacy-policy">
+                    <MuiLink href="/privacy-policy" target="_blank">
                       {t("sign-up:inputs.policy.label")}
                     </MuiLink>
                   </span>
