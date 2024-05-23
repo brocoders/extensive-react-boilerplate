@@ -57,6 +57,10 @@ test.describe("Sign Up", () => {
       .fill(faker.person.lastName());
     await page.getByTestId("email").locator("input").fill(email);
     await page.getByTestId("password").locator("input").fill(password);
+    await page
+      .getByTestId("privacy-policy")
+      .locator("input[type=checkbox]")
+      .check();
     await page.getByTestId("sign-up-submit").click();
     await expect(page.getByTestId("email-error")).toBeVisible();
   });
@@ -69,7 +73,7 @@ test.describe("Sign Up", () => {
     await expect(page.getByTestId("last-name-error")).toBeVisible();
     await expect(page.getByTestId("email-error")).toBeVisible();
     await expect(page.getByTestId("password-error")).toBeVisible();
-    await expect(page.getByTestId("privacy-error")).not.toBeVisible();
+    await expect(page.getByTestId("privacy-error")).toBeVisible();
 
     await page
       .getByTestId("first-name")
@@ -98,12 +102,6 @@ test.describe("Sign Up", () => {
       .locator("input")
       .fill(faker.internet.password());
     await expect(page.getByTestId("password-error")).not.toBeVisible();
-
-    await page
-      .getByTestId("privacy-policy")
-      .locator("input[type=checkbox]")
-      .uncheck();
-    await expect(page.getByTestId("privacy-error")).toBeVisible();
 
     await page
       .getByTestId("privacy-policy")
