@@ -72,7 +72,7 @@ function SelectInputRaw<T extends object>(
         ))}
       </Select>
       {!!props.error && (
-        <FormHelperText data-textid={`${props.testId}-error`}>
+        <FormHelperText data-testid={`${props.testId}-error`}>
           {props.error}
         </FormHelperText>
       )}
