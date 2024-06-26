@@ -14,7 +14,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
 
-type CheckboxInputProps<T> = {
+export type CheckboxInputProps<T> = {
   label: string;
   type?: string;
   autoFocus?: boolean;

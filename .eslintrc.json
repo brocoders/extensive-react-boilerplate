@@ -1,5 +1,10 @@
 {
-  "extends": ["next", "plugin:@typescript-eslint/recommended", "prettier"],
+  "extends": [
+    "next",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:storybook/recommended"
+  ],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "prettier"],
   "root": true,
