@@ -10,6 +10,8 @@
     "lint": "next lint",
     "prepare": "is-ci || husky",
     "release": "release-it",
+    "generate:resource": "hygen generate resource",
+    "postgenerate:resource": "npm run lint -- --fix",
     "sb": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -74,6 +76,7 @@
     "eslint-plugin-prettier": "^5.1.2",
     "eslint-plugin-storybook": "^0.8.0",
     "husky": "^9.0.10",
+    "hygen": "^6.2.11",
     "is-ci": "^3.0.1",
     "prettier": "^3.2.5",
     "release-it": "^17.1.1",

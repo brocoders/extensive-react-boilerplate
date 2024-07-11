@@ -116,6 +116,7 @@ function ResponsiveAppBar() {
                       {t("common:navigation.users")}
                     </Typography>
                   </MenuItem>,
+                  // mobile-menu-items
                 ]}
               {isLoaded &&
                 !user && [
@@ -175,75 +176,88 @@ function ResponsiveAppBar() {
 
             {!!user?.role &&
               [RoleEnum.ADMIN].includes(Number(user?.role?.id)) && (
-                <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                  component={Link}
-                  href="/admin-panel/users"
-                >
-                  {t("common:navigation.users")}
-                </Button>
+                <>
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                    component={Link}
+                    href="/admin-panel/users"
+                  >
+                    {t("common:navigation.users")}
+                  </Button>
+                  {/* desktop-menu-items */}
+                </>
               )}
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              mr: 1,
+            }}
+          >
+            <ThemeSwitchButton />
           </Box>
 
           {!isLoaded ? (
             <CircularProgress color="inherit" />
           ) : user ? (
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Profile menu">
-                <IconButton
-                  onClick={handleOpenUserMenu}
-                  sx={{ p: 0 }}
-                  data-testid="profile-menu-item"
-                >
-                  <Avatar
-                    alt={user?.firstName + " " + user?.lastName}
-                    src={user.photo?.path}
-                  />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: 5.5 }}
-                id="menu-appbar"
-                anchorEl={anchorElementUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElementUser)}
-                onClose={handleCloseUserMenu}
-              >
-                <MenuItem
-                  onClick={handleCloseUserMenu}
-                  component={Link}
-                  href="/profile"
-                  data-testid="user-profile"
-                >
-                  <Typography textAlign="center">
-                    {t("common:navigation.profile")}
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    logOut();
-                    handleCloseUserMenu();
+            <>
+              <Box sx={{ flexGrow: 0 }}>
+                <Tooltip title="Profile menu">
+                  <IconButton
+                    onClick={handleOpenUserMenu}
+                    sx={{ p: 0 }}
+                    data-testid="profile-menu-item"
+                  >
+                    <Avatar
+                      alt={user?.firstName + " " + user?.lastName}
+                      src={user.photo?.path}
+                    />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: 5.5 }}
+                  id="menu-appbar"
+                  anchorEl={anchorElementUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
                   }}
-                  data-testid="logout-menu-item"
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElementUser)}
+                  onClose={handleCloseUserMenu}
                 >
-                  <Typography textAlign="center">
-                    {t("common:navigation.logout")}
-                  </Typography>
-                </MenuItem>
-              </Menu>
-            </Box>
+                  <MenuItem
+                    onClick={handleCloseUserMenu}
+                    component={Link}
+                    href="/profile"
+                    data-testid="user-profile"
+                  >
+                    <Typography textAlign="center">
+                      {t("common:navigation.profile")}
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      logOut();
+                      handleCloseUserMenu();
+                    }}
+                    data-testid="logout-menu-item"
+                  >
+                    <Typography textAlign="center">
+                      {t("common:navigation.logout")}
+                    </Typography>
+                  </MenuItem>
+                </Menu>
+              </Box>
+            </>
           ) : (
             <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-              <ThemeSwitchButton />
               <Button
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
@@ -264,13 +278,6 @@ function ResponsiveAppBar() {
               )}
             </Box>
           )}
-          <Box
-            sx={{
-              display: { xs: "flex", md: "none" },
-            }}
-          >
-            <ThemeSwitchButton />
-          </Box>
         </Toolbar>
       </Container>
     </AppBar>
