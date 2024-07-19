@@ -44,11 +44,15 @@ export default function FacebookAuth() {
 
   return (
     <>
-      <Button variant="contained"
+      <Button
+        variant="contained"
         sx={{
-          display: 'flex',
-          margin: 'auto',
-        }} color="primary" onClick={onLogin}>
+          display: "flex",
+          margin: "auto",
+        }}
+        color="primary"
+        onClick={onLogin}
+      >
         {t("common:auth.facebook.action")}
       </Button>
       <FullPageLoader isLoading={isLoading} />

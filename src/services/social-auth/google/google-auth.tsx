@@ -39,22 +39,22 @@ export default function GoogleAuth() {
 
   return (
     <>
-    <Button
-      variant="contained"
-      sx={{
-        display: 'flex',
-        margin: 'auto',
-        padding: 0,
-        backgroundColor: 'transparent',
-        border: 'none',
-        boxShadow: 'none',
-        '&:hover': {
-          backgroundColor: 'transparent',
-        },
-      }}
-    >
-      <GoogleLogin onSuccess={onSuccess} locale={language} />
-    </Button>
+      <Button
+        variant="contained"
+        sx={{
+          display: "flex",
+          margin: "auto",
+          padding: 0,
+          backgroundColor: "transparent",
+          border: "none",
+          boxShadow: "none",
+          "&:hover": {
+            backgroundColor: "transparent",
+          },
+        }}
+      >
+        <GoogleLogin onSuccess={onSuccess} locale={language} />
+      </Button>
       <FullPageLoader isLoading={isLoading} />
     </>
   );
