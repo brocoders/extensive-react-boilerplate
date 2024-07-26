@@ -8,6 +8,7 @@ import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { useState } from "react";
 import { FullPageLoader } from "@/components/full-page-loader";
 import useLanguage from "@/services/i18n/use-language";
+import Button from "@mui/material/Button";
 
 export default function GoogleAuth() {
   const { setUser } = useAuthActions();
@@ -38,7 +39,22 @@ export default function GoogleAuth() {
 
   return (
     <>
-      <GoogleLogin onSuccess={onSuccess} locale={language} />
+      <Button
+        variant="contained"
+        sx={{
+          display: "flex",
+          margin: "auto",
+          padding: 0,
+          backgroundColor: "transparent",
+          border: "none",
+          boxShadow: "none",
+          "&:hover": {
+            backgroundColor: "transparent",
+          },
+        }}
+      >
+        <GoogleLogin onSuccess={onSuccess} locale={language} />
+      </Button>
       <FullPageLoader isLoading={isLoading} />
     </>
   );
