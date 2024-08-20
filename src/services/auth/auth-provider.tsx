@@ -23,6 +23,10 @@ import HTTP_CODES_ENUM from "../api/types/http-codes";
 
 function AuthProvider(props: PropsWithChildren<{}>) {
   const AUTH_TOKEN_KEY = "auth-token-data";
+  const [tabId] = useState(() => Math.random().toString(36).slice(2));
+  const [broadcastChannel] = useState(
+    () => new BroadcastChannel(AUTH_TOKEN_KEY)
+  );
   const [isLoaded, setIsLoaded] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const tokensInfoRef = useRef<Tokens>({
@@ -43,6 +47,10 @@ function AuthProvider(props: PropsWithChildren<{}>) {
   const setTokensInfo = useCallback(
     (tokensInfo: TokensInfo) => {
       setTokensInfoRef(tokensInfo);
+      broadcastChannel.postMessage({
+        tabId,
+        tokens: tokensInfo,
+      });
 
       if (tokensInfo) {
         Cookies.set(AUTH_TOKEN_KEY, JSON.stringify(tokensInfo));
@@ -51,7 +59,7 @@ function AuthProvider(props: PropsWithChildren<{}>) {
         setUser(null);
       }
     },
-    [setTokensInfoRef]
+    [setTokensInfoRef, broadcastChannel, tabId]
   );
 
   const logOut = useCallback(async () => {
@@ -111,6 +119,26 @@ function AuthProvider(props: PropsWithChildren<{}>) {
   useEffect(() => {
     loadData();
   }, [loadData]);
+
+  useEffect(() => {
+    const onMessage = (
+      event: MessageEvent<{
+        tabId: string;
+        tokens: TokensInfo;
+      }>
+    ) => {
+      if (event.data.tabId === tabId) return;
+
+      if (!event.data.tokens) setUser(null);
+      setTokensInfoRef(event.data.tokens);
+    };
+
+    broadcastChannel.addEventListener("message", onMessage);
+
+    return () => {
+      broadcastChannel.removeEventListener("message", onMessage);
+    };
+  }, [broadcastChannel, setTokensInfoRef, tabId]);
 
   const contextValue = useMemo(
     () => ({
