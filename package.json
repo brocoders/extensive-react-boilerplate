@@ -33,7 +33,7 @@
     "accept-language": "^3.0.18",
     "date-fns": "^3.6.0",
     "dotenv": "^16.3.1",
-    "eslint": "8.57.0",
+    "eslint": "8.57.1",
     "eslint-config-next": "14.2.5",
     "i18next": "23.15.1",
     "i18next-browser-languagedetector": "^8.0.0",
