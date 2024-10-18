@@ -1,17 +1,24 @@
 "use client";
 
-import { experimental_extendTheme as extendTheme } from "@mui/material/styles";
-import { Experimental_CssVarsProvider as CssVarsProvider } from "@mui/material/styles";
+import {
+  createTheme,
+  ThemeProvider as MuiThemeProvider,
+} from "@mui/material/styles";
 import { useMemo, PropsWithChildren } from "react";
 
 function ThemeProvider(props: PropsWithChildren<{}>) {
-  const theme = useMemo(() => extendTheme(), []);
-
-  return (
-    <CssVarsProvider theme={theme} defaultMode="system">
-      {props.children}
-    </CssVarsProvider>
+  const theme = useMemo(
+    () =>
+      createTheme({
+        cssVariables: {
+          colorSchemeSelector: "class",
+        },
+        colorSchemes: { light: true, dark: true },
+      }),
+    []
   );
+
+  return <MuiThemeProvider theme={theme}>{props.children}</MuiThemeProvider>;
 }
 
 export default ThemeProvider;

@@ -215,6 +215,7 @@ function Actions({ user }: { user: User }) {
                     <MenuItem
                       sx={{
                         bgcolor: "error.main",
+                        color: `var(--mui-palette-common-white)`,
                         "&:hover": {
                           bgcolor: "error.light",
                         },
@@ -294,7 +295,7 @@ function Users() {
   }, [data]);
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="xl">
       <Grid container spacing={3} pt={3}>
         <Grid container item spacing={3} xs={12}>
           <Grid item xs>
@@ -326,6 +327,8 @@ function Users() {
             components={TableComponents}
             endReached={handleScroll}
             overscan={20}
+            useWindowScroll
+            increaseViewportBy={400}
             fixedHeaderContent={() => (
               <>
                 <TableRow>

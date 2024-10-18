@@ -150,6 +150,7 @@ function Actions({ entityItem }: { entityItem: <%= name %> }) {
                   <MenuItem
                     sx={{
                       bgcolor: "error.main",
+                      color: `var(--mui-palette-common-white)`,
                       "&:hover": {
                         bgcolor: "error.light",
                       },
@@ -187,7 +188,7 @@ function <%= h.inflection.transform(name, ['pluralize']) %>() {
   }, [data]);
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="xl">
       <Grid container spacing={3} pt={3}>
         <Grid container item spacing={3} xs={12}>
           <Grid item xs>
@@ -214,6 +215,8 @@ function <%= h.inflection.transform(name, ['pluralize']) %>() {
             components={TableComponents}
             endReached={handleScroll}
             overscan={20}
+            useWindowScroll
+            increaseViewportBy={400}
             fixedHeaderContent={() => (
               <>
                 <TableRow>
