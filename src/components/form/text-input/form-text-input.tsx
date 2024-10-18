@@ -26,6 +26,7 @@ type TextInputProps = {
   multiline?: boolean;
   minRows?: number;
   maxRows?: number;
+  size?: "small" | "medium";
 };
 
 const TextInput = forwardRef<
@@ -52,6 +53,7 @@ const TextInput = forwardRef<
     <TextField
       ref={ref}
       name={props.name}
+      size={props.size}
       value={props.value}
       onChange={props.onChange}
       onBlur={props.onBlur}
@@ -117,6 +119,7 @@ function FormTextInput<
           minRows={props.minRows}
           maxRows={props.maxRows}
           inputComponent={props.inputComponent}
+          size={props.size}
         />
       )}
     />

@@ -23,6 +23,7 @@ type SelectInputProps<T extends object> = {
   testId?: string;
   keyValue: keyof T;
   options: T[];
+  size?: "small" | "medium";
   renderOption: (option: T) => React.ReactNode;
 };
 
@@ -42,6 +43,7 @@ function SelectInputRaw<T extends object>(
         ref={ref}
         labelId={`select-label-${props.name}`}
         id={`select-${props.name}`}
+        size={props.size}
         value={props.value?.[props.keyValue]?.toString() ?? ""}
         label={props.label}
         inputProps={{
@@ -50,7 +52,7 @@ function SelectInputRaw<T extends object>(
         onChange={(event) => {
           const newValue = props.options.find(
             (option) =>
-              option[props.keyValue]?.toString() === event.target.value ?? false
+              option[props.keyValue]?.toString() === event.target.value
           );
           if (!newValue) return;
 
@@ -72,7 +74,7 @@ function SelectInputRaw<T extends object>(
         ))}
       </Select>
       {!!props.error && (
-        <FormHelperText data-testid={`${props.testId}-error`}>
+        <FormHelperText data-textid={`${props.testId}-error`}>
           {props.error}
         </FormHelperText>
       )}
@@ -114,6 +116,7 @@ function FormSelectInput<
           options={props.options}
           renderOption={props.renderOption}
           keyValue={props.keyValue}
+          size={props.size}
         />
       )}
     />
