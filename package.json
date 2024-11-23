@@ -54,7 +54,7 @@
     "yup": "^1.2.0"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^1.5.0",
+    "@chromatic-com/storybook": "^3.0.0",
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0",
     "@playwright/test": "^1.43.1",
