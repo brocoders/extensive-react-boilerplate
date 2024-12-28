@@ -12,7 +12,8 @@
         "required": "Email is required",
         "invalid": "Email is not valid",
         "server": {
-          "emailNotExists": "Email does not exist"
+          "emailNotExists": "Email does not exist",
+          "notFound": "Email does not exist"
         }
       }
     },

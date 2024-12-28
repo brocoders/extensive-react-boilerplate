@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getServerTranslation } from "@/services/i18n";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import MuiLink from "@mui/material/Link";
 import { Trans } from "react-i18next/TransWithoutContext";
@@ -31,7 +31,7 @@ export default async function Home({ params }: Props) {
         direction="column"
         sx={{ height: "90vh", justifyContent: "space-between" }}
       >
-        <Grid item>
+        <Grid size="grow">
           <Typography variant="h3" data-testid="home-title" gutterBottom>
             {t("title")}
           </Typography>
@@ -52,7 +52,7 @@ export default async function Home({ params }: Props) {
             />
           </Typography>
         </Grid>
-        <Grid item sx={{ mx: "auto" }}>
+        <Grid sx={{ mx: "auto" }}>
           <MuiLink href="/privacy-policy">Privacy Policy</MuiLink>
         </Grid>
       </Grid>

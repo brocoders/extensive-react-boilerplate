@@ -7,7 +7,7 @@ import { useAuthConfirmEmailService } from "@/services/api/services/auth";
 import { useRouter } from "next/navigation";
 import { useSnackbar } from "notistack";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 
@@ -47,7 +47,7 @@ export default function ConfirmEmail() {
   return (
     <Container maxWidth="sm">
       <Grid container>
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <Box
             sx={{
               display: "flex",

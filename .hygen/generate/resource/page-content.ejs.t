@@ -7,7 +7,7 @@ import { RoleEnum } from "@/services/api/types/role";
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
 import { useTranslation } from "@/services/i18n/client";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useGet<%= h.inflection.transform(name, ['pluralize']) %>Query, <%= h.inflection.camelize(h.inflection.pluralize(name), true) %>QueryKeys } from "./queries/queries";
@@ -190,12 +190,12 @@ function <%= h.inflection.transform(name, ['pluralize']) %>() {
   return (
     <Container maxWidth="xl">
       <Grid container spacing={3} pt={3}>
-        <Grid container item spacing={3} xs={12}>
-          <Grid item xs>
+        <Grid container size={{ xs: 12 }} spacing={3}>
+          <Grid size="grow">
             <Typography variant="h3">{t("title")}</Typography>
           </Grid>
-          <Grid container item xs="auto" wrap="nowrap" spacing={2}>
-            <Grid item xs="auto">
+          <Grid container size="auto" wrap="nowrap" spacing={2}>
+            <Grid size="auto">
               <Button
                 variant="contained"
                 LinkComponent={Link}
@@ -208,7 +208,7 @@ function <%= h.inflection.transform(name, ['pluralize']) %>() {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} mb={2}>
+        <Grid size={{ xs: 12 }} mb={2}>
           <TableVirtuoso
             useWindowScroll
             data={tableData}

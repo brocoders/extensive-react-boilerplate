@@ -4,7 +4,7 @@ import withPageRequiredGuest from "@/services/auth/with-page-required-guest";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
 import { useAuthForgotPasswordService } from "@/services/api/services/auth";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import FormTextInput from "@/components/form/text-input/form-text-input";
 import * as yup from "yup";
@@ -90,10 +90,10 @@ function Form() {
       <Container maxWidth="xs">
         <form onSubmit={onSubmit}>
           <Grid container spacing={2} mb={2}>
-            <Grid item xs={12} mt={3}>
+            <Grid size={{ xs: 12 }} mt={3}>
               <Typography variant="h6">{t("forgot-password:title")}</Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <FormTextInput<ForgotPasswordFormData>
                 name="email"
                 label={t("forgot-password:inputs.email.label")}
@@ -102,7 +102,7 @@ function Form() {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <FormActions />
             </Grid>
           </Grid>

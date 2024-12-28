@@ -67,28 +67,30 @@ const TextInput = forwardRef<
       helperText={props.error}
       disabled={props.disabled}
       autoComplete={props.autoComplete}
-      FormHelperTextProps={{
-        ["data-testid" as string]: `${props.testId}-error`,
-      }}
       multiline={props.multiline}
       minRows={props.minRows}
       maxRows={props.maxRows}
-      InputProps={{
-        readOnly: props.readOnly,
-        inputComponent: props.inputComponent,
-        endAdornment:
-          props.type === "password" ? (
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {isShowPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          ) : undefined,
+      slotProps={{
+        formHelperText: {
+          ["data-testid" as string]: `${props.testId}-error`,
+        },
+        input: {
+          readOnly: props.readOnly,
+          inputComponent: props.inputComponent,
+          endAdornment:
+            props.type === "password" ? (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {isShowPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ) : undefined,
+        },
       }}
     />
   );

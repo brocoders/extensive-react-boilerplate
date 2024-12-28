@@ -4,7 +4,7 @@ import { RoleEnum } from "@/services/api/types/role";
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
 import { useTranslation } from "@/services/i18n/client";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import {
   PropsWithChildren,
@@ -297,17 +297,17 @@ function Users() {
   return (
     <Container maxWidth="xl">
       <Grid container spacing={3} pt={3}>
-        <Grid container item spacing={3} xs={12}>
-          <Grid item xs>
+        <Grid container spacing={3} size={{ xs: 12 }}>
+          <Grid size="grow">
             <Typography variant="h3">
               {tUsers("admin-panel-users:title")}
             </Typography>
           </Grid>
-          <Grid container item xs="auto" wrap="nowrap" spacing={2}>
-            <Grid item xs="auto">
+          <Grid container size="auto" wrap="nowrap" spacing={2}>
+            <Grid size="auto">
               <UserFilter />
             </Grid>
-            <Grid item xs="auto">
+            <Grid size="auto">
               <Button
                 variant="contained"
                 LinkComponent={Link}
@@ -320,7 +320,7 @@ function Users() {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} mb={2}>
+        <Grid size={{ xs: 12 }} mb={2}>
           <TableVirtuoso
             style={{ height: 500 }}
             data={result}
