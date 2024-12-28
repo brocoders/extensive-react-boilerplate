@@ -5,7 +5,7 @@ import { Role, RoleEnum } from "@/services/api/types/role";
 import { useTranslation } from "@/services/i18n/client";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import Popover from "@mui/material/Popover";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -76,7 +76,7 @@ function UserFilter() {
             })}
           >
             <Grid container spacing={2} mb={3} mt={3}>
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12 }}>
                 <FormMultipleSelectInput<UserFilterFormData, Pick<Role, "id">>
                   name="roles"
                   testId="roles"
@@ -106,7 +106,7 @@ function UserFilter() {
                   }
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12 }}>
                 <Button variant="contained" type="submit">
                   {t("admin-panel-users:filter.actions.apply")}
                 </Button>

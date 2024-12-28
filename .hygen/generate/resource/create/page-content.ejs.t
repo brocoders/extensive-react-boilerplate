@@ -6,7 +6,7 @@ to: src/app/[language]/admin-panel/<%= h.inflection.transform(name, ['pluralize'
 import Button from "@mui/material/Button";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import FormTextInput from "@/components/form/text-input/form-text-input";
 import * as yup from "yup";

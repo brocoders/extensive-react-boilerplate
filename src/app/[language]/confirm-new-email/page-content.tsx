@@ -10,7 +10,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useSnackbar } from "notistack";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 import useAuthActions from "@/services/auth/use-auth-actions";
@@ -76,7 +76,7 @@ export default function ConfirmNewEmail() {
   return (
     <Container maxWidth="sm">
       <Grid container>
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <Box
             sx={{
               display: "flex",

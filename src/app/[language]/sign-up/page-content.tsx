@@ -9,7 +9,7 @@ import {
 import useAuthActions from "@/services/auth/use-auth-actions";
 import useAuthTokens from "@/services/auth/use-auth-tokens";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import FormTextInput from "@/components/form/text-input/form-text-input";
 import FormCheckboxInput from "@/components/form/checkbox/form-checkbox";
@@ -144,10 +144,10 @@ function Form() {
       <Container maxWidth="xs">
         <form onSubmit={onSubmit}>
           <Grid container spacing={2} mb={2}>
-            <Grid item xs={12} mt={3}>
+            <Grid size={{ xs: 12 }} mt={3}>
               <Typography variant="h6">{t("sign-up:title")}</Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <FormTextInput<SignUpFormData>
                 name="firstName"
                 label={t("sign-up:inputs.firstName.label")}
@@ -157,7 +157,7 @@ function Form() {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <FormTextInput<SignUpFormData>
                 name="lastName"
                 label={t("sign-up:inputs.lastName.label")}
@@ -166,7 +166,7 @@ function Form() {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <FormTextInput<SignUpFormData>
                 name="email"
                 label={t("sign-up:inputs.email.label")}
@@ -175,7 +175,7 @@ function Form() {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <FormTextInput<SignUpFormData>
                 name="password"
                 label={t("sign-up:inputs.password.label")}
@@ -183,7 +183,7 @@ function Form() {
                 testId="password"
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <FormCheckboxInput
                 name="policy"
                 label=""
@@ -202,7 +202,7 @@ function Form() {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <FormActions />
               <Box ml={1} component="span">
                 <Button
@@ -218,7 +218,7 @@ function Form() {
             </Grid>
 
             {[isGoogleAuthEnabled, isFacebookAuthEnabled].some(Boolean) && (
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12 }}>
                 <Divider sx={{ mb: 2 }}>
                   <Chip label={t("sign-up:or")} />
                 </Divider>

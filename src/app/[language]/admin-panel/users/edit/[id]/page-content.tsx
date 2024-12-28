@@ -3,7 +3,7 @@
 import Button from "@mui/material/Button";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import FormTextInput from "@/components/form/text-input/form-text-input";
 import * as yup from "yup";
@@ -204,16 +204,16 @@ function FormEditUser() {
       <Container maxWidth="xs">
         <form onSubmit={onSubmit}>
           <Grid container spacing={2} mb={3} mt={3}>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <Typography variant="h6">
                 {t("admin-panel-users-edit:title1")}
               </Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <FormAvatarInput<EditUserFormData> name="photo" testId="photo" />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <FormTextInput<EditUserFormData>
                 name="email"
                 testId="email"
@@ -221,7 +221,7 @@ function FormEditUser() {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <FormTextInput<EditUserFormData>
                 name="firstName"
                 testId="first-name"
@@ -229,7 +229,7 @@ function FormEditUser() {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <FormTextInput<EditUserFormData>
                 name="lastName"
                 testId="last-name"
@@ -237,7 +237,7 @@ function FormEditUser() {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <FormSelectInput<EditUserFormData, Pick<Role, "id">>
                 name="role"
                 testId="role"
@@ -257,7 +257,7 @@ function FormEditUser() {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <EditUserFormActions />
               <Box ml={1} component="span">
                 <Button
@@ -326,13 +326,13 @@ function FormChangePasswordUser() {
       <Container maxWidth="xs">
         <form onSubmit={onSubmit}>
           <Grid container spacing={2} mb={3} mt={3}>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <Typography variant="h6">
                 {t("admin-panel-users-edit:title2")}
               </Typography>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <FormTextInput<ChangeUserPasswordFormData>
                 name="password"
                 type="password"
@@ -340,7 +340,7 @@ function FormChangePasswordUser() {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <FormTextInput<ChangeUserPasswordFormData>
                 name="passwordConfirmation"
                 label={t(
@@ -350,7 +350,7 @@ function FormChangePasswordUser() {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <ChangePasswordUserFormActions />
               <Box ml={1} component="span">
                 <Button
