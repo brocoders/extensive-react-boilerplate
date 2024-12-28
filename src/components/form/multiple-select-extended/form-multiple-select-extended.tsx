@@ -5,6 +5,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import TextField from "@mui/material/TextField";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
 import React, {
   ForwardedRef,
   forwardRef,
@@ -21,15 +22,14 @@ import {
 import { ItemProps, ListProps, Virtuoso } from "react-virtuoso";
 import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
 
-type SelectExtendedInputProps<T extends object> = {
+type MultipleSelectExtendedInputProps<T extends object> = {
   label: string;
   error?: string;
   testId?: string;
   disabled?: boolean;
   options: T[];
-  renderSelected: (option: T) => React.ReactNode;
+  renderSelected: (option: T[]) => React.ReactNode;
   renderOption: (option: T) => React.ReactNode;
   keyExtractor: (option: T) => string;
   onEndReached?: () => void;
@@ -71,17 +71,19 @@ const MUIComponents = {
   },
 };
 
-function SelectExtendedInputRaw<T extends object>(
-  props: SelectExtendedInputProps<T> & {
+function MultipleSelectExtendedInputRaw<T extends object>(
+  props: MultipleSelectExtendedInputProps<T> & {
     name: string;
-    value: T | undefined | null;
-    onChange: (value: T) => void;
+    value: T[] | null;
+    onChange: (value: T[]) => void;
     onBlur: () => void;
   },
   ref?: ForwardedRef<HTMLDivElement | null>
 ) {
   const [isOpen, setIsOpen] = useState(false);
   const boxRef = useRef<HTMLInputElement | null>(null);
+
+  const valueKeys = props.value?.map(props.keyExtractor) ?? [];
 
   useEffect(() => {
     if (isOpen) {
@@ -96,7 +98,7 @@ function SelectExtendedInputRaw<T extends object>(
           <TextField
             ref={ref}
             name={props.name}
-            value={props.value ? props.renderOption(props.value) : ""}
+            value={props.value ? props.renderSelected(props.value) : ""}
             onBlur={props.onBlur}
             label={props.label}
             variant="outlined"
@@ -156,15 +158,18 @@ function SelectExtendedInputRaw<T extends object>(
                 components={MUIComponents}
                 itemContent={(index, item) => (
                   <ListItemButton
-                    selected={
-                      props.value
-                        ? props.keyExtractor(item) ===
-                          props.keyExtractor(props.value)
-                        : false
-                    }
+                    selected={valueKeys.includes(props.keyExtractor(item))}
                     onClick={() => {
-                      props.onChange(item);
-                      setIsOpen(false);
+                      const newValue = props.value
+                        ? valueKeys.includes(props.keyExtractor(item))
+                          ? props.value.filter(
+                              (selectedItem) =>
+                                props.keyExtractor(selectedItem) !==
+                                props.keyExtractor(item)
+                            )
+                          : [...props.value, item]
+                        : [item];
+                      props.onChange(newValue);
                     }}
                   >
                     {item ? (
@@ -183,31 +188,31 @@ function SelectExtendedInputRaw<T extends object>(
   );
 }
 
-const SelectExtendedInput = forwardRef(SelectExtendedInputRaw) as never as <
-  T extends object,
->(
-  props: SelectExtendedInputProps<T> & {
+const MultipleSelectExtendedInput = forwardRef(
+  MultipleSelectExtendedInputRaw
+) as never as <T extends object>(
+  props: MultipleSelectExtendedInputProps<T> & {
     name: string;
-    value: T | undefined | null;
-    onChange: (value: T) => void;
+    value: T[] | null;
+    onChange: (value: T[]) => void;
     onBlur: () => void;
   } & { ref?: ForwardedRef<HTMLDivElement | null> }
-) => ReturnType<typeof SelectExtendedInputRaw>;
+) => ReturnType<typeof MultipleSelectExtendedInputRaw>;
 
-function FormSelectExtendedInput<
+function FormMultipleSelectExtendedInput<
   TFieldValues extends FieldValues = FieldValues,
   T extends object = object,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >(
   props: Pick<ControllerProps<TFieldValues, TName>, "name" | "defaultValue"> &
-    SelectExtendedInputProps<T>
+    MultipleSelectExtendedInputProps<T>
 ) {
   return (
     <Controller
       name={props.name}
       defaultValue={props.defaultValue}
       render={({ field, fieldState }) => (
-        <SelectExtendedInput<T>
+        <MultipleSelectExtendedInput<T>
           {...field}
           isSearchable={props.isSearchable}
           label={props.label}
@@ -215,8 +220,8 @@ function FormSelectExtendedInput<
           disabled={props.disabled}
           testId={props.testId}
           options={props.options}
-          renderSelected={props.renderSelected}
           renderOption={props.renderOption}
+          renderSelected={props.renderSelected}
           keyExtractor={props.keyExtractor}
           search={props.isSearchable ? props.search : ""}
           onSearchChange={
@@ -231,4 +236,4 @@ function FormSelectExtendedInput<
   );
 }
 
-export default FormSelectExtendedInput;
+export default FormMultipleSelectExtendedInput;
