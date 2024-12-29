@@ -1,5 +1,4 @@
 import { useCallback } from "react";
-import useFetchBase from "../use-fetch-base";
 import useFetch from "../use-fetch";
 import { API_URL } from "../config";
 import { User } from "../types/user";
@@ -17,7 +16,7 @@ export type AuthLoginResponse = Tokens & {
 };
 
 export function useAuthLoginService() {
-  const fetchBase = useFetchBase();
+  const fetchBase = useFetch();
 
   return useCallback(
     (data: AuthLoginRequest) => {
@@ -39,7 +38,7 @@ export type AuthGoogleLoginResponse = Tokens & {
 };
 
 export function useAuthGoogleLoginService() {
-  const fetchBase = useFetchBase();
+  const fetchBase = useFetch();
 
   return useCallback(
     (data: AuthGoogleLoginRequest) => {
@@ -61,7 +60,7 @@ export type AuthFacebookLoginResponse = Tokens & {
 };
 
 export function useAuthFacebookLoginService() {
-  const fetchBase = useFetchBase();
+  const fetchBase = useFetch();
 
   return useCallback(
     (data: AuthFacebookLoginRequest, requestConfig?: RequestConfigType) => {
@@ -83,7 +82,7 @@ export type AuthSignUpRequest = {
 export type AuthSignUpResponse = void;
 
 export function useAuthSignUpService() {
-  const fetchBase = useFetchBase();
+  const fetchBase = useFetch();
 
   return useCallback(
     (data: AuthSignUpRequest, requestConfig?: RequestConfigType) => {
@@ -104,7 +103,7 @@ export type AuthConfirmEmailRequest = {
 export type AuthConfirmEmailResponse = void;
 
 export function useAuthConfirmEmailService() {
-  const fetchBase = useFetchBase();
+  const fetchBase = useFetch();
 
   return useCallback(
     (data: AuthConfirmEmailRequest, requestConfig?: RequestConfigType) => {
@@ -125,7 +124,7 @@ export type AuthConfirmNewEmailRequest = {
 export type AuthConfirmNewEmailResponse = void;
 
 export function useAuthConfirmNewEmailService() {
-  const fetchBase = useFetchBase();
+  const fetchBase = useFetch();
 
   return useCallback(
     (data: AuthConfirmNewEmailRequest, requestConfig?: RequestConfigType) => {
@@ -146,7 +145,7 @@ export type AuthForgotPasswordRequest = {
 export type AuthForgotPasswordResponse = void;
 
 export function useAuthForgotPasswordService() {
-  const fetchBase = useFetchBase();
+  const fetchBase = useFetch();
 
   return useCallback(
     (data: AuthForgotPasswordRequest, requestConfig?: RequestConfigType) => {
@@ -168,7 +167,7 @@ export type AuthResetPasswordRequest = {
 export type AuthResetPasswordResponse = void;
 
 export function useAuthResetPasswordService() {
-  const fetchBase = useFetchBase();
+  const fetchBase = useFetch();
 
   return useCallback(
     (data: AuthResetPasswordRequest, requestConfig?: RequestConfigType) => {

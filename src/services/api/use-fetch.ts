@@ -1,27 +1,69 @@
 "use client";
 
 import { useCallback } from "react";
-import useFetchBase from "./use-fetch-base";
-import useAuthTokens from "../auth/use-auth-tokens";
-import { FetchInitType, FetchInputType } from "./types/fetch-params";
+import { AUTH_REFRESH_URL } from "./config";
+import { FetchInputType, FetchInitType } from "./types/fetch-params";
+import useLanguage from "../i18n/use-language";
+import { getTokensInfo, setTokensInfo } from "../auth/auth-tokens-info";
 
 function useFetch() {
-  const { tokensInfoRef, setTokensInfo } = useAuthTokens();
-  const fetchBase = useFetchBase();
+  const language = useLanguage();
 
-  const fetchWrapper = useCallback(
+  return useCallback(
     async (input: FetchInputType, init?: FetchInitType) => {
-      return fetchBase(input, init, {
-        token: tokensInfoRef.current?.token,
-        refreshToken: tokensInfoRef.current?.refreshToken,
-        tokenExpires: tokensInfoRef.current?.tokenExpires,
-        setTokensInfo,
+      const tokens = getTokensInfo();
+
+      let headers: HeadersInit = {
+        "x-custom-lang": language,
+      };
+
+      if (!(init?.body instanceof FormData)) {
+        headers = {
+          ...headers,
+          "Content-Type": "application/json",
+        };
+      }
+
+      if (tokens?.token) {
+        headers = {
+          ...headers,
+          Authorization: `Bearer ${tokens.token}`,
+        };
+      }
+
+      if (tokens?.tokenExpires && tokens.tokenExpires - 60000 <= Date.now()) {
+        const newTokens = await fetch(AUTH_REFRESH_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokens.refreshToken}`,
+          },
+        }).then((res) => res.json());
+
+        if (newTokens.token) {
+          setTokensInfo({
+            token: newTokens.token,
+            refreshToken: newTokens.refreshToken,
+            tokenExpires: newTokens.tokenExpires,
+          });
+
+          headers = {
+            ...headers,
+            Authorization: `Bearer ${newTokens.token}`,
+          };
+        }
+      }
+
+      return fetch(input, {
+        ...init,
+        headers: {
+          ...headers,
+          ...init?.headers,
+        },
       });
     },
-    [fetchBase, setTokensInfo, tokensInfoRef]
+    [language]
   );
-
-  return fetchWrapper;
 }
 
 export default useFetch;

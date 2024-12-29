@@ -23,15 +23,7 @@ export const AuthActionsContext = createContext<{
 });
 
 export const AuthTokensContext = createContext<{
-  tokensInfoRef: React.MutableRefObject<Tokens>;
   setTokensInfo: (tokensInfo: TokensInfo) => void;
 }>({
-  tokensInfoRef: {
-    current: {
-      token: null,
-      refreshToken: null,
-      tokenExpires: null,
-    },
-  },
   setTokensInfo: () => {},
 });
