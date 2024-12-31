@@ -9,7 +9,9 @@ type Props = {
   params: { language: string };
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
+
   const { t } = await getServerTranslation(
     params.language,
     "admin-panel-<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>-create"
@@ -20,4 +22,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default Create<%= name %>;
+export default function Page() {
+  return <Create<%= name %> />;
+}

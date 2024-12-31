@@ -67,7 +67,9 @@ test.describe("Change password", () => {
     await page.goto("/forgot-password");
     await page.getByTestId("email").locator("input").fill(email);
     await page.getByTestId("send-email").click();
-    await expect(page.locator("#notistack-snackbar")).toBeVisible();
+    await expect(
+      page.locator(".Toastify > .Toastify__toast-container")
+    ).toBeVisible();
   });
 
   test("should send a password reset email and navigate to reset password page", async ({

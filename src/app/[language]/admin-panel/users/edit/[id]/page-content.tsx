@@ -10,7 +10,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
 import { useEffect } from "react";
-import { useSnackbar } from "notistack";
+import { useSnackbar } from "@/hooks/use-snackbar";
 import Link from "@/components/link";
 import FormAvatarInput from "@/components/form/avatar-input/form-avatar-input";
 import { FileEntity } from "@/services/api/types/file-entity";
@@ -128,12 +128,12 @@ function ChangePasswordUserFormActions() {
 }
 
 function FormEditUser() {
-  const params = useParams();
+  const params = useParams<{ id: string }>();
+  const userId = params.id;
   const fetchGetUser = useGetUserService();
   const fetchPatchUser = usePatchUserService();
   const { t } = useTranslation("admin-panel-users-edit");
   const validationSchema = useValidationEditUserSchema();
-  const userId = Array.isArray(params.id) ? params.id[0] : params.id;
   const { enqueueSnackbar } = useSnackbar();
 
   const methods = useForm<EditUserFormData>({
@@ -278,11 +278,11 @@ function FormEditUser() {
 }
 
 function FormChangePasswordUser() {
-  const params = useParams();
+  const params = useParams<{ id: string }>();
+  const userId = params.id;
   const fetchPatchUser = usePatchUserService();
   const { t } = useTranslation("admin-panel-users-edit");
   const validationSchema = useValidationChangePasswordSchema();
-  const userId = Array.isArray(params.id) ? params.id[0] : params.id;
   const { enqueueSnackbar } = useSnackbar();
 
   const methods = useForm<ChangeUserPasswordFormData>({

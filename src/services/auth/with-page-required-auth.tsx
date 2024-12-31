@@ -6,8 +6,8 @@ import useLanguage from "../i18n/use-language";
 import { RoleEnum } from "../api/types/role";
 
 type PropsType = {
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params?: { [key: string]: string | string[] | undefined };
+  searchParams?: { [key: string]: string | string[] | undefined };
 };
 
 type OptionsType = {

@@ -57,7 +57,7 @@ test.describe("User Profile", () => {
       "Bond"
     );
     await page.getByTestId("save-profile").click();
-    await page.waitForSelector("#notistack-snackbar");
+    await page.waitForSelector(".Toastify > .Toastify__toast-container");
 
     await page.goto("/");
     await page.getByTestId("profile-menu-item").click();
@@ -91,7 +91,7 @@ test.describe("User Profile", () => {
     );
     await apiImageUpload;
     await page.getByTestId("save-profile").click();
-    await page.waitForSelector("#notistack-snackbar");
+    await page.waitForSelector(".Toastify > .Toastify__toast-container");
     await page.getByTestId("cancel-edit-profile").click();
     await expect(page.getByTestId("user-email")).toHaveText(email, {
       ignoreCase: true,
@@ -136,7 +136,7 @@ test.describe("User Profile", () => {
       .locator("input")
       .fill(newPassword);
     await page.getByTestId("save-password").click();
-    await page.waitForSelector("#notistack-snackbar");
+    await page.waitForSelector(".Toastify > .Toastify__toast-container");
 
     await page.getByTestId("profile-menu-item").click();
     const apiProfileUpdate = page.waitForResponse(
@@ -202,6 +202,6 @@ test.describe("User Profile", () => {
     await page.getByTestId("old-password").locator("input").fill(password);
     await expect(page.getByTestId("old-password-error")).not.toBeVisible();
     await page.getByTestId("save-password").click();
-    await page.waitForSelector("#notistack-snackbar");
+    await page.waitForSelector(".Toastify > .Toastify__toast-container");
   });
 });
