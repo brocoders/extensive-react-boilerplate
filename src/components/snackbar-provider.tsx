@@ -1,5 +1,5 @@
 "use client";
 
-import { SnackbarProvider } from "notistack";
+import { ToastContainer } from "react-toastify";
 
-export default SnackbarProvider;
+export default ToastContainer;

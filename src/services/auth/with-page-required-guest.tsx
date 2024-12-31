@@ -5,8 +5,8 @@ import React, { FunctionComponent, useEffect } from "react";
 import useLanguage from "@/services/i18n/use-language";
 
 type PropsType = {
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params?: { [key: string]: string | string[] | undefined };
+  searchParams?: { [key: string]: string | string[] | undefined };
 };
 
 function withPageRequiredGuest(Component: FunctionComponent<PropsType>) {

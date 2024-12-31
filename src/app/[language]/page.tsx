@@ -7,10 +7,11 @@ import MuiLink from "@mui/material/Link";
 import { Trans } from "react-i18next/TransWithoutContext";
 
 type Props = {
-  params: { language: string };
+  params: Promise<{ language: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const { t } = await getServerTranslation(params.language, "home");
 
   return {
@@ -18,7 +19,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function Home({ params }: Props) {
+export default async function Home(props: Props) {
+  const params = await props.params;
   const { t } = await getServerTranslation(params.language, "home");
 
   return (

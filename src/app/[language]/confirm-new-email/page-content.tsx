@@ -8,7 +8,7 @@ import {
   useAuthGetMeService,
 } from "@/services/api/services/auth";
 import { useRouter } from "next/navigation";
-import { useSnackbar } from "notistack";
+import { useSnackbar } from "@/hooks/use-snackbar";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid2";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";

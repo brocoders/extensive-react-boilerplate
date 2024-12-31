@@ -10,7 +10,7 @@ import { dir } from "i18next";
 import "@/services/i18n/config";
 import { languages } from "@/services/i18n/config";
 import type { Metadata } from "next";
-import SnackbarProvider from "@/components/snackbar-provider";
+import ToastContainer from "@/components/snackbar-provider";
 import { getServerTranslation } from "@/services/i18n";
 import StoreLanguageProvider from "@/services/i18n/store-language-provider";
 import ThemeProvider from "@/components/theme/theme-provider";
@@ -24,10 +24,11 @@ import ConfirmDialogProvider from "@/components/confirm-dialog/confirm-dialog-pr
 import InitColorSchemeScript from "@/components/theme/init-color-scheme-script";
 
 type Props = {
-  params: { language: string };
+  params: Promise<{ language: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const { t } = await getServerTranslation(params.language, "common");
 
   return {
@@ -39,37 +40,43 @@ export function generateStaticParams() {
   return languages.map((language) => ({ language }));
 }
 
-export default function RootLayout({
-  children,
-  params: { language },
-}: {
+export default async function RootLayout(props: {
   children: React.ReactNode;
-  params: { language: string };
+  params: Promise<{ language: string }>;
 }) {
+  const params = await props.params;
+
+  const { language } = params;
+
+  const { children } = props;
+
   return (
-    <html lang={language} dir={dir(language)}>
-      <body>
+    <html lang={language} dir={dir(language)} suppressHydrationWarning>
+      <body suppressHydrationWarning>
         <InitColorSchemeScript />
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />
           <ThemeProvider>
             <CssBaseline />
-            <SnackbarProvider maxSnack={3}>
-              <StoreLanguageProvider>
-                <ConfirmDialogProvider>
-                  <AuthProvider>
-                    <GoogleAuthProvider>
-                      <FacebookAuthProvider>
-                        <LeavePageProvider>
-                          <ResponsiveAppBar />
-                          {children}
-                        </LeavePageProvider>
-                      </FacebookAuthProvider>
-                    </GoogleAuthProvider>
-                  </AuthProvider>
-                </ConfirmDialogProvider>
-              </StoreLanguageProvider>
-            </SnackbarProvider>
+
+            <StoreLanguageProvider>
+              <ConfirmDialogProvider>
+                <AuthProvider>
+                  <GoogleAuthProvider>
+                    <FacebookAuthProvider>
+                      <LeavePageProvider>
+                        <ResponsiveAppBar />
+                        {children}
+                        <ToastContainer
+                          position="bottom-left"
+                          hideProgressBar
+                        />
+                      </LeavePageProvider>
+                    </FacebookAuthProvider>
+                  </GoogleAuthProvider>
+                </AuthProvider>
+              </ConfirmDialogProvider>
+            </StoreLanguageProvider>
           </ThemeProvider>
         </QueryClientProvider>
       </body>

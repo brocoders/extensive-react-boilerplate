@@ -7,10 +7,11 @@ import ListItem from "@mui/material/ListItem";
 import MuiLink from "@mui/material/Link";
 
 type Props = {
-  params: { language: string };
+  params: Promise<{ language: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const { t } = await getServerTranslation(params.language, "privacy-policy");
 
   return {
@@ -18,7 +19,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-async function PrivacyPolicy({ params }: Props) {
+async function PrivacyPolicy(props: Props) {
+  const params = await props.params;
   const { t } = await getServerTranslation(params.language, "privacy-policy");
 
   return (

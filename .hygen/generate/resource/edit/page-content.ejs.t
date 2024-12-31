@@ -12,7 +12,7 @@ import FormTextInput from "@/components/form/text-input/form-text-input";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
-import { useSnackbar } from "notistack";
+import { useSnackbar } from "@/hooks/use-snackbar";
 import Link from "@/components/link";
 import useLeavePage from "@/services/leave-page/use-leave-page";
 import Box from "@mui/material/Box";
@@ -60,8 +60,8 @@ function EditFormActions() {
 
 function FormEdit() {
   const router = useRouter();
-  const params = useParams();
-  const entityId = Array.isArray(params.id) ? params.id[0] : params.id;
+  const params = useParams<{ id: string }>();
+  const entityId = params.id;
   const fetchEdit<%= name %> = useEdit<%= name %>Service();
   const { t } = useTranslation("admin-panel-<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>-edit");
   const validationSchema = useValidationSchema();
