@@ -6,7 +6,7 @@ import Edit<%= name %> from "./page-content";
 import { getServerTranslation } from "@/services/i18n";
 
 type Props = {
-  params: { language: string };
+  params: Promise<{ language: string }>;
 };
 
 export async function generateMetadata(props: Props): Promise<Metadata> {

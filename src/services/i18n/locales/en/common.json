@@ -12,7 +12,17 @@
   "formInputs": {
     "avatarInput": {
       "dropzoneText": "Drop the image here ...",
-      "dragAndDrop": "Or drag 'n' drop some files here",
+      "dragAndDrop": "Or drag 'n' drop some image here",
+      "selectFile": "Select an image"
+    },
+    "multipleImageInput": {
+      "dropzoneText": "Drop the image here ...",
+      "dragAndDrop": "Or drag 'n' drop some images here",
+      "selectFile": "Select an image"
+    },
+    "singleImageInput": {
+      "dropzoneText": "Drop the image here ...",
+      "dragAndDrop": "Or drag 'n' drop some images here",
       "selectFile": "Select an image"
     }
   },

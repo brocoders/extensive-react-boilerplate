@@ -3,7 +3,6 @@ to: src/services/api/types/<%= h.inflection.transform(name, ['underscore', 'dash
 ---
 export type <%= name %> = {
   id: string;
-  description: string;
   createdAt: Date;
   updatedAt: Date;
 };

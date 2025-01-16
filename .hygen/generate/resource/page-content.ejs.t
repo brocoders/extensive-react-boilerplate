@@ -118,7 +118,7 @@ function Actions({ entityItem }: { entityItem: <%= name %> }) {
           size="small"
           aria-controls={open ? "split-button-menu" : undefined}
           aria-expanded={open ? "true" : undefined}
-          aria-label="select merge strategy"
+          aria-label="select"
           aria-haspopup="menu"
           onClick={handleToggle}
         >
@@ -181,8 +181,7 @@ function <%= h.inflection.transform(name, ['pluralize']) %>() {
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   const tableData = useMemo(() => {
-    const result =
-      (data?.pages.flatMap((page) => page?.data) as <%= name %>[]) ?? [];
+    const result = (data?.pages.flatMap((page) => page?.data ?? [])) ?? [];
 
     return removeDuplicatesFromArrayObjects(result, "id");
   }, [data]);
@@ -215,12 +214,13 @@ function <%= h.inflection.transform(name, ['pluralize']) %>() {
             components={TableComponents}
             endReached={handleScroll}
             overscan={20}
-            useWindowScroll
             increaseViewportBy={400}
             fixedHeaderContent={() => (
               <>
                 <TableRow>
                   <TableCell>{t("table.column1")}</TableCell>
+
+                  {/* Do not remove this comment. <index-component-head-field />  */}
 
                   <TableCell style={{ width: 130 }}></TableCell>
                 </TableRow>
@@ -236,6 +236,8 @@ function <%= h.inflection.transform(name, ['pluralize']) %>() {
             itemContent={(index, item) => (
               <>
                 <TableCell>{item?.id}</TableCell>
+
+                {/* Do not remove this comment. <index-component-body-field />  */}
 
                 <TableCell style={{ width: 130 }} align="right">
                   {!!item && <Actions entityItem={item} />}

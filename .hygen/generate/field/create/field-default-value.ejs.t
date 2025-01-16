@@ -1,0 +1,21 @@
+---
+inject: true
+to: src/app/[language]/admin-panel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/create/page-content.tsx
+after: const defaultValues
+---
+
+<% if (kind === 'primitive') { -%>
+  <% if (type === 'string') { -%>
+    <%= property %>: "",
+  <% } else if (type === 'number') { -%>
+    <%= property %>: "",
+  <% } else if (type === 'boolean') { -%>
+    <%= property %>: false,
+  <% } -%>
+<% } else if (kind === 'reference') { -%>
+  <% if (referenceType === 'toMany') { -%>
+    <%= property %>: [],
+  <% } else { -%>
+    <%= property %>: null,
+  <% } -%>
+<% } -%>

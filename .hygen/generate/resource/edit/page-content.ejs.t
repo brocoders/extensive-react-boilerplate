@@ -3,12 +3,15 @@ to: src/app/[language]/admin-panel/<%= h.inflection.transform(name, ['pluralize'
 ---
 "use client";
 
+import {
+  // React dependencies here
+  useEffect
+} from "react";
 import Button from "@mui/material/Button";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
-import FormTextInput from "@/components/form/text-input/form-text-input";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
@@ -20,26 +23,26 @@ import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 import { useParams, useRouter } from "next/navigation";
 import { useEdit<%= name %>Service } from "@/services/api/services/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>";
-import { useEffect } from "react";
 import { useGet<%= name %>Query } from "../../queries/queries";
 
 type EditFormData = {
-  description: string;
+  // types here
 };
 
 const defaultValues: EditFormData = {
-  description: "",
+  // default values here
 };
 
 const useValidationSchema = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t } = useTranslation("admin-panel-<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>-edit");
 
   return yup.object().shape({
-    description: yup
-      .string()
-      .required(t("inputs.description.validation.required")),
+    // Do not remove this comment. <edit-form-validation-schema />
   });
 };
+
+// Do not remove this comment. <edit-component-reference-field />
 
 function EditFormActions() {
   const { t } = useTranslation("admin-panel-<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>-edit");
@@ -76,11 +79,14 @@ function FormEdit() {
 
   const { handleSubmit, setError, reset } = methods;
 
-  const onSubmit = handleSubmit(async (formData) => {
+  const onSubmit = handleSubmit(async (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    formData
+  ) => {
     const { data, status } = await fetchEdit<%= name %>({
       id: entityId,
       data: {
-        description: formData.description,
+        // Do not remove this comment. <edit-form-submit-property />
       },
     });
 
@@ -104,7 +110,7 @@ function FormEdit() {
   useEffect(() => {
     if (initialData) {
       reset({
-        description: initialData.data.description,
+        // Do not remove this comment. <edit-form-reset-property />
       });
     }
   }, [initialData, reset]);
@@ -114,20 +120,13 @@ function FormEdit() {
       <Container maxWidth="md">
         <form onSubmit={onSubmit}>
           <Grid container spacing={2} mb={3} mt={3}>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <Typography variant="h6">{t("title")}</Typography>
             </Grid>
 
-            <Grid item xs={12}>
-              <FormTextInput<EditFormData>
-                name="description"
-                testId="description"
-                label={t("inputs.description.label")}
-                multiline
-              />
-            </Grid>
+            {/* Do not remove this comment. <edit-component-field />  */}
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <EditFormActions />
               <Box ml={1} component="span">
                 <Button

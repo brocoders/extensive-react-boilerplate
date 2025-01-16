@@ -51,7 +51,8 @@
         "required": "Password confirmation is required",
         "match": "Password confirmation must match password"
       }
-    }
+    },
+    "<system>": "Do not remove this property"
   },
   "alerts": {
     "password": {

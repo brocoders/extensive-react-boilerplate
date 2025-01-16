@@ -54,7 +54,7 @@ export function useGet<%= name %>Service() {
   );
 }
 
-export type Create<%= name %>Request = Pick<Entity, "description">;
+export type Create<%= name %>Request = Omit<Entity, "id" | "createdAt" | "updatedAt">;
 
 export type Create<%= name %>Response = Entity;
 
@@ -75,7 +75,7 @@ export function useCreate<%= name %>Service() {
 
 export type Edit<%= name %>Request = {
   id: Entity["id"];
-  data: Partial<Pick<Entity, "description">>;
+  data: Partial<Omit<Entity, "id" | "createdAt" | "updatedAt">>;
 };
 
 export type Edit<%= name %>Response = Entity;
