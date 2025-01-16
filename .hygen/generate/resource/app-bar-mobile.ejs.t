@@ -10,6 +10,6 @@ before: mobile-menu-items
   href="/admin-panel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>"
 >
   <Typography textAlign="center">
-    {t("common:navigation.<%= h.inflection.camelize(h.inflection.pluralize(name), true) %>")}
+    {t("common:navigation.<%= h.inflection.humanize(h.inflection.camelize(h.inflection.pluralize(name), true)) %>")}
   </Typography>
 </MenuItem>,

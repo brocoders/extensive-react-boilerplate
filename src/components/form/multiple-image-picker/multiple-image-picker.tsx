@@ -27,6 +27,7 @@ type MultipleImagePickerProps = {
   value?: FileEntity[];
   disabled?: boolean;
   testId?: string;
+  label?: React.ReactNode;
 };
 
 const MultipleImagePickerContainer = styled("div")(({ theme }) => ({
@@ -187,6 +188,7 @@ function FormMultipleImagePicker<
   props: Pick<ControllerProps<TFieldValues, TName>, "name" | "defaultValue"> & {
     disabled?: boolean;
     testId?: string;
+    label?: React.ReactNode;
   }
 ) {
   return (
@@ -200,6 +202,7 @@ function FormMultipleImagePicker<
           value={field.value}
           error={fieldState.error?.message}
           disabled={props.disabled}
+          label={props.label}
           testId={props.testId}
         />
       )}

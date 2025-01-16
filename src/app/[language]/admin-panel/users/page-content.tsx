@@ -13,7 +13,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { useUserListQuery, usersQueryKeys } from "./queries/users-queries";
+import { useGetUsersQuery, usersQueryKeys } from "./queries/queries";
 import { TableVirtuoso } from "react-virtuoso";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
@@ -280,7 +280,7 @@ function Users() {
   }, [searchParams]);
 
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
-    useUserListQuery({ filter, sort: { order, orderBy } });
+    useGetUsersQuery({ filter, sort: { order, orderBy } });
 
   const handleScroll = useCallback(() => {
     if (!hasNextPage || isFetchingNextPage) return;

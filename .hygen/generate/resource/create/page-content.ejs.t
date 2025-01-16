@@ -8,7 +8,6 @@ import { useForm, FormProvider, useFormState } from "react-hook-form";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
-import FormTextInput from "@/components/form/text-input/form-text-input";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
@@ -22,22 +21,23 @@ import { useRouter } from "next/navigation";
 import { useCreate<%= name %>Service } from "@/services/api/services/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>";
 
 type CreateFormData = {
-  description: string;
+  // types here
 };
 
 const defaultValues: CreateFormData = {
-  description: "",
+  // default values here
 };
 
 const useValidationSchema = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t } = useTranslation("admin-panel-<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>-create");
 
   return yup.object().shape({
-    description: yup
-      .string()
-      .required(t("inputs.description.validation.required")),
+    // Do not remove this comment. <create-form-validation-schema />
   });
 };
+
+// Do not remove this comment. <create-component-reference-field />
 
 function CreateFormActions() {
   const { t } = useTranslation("admin-panel-<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>-create");
@@ -71,51 +71,49 @@ function FormCreate() {
 
   const { handleSubmit, setError } = methods;
 
-  const onSubmit = handleSubmit(async (formData) => {
-    const { data, status } = await fetchCreate<%= name %>({
-      description: formData.description,
-    });
-
-    if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
-      (Object.keys(data.errors) as Array<keyof CreateFormData>).forEach(
-        (key) => {
-          setError(key, {
-            type: "manual",
-            message: t(`inputs.${key}.validation.server.${data.errors[key]}`),
-          });
-        }
-      );
-
-      return;
-    }
-
-    if (status === HTTP_CODES_ENUM.CREATED) {
-      enqueueSnackbar(t("alerts.success"), {
-        variant: "success",
+  const onSubmit = handleSubmit(
+    async (
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      formData
+    ) => {
+      const { data, status } = await fetchCreate<%= name %>({
+        // Do not remove this comment. <create-form-submit-property />
       });
-      router.push("/admin-panel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>");
+
+      if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
+        (Object.keys(data.errors) as Array<keyof CreateFormData>).forEach(
+          (key) => {
+            setError(key, {
+              type: "manual",
+              message: t(`inputs.${key}.validation.server.${data.errors[key]}`),
+            });
+          }
+        );
+
+        return;
+      }
+
+      if (status === HTTP_CODES_ENUM.CREATED) {
+        enqueueSnackbar(t("alerts.success"), {
+          variant: "success",
+        });
+        router.push("/admin-panel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>");
+      }
     }
-  });
+  );
 
   return (
     <FormProvider {...methods}>
       <Container maxWidth="md">
         <form onSubmit={onSubmit}>
           <Grid container spacing={2} mb={3} mt={3}>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <Typography variant="h6">{t("title")}</Typography>
             </Grid>
 
-            <Grid item xs={12}>
-              <FormTextInput<CreateFormData>
-                name="description"
-                testId="description"
-                label={t("inputs.description.label")}
-                multiline
-              />
-            </Grid>
+            {/* Do not remove this comment. <create-component-field />  */}
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <CreateFormActions />
               <Box ml={1} component="span">
                 <Button

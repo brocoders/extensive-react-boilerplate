@@ -12,6 +12,8 @@
     "release": "release-it",
     "generate:resource": "hygen generate resource",
     "postgenerate:resource": "npm run lint -- --fix",
+    "generate:field": "hygen generate field",
+    "postgenerate:field": "npm run lint -- --fix",
     "sb": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },

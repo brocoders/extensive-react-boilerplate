@@ -27,6 +27,7 @@ type ImagePickerProps = {
   value?: FileEntity;
   disabled?: boolean;
   testId?: string;
+  label?: React.ReactNode;
 };
 
 const ImagePickerContainer = styled("div")(({ theme }) => ({
@@ -122,7 +123,7 @@ function ImagePicker(props: ImagePickerProps) {
             }}
             variant="h5"
           >
-            {t("common:formInputs.multipleImageInput.dropzoneText")}
+            {t("common:formInputs.singleImageInput.dropzoneText")}
           </Typography>
         </Box>
       )}
@@ -158,14 +159,14 @@ function ImagePicker(props: ImagePickerProps) {
         >
           {isLoading
             ? t("common:loading")
-            : t("common:formInputs.multipleImageInput.selectFile")}
+            : t("common:formInputs.singleImageInput.selectFile")}
           <input {...getInputProps()} />
         </Button>
       </Box>
 
       <Box sx={{ mt: 1 }}>
         <Typography>
-          {t("common:formInputs.multipleImageInput.dragAndDrop")}
+          {t("common:formInputs.singleImageInput.dragAndDrop")}
         </Typography>
       </Box>
 
@@ -185,6 +186,7 @@ function FormImagePicker<
   props: Pick<ControllerProps<TFieldValues, TName>, "name" | "defaultValue"> & {
     disabled?: boolean;
     testId?: string;
+    label?: React.ReactNode;
   }
 ) {
   return (
@@ -199,6 +201,7 @@ function FormImagePicker<
           error={fieldState.error?.message}
           disabled={props.disabled}
           testId={props.testId}
+          label={props.label}
         />
       )}
     />

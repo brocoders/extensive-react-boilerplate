@@ -6,7 +6,7 @@ import { getServerTranslation } from "@/services/i18n";
 import <%= h.inflection.transform(name, ['pluralize']) %> from "./page-content";
 
 type Props = {
-  params: { language: string };
+  params: Promise<{ language: string }>;
 };
 
 export async function generateMetadata(props: Props): Promise<Metadata> {

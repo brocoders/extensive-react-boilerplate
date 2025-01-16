@@ -9,5 +9,5 @@ before: desktop-menu-items
   component={Link}
   href="/admin-panel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>"
 >
-  {t("common:navigation.<%= h.inflection.camelize(h.inflection.pluralize(name), true) %>")}
+  {t("common:navigation.<%= h.inflection.humanize(h.inflection.camelize(h.inflection.pluralize(name), true)) %>")}
 </Button>
