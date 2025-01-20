@@ -11,6 +11,8 @@ after: type CreateFormData
     <%= property %><% if (isOptional) { -%>?<% } -%>: string;
   <% } else if (type === 'boolean') { -%>
     <%= property %><% if (isOptional) { -%>?<% } -%>: boolean;
+  <% } else if (type === 'Date') { -%>
+    <%= property %><% if (isOptional) { -%>?<% } -%>: Date | null;
   <% } -%>
 <% } else if (kind === 'reference') { -%>
   <% if (referenceType === 'toMany') { -%>

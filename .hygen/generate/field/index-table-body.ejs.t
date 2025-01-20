@@ -11,6 +11,8 @@ before: \<index\-component\-body\-field \/\>
       <TableCell>{item?.<%= property %>}</TableCell>
     <% } else if (type === 'boolean') { -%>
       <TableCell>{item?.<%= property %>?.toString()}</TableCell>
+    <% } else if (type === 'Date') { -%>
+      <TableCell>{item?.<%= property %>}</TableCell>
     <% } -%>
   <% } else if (kind === 'reference') { -%>
     <% if (referenceType === 'toMany') { -%>

@@ -21,6 +21,13 @@ before: \<edit\-form\-validation\-schema \/\>
       ,
   <% } else if (type === 'boolean') { -%>
     <%= property %>: yup.boolean(),
+  <% } else if (type === 'Date') { -%>
+    <%= property %>: yup
+      .date()
+      <% if (!isOptional) { -%>
+        .required(t("inputs.<%= property %>.validation.required"))
+      <% } -%>
+      .nullable(),
   <% } -%>
 <% } else if (kind === 'reference') { -%>
   <% if (referenceType === 'toMany') { -%>

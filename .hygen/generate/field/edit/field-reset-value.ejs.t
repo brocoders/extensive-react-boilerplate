@@ -8,9 +8,11 @@ before: \<edit\-form\-reset\-property \/\>
   <% if (type === 'string') { -%>
     <%= property %>: initialData.data.<%= property %> ?? "",
   <% } else if (type === 'number') { -%>
-    <%= property %>: typeof initialData.data.<%= property %> === Number ? initialData.<%= property %>.toString() : "",
+    <%= property %>: typeof initialData.data.<%= property %> === 'number' ? initialData.data.<%= property %>.toString() : "",
   <% } else if (type === 'boolean') { -%>
     <%= property %>: initialData.data.<%= property %> ?? false,
+  <% } else if (type === 'Date') { -%>
+    <%= property %>: initialData.data.<%= property %> ? new Date(initialData.data.<%= property %>) : null,
   <% } -%>
 <% } else if (kind === 'reference') { -%>
   <% if (referenceType === 'toMany') { -%>

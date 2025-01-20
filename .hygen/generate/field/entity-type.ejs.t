@@ -8,9 +8,11 @@ after: export type <%= name %>
   <% if (type === 'string') { -%>
     <%= property %><% if (isOptional) { -%>?<% } -%>: string;
   <% } else if (type === 'number') { -%>
-    <%= property %><% if (isOptional) { -%>?<% } -%>: string;
+    <%= property %><% if (isOptional) { -%>?<% } -%>: number | null;
   <% } else if (type === 'boolean') { -%>
     <%= property %><% if (isOptional) { -%>?<% } -%>: boolean;
+  <% } else if (type === 'Date') { -%>
+    <%= property %><% if (isOptional) { -%>?<% } -%>: string | null;
   <% } -%>
 <% } else if (kind === 'reference') { -%>
   <% if (referenceType === 'toMany') { -%>
