@@ -11,6 +11,8 @@ before: \<create\-form\-submit\-property \/\>
     <%= property %>: formData.<%= property %> !== null ? Number(formData.<%= property %>) : null,
   <% } else if (type === 'boolean') { -%>
     <%= property %>: formData.<%= property %>,
+  <% } else if (type === 'Date') { -%>
+    <%= property %>: formData.<%= property %> ? formData.<%= property %>.toISOString() : null,
   <% } -%>
 <% } else if (kind === 'reference') { -%>
   <% if (referenceType === 'toMany') { -%>

@@ -30,6 +30,14 @@ before: \<create\-component\-field \/\>
         label={t("inputs.<%= property %>.label")}
       />
     </Grid>
+  <% } else if (type === 'Date') { -%>
+    <Grid size={{ xs: 12 }}>
+      <FormDateTimePickerInput<CreateFormData>
+        name="<%= property %>"
+        testId="<%= property %>"
+        label={t("inputs.<%= property %>.label")}
+      />
+    </Grid>
   <% } -%>
 <% } else if (kind === 'reference') { -%>
   <% if (referenceType === 'toMany') { -%>

@@ -11,6 +11,8 @@ after: const defaultValues
     <%= property %>: "",
   <% } else if (type === 'boolean') { -%>
     <%= property %>: false,
+  <% } else if (type === 'Date') { -%>
+    <%= property %>: null,
   <% } -%>
 <% } else if (kind === 'reference') { -%>
   <% if (referenceType === 'toMany') { -%>
