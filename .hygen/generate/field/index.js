@@ -17,7 +17,6 @@ module.exports = {
         referenceType: args.referenceType,
         propertyForSelect: args.propertyForSelect,
         isOptional: args.isOptional === "true",
-        isNullable: args.isNullable === "true",
         isShowInTable: args.isShowInTable === "true",
       });
     }
