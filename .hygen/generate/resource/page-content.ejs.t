@@ -99,6 +99,7 @@ function Actions({ entityItem }: { entityItem: <%= name %> }) {
       variant="contained"
       LinkComponent={Link}
       href={`/admin-panel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/edit/${entityItem.id}`}
+      data-testid="edit-button"
     >
       {t("actions.edit")}
     </Button>
@@ -121,6 +122,7 @@ function Actions({ entityItem }: { entityItem: <%= name %> }) {
           aria-label="select"
           aria-haspopup="menu"
           onClick={handleToggle}
+          data-testid="actions-button"
         >
           <ArrowDropDownIcon />
         </Button>
@@ -156,6 +158,7 @@ function Actions({ entityItem }: { entityItem: <%= name %> }) {
                       },
                     }}
                     onClick={handleDelete}
+                    data-testid="delete-button"
                   >
                     {t("actions.delete")}
                   </MenuItem>
@@ -191,7 +194,7 @@ function <%= h.inflection.transform(name, ['pluralize']) %>() {
       <Grid container spacing={3} pt={3}>
         <Grid container size={{ xs: 12 }} spacing={3}>
           <Grid size="grow">
-            <Typography variant="h3">{t("title")}</Typography>
+            <Typography variant="h3" data-testid="index-page-title">{t("title")}</Typography>
           </Grid>
           <Grid container size="auto" wrap="nowrap" spacing={2}>
             <Grid size="auto">
@@ -200,6 +203,7 @@ function <%= h.inflection.transform(name, ['pluralize']) %>() {
                 LinkComponent={Link}
                 href="/admin-panel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/create"
                 color="success"
+                data-testid="add-button"
               >
                 {t("actions.create")}
               </Button>

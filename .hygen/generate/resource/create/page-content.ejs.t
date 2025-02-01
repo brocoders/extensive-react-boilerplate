@@ -50,6 +50,7 @@ function CreateFormActions() {
       color="primary"
       type="submit"
       disabled={isSubmitting}
+      data-testid="submit-button"
     >
       {t("actions.submit")}
     </Button>
