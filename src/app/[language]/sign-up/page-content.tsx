@@ -130,11 +130,14 @@ function Form() {
     });
 
     if (statusSignIn === HTTP_CODES_ENUM.OK) {
-      setTokensInfo({
-        token: dataSignIn.token,
-        refreshToken: dataSignIn.refreshToken,
-        tokenExpires: dataSignIn.tokenExpires,
-      });
+      setTokensInfo(
+        {
+          token: dataSignIn.token,
+          refreshToken: dataSignIn.refreshToken,
+          tokenExpires: dataSignIn.tokenExpires,
+        },
+        "local"
+      );
       setUser(dataSignIn.user);
     }
   });

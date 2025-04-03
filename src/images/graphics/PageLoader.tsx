@@ -47,7 +47,7 @@ export default function PageLoader() {
           "& .MuiBox-root": { height: "fit-content", width: 28 },
         }}
       >
-        <LogoSection isIcon sx={undefined} to={undefined} />
+        <LogoSection isIcon sx={undefined} /* to={undefined} */ />
       </Avatar>
       <CircularProgress
         {...commonProps}

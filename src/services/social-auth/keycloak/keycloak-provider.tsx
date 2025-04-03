@@ -11,7 +11,9 @@ import { User } from "@/services/api/types/user";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ReactKeycloakProvider = OriginalProvider as any; // Type assertion
 
-const keycloak: KeycloakInstance = new Keycloak(keycloakConfig);
+const keycloak: KeycloakInstance = new (Keycloak as unknown as {
+  new (config: {}): KeycloakInstance;
+})(keycloakConfig);
 
 type KeycloakTokenParsed = {
   sub?: string;

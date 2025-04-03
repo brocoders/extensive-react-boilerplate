@@ -30,11 +30,14 @@ export default function FacebookAuth() {
       });
 
       if (status === HTTP_CODES_ENUM.OK) {
-        setTokensInfo({
-          token: data.token,
-          refreshToken: data.refreshToken,
-          tokenExpires: data.tokenExpires,
-        });
+        setTokensInfo(
+          {
+            token: data.token,
+            refreshToken: data.refreshToken,
+            tokenExpires: data.tokenExpires,
+          },
+          "local"
+        );
         setUser(data.user);
       }
     } finally {
