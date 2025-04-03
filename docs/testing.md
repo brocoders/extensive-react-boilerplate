@@ -33,13 +33,13 @@ npx playwright install
 
    ```bash
     npx playwright test --ui
-    ```
+   ```
 
-    or
+   or
 
-    ```bash
-    npx playwright test
-    ```
+   ```bash
+   npx playwright test
+   ```
 
 ---
 

@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import React, { useCallback, useState } from "react";
+import Image from "next/image";
 import { useDropzone } from "react-dropzone";
 import {
   Controller,
@@ -141,13 +142,13 @@ function ImagePicker(props: ImagePickerProps) {
                     sx={{ width: 50, height: 50, color: "white" }}
                   />
                 </IconButton>
+                <Image
+                  src={props.value.path}
+                  alt=""
+                  fill
+                  style={{ objectFit: "cover" }}
+                />
               </StyledOverlay>
-              <img
-                src={props.value.path}
-                loading="lazy"
-                alt=""
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              />
             </ImageListItem>
           </ImageList>
         </>

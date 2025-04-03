@@ -14,6 +14,7 @@ export default function ContainerWrapper({
   sx,
 }: {
   children: React.ReactNode;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sx?: any;
 }) {
   const theme = useTheme();

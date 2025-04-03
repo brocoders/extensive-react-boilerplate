@@ -22,6 +22,20 @@ import GoogleAuthProvider from "@/services/social-auth/google/google-auth-provid
 import FacebookAuthProvider from "@/services/social-auth/facebook/facebook-auth-provider";
 import ConfirmDialogProvider from "@/components/confirm-dialog/confirm-dialog-provider";
 import InitColorSchemeScript from "@/components/theme/init-color-scheme-script";
+import KeycloakProvider from "@/services/social-auth/keycloak/keycloak-provider";
+
+// Client-side providers wrapper
+const AuthProviders = ({ children }: { children: React.ReactNode }) => (
+  <KeycloakProvider>
+    <AuthProvider>
+      <GoogleAuthProvider>
+        <FacebookAuthProvider>
+          <LeavePageProvider>{children}</LeavePageProvider>
+        </FacebookAuthProvider>
+      </GoogleAuthProvider>
+    </AuthProvider>
+  </KeycloakProvider>
+);
 
 type Props = {
   params: Promise<{ language: string }>;
@@ -45,9 +59,7 @@ export default async function RootLayout(props: {
   params: Promise<{ language: string }>;
 }) {
   const params = await props.params;
-
   const { language } = params;
-
   const { children } = props;
 
   return (
@@ -58,23 +70,13 @@ export default async function RootLayout(props: {
           <ReactQueryDevtools initialIsOpen={false} />
           <ThemeProvider>
             <CssBaseline />
-
             <StoreLanguageProvider>
               <ConfirmDialogProvider>
-                <AuthProvider>
-                  <GoogleAuthProvider>
-                    <FacebookAuthProvider>
-                      <LeavePageProvider>
-                        <ResponsiveAppBar />
-                        {children}
-                        <ToastContainer
-                          position="bottom-left"
-                          hideProgressBar
-                        />
-                      </LeavePageProvider>
-                    </FacebookAuthProvider>
-                  </GoogleAuthProvider>
-                </AuthProvider>
+                <AuthProviders>
+                  <ResponsiveAppBar />
+                  {children}
+                  <ToastContainer position="bottom-left" hideProgressBar />
+                </AuthProviders>
               </ConfirmDialogProvider>
             </StoreLanguageProvider>
           </ThemeProvider>

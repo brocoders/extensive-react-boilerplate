@@ -45,9 +45,13 @@ export default function GraphicsImage({
   sx,
   cardMediaProps,
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   nestedChildren: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   image: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sx: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   cardMediaProps: any;
 }) {
   if (isValidElement(image)) return image;
@@ -65,7 +69,7 @@ export default function GraphicsImage({
   if (isImageComponentProps(image) || typeof image === "string") {
     return (
       <CardMedia
-        {...(cardMediaProps?.component == "img"
+        {...(cardMediaProps?.component === "img"
           ? { src: GetImagePath(image), alt: "Graphics", loading: "lazy" }
           : { image: GetImagePath(image), title: "Graphics", loading: "lazy" })}
         sx={{ width: "auto", ...sx }}

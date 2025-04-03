@@ -22,6 +22,7 @@ import Chip from "@mui/material/Chip";
 import { isGoogleAuthEnabled } from "@/services/social-auth/google/google-config";
 import { isFacebookAuthEnabled } from "@/services/social-auth/facebook/facebook-config";
 import { IS_SIGN_UP_ENABLED } from "@/services/auth/config";
+import { isKeycloakAuthEnabled } from "@/services/social-auth/keycloak/keycloak-config";
 
 type SignInFormData = {
   email: string;
@@ -96,11 +97,14 @@ function Form() {
     }
 
     if (status === HTTP_CODES_ENUM.OK) {
-      setTokensInfo({
-        token: data.token,
-        refreshToken: data.refreshToken,
-        tokenExpires: data.tokenExpires,
-      });
+      setTokensInfo(
+        {
+          token: data.token,
+          refreshToken: data.refreshToken,
+          tokenExpires: data.tokenExpires,
+        },
+        "local" // Assuming the second argument is the user object
+      );
       setUser(data.user);
     }
   });
@@ -113,56 +117,59 @@ function Form() {
             <Grid size={{ xs: 12 }} mt={3}>
               <Typography variant="h6">{t("sign-in:title")}</Typography>
             </Grid>
-            <Grid size={{ xs: 12 }}>
-              <FormTextInput<SignInFormData>
-                name="email"
-                label={t("sign-in:inputs.email.label")}
-                type="email"
-                testId="email"
-                autoFocus
-              />
-            </Grid>
+            {[!isKeycloakAuthEnabled].some(Boolean) && (
+              <>
+                <Grid size={{ xs: 12 }}>
+                  <FormTextInput<SignInFormData>
+                    name="email"
+                    label={t("sign-in:inputs.email.label")}
+                    type="email"
+                    testId="email"
+                    autoFocus
+                  />
+                </Grid>
 
-            <Grid size={{ xs: 12 }}>
-              <FormTextInput<SignInFormData>
-                name="password"
-                label={t("sign-in:inputs.password.label")}
-                type="password"
-                testId="password"
-              />
-            </Grid>
-            <Grid size={{ xs: 12 }}>
-              <LinkItem
-                component={Link}
-                href="/forgot-password"
-                data-testid="forgot-password"
-              >
-                {t("sign-in:actions.forgotPassword")}
-              </LinkItem>
-            </Grid>
-
-            <Grid size={{ xs: 12 }}>
-              <FormActions />
-
-              {IS_SIGN_UP_ENABLED && (
-                <Box ml={1} component="span">
-                  <Button
-                    variant="contained"
-                    color="inherit"
-                    LinkComponent={Link}
-                    href="/sign-up"
-                    data-testid="create-account"
+                <Grid size={{ xs: 12 }}>
+                  <FormTextInput<SignInFormData>
+                    name="password"
+                    label={t("sign-in:inputs.password.label")}
+                    type="password"
+                    testId="password"
+                  />
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <LinkItem
+                    component={Link}
+                    href="/forgot-password"
+                    data-testid="forgot-password"
                   >
-                    {t("sign-in:actions.createAccount")}
-                  </Button>
-                </Box>
-              )}
-            </Grid>
+                    {t("sign-in:actions.forgotPassword")}
+                  </LinkItem>
+                </Grid>
 
+                <Grid size={{ xs: 12 }}>
+                  <FormActions />
+
+                  {IS_SIGN_UP_ENABLED && (
+                    <Box ml={1} component="span">
+                      <Button
+                        variant="contained"
+                        color="inherit"
+                        LinkComponent={Link}
+                        href="/sign-up"
+                        data-testid="create-account"
+                      >
+                        {t("sign-in:actions.createAccount")}
+                      </Button>
+                    </Box>
+                  )}
+                </Grid>
+              </>
+            )}
             {[isGoogleAuthEnabled, isFacebookAuthEnabled].some(Boolean) && (
               <Grid size={{ xs: 12 }}>
                 <Divider sx={{ mb: 2 }}>
-                  <Chip label={t("sign-in:or")} />
+                  {!isKeycloakAuthEnabled && <Chip label={t("sign-in:or")} />}
                 </Divider>
 
                 <SocialAuth />

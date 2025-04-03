@@ -18,12 +18,11 @@ import ButtonAnimationWrapper from "@/components/ButtonAnimationWrapper";
 import GraphicsCard from "@/components/cards/GraphicsCard";
 import ContainerWrapper from "@/components/ContainerWrapper";
 import GraphicsImage from "@/components/GraphicsImage";
-import { SECTION_COMMON_PY } from "@/utils/constant";
 import { getBackgroundDots } from "@/utils/getBackgroundDots";
 
 // @assets
 import Wave from "@/images/graphics/Wave";
-import { SvgIcon } from "@mui/material";
+import SvgIcon from "@mui/material/SvgIcon";
 
 // threshold - adjust threshold as needed
 const options = { root: null, rootMargin: "0px", threshold: 0.6 };
@@ -46,6 +45,7 @@ export default function Hero({
   chip?: ChipType;
   headLine?: string;
   captionLine?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   primaryBtn?: any /* PrimaryButtonProps */;
   videoSrc?: string;
   videoThumbnail?: string;

@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { DynamicComponentType } from "@/enum";
 
 /***************************  DYNAMIC - IMPORT  ***************************/
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function loadComponent(component: string, type: any) {
   switch (type) {
     case DynamicComponentType.IMAGE:
@@ -31,7 +31,9 @@ function DynamicComponent({
   props,
 }: {
   component: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   type: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props: any;
 }) {
   const ImportedComponent = dynamic(() => loadComponent(component, type), {

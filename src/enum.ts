@@ -6,6 +6,7 @@ export enum IconType {
 }
 
 //@root.ts
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export let DynamicComponentType: { IMAGE?: any; ICON?: any } = {};
 
 (function (DynamicComponentType) {

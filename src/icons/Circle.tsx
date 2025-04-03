@@ -12,6 +12,7 @@ export default function Circle({
   color,
 }: {
   size: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   color: any;
 }) {
   const theme = useTheme();
