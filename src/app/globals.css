@@ -1,1 +1,19 @@
 /* Your global CSS here */
+
+/* slick-carousel slider */
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+/* scrollbar */
+@import "../styles/scrollbar.css";
+
+/* to remove default browser focus-visible */
+body * {
+  &:focus-visible,
+  &:focus {
+    outline: none;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}

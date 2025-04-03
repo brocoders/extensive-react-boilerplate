@@ -1,0 +1,45 @@
+@supports (-webkit-appearance: none) {
+  *::-webkit-scrollbar-track {
+    background: transparent; /* track color */
+  }
+
+  /* target the scrollbar track (background) */
+  *::-webkit-scrollbar {
+    width: 8px; /* Adjust for desired thinness */
+    background: transparent;
+  }
+
+  /* target the scrollbar thumb for light mode */
+  *::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  /* target the scrollbar thumb for dark mode */
+  [data-theme-mode="dark"] *::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.25);
+  }
+
+  /* target the hover state of the thumb in dark mode */
+  [data-theme-mode="dark"] *::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.35);
+  }
+
+  /* remove buttons */
+  *::-webkit-scrollbar-button {
+    display: none;
+  }
+}
+
+@supports (-moz-appearance: none) {
+  /* firefox specific styles */
+
+  /* adjust scrollbar width */
+  * {
+    scrollbar-width: thin; /* "auto" or "thin" for Firefox */
+  }
+}

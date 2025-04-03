@@ -71,6 +71,7 @@ export default function ConfirmNewEmail() {
     isLoaded,
     setUser,
     fetchAuthGetMe,
+    user,
   ]);
 
   return (
