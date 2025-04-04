@@ -15,6 +15,7 @@ interface GraphicsCardProps {
   children?: React.ReactNode;
   overLay?: boolean | string;
   bgImage?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 

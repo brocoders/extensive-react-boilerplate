@@ -1,5 +1,4 @@
 "use client";
-import PropTypes from "prop-types";
 
 // @mui
 import { useTheme } from "@mui/material/styles";
@@ -17,7 +16,7 @@ const spritePaths = {
 };
 
 interface SvgIconProps {
-  name: string;
+  name?: string;
   size?: number;
   type?: IconType;
   color?: string;

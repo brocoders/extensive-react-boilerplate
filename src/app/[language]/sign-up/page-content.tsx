@@ -25,7 +25,7 @@ import Chip from "@mui/material/Chip";
 import SocialAuth from "@/services/social-auth/social-auth";
 import { isGoogleAuthEnabled } from "@/services/social-auth/google/google-config";
 import { isFacebookAuthEnabled } from "@/services/social-auth/facebook/facebook-config";
-
+import { isKeycloakAuthEnabled } from "@/services/social-auth/keycloak/keycloak-config";
 type TPolicy = {
   id: string;
   name: string;
@@ -150,82 +150,85 @@ function Form() {
             <Grid size={{ xs: 12 }} mt={3}>
               <Typography variant="h6">{t("sign-up:title")}</Typography>
             </Grid>
-            <Grid size={{ xs: 12 }}>
-              <FormTextInput<SignUpFormData>
-                name="firstName"
-                label={t("sign-up:inputs.firstName.label")}
-                type="text"
-                autoFocus
-                testId="first-name"
-              />
-            </Grid>
+            {[!isKeycloakAuthEnabled].some(Boolean) && (
+              <>
+                <Grid size={{ xs: 12 }}>
+                  <FormTextInput<SignUpFormData>
+                    name="firstName"
+                    label={t("sign-up:inputs.firstName.label")}
+                    type="text"
+                    autoFocus
+                    testId="first-name"
+                  />
+                </Grid>
 
-            <Grid size={{ xs: 12 }}>
-              <FormTextInput<SignUpFormData>
-                name="lastName"
-                label={t("sign-up:inputs.lastName.label")}
-                type="text"
-                testId="last-name"
-              />
-            </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <FormTextInput<SignUpFormData>
+                    name="lastName"
+                    label={t("sign-up:inputs.lastName.label")}
+                    type="text"
+                    testId="last-name"
+                  />
+                </Grid>
 
-            <Grid size={{ xs: 12 }}>
-              <FormTextInput<SignUpFormData>
-                name="email"
-                label={t("sign-up:inputs.email.label")}
-                type="email"
-                testId="email"
-              />
-            </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <FormTextInput<SignUpFormData>
+                    name="email"
+                    label={t("sign-up:inputs.email.label")}
+                    type="email"
+                    testId="email"
+                  />
+                </Grid>
 
-            <Grid size={{ xs: 12 }}>
-              <FormTextInput<SignUpFormData>
-                name="password"
-                label={t("sign-up:inputs.password.label")}
-                type="password"
-                testId="password"
-              />
-            </Grid>
-            <Grid size={{ xs: 12 }}>
-              <FormCheckboxInput
-                name="policy"
-                label=""
-                testId="privacy"
-                options={policyOptions}
-                keyValue="id"
-                keyExtractor={(option) => option.id.toString()}
-                renderOption={(option) => (
-                  <span>
-                    {option.name}
-                    <MuiLink href="/privacy-policy" target="_blank">
-                      {t("sign-up:inputs.policy.label")}
-                    </MuiLink>
-                  </span>
-                )}
-              />
-            </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <FormTextInput<SignUpFormData>
+                    name="password"
+                    label={t("sign-up:inputs.password.label")}
+                    type="password"
+                    testId="password"
+                  />
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <FormCheckboxInput
+                    name="policy"
+                    label=""
+                    testId="privacy"
+                    options={policyOptions}
+                    keyValue="id"
+                    keyExtractor={(option) => option.id.toString()}
+                    renderOption={(option) => (
+                      <span>
+                        {option.name}
+                        <MuiLink href="/privacy-policy" target="_blank">
+                          {t("sign-up:inputs.policy.label")}
+                        </MuiLink>
+                      </span>
+                    )}
+                  />
+                </Grid>
 
-            <Grid size={{ xs: 12 }}>
-              <FormActions />
-              <Box ml={1} component="span">
-                <Button
-                  variant="contained"
-                  color="inherit"
-                  LinkComponent={Link}
-                  data-testid="login"
-                  href="/sign-in"
-                >
-                  {t("sign-up:actions.accountAlreadyExists")}
-                </Button>
-              </Box>
-            </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <FormActions />
+                  <Box ml={1} component="span">
+                    <Button
+                      variant="contained"
+                      color="inherit"
+                      LinkComponent={Link}
+                      data-testid="login"
+                      href="/sign-in"
+                    >
+                      {t("sign-up:actions.accountAlreadyExists")}
+                    </Button>
+                  </Box>
+                </Grid>
+              </>
+            )}
 
             {[isGoogleAuthEnabled, isFacebookAuthEnabled].some(Boolean) && (
               <Grid size={{ xs: 12 }}>
                 <Divider sx={{ mb: 2 }}>
-                  <Chip label={t("sign-up:or")} />
+                  {!isKeycloakAuthEnabled && <Chip label={t("sign-up:or")} />}
                 </Divider>
-
                 <SocialAuth />
               </Grid>
             )}

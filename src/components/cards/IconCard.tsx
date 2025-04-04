@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-// @mui
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -23,6 +21,16 @@ export default function IconCard({
   stackProps,
   contentProps,
   cardPadding,
+}: {
+  icon: string | object;
+  title: string;
+  content: string;
+  iconAvatar?: boolean | string;
+  contentCard?: boolean | string;
+  titleProps?: object;
+  stackProps?: object;
+  contentProps?: object;
+  cardPadding?: object;
 }) {
   const defaultBoxPadding = { xs: 3, sm: 4, md: 5 };
   const boxPadding = cardPadding ? { ...cardPadding } : defaultBoxPadding;
@@ -86,15 +94,3 @@ export default function IconCard({
     </GraphicsCard>
   );
 }
-
-IconCard.propTypes = {
-  icon: PropTypes.any,
-  title: PropTypes.any,
-  content: PropTypes.any,
-  iconAvatar: PropTypes.any,
-  contentCard: PropTypes.any,
-  titleProps: PropTypes.any,
-  stackProps: PropTypes.any,
-  contentProps: PropTypes.any,
-  cardPadding: PropTypes.any,
-};

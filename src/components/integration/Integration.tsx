@@ -1,5 +1,5 @@
 "use client";
-import PropTypes from "prop-types";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 // @mui
 import Button from "@mui/material/Button";
@@ -16,6 +16,7 @@ import GraphicsCard from "@/components/cards/GraphicsCard";
 import ContainerWrapper from "@/components/ContainerWrapper";
 
 import { SECTION_COMMON_PY } from "@/utils/constant";
+import SvgIcon from "../SvgIcon";
 
 // @types
 
@@ -26,6 +27,7 @@ function IntegrationTag({
   icon,
 }: {
   label: string;
+
   icon?: string | Record<string, any>;
 }) {
   const iconSize = { xs: 32, md: 40 };
@@ -33,9 +35,17 @@ function IntegrationTag({
   return (
     <Chip
       label={<Typography variant="h5">{label}</Typography>}
-      // {...(icon && {
-      //   icon: <SvgIcon {...(typeof icon === 'string' ? { name: icon as string } : { ...icon })} stroke={1} color="inherit" />
-      // })}
+      {...(icon && {
+        icon: (
+          <SvgIcon
+            {...(typeof icon === "string"
+              ? { name: icon as string }
+              : { ...icon })}
+            stroke={1}
+            color="inherit"
+          />
+        ),
+      })}
       sx={{
         px: { xs: 2.25, md: 3 },
         py: icon ? { xs: 1.25, md: 1.75 } : { xs: 1.875, md: 2.5 },

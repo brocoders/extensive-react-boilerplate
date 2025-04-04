@@ -1,5 +1,5 @@
 "use client";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // @mui
 import { alpha, useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -30,6 +30,7 @@ import Star from "@/images/graphics/Star";
 interface Feature20Props {
   heading?: string;
   caption?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   image?: any;
   features: Array<{ icon: string | object; title?: string; content?: string }>;
   actionBtn?: object;
@@ -59,6 +60,7 @@ export default function Feature20({
       : partitionInLarge;
 
   const calculateElementsInLastRow = (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     dataArray: string | any[],
     columns: number
   ) => {
@@ -209,11 +211,13 @@ export default function Feature20({
                         sx={{ width: 60, height: 60, bgcolor: "grey.300" }}
                       >
                         {/*  //TODO: Uncomment this when the icon is available */}
-                        {/* <SvgIcon
+                        <SvgIcon
                           {...(typeof item.icon === "string" && item.icon
                             ? { name: item.icon }
-                            : { ...item.icon })}
-                        /> */}
+                            : typeof item.icon === "object"
+                              ? { ...item.icon }
+                              : {})}
+                        />
                       </Avatar>
                       <Stack sx={{ gap: { xs: 0.5, md: 1 } }}>
                         {item.title && (

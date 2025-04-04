@@ -60,7 +60,7 @@ export default function KeycloakAuth() {
       startIcon={
         <Box
           component="img"
-          src="/images/keycloak-logo.png" // Add your logo path
+          src="https://res.cloudinary.com/dihzljuvb/image/upload/v1743165004/SakaTaka/kata/rn47mlw7e3h8tp1h66hb.png" // Add your logo path
           alt="Keycloak logo"
           sx={{
             width: 20,

@@ -1,5 +1,5 @@
 "use client";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // @mui
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid2";

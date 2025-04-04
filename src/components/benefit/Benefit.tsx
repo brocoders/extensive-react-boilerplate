@@ -71,11 +71,11 @@ export default function Benefit({
               >
                 <GraphicsCard
                   sx={{ p: { xs: 2, sm: 2.25, md: 3 }, height: 1 }}
-                  bgImage="path/to/your/image.jpg"
+                  bgImage="assets/images/back.png"
                 >
                   <Stack sx={{ gap: 0.5, alignItems: "center" }}>
                     <Stack direction="row" sx={{ alignItems: "flex-end" }}>
-                      <Typography component="div" variant="h1">
+                      <Typography component="div" variant="h5">
                         {item.counter}
                       </Typography>
                       <Typography

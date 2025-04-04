@@ -1,5 +1,4 @@
 "use client";
-import PropTypes from "prop-types";
 
 import { SetStateAction, useState } from "react";
 
@@ -8,9 +7,9 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid2";
 import Stack from "@mui/material/Stack";
 import Tab from "@mui/material/Tab";
-// import TabContext from '@mui/lab/TabContext';
-// import TabList from '@mui/lab/TabList';
-// import TabPanel from '@mui/lab/TabPanel';
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
@@ -31,6 +30,7 @@ interface Feature18Props {
   caption: string;
   topics: Array<{
     title: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     icon: string | { name: string; [key: string]: any };
     image: string;
     title2?: string;
@@ -52,6 +52,7 @@ export default function Feature18({
   const [value, setValue] = useState("1");
 
   // Handle tab change
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (event: any, newValue: SetStateAction<string>) => {
     setValue(newValue);
   };
@@ -67,19 +68,23 @@ export default function Feature18({
               sx: {
                 alignItems: "center",
                 textAlign: "center",
-                maxWidth: { sm: 470, md: 615 },
+                maxWidth: { sm: 470, md: 800 },
                 mx: "auto",
               },
             },
           }}
         />
         <Stack sx={{ gap: 1.5, alignItems: "center" }}>
-          {/* <TabContext value={value}>
-            <GraphicsCard sx={{ width: { xs: 1, sm: 'unset' } }}>
+          <TabContext value={value}>
+            <GraphicsCard sx={{ width: { xs: 1, sm: "unset" } }}>
               <Box sx={{ p: 0.25 }}>
                 <TabList
                   onChange={handleChange}
-                  sx={{ '& .MuiTabs-indicator': { display: 'none' }, minHeight: 'unset', p: 0.25 }}
+                  sx={{
+                    "& .MuiTabs-indicator": { display: "none" },
+                    minHeight: "unset",
+                    p: 0.25,
+                  }}
                   variant="scrollable"
                 >
                   {topics.map((item, index) => (
@@ -88,7 +93,9 @@ export default function Feature18({
                       disableFocusRipple
                       icon={
                         <SvgIcon
-                          {...(typeof item.icon === 'string' ? { name: item.icon } : { ...item.icon })}
+                          {...(typeof item.icon === "string"
+                            ? { name: item.icon }
+                            : { ...item.icon })}
                           size={16}
                           stroke={2}
                           color="text.secondary"
@@ -102,17 +109,17 @@ export default function Feature18({
                         minHeight: 44,
                         borderRadius: 10,
                         borderWidth: 1,
-                        borderStyle: 'solid',
-                        borderColor: 'transparent',
-                        '& svg ': { mr: 1 },
-                        '&.Mui-selected': {
-                          bgcolor: 'grey.200',
-                          borderColor: 'grey.400',
-                          color: 'text.primary',
-                          '& svg': { stroke: 'text.primary' }
+                        borderStyle: "solid",
+                        borderColor: "transparent",
+                        "& svg ": { mr: 1 },
+                        "&.Mui-selected": {
+                          bgcolor: "grey.200",
+                          borderColor: "grey.400",
+                          color: "text.primary",
+                          "& svg": { stroke: "text.primary" },
                         },
-                        '&.Mui-focusVisible': { bgcolor: 'grey.300' },
-                        '&:hover': { bgcolor: 'grey.200' }
+                        "&.Mui-focusVisible": { bgcolor: "grey.300" },
+                        "&:hover": { bgcolor: "grey.200" },
                       }}
                     />
                   ))}
@@ -120,22 +127,34 @@ export default function Feature18({
               </Box>
             </GraphicsCard>
             {topics.map((item, index) => (
-              <TabPanel value={String(index + 1)} key={index} sx={{ p: 0, width: 1 }}>
+              <TabPanel
+                value={String(index + 1)}
+                key={index}
+                sx={{ p: 0, width: 1 }}
+              >
                 <Grid container spacing={1.5}>
                   <Grid size={{ xs: 12, sm: 5 }}>
                     <GraphicsCard>
-                      <Box sx={{ pl: imagePadding, pt: imagePadding, height: { xs: 260, sm: 396, md: 434 } }}>
+                      <Box
+                        sx={{
+                          pl: imagePadding,
+                          pt: imagePadding,
+                          height: { xs: 260, sm: 396, md: 434 },
+                        }}
+                      >
                         <GraphicsImage
+                          nestedChildren={null}
+                          cardMediaProps={{}}
                           sx={{
                             height: 1,
-                            backgroundPositionX: 'left',
-                            backgroundPositionY: 'top',
-                            border: '5px solid',
-                            borderColor: 'grey.200',
-                            borderBottom: 'none',
-                            borderRight: 'none',
+                            backgroundPositionX: "left",
+                            backgroundPositionY: "top",
+                            border: "5px solid",
+                            borderColor: "grey.200",
+                            borderBottom: "none",
+                            borderRight: "none",
                             borderTopLeftRadius: { xs: 12 },
-                            borderBottomRightRadius: { xs: 20, sm: 32, md: 40 }
+                            borderBottomRightRadius: { xs: 20, sm: 32, md: 40 },
                           }}
                           image={item.image}
                         />
@@ -146,28 +165,43 @@ export default function Feature18({
                     <GraphicsCard sx={{ height: 1 }}>
                       <Stack
                         sx={{
-                          justifyContent: 'space-between',
+                          justifyContent: "space-between",
                           gap: 5,
-                          height: item.actionBtn || item.actionBtn2 ? { sm: 'calc(100% - 98px)', md: 'calc(100%  - 114px)' } : 1,
+                          height:
+                            item.actionBtn || item.actionBtn2
+                              ? {
+                                  sm: "calc(100% - 98px)",
+                                  md: "calc(100%  - 114px)",
+                                }
+                              : 1,
                           pt: boxPadding,
-                          px: boxPadding
+                          px: boxPadding,
                         }}
                       >
                         <Stack direction="row" sx={{ gap: 1 }}>
                           <SvgIcon
-                            {...(typeof item.icon === 'string' ? { name: item.icon } : { ...item.icon })}
+                            {...(typeof item.icon === "string"
+                              ? { name: item.icon }
+                              : { ...item.icon })}
                             size={16}
                             stroke={2}
                             color="text.primary"
                           />
-                          <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
+                          <Typography
+                            variant="subtitle2"
+                            sx={{ color: "text.secondary" }}
+                          >
                             {item.title}
                           </Typography>
                         </Stack>
                         <Stack sx={{ gap: { xs: 2, md: 3 }, pb: boxPadding }}>
                           <Stack sx={{ gap: 0.5 }}>
                             <Typography variant="h4">{item.title2}</Typography>
-                            {item.description && <Typography sx={{ color: 'text.secondary' }}>{item.description}</Typography>}
+                            {item.description && (
+                              <Typography sx={{ color: "text.secondary" }}>
+                                {item.description}
+                              </Typography>
+                            )}
                           </Stack>
                           {item.list && (
                             <Grid container spacing={{ xs: 0.75, md: 1 }}>
@@ -177,12 +211,22 @@ export default function Feature18({
                                     direction="row"
                                     sx={{
                                       gap: 0.5,
-                                      alignItems: 'center',
-                                      '& svg.tabler-rosette-discount-check': { width: { xs: 16, md: 24 }, height: { xs: 16, md: 24 } }
+                                      alignItems: "center",
+                                      "& svg.tabler-rosette-discount-check": {
+                                        width: { xs: 16, md: 24 },
+                                        height: { xs: 16, md: 24 },
+                                      },
                                     }}
                                   >
-                                    <SvgIcon name="tabler-rosette-discount-check" stroke={1} color="text.secondary" />
-                                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                    <SvgIcon
+                                      name="tabler-rosette-discount-check"
+                                      stroke={1}
+                                      color="text.secondary"
+                                    />
+                                    <Typography
+                                      variant="body2"
+                                      sx={{ color: "text.secondary" }}
+                                    >
                                       {list.primary}
                                     </Typography>
                                   </Stack>
@@ -193,13 +237,26 @@ export default function Feature18({
                         </Stack>
                       </Stack>
                       {(item.actionBtn || item.actionBtn2) && (
-                        <GraphicsCard sx={{ bgcolor: 'grey.200' }}>
-                          <Stack direction="row" sx={{ alignItems: 'flex-start', gap: 1.5, p: { xs: 2, sm: 3, md: 4 } }}>
+                        <GraphicsCard sx={{ bgcolor: "grey.200" }}>
+                          <Stack
+                            direction="row"
+                            sx={{
+                              alignItems: "flex-start",
+                              gap: 1.5,
+                              p: { xs: 2, sm: 3, md: 4 },
+                            }}
+                          >
                             {item.actionBtn2 && (
                               <Button
                                 variant="outlined"
                                 color="primary"
-                                startIcon={<SvgIcon name="tabler-help" size={16} stroke={3} />}
+                                startIcon={
+                                  <SvgIcon
+                                    name="tabler-help"
+                                    size={16}
+                                    stroke={3}
+                                  />
+                                }
                                 {...item.actionBtn2}
                               />
                             )}
@@ -207,7 +264,14 @@ export default function Feature18({
                               <Button
                                 variant="contained"
                                 color="primary"
-                                startIcon={<SvgIcon name="tabler-link" size={16} stroke={3} color="background.default" />}
+                                startIcon={
+                                  <SvgIcon
+                                    name="tabler-link"
+                                    size={16}
+                                    stroke={3}
+                                    color="background.default"
+                                  />
+                                }
                                 {...item.actionBtn}
                               />
                             )}
@@ -219,7 +283,7 @@ export default function Feature18({
                 </Grid>
               </TabPanel>
             ))}
-          </TabContext> */}
+          </TabContext>
         </Stack>
       </Stack>
     </ContainerWrapper>

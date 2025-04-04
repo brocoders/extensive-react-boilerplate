@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 //@icon
 export enum IconType {
   STROKE = "stroke",
@@ -6,10 +7,19 @@ export enum IconType {
 }
 
 //@root.ts
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export let DynamicComponentType: { IMAGE?: any; ICON?: any } = {};
 
 (function (DynamicComponentType) {
   DynamicComponentType["ICON"] = "icons";
   DynamicComponentType["IMAGE"] = "images";
 })(DynamicComponentType || (DynamicComponentType = {}));
+
+//@footer.ts
+export let CopyrightType: { TYPE3?: any; TYPE1?: any; TYPE2?: any } = {};
+
+(function (CopyrightType) {
+  CopyrightType["TYPE1"] = "default";
+  CopyrightType["TYPE2"] = "type2";
+  CopyrightType["TYPE3"] = "type3";
+})(CopyrightType || (CopyrightType = {}));

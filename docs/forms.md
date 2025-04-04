@@ -45,9 +45,8 @@ const transformOut = (data) => ({
 
 // Some code here...
 
-const { reset } =
-  useForm();
-  // Some code here...
+const { reset } = useForm();
+// Some code here...
 
 useEffect(() => {
   reset(transformIn(backendData));
