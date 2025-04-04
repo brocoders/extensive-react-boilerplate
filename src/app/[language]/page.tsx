@@ -5,6 +5,9 @@ import MuiLink from "@mui/material/Link";
 import ContainerWrapper from "@/components/ContainerWrapper";
 import Hero from "@/components/hero/Hero";
 import Stack from "@mui/material/Stack";
+import { Benefit } from "@/components/benefit";
+import { Integration } from "@/components/integration";
+import Feature18 from "@/components/feature/Feature18";
 
 type Props = {
   params: Promise<{ language: string }>;
@@ -18,10 +21,13 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     title: t("title"),
   };
 }
-
+// @asssets
+const imagePrefix = "/assets/images/presentation";
 export default async function Home(/* props: Props */) {
   // const params = await props.params;
   // const { t } = await getServerTranslation(params.language, "home");
+
+  const linkProps = { target: "_blank", rel: "noopener noreferrer" };
   const hero = {
     headLine: "Powering Waste Collectors, Cleaning Up Communities",
     captionLine:
@@ -31,10 +37,164 @@ export default async function Home(/* props: Props */) {
       href: "",
     },
     videoSrc:
-      "" /* "https://d2elhhoq00m1pj.cloudfront.net/saasable-intro.mp4" */,
+      "https://www.youtube.com/embed/JrhLKkqwZ5s" /* "https://d2elhhoq00m1pj.cloudfront.net/saasable-intro.mp4" */,
     videoThumbnail: "/assets/videos/thumbnails/intro-thumbnail.png",
     listData: [],
   };
+
+  const benefit = {
+    heading: "What We’ve Built (So Far!)",
+    caption: "",
+    blockDetail: [
+      {
+        animationDelay: 0.1,
+        counter: 200,
+        defaultUnit: "+",
+        caption: "Smart Payment Tracking",
+      },
+      {
+        animationDelay: 0.2,
+        counter: 50,
+        defaultUnit: "+",
+        caption: "Automated Reports ",
+      },
+      {
+        animationDelay: 0.2,
+        counter: 50,
+        defaultUnit: "+",
+        caption: "",
+      },
+      {
+        animationDelay: 0.2,
+        counter: 50,
+        defaultUnit: "+",
+        caption: " ",
+      },
+    ],
+  };
+
+  const tags = {
+    heading: `Blocks `,
+    description:
+      "Explore a wide range of ready-made blocks—from Hero to CTA, Features, and more to speed up your design process.",
+    primaryBtn: { children: "Explore all Blocks", href: "" },
+    sections: [
+      {
+        animationDelay: 0.2,
+        title: "Hero",
+        subTitle: "17 Different Variants",
+        image: `${imagePrefix}/hero-light.svg`,
+        link: "/",
+      },
+      {
+        animationDelay: 0.3,
+        title: "Call to Action",
+        subTitle: "12 Different Variants",
+        image: `${imagePrefix}/cta-light.svg`,
+        link: "/",
+      },
+      {
+        animationDelay: 0.4,
+        title: "Feature",
+        subTitle: "23 Different Variants",
+        image: `${imagePrefix}/feature-light.svg`,
+        link: "/",
+      },
+      {
+        animationDelay: 0.2,
+        title: "Benefits",
+        subTitle: "9 Different Variants",
+        image: `${imagePrefix}/benefits-light.svg`,
+        link: "/",
+      },
+      {
+        animationDelay: 0.3,
+        title: "Process",
+        subTitle: "7 Different Variants",
+        image: `${imagePrefix}/process-light.svg`,
+        link: "/",
+      },
+      {
+        animationDelay: 0.4,
+        title: "Integration",
+        subTitle: "8 Different Variants",
+        image: `${imagePrefix}/integration-light.svg`,
+        link: "/",
+      },
+    ],
+  };
+  const feature18 = {
+    heading: "Powerful Admin Interface",
+    caption:
+      "Manage data, users, and workflows effortlessly with intuitive, customizable admin controls and features.",
+    topics: [
+      {
+        icon: "tabler-sparkles",
+        title: "Material UI Powered",
+        title2: "Leverage Power of Material UI Components",
+        description:
+          "The power and flexibility of Material UI components in admin template",
+        image: "/assets/images/graphics/default/admin-dashboard.png",
+        list: [
+          { primary: "Nextjs JavaScript/TypeScript" },
+          { primary: "Customizable Themes" },
+          { primary: "Rich Form and Table Components" },
+          { primary: "Responsive Grid System" },
+        ],
+        actionBtn: { children: "View Dashboard", href: "", ...linkProps },
+        actionBtn2: { children: "Docs", href: "", ...linkProps },
+      },
+      {
+        icon: "tabler-palette",
+        title: "Customizable Themes",
+        title2: "Flexible Theming Options",
+        description:
+          "Tailor themes effortlessly with MUI v6 robust theming system.",
+        image: "/assets/images/graphics/default/admin-dashboard-2.png",
+        list: [
+          { primary: "Easy options for Theming" },
+          { primary: "Layout Options" },
+          { primary: "Color Presets tailored to your Web Apps" },
+          { primary: "Consistency in Design" },
+        ],
+        actionBtn: { children: "View Dashboard", href: "", ...linkProps },
+        actionBtn2: { children: "Docs", href: "", ...linkProps },
+      },
+      {
+        icon: "tabler-rocket",
+        title: "Faster Development",
+        title2: "Rapid Development",
+        description:
+          "Launch projects quicker with pre-built layouts and components.",
+        image: "/assets/images/graphics/default/admin-dashboard-3.png",
+        list: [
+          { primary: "Time Saving" },
+          { primary: "Tested and Reliable" },
+          { primary: "Customization Ready" },
+          { primary: "Enhanced User Experience" },
+        ],
+        actionBtn: { children: "View Dashboard", href: "", ...linkProps },
+        actionBtn2: { children: "Docs", href: "", ...linkProps },
+      },
+      {
+        icon: "tabler-scale",
+        title: "Scalability",
+        title2: "Build to Scale",
+        description:
+          "Easily scale your app with flexible, modular, and extensible templates.",
+        image: "/assets/images/graphics/default/admin-dashboard.png",
+        list: [
+          { primary: "Modular Architecture" },
+          { primary: "Performance Optimized" },
+          { primary: "Extensible Codebase" },
+          { primary: "Future Proof Design" },
+        ],
+        actionBtn: { children: "View Dashboard", href: "", ...linkProps },
+        actionBtn2: { children: "Docs", href: "", ...linkProps },
+      },
+    ],
+  };
+
   return (
     // <Container maxWidth="md">
     //   <Grid
@@ -91,7 +251,25 @@ export default async function Home(/* props: Props */) {
             listData={hero.listData}
           />
 
-          {/* <Benefits heading={"dsdsd"} caption={"sdsds"} blockDetail={benefit} /> */}
+          <Benefit
+            heading={benefit.heading}
+            caption={benefit.caption}
+            blockDetail={benefit.blockDetail}
+          />
+          <Integration
+            headLine={tags.heading}
+            primaryBtn={tags.primaryBtn}
+            captionLine={tags.description}
+            tagList={tags.sections.map((section) => ({
+              label: section.title,
+              icon: section.image,
+            }))}
+          />
+          <Feature18
+            heading={feature18.heading}
+            caption={feature18.caption}
+            topics={feature18.topics}
+          />
         </Grid>
         <Grid sx={{ mx: "auto" }}>
           <MuiLink href="/privacy-policy">Privacy Policy</MuiLink>

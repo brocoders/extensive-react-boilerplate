@@ -10,13 +10,21 @@ import GetImagePath from "@/utils/GetImagePath";
 
 /***************************  GRAPHICS CARD  ***************************/
 
+interface GraphicsCardProps {
+  sx?: object;
+  children?: React.ReactNode;
+  overLay?: boolean | string;
+  bgImage?: string;
+  [key: string]: any;
+}
+
 export default function GraphicsCard({
   sx,
   children,
   overLay = false,
   bgImage,
   ...rest
-}) {
+}: GraphicsCardProps) {
   const theme = useTheme();
 
   return (
