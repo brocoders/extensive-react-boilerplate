@@ -18,14 +18,14 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@mui/material": "7.0.0-beta.10",
+    "@mui/lab": "7.0.0-beta.10",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@faker-js/faker": "^9.0.0",
     "@fontsource/roboto": "^5.0.8",
     "@hookform/resolvers": "^3.2.0",
     "@mui/icons-material": "6.4.0",
-    "@mui/lab": "^7.0.0-beta.10",
-    "@mui/material": "6.4.0",
     "@mui/x-date-pickers": "7.24.0",
     "@react-keycloak/ssr": "^3.3.0",
     "@react-keycloak/web": "^3.4.0",
