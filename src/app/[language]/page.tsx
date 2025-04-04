@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getServerTranslation } from "@/services/i18n";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import ContainerWrapper from "@/components/ContainerWrapper";
 import Hero from "@/components/hero/Hero";
 import Stack from "@mui/material/Stack";

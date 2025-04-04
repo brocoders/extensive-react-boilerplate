@@ -10,7 +10,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useSnackbar } from "@/hooks/use-snackbar";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 import useAuthActions from "@/services/auth/use-auth-actions";
