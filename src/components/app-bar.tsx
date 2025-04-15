@@ -9,7 +9,6 @@ import Link from "@/components/link";
 import { RoleEnum } from "@/services/api/types/role";
 import ThemeSwitchButton from "@/components/switch-theme-button";
 import { IS_SIGN_UP_ENABLED } from "@/services/auth/config";
-import Logo from "./logo";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
@@ -25,6 +24,7 @@ import Avatar from "@mui/material/Avatar";
 import MenuIcon from "@mui/icons-material/Menu";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
+import Logo from "./logo";
 
 const StyledAppBar = styled(AppBar)((/* { theme } */) => ({
   background: "transparent",

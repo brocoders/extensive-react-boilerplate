@@ -19,6 +19,15 @@
         "trailingComma": "es5"
       }
     ],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
     "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/no-namespace": "off",
     "array-callback-return": "error",

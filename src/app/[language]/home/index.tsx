@@ -1,4 +1,6 @@
 "use client";
+import type { Metadata } from "next";
+import { getServerTranslation } from "@/services/i18n";
 import Grid from "@mui/material/Grid";
 import ContainerWrapper from "@/components/ContainerWrapper";
 import Hero from "@/components/hero/Hero";
@@ -11,22 +13,18 @@ import { DynamicComponentType } from "@/enum";
 import { Clientele3 } from "@/components/clientele";
 import Faq6 from "@/components/faq/Faq6"; // Adjust the path based on your project structure
 
-import { useEffect } from "react";
+type Props = {
+  params: Promise<{ language: string }>;
+};
 
-// @next
-import { useRouter } from "next/navigation";
-
-// @project
-import { APP_DEFAULT_PATH } from "@/config";
-
-/* export async function generateMetadata(props: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
   const { t } = await getServerTranslation(params.language, "home");
 
   return {
     title: t("title"),
   };
-} */
+}
 import branding from "@/branding.json";
 import Typography from "@mui/material/Typography";
 // import Link from "next/link";
@@ -52,12 +50,7 @@ function DescriptionLine() {
   );
 }
 
-export default function Home(/* props: Props */) {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.replace(APP_DEFAULT_PATH);
-  }, [router]);
+export default async function Home(/* props: Props */) {
   // const params = await props.params;
   // const { t } = await getServerTranslation(params.language, "home");
 
