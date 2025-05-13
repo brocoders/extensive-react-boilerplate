@@ -10,7 +10,7 @@ import {
 import Button from "@mui/material/Button";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
