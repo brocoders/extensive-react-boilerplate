@@ -50,7 +50,7 @@ function AutocompleteInputRaw<T>(
         }}
         onBlur={props.onBlur}
         data-testid={props.testId}
-        getOptionLabel={(option) => option?.[props.keyValue]?.toString() ?? ""}
+        getOptionLabel={props.getOptionLabel}
         renderOption={(htmlProps, option) => (
           <li {...htmlProps}>{props.renderOption(option)}</li>
         )}
