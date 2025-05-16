@@ -12,32 +12,31 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import FormHelperText from "@mui/material/FormHelperText";
 
-type AutocompleteInputProps<T> = {
+export type AutocompleteInputProps<T> = {
   label: string;
-  type?: string;
   autoFocus?: boolean;
   disabled?: boolean;
   readOnly?: boolean;
   error?: string;
   testId?: string;
   size?: "small" | "medium";
-  keyValue: keyof T;
   value: T | null;
   options: T[];
   renderOption: (option: T) => React.ReactNode;
+  getOptionLabel: (option: T) => string;
 };
 
 function AutocompleteInputRaw<T>(
   props: AutocompleteInputProps<T> & {
     name: string;
-    value: T[] | undefined | null;
+    value: T | undefined | null;
     onChange: (value: T) => void;
     onBlur: () => void;
   },
   ref?: ForwardedRef<HTMLDivElement | null>
 ) {
   return (
-    <FormControl error={!!props.error} disabled={props.disabled}>
+    <FormControl error={!!props.error} disabled={props.disabled} fullWidth>
       <Autocomplete
         ref={ref}
         id={`autocomplete-${props.name}`}
@@ -50,7 +49,7 @@ function AutocompleteInputRaw<T>(
         }}
         onBlur={props.onBlur}
         data-testid={props.testId}
-        getOptionLabel={(option) => option?.[props.keyValue]?.toString() ?? ""}
+        getOptionLabel={props.getOptionLabel}
         renderOption={(htmlProps, option) => (
           <li {...htmlProps}>{props.renderOption(option)}</li>
         )}
@@ -70,8 +69,8 @@ function AutocompleteInputRaw<T>(
 const AutocompleteInput = forwardRef(AutocompleteInputRaw) as never as <T>(
   props: AutocompleteInputProps<T> & {
     name: string;
-    value: T[] | undefined | null;
-    onChange: (value: T[]) => void;
+    value: T | undefined | null;
+    onChange: (value: T) => void;
     onBlur: () => void;
   } & { ref?: ForwardedRef<HTMLDivElement | null> }
 ) => ReturnType<typeof AutocompleteInputRaw>;
@@ -93,15 +92,15 @@ function FormAutocompleteInput<
           {...field}
           label={props.label}
           autoFocus={props.autoFocus}
-          type={props.type}
           error={fieldState.error?.message}
           disabled={props.disabled}
           readOnly={props.readOnly}
           testId={props.testId}
           options={props.options}
           renderOption={props.renderOption}
-          keyValue={props.keyValue}
+          getOptionLabel={props.getOptionLabel}
           size={props.size}
+          value={props.value}
         />
       )}
     />
