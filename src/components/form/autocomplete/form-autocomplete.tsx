@@ -20,7 +20,6 @@ export type AutocompleteInputProps<T> = {
   error?: string;
   testId?: string;
   size?: "small" | "medium";
-  keyValue: keyof T;
   value: T | null;
   options: T[];
   renderOption: (option: T) => React.ReactNode;
@@ -37,7 +36,7 @@ function AutocompleteInputRaw<T>(
   ref?: ForwardedRef<HTMLDivElement | null>
 ) {
   return (
-    <FormControl error={!!props.error} disabled={props.disabled}>
+    <FormControl error={!!props.error} disabled={props.disabled} fullWidth>
       <Autocomplete
         ref={ref}
         id={`autocomplete-${props.name}`}
@@ -100,7 +99,6 @@ function FormAutocompleteInput<
           options={props.options}
           renderOption={props.renderOption}
           getOptionLabel={props.getOptionLabel}
-          keyValue={props.keyValue}
           size={props.size}
           value={props.value}
         />

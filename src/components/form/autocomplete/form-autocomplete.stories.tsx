@@ -35,7 +35,7 @@ const Template: StoryFn<AutocompleteInputProps<Option> & { name: string }> = (
 
 export const Default = Template.bind({});
 Default.args = {
-  label: "Sample Autocomplete",
+  label: "Autocomplete",
   name: "sampleAutocomplete",
   options: [
     { id: 1, name: "Option 1" },
@@ -44,9 +44,8 @@ Default.args = {
     { id: 4, name: "Option 4" },
     { id: 5, name: "Option 5" },
   ],
-  keyValue: "name",
   renderOption: (option: Option) => option.name,
-  error: "",
   testId: "sampleAutocomplete",
   value: { id: 2, name: "Option 2" },
+  getOptionLabel: (option) => option.name,
 };
