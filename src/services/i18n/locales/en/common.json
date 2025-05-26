@@ -7,6 +7,8 @@
     "signUp": "Sign Up",
     "profile": "Profile",
     "users": "Users",
+    "companies": "Companies",
+    "companiesCreate": "Create Company",
     "logout": "Logout"
   },
   "formInputs": {
