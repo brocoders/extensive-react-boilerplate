@@ -1,0 +1,26 @@
+{
+  "title": "Edit company",
+  "actions": {
+    "submit": "Save",
+    "cancel": "Cancel"
+  },
+  "inputs": {
+    "name": {
+      "label": "Name",
+      "validation": {
+        "required": "Name is required",
+        "server": {}
+      }
+    },
+    "address": {
+      "label": "Address",
+      "validation": {
+        "server": {}
+      }
+    },
+    "<system>": "Do not remove this property"
+  },
+  "alerts": {
+    "success": "Company has been updated successfully"
+  }
+}
