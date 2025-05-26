@@ -31,12 +31,17 @@ function ResponsiveAppBar() {
   );
   const [anchorElementUser, setAnchorElementUser] =
     useState<null | HTMLElement>(null);
+  const [anchorElementCompanies, setAnchorElementCompanies] =
+    useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElementNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElementUser(event.currentTarget);
+  };
+  const handleOpenCompaniesMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElementCompanies(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
@@ -45,6 +50,9 @@ function ResponsiveAppBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElementUser(null);
+  };
+  const handleCloseCompaniesMenu = () => {
+    setAnchorElementCompanies(null);
   };
 
   return (
@@ -106,6 +114,26 @@ function ResponsiveAppBar() {
 
               {!!user?.role &&
                 [RoleEnum.ADMIN].includes(Number(user?.role?.id)) && [
+                  <MenuItem
+                    key="companies"
+                    onClick={handleCloseNavMenu}
+                    component={Link}
+                    href="/admin-panel/companies"
+                  >
+                    <Typography textAlign="center">
+                      {t("common:navigation.companies")}
+                    </Typography>
+                  </MenuItem>,
+                  <MenuItem
+                    key="companies-create"
+                    onClick={handleCloseNavMenu}
+                    component={Link}
+                    href="/admin-panel/companies/create"
+                  >
+                    <Typography textAlign="center">
+                      {t("common:navigation.companiesCreate")}
+                    </Typography>
+                  </MenuItem>,
                   <MenuItem
                     key="users"
                     onClick={handleCloseNavMenu}
@@ -177,6 +205,46 @@ function ResponsiveAppBar() {
             {!!user?.role &&
               [RoleEnum.ADMIN].includes(Number(user?.role?.id)) && (
                 <>
+                  <Button
+                    onClick={handleOpenCompaniesMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    {t("common:navigation.companies")}
+                  </Button>
+                  <Menu
+                    id="menu-companies"
+                    anchorEl={anchorElementCompanies}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "left",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                    open={Boolean(anchorElementCompanies)}
+                    onClose={handleCloseCompaniesMenu}
+                  >
+                    <MenuItem
+                      onClick={handleCloseCompaniesMenu}
+                      component={Link}
+                      href="/admin-panel/companies"
+                    >
+                      <Typography textAlign="center">
+                        {t("common:navigation.companies")}
+                      </Typography>
+                    </MenuItem>
+                    <MenuItem
+                      onClick={handleCloseCompaniesMenu}
+                      component={Link}
+                      href="/admin-panel/companies/create"
+                    >
+                      <Typography textAlign="center">
+                        {t("common:navigation.companiesCreate")}
+                      </Typography>
+                    </MenuItem>
+                  </Menu>
                   <Button
                     onClick={handleCloseNavMenu}
                     sx={{ my: 2, color: "white", display: "block" }}
