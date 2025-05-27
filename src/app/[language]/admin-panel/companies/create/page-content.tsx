@@ -20,7 +20,7 @@ import { RoleEnum } from "@/services/api/types/role";
 
 type CreateFormData = {
   name: string;
-  address?: string;
+  address: string;
 };
 
 const defaultValues: CreateFormData = {
@@ -33,13 +33,14 @@ const useValidationSchema = () => {
 
   return yup.object().shape({
     name: yup.string().required(t("inputs.name.validation.required")),
-    address: yup.string().optional(),
+    address: yup.string().required(t("inputs.address.validation.required")),
   });
 };
 
 function CreateFormActions() {
   const { t } = useTranslation("admin-panel-companies-create");
-  const { isSubmitting, isDirty } = useFormState();
+  const { isSubmitting } = useFormState();
+  // const { isSubmitting, isDirty } = useFormState();
 
   return (
     <Button
@@ -73,12 +74,14 @@ function FormCreate() {
     const { data, status } = await fetchCreateCompany(formData);
 
     if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
-      (Object.keys(data.errors) as Array<keyof CreateFormData>).forEach((key) => {
-        setError(key, {
-          type: "manual",
-          message: t(`inputs.${key}.validation.server.${data.errors[key]}`),
-        });
-      });
+      (Object.keys(data.errors) as Array<keyof CreateFormData>).forEach(
+        (key) => {
+          setError(key, {
+            type: "manual",
+            message: t(`inputs.${key}.validation.server.${data.errors[key]}`),
+          });
+        }
+      );
 
       return;
     }
@@ -95,26 +98,26 @@ function FormCreate() {
     <FormProvider {...methods}>
       <Container maxWidth="md">
         <form onSubmit={onSubmit}>
-          <Grid container spacing={2} mb={3} mt={3}>
-            <Grid item xs={12}>
+          <Grid component="div" container spacing={2} mb={3} mt={3}>
+            <Grid component="div" item xs={12}>
               <Typography variant="h6">{t("title")}</Typography>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={12} component="div">
               <FormTextInput<CreateFormData>
                 name="name"
                 label={t("inputs.name.label")}
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={12} component="div">
               <FormTextInput<CreateFormData>
                 name="address"
                 label={t("inputs.address.label")}
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={12} component="div">
               <CreateFormActions />
               <Box ml={1} component="span">
                 <Button

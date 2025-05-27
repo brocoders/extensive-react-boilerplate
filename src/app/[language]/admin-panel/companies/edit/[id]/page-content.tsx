@@ -38,10 +38,16 @@ const useValidationSchema = () => {
 
 function EditFormActions() {
   const { t } = useTranslation("admin-panel-companies-edit");
-  const { isSubmitting, isDirty } = useFormState();
+  const { isSubmitting } = useFormState();
+  // const { isSubmitting, isDirty } = useFormState();
 
   return (
-    <Button variant="contained" color="primary" type="submit" disabled={isSubmitting}>
+    <Button
+      variant="contained"
+      color="primary"
+      type="submit"
+      disabled={isSubmitting}
+    >
       {t("actions.submit")}
     </Button>
   );

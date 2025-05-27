@@ -1,12 +1,12 @@
 "use client";
 
+import { useMemo, PropsWithChildren } from "react";
 import {
   createTheme,
   ThemeProvider as MuiThemeProvider,
 } from "@mui/material/styles";
-import { useMemo, PropsWithChildren } from "react";
 
-function ThemeProvider(props: PropsWithChildren<{}>) {
+function ThemeProvider(props: PropsWithChildren<object>) {
   const theme = useMemo(
     () =>
       createTheme({

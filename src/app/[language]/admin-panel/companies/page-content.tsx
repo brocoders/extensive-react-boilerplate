@@ -33,10 +33,13 @@ function PageContent() {
 
     if (isConfirmed) {
       const previousData = queryClient.getQueryData<
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         InfiniteData<{ nextPage: number; data: any[] }>
       >(companiesQueryKeys.list().key);
 
-      await queryClient.cancelQueries({ queryKey: companiesQueryKeys.list().key });
+      await queryClient.cancelQueries({
+        queryKey: companiesQueryKeys.list().key,
+      });
 
       const newData = {
         ...previousData,
@@ -92,7 +95,7 @@ function PageContent() {
                     color="inherit"
                     variant="contained"
                     onClick={() => handleDelete(company.id)}
-                    style={{ marginLeft: 8 }}
+                    sx={{ ml: 8 }}
                   >
                     {t("actions.delete")}
                   </Button>
