@@ -16,16 +16,46 @@ import { useTranslation } from "@/services/i18n/client";
 import { useRouter } from "next/navigation";
 import { usePostCompanyService } from "@/services/api/services/companies";
 import FormTextInput from "@/components/form/text-input/form-text-input";
+import FormDatePickerInput from "@/components/form/date-pickers/date-picker";
+import FormCheckboxBooleanInput from "@/components/form/checkbox-boolean/form-checkbox-boolean";
+import AddressFieldArray, { Address } from "../address-field-array";
 import { RoleEnum } from "@/services/api/types/role";
+
+type AddressForm = Address;
 
 type CreateFormData = {
   name: string;
-  address: string;
+  legalForm: string;
+  siren: string;
+  siret: string;
+  tvaNumber: string;
+  creationDate: Date | null;
+  isActive: boolean;
+  email: string;
+  phone: string;
+  website: string;
+  addresses: AddressForm[];
 };
 
 const defaultValues: CreateFormData = {
   name: "",
-  address: "",
+  legalForm: "",
+  siren: "",
+  siret: "",
+  tvaNumber: "",
+  creationDate: null,
+  isActive: false,
+  email: "",
+  phone: "",
+  website: "",
+  addresses: [
+    {
+      street: "",
+      postalCode: "",
+      city: "",
+      country: "",
+    },
+  ],
 };
 
 const useValidationSchema = () => {
@@ -33,7 +63,26 @@ const useValidationSchema = () => {
 
   return yup.object().shape({
     name: yup.string().required(t("inputs.name.validation.required")),
-    address: yup.string().required(t("inputs.address.validation.required")),
+    legalForm: yup.string().optional(),
+    siren: yup.string().optional(),
+    siret: yup.string().optional(),
+    tvaNumber: yup.string().optional(),
+    creationDate: yup.date().nullable().optional(),
+    isActive: yup.boolean().optional(),
+    email: yup.string().optional(),
+    phone: yup.string().optional(),
+    website: yup.string().optional(),
+    addresses: yup
+      .array()
+      .of(
+        yup.object({
+          street: yup.string().optional(),
+          postalCode: yup.string().optional(),
+          city: yup.string().optional(),
+          country: yup.string().optional(),
+        })
+      )
+      .optional(),
   });
 };
 
@@ -112,9 +161,69 @@ function FormCreate() {
 
             <Grid item xs={12} component="div">
               <FormTextInput<CreateFormData>
-                name="address"
-                label={t("inputs.address.label")}
+                name="legalForm"
+                label={t("inputs.legalForm.label")}
               />
+            </Grid>
+
+            <Grid item xs={12} component="div">
+              <FormTextInput<CreateFormData>
+                name="siren"
+                label={t("inputs.siren.label")}
+              />
+            </Grid>
+
+            <Grid item xs={12} component="div">
+              <FormTextInput<CreateFormData>
+                name="siret"
+                label={t("inputs.siret.label")}
+              />
+            </Grid>
+
+            <Grid item xs={12} component="div">
+              <FormTextInput<CreateFormData>
+                name="tvaNumber"
+                label={t("inputs.tvaNumber.label")}
+              />
+            </Grid>
+
+            <Grid item xs={12} component="div">
+              <FormDatePickerInput<CreateFormData>
+                name="creationDate"
+                label={t("inputs.creationDate.label")}
+              />
+            </Grid>
+
+            <Grid item xs={12} component="div">
+              <FormCheckboxBooleanInput<CreateFormData>
+                name="isActive"
+                label={t("inputs.isActive.label")}
+              />
+            </Grid>
+
+            <Grid item xs={12} component="div">
+              <FormTextInput<CreateFormData>
+                name="email"
+                label={t("inputs.email.label")}
+              />
+            </Grid>
+
+            <Grid item xs={12} component="div">
+              <FormTextInput<CreateFormData>
+                name="phone"
+                label={t("inputs.phone.label")}
+              />
+            </Grid>
+
+            <Grid item xs={12} component="div">
+              <FormTextInput<CreateFormData>
+                name="website"
+                label={t("inputs.website.label")}
+              />
+            </Grid>
+
+            <Grid item xs={12} component="div">
+              <AddressFieldArray<CreateFormData> namespace="admin-panel-companies-create" />
             </Grid>
 
             <Grid item xs={12} component="div">

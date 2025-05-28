@@ -20,11 +20,25 @@ import {
 } from "@/services/api/services/companies";
 import { useParams } from "next/navigation";
 import FormTextInput from "@/components/form/text-input/form-text-input";
+import FormDatePickerInput from "@/components/form/date-pickers/date-picker";
+import FormCheckboxBooleanInput from "@/components/form/checkbox-boolean/form-checkbox-boolean";
+import AddressFieldArray, { Address } from "../../address-field-array";
 import { RoleEnum } from "@/services/api/types/role";
+
+type AddressForm = Address;
 
 type EditFormData = {
   name: string;
-  address?: string;
+  legalForm: string;
+  siren: string;
+  siret: string;
+  tvaNumber: string;
+  creationDate: Date | null;
+  isActive: boolean;
+  email: string;
+  phone: string;
+  website: string;
+  addresses: AddressForm[];
 };
 
 const useValidationSchema = () => {
@@ -32,7 +46,26 @@ const useValidationSchema = () => {
 
   return yup.object().shape({
     name: yup.string().required(t("inputs.name.validation.required")),
-    address: yup.string().optional(),
+    legalForm: yup.string().optional(),
+    siren: yup.string().optional(),
+    siret: yup.string().optional(),
+    tvaNumber: yup.string().optional(),
+    creationDate: yup.date().nullable().optional(),
+    isActive: yup.boolean().optional(),
+    email: yup.string().optional(),
+    phone: yup.string().optional(),
+    website: yup.string().optional(),
+    addresses: yup
+      .array()
+      .of(
+        yup.object({
+          street: yup.string().optional(),
+          postalCode: yup.string().optional(),
+          city: yup.string().optional(),
+          country: yup.string().optional(),
+        })
+      )
+      .optional(),
   });
 };
 
@@ -66,7 +99,16 @@ function FormEditCompany() {
     resolver: yupResolver(validationSchema),
     defaultValues: {
       name: "",
-      address: "",
+      legalForm: "",
+      siren: "",
+      siret: "",
+      tvaNumber: "",
+      creationDate: null,
+      isActive: false,
+      email: "",
+      phone: "",
+      website: "",
+      addresses: [],
     },
   });
 
@@ -101,7 +143,16 @@ function FormEditCompany() {
       if (status === HTTP_CODES_ENUM.OK) {
         reset({
           name: data?.name ?? "",
-          address: data?.address ?? "",
+          legalForm: data?.legalForm ?? "",
+          siren: data?.siren ?? "",
+          siret: data?.siret ?? "",
+          tvaNumber: data?.tvaNumber ?? "",
+          creationDate: data?.creationDate ? new Date(data.creationDate) : null,
+          isActive: data?.isActive ?? false,
+          email: data?.email ?? "",
+          phone: data?.phone ?? "",
+          website: data?.website ?? "",
+          addresses: data?.addresses ?? [],
         });
       }
     };
@@ -127,9 +178,69 @@ function FormEditCompany() {
 
             <Grid item xs={12}>
               <FormTextInput<EditFormData>
-                name="address"
-                label={t("inputs.address.label")}
+                name="legalForm"
+                label={t("inputs.legalForm.label")}
               />
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormTextInput<EditFormData>
+                name="siren"
+                label={t("inputs.siren.label")}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormTextInput<EditFormData>
+                name="siret"
+                label={t("inputs.siret.label")}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormTextInput<EditFormData>
+                name="tvaNumber"
+                label={t("inputs.tvaNumber.label")}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormDatePickerInput<EditFormData>
+                name="creationDate"
+                label={t("inputs.creationDate.label")}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormCheckboxBooleanInput<EditFormData>
+                name="isActive"
+                label={t("inputs.isActive.label")}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormTextInput<EditFormData>
+                name="email"
+                label={t("inputs.email.label")}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormTextInput<EditFormData>
+                name="phone"
+                label={t("inputs.phone.label")}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormTextInput<EditFormData>
+                name="website"
+                label={t("inputs.website.label")}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <AddressFieldArray<EditFormData> namespace="admin-panel-companies-edit" />
             </Grid>
 
             <Grid item xs={12}>
