@@ -13,11 +13,13 @@ export type Address = {
   country: string;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type AddressFieldArrayProps<T extends { addresses: Address[] }> = {
   namespace: string;
 };
-
-function AddressFieldArray<T extends { addresses: Address[] }>({ namespace }: AddressFieldArrayProps<T>) {
+function AddressFieldArray<T extends { addresses: Address[] }>({
+  namespace,
+}: AddressFieldArrayProps<T>) {
   const { t } = useTranslation(namespace);
   const { control } = useFormContext<T>();
   const { fields, append, remove } = useFieldArray({
@@ -55,7 +57,11 @@ function AddressFieldArray<T extends { addresses: Address[] }>({ namespace }: Ad
               />
             </Grid>
             <Grid item xs={12}>
-              <Button variant="contained" color="inherit" onClick={() => remove(index)}>
+              <Button
+                variant="contained"
+                color="inherit"
+                onClick={() => remove(index)}
+              >
                 {t("actions.removeAddress")}
               </Button>
             </Grid>

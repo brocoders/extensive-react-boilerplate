@@ -12,7 +12,7 @@ import { TableVirtuoso } from "react-virtuoso";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import TableComponents from "@/components/table/table-components";
-import { useGetCompaniesQuery, companiesQueryKeys } from "./queries/queries";
+import { companiesQueryKeys, useGetCompaniesQuery } from "./queries/queries";
 import LinearProgress from "@mui/material/LinearProgress";
 import { useDeleteCompaniesService } from "@/services/api/services/companies";
 import useConfirmDialog from "@/components/confirm-dialog/use-confirm-dialog";
@@ -74,7 +74,7 @@ function PageContent() {
         <Grid item xs={12}>
           <TableVirtuoso
             data={query.data?.pages.flatMap((page) => page.data) || []}
-            components={TableComponents({ loading: query.isLoading })}
+            components={TableComponents}
             endReached={query.fetchNextPage}
             itemContent={(index, company) => (
               <>

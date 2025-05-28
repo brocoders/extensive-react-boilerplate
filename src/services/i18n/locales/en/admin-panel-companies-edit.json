@@ -18,7 +18,10 @@
     "siren": { "label": "SIREN", "validation": { "server": {} } },
     "siret": { "label": "SIRET", "validation": { "server": {} } },
     "tvaNumber": { "label": "VAT Number", "validation": { "server": {} } },
-    "creationDate": { "label": "Creation Date", "validation": { "server": {} } },
+    "creationDate": {
+      "label": "Creation Date",
+      "validation": { "server": {} }
+    },
     "isActive": { "label": "Active", "validation": { "server": {} } },
     "email": { "label": "Email", "validation": { "server": {} } },
     "phone": { "label": "Phone", "validation": { "server": {} } },
