@@ -55,10 +55,12 @@ function PageContent() {
     }
   };
 
+  const { fetchNextPage } = query;
+
   return (
     <Container maxWidth="md">
       <Grid container spacing={3} wrap="nowrap" pt={3}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="h3" gutterBottom>
             {t("title")}
           </Typography>
@@ -71,22 +73,23 @@ function PageContent() {
             {t("actions.create")}
           </Button>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <TableVirtuoso
-            data={query.data?.pages.flatMap((page) => page.data) || []}
+            data={query.data?.pages?.flatMap((page) => page?.data) || []}
             components={TableComponents}
-            endReached={query.fetchNextPage}
+            // @ts-expect-error abc
+            endReached={fetchNextPage}
             itemContent={(index, company) => (
               <>
-                <TableCell>{company.id}</TableCell>
-                <TableCell>{company.name}</TableCell>
+                <TableCell>{company?.id}</TableCell>
+                <TableCell>{company?.name}</TableCell>
                 <TableCell>
                   <Button
                     size="small"
                     color="primary"
                     variant="contained"
                     LinkComponent={Link}
-                    href={`/admin-panel/companies/edit/${company.id}`}
+                    href={`/admin-panel/companies/edit/${company?.id}`}
                   >
                     {t("actions.edit")}
                   </Button>
@@ -94,7 +97,7 @@ function PageContent() {
                     size="small"
                     color="inherit"
                     variant="contained"
-                    onClick={() => handleDelete(company.id)}
+                    onClick={() => company?.id && handleDelete(company.id)}
                     sx={{ ml: 8 }}
                   >
                     {t("actions.delete")}

@@ -22,50 +22,35 @@ import { useParams } from "next/navigation";
 import FormTextInput from "@/components/form/text-input/form-text-input";
 import FormDatePickerInput from "@/components/form/date-pickers/date-picker";
 import FormCheckboxBooleanInput from "@/components/form/checkbox-boolean/form-checkbox-boolean";
-import AddressFieldArray, { Address } from "../../address-field-array";
+import AddressFieldArray from "../../address-field-array";
 import { RoleEnum } from "@/services/api/types/role";
-
-type AddressForm = Address;
-
-type EditFormData = {
-  name: string;
-  legalForm: string;
-  siren: string;
-  siret: string;
-  tvaNumber: string;
-  creationDate: Date | null;
-  isActive: boolean;
-  email: string;
-  phone: string;
-  website: string;
-  addresses: AddressForm[];
-};
+import { InferType } from "yup";
 
 const useValidationSchema = () => {
   const { t } = useTranslation("admin-panel-companies-edit");
 
   return yup.object().shape({
     name: yup.string().required(t("inputs.name.validation.required")),
-    legalForm: yup.string().optional(),
-    siren: yup.string().optional(),
-    siret: yup.string().optional(),
-    tvaNumber: yup.string().optional(),
-    creationDate: yup.date().nullable().optional(),
-    isActive: yup.boolean().optional(),
-    email: yup.string().optional(),
-    phone: yup.string().optional(),
-    website: yup.string().optional(),
+    legalForm: yup.string().required(),
+    siren: yup.string().required(),
+    siret: yup.string().required(),
+    tvaNumber: yup.string().required(),
+    creationDate: yup.date().required(),
+    isActive: yup.boolean().required(),
+    email: yup.string().required(),
+    phone: yup.string().required(),
+    website: yup.string().required(),
     addresses: yup
       .array()
       .of(
         yup.object({
-          street: yup.string().optional(),
-          postalCode: yup.string().optional(),
-          city: yup.string().optional(),
-          country: yup.string().optional(),
+          street: yup.string().required(),
+          postalCode: yup.string().required(),
+          city: yup.string().required(),
+          country: yup.string().required(),
         })
       )
-      .optional(),
+      .required(),
   });
 };
 
@@ -93,6 +78,7 @@ function FormEditCompany() {
   const fetchPatchCompany = usePatchCompanyService();
   const { t } = useTranslation("admin-panel-companies-edit");
   const validationSchema = useValidationSchema();
+  type EditFormData = InferType<typeof validationSchema>;
   const { enqueueSnackbar } = useSnackbar();
 
   const methods = useForm<EditFormData>({
@@ -103,7 +89,7 @@ function FormEditCompany() {
       siren: "",
       siret: "",
       tvaNumber: "",
-      creationDate: null,
+      creationDate: new Date(),
       isActive: false,
       email: "",
       phone: "",
@@ -147,7 +133,9 @@ function FormEditCompany() {
           siren: data?.siren ?? "",
           siret: data?.siret ?? "",
           tvaNumber: data?.tvaNumber ?? "",
-          creationDate: data?.creationDate ? new Date(data.creationDate) : null,
+          creationDate: data?.creationDate
+            ? new Date(data.creationDate)
+            : new Date(),
           isActive: data?.isActive ?? false,
           email: data?.email ?? "",
           phone: data?.phone ?? "",
@@ -163,87 +151,86 @@ function FormEditCompany() {
   return (
     <FormProvider {...methods}>
       <Container maxWidth="md">
+        <Grid pt={4} size={12}>
+          <Typography variant="h6">{t("title")}</Typography>
+        </Grid>
         <form onSubmit={onSubmit}>
           <Grid container spacing={2} mb={3} mt={3}>
-            <Grid item xs={12}>
-              <Typography variant="h6">{t("title")}</Typography>
-            </Grid>
-
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormTextInput<EditFormData>
                 name="name"
                 label={t("inputs.name.label")}
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormTextInput<EditFormData>
                 name="legalForm"
                 label={t("inputs.legalForm.label")}
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormTextInput<EditFormData>
                 name="siren"
                 label={t("inputs.siren.label")}
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormTextInput<EditFormData>
                 name="siret"
                 label={t("inputs.siret.label")}
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormTextInput<EditFormData>
                 name="tvaNumber"
                 label={t("inputs.tvaNumber.label")}
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12, sm: 4, lg: 3 }}>
               <FormDatePickerInput<EditFormData>
                 name="creationDate"
                 label={t("inputs.creationDate.label")}
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12, sm: 2, lg: 1 }}>
               <FormCheckboxBooleanInput<EditFormData>
                 name="isActive"
                 label={t("inputs.isActive.label")}
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormTextInput<EditFormData>
                 name="email"
                 label={t("inputs.email.label")}
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormTextInput<EditFormData>
                 name="phone"
                 label={t("inputs.phone.label")}
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormTextInput<EditFormData>
                 name="website"
                 label={t("inputs.website.label")}
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <AddressFieldArray<EditFormData> namespace="admin-panel-companies-edit" />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <EditFormActions />
               <Box ml={1} component="span">
                 <Button

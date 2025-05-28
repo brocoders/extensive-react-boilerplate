@@ -2,7 +2,13 @@
 
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import { useFieldArray, useFormContext } from "react-hook-form";
+import {
+  ArrayPath,
+  Path,
+  useFieldArray,
+  useFormContext,
+  FieldArray,
+} from "react-hook-form";
 import FormTextInput from "@/components/form/text-input/form-text-input";
 import { useTranslation } from "@/services/i18n/client";
 
@@ -22,57 +28,60 @@ function AddressFieldArray<T extends { addresses: Address[] }>({
 }: AddressFieldArrayProps<T>) {
   const { t } = useTranslation(namespace);
   const { control } = useFormContext<T>();
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove } = useFieldArray<T, ArrayPath<T>>({
     control,
-    name: "addresses",
+    name: "addresses" as ArrayPath<T>,
   });
 
   return (
     <Grid container spacing={2}>
       {fields.map((field, index) => (
-        <Grid item xs={12} key={field.id}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <FormTextInput<T>
-                name={`addresses.${index}.street` as const}
-                label={t("inputs.addresses.street.label")}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormTextInput<T>
-                name={`addresses.${index}.postalCode` as const}
-                label={t("inputs.addresses.postalCode.label")}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormTextInput<T>
-                name={`addresses.${index}.city` as const}
-                label={t("inputs.addresses.city.label")}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormTextInput<T>
-                name={`addresses.${index}.country` as const}
-                label={t("inputs.addresses.country.label")}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                variant="contained"
-                color="inherit"
-                onClick={() => remove(index)}
-              >
-                {t("actions.removeAddress")}
-              </Button>
-            </Grid>
+        <Grid key={field.id} container spacing={2}>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <FormTextInput<T>
+              name={`addresses.${index}.street` as Path<T>}
+              label={t("inputs.addresses.street.label")}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <FormTextInput<T>
+              name={`addresses.${index}.postalCode` as Path<T>}
+              label={t("inputs.addresses.postalCode.label")}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <FormTextInput<T>
+              name={`addresses.${index}.city` as Path<T>}
+              label={t("inputs.addresses.city.label")}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <FormTextInput<T>
+              name={`addresses.${index}.country` as Path<T>}
+              label={t("inputs.addresses.country.label")}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <Button
+              variant="contained"
+              color="inherit"
+              onClick={() => remove(index)}
+            >
+              {t("actions.removeAddress")}
+            </Button>
           </Grid>
         </Grid>
       ))}
-      <Grid item xs={12}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Button
           variant="contained"
           onClick={() =>
-            append({ street: "", postalCode: "", city: "", country: "" })
+            append({
+              street: "",
+              postalCode: "",
+              city: "",
+              country: "",
+            } as unknown as FieldArray<T, ArrayPath<T>>)
           }
         >
           {t("actions.addAddress")}

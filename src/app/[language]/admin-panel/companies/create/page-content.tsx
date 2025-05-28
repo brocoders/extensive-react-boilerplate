@@ -18,32 +18,17 @@ import { usePostCompanyService } from "@/services/api/services/companies";
 import FormTextInput from "@/components/form/text-input/form-text-input";
 import FormDatePickerInput from "@/components/form/date-pickers/date-picker";
 import FormCheckboxBooleanInput from "@/components/form/checkbox-boolean/form-checkbox-boolean";
-import AddressFieldArray, { Address } from "../address-field-array";
+import AddressFieldArray from "../address-field-array";
 import { RoleEnum } from "@/services/api/types/role";
+import { InferType } from "yup";
 
-type AddressForm = Address;
-
-type CreateFormData = {
-  name: string;
-  legalForm: string;
-  siren: string;
-  siret: string;
-  tvaNumber: string;
-  creationDate: Date | null;
-  isActive: boolean;
-  email: string;
-  phone: string;
-  website: string;
-  addresses: AddressForm[];
-};
-
-const defaultValues: CreateFormData = {
+const defaultValues = {
   name: "",
   legalForm: "",
   siren: "",
   siret: "",
   tvaNumber: "",
-  creationDate: null,
+  creationDate: new Date(),
   isActive: false,
   email: "",
   phone: "",
@@ -63,33 +48,32 @@ const useValidationSchema = () => {
 
   return yup.object().shape({
     name: yup.string().required(t("inputs.name.validation.required")),
-    legalForm: yup.string().optional(),
-    siren: yup.string().optional(),
-    siret: yup.string().optional(),
-    tvaNumber: yup.string().optional(),
-    creationDate: yup.date().nullable().optional(),
-    isActive: yup.boolean().optional(),
-    email: yup.string().optional(),
-    phone: yup.string().optional(),
-    website: yup.string().optional(),
+    legalForm: yup.string().required(),
+    siren: yup.string().required(),
+    siret: yup.string().required(),
+    tvaNumber: yup.string().required(),
+    creationDate: yup.date().required(),
+    isActive: yup.boolean().required(),
+    email: yup.string().required(),
+    phone: yup.string().required(),
+    website: yup.string().required(),
     addresses: yup
       .array()
       .of(
         yup.object({
-          street: yup.string().optional(),
-          postalCode: yup.string().optional(),
-          city: yup.string().optional(),
-          country: yup.string().optional(),
+          street: yup.string().required(),
+          postalCode: yup.string().required(),
+          city: yup.string().required(),
+          country: yup.string().required(),
         })
       )
-      .optional(),
+      .required(),
   });
 };
 
 function CreateFormActions() {
   const { t } = useTranslation("admin-panel-companies-create");
   const { isSubmitting } = useFormState();
-  // const { isSubmitting, isDirty } = useFormState();
 
   return (
     <Button
@@ -109,6 +93,7 @@ function FormCreate() {
   const fetchCreateCompany = usePostCompanyService();
   const { t } = useTranslation("admin-panel-companies-create");
   const validationSchema = useValidationSchema();
+  type CreateFormData = InferType<typeof validationSchema>;
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -146,87 +131,86 @@ function FormCreate() {
   return (
     <FormProvider {...methods}>
       <Container maxWidth="md">
+        <Grid paddingTop={4} size={{ xs: 12, sm: 6, lg: 4 }}>
+          <Typography variant="h6">{t("title")}</Typography>
+        </Grid>
         <form onSubmit={onSubmit}>
           <Grid component="div" container spacing={2} mb={3} mt={3}>
-            <Grid component="div" item xs={12}>
-              <Typography variant="h6">{t("title")}</Typography>
-            </Grid>
-
-            <Grid item xs={12} component="div">
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormTextInput<CreateFormData>
                 name="name"
                 label={t("inputs.name.label")}
               />
             </Grid>
 
-            <Grid item xs={12} component="div">
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormTextInput<CreateFormData>
                 name="legalForm"
                 label={t("inputs.legalForm.label")}
               />
             </Grid>
 
-            <Grid item xs={12} component="div">
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormTextInput<CreateFormData>
                 name="siren"
                 label={t("inputs.siren.label")}
               />
             </Grid>
 
-            <Grid item xs={12} component="div">
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormTextInput<CreateFormData>
                 name="siret"
                 label={t("inputs.siret.label")}
               />
             </Grid>
 
-            <Grid item xs={12} component="div">
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormTextInput<CreateFormData>
                 name="tvaNumber"
                 label={t("inputs.tvaNumber.label")}
               />
             </Grid>
 
-            <Grid item xs={12} component="div">
+            <Grid size={{ xs: 12, sm: 4, lg: 3 }}>
               <FormDatePickerInput<CreateFormData>
                 name="creationDate"
                 label={t("inputs.creationDate.label")}
               />
             </Grid>
 
-            <Grid item xs={12} component="div">
+            <Grid size={{ xs: 12, sm: 2, lg: 1 }}>
               <FormCheckboxBooleanInput<CreateFormData>
                 name="isActive"
                 label={t("inputs.isActive.label")}
               />
             </Grid>
 
-            <Grid item xs={12} component="div">
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormTextInput<CreateFormData>
                 name="email"
                 label={t("inputs.email.label")}
               />
             </Grid>
 
-            <Grid item xs={12} component="div">
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormTextInput<CreateFormData>
                 name="phone"
                 label={t("inputs.phone.label")}
               />
             </Grid>
 
-            <Grid item xs={12} component="div">
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormTextInput<CreateFormData>
                 name="website"
                 label={t("inputs.website.label")}
               />
             </Grid>
 
-            <Grid item xs={12} component="div">
+            <Grid size={{ xs: 12 }}>
               <AddressFieldArray<CreateFormData> namespace="admin-panel-companies-create" />
             </Grid>
 
-            <Grid item xs={12} component="div">
+            <Grid size={{ xs: 12 }}>
               <CreateFormActions />
               <Box ml={1} component="span">
                 <Button
