@@ -10,6 +10,8 @@
     "usersCreate": "Create User",
     "companies": "Companies",
     "companiesCreate": "Create Company",
+    "opportunities": "Opportunities",
+    "opportunitiesCreate": "Create Opportunity",
     "logout": "Logout"
   },
   "formInputs": {
