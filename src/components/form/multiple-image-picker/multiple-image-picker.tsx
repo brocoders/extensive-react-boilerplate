@@ -19,6 +19,7 @@ import IconButton from "@mui/material/IconButton";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageList from "@mui/material/ImageList";
+import Image from "next/image";
 
 type MultipleImagePickerProps = {
   error?: string;
@@ -143,7 +144,7 @@ function MultipleImagePicker(props: MultipleImagePickerProps) {
                     />
                   </IconButton>
                 </StyledOverlay>
-                <img src={item.path} loading="lazy" />
+                <Image alt={item.path} src={item.path} loading="lazy" />
               </ImageListItem>
             ))}
           </ImageList>

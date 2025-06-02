@@ -1,4 +1,5 @@
 "use client";
+import React, { useCallback, useState } from "react";
 import { useFileUploadService } from "@/services/api/services/files";
 import { FileEntity } from "@/services/api/types/file-entity";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
@@ -6,7 +7,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
-import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import {
   Controller,
@@ -19,6 +19,7 @@ import IconButton from "@mui/material/IconButton";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageList from "@mui/material/ImageList";
+import Image from "next/image";
 
 type ImagePickerProps = {
   error?: string;
@@ -142,7 +143,11 @@ function ImagePicker(props: ImagePickerProps) {
                   />
                 </IconButton>
               </StyledOverlay>
-              <img src={props.value.path} loading="lazy" />
+              <Image
+                alt={props.value.id}
+                src={props.value.path}
+                loading="lazy"
+              />
             </ImageListItem>
           </ImageList>
         </>

@@ -69,6 +69,7 @@ export default function ConfirmNewEmail() {
     enqueueSnackbar,
     t,
     isLoaded,
+    user,
     setUser,
     fetchAuthGetMe,
   ]);

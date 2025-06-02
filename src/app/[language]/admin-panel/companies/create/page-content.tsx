@@ -16,16 +16,31 @@ import { useTranslation } from "@/services/i18n/client";
 import { useRouter } from "next/navigation";
 import { usePostCompanyService } from "@/services/api/services/companies";
 import FormTextInput from "@/components/form/text-input/form-text-input";
+import FormDatePickerInput from "@/components/form/date-pickers/date-picker";
+import FormCheckboxBooleanInput from "@/components/form/checkbox-boolean/form-checkbox-boolean";
+import AddressFieldArray from "../address-field-array";
 import { RoleEnum } from "@/services/api/types/role";
+import { InferType } from "yup";
 
-type CreateFormData = {
-  name: string;
-  address?: string;
-};
-
-const defaultValues: CreateFormData = {
+const defaultValues = {
   name: "",
-  address: "",
+  legalForm: "",
+  siren: "",
+  siret: "",
+  tvaNumber: "",
+  creationDate: new Date(),
+  isActive: false,
+  email: "",
+  phone: "",
+  website: "",
+  addresses: [
+    {
+      street: "",
+      postalCode: "",
+      city: "",
+      country: "",
+    },
+  ],
 };
 
 const useValidationSchema = () => {
@@ -33,13 +48,32 @@ const useValidationSchema = () => {
 
   return yup.object().shape({
     name: yup.string().required(t("inputs.name.validation.required")),
-    address: yup.string().optional(),
+    legalForm: yup.string().required(),
+    siren: yup.string().required(),
+    siret: yup.string().required(),
+    tvaNumber: yup.string().required(),
+    creationDate: yup.date().required(),
+    isActive: yup.boolean().required(),
+    email: yup.string().required(),
+    phone: yup.string().required(),
+    website: yup.string().required(),
+    addresses: yup
+      .array()
+      .of(
+        yup.object({
+          street: yup.string().required(),
+          postalCode: yup.string().required(),
+          city: yup.string().required(),
+          country: yup.string().required(),
+        })
+      )
+      .required(),
   });
 };
 
 function CreateFormActions() {
   const { t } = useTranslation("admin-panel-companies-create");
-  const { isSubmitting, isDirty } = useFormState();
+  const { isSubmitting } = useFormState();
 
   return (
     <Button
@@ -59,6 +93,7 @@ function FormCreate() {
   const fetchCreateCompany = usePostCompanyService();
   const { t } = useTranslation("admin-panel-companies-create");
   const validationSchema = useValidationSchema();
+  type CreateFormData = InferType<typeof validationSchema>;
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -73,12 +108,14 @@ function FormCreate() {
     const { data, status } = await fetchCreateCompany(formData);
 
     if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
-      (Object.keys(data.errors) as Array<keyof CreateFormData>).forEach((key) => {
-        setError(key, {
-          type: "manual",
-          message: t(`inputs.${key}.validation.server.${data.errors[key]}`),
-        });
-      });
+      (Object.keys(data.errors) as Array<keyof CreateFormData>).forEach(
+        (key) => {
+          setError(key, {
+            type: "manual",
+            message: t(`inputs.${key}.validation.server.${data.errors[key]}`),
+          });
+        }
+      );
 
       return;
     }
@@ -94,27 +131,86 @@ function FormCreate() {
   return (
     <FormProvider {...methods}>
       <Container maxWidth="md">
+        <Grid paddingTop={4} size={{ xs: 12, sm: 6, lg: 4 }}>
+          <Typography variant="h6">{t("title")}</Typography>
+        </Grid>
         <form onSubmit={onSubmit}>
-          <Grid container spacing={2} mb={3} mt={3}>
-            <Grid item xs={12}>
-              <Typography variant="h6">{t("title")}</Typography>
-            </Grid>
-
-            <Grid item xs={12}>
+          <Grid component="div" container spacing={2} mb={3} mt={3}>
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormTextInput<CreateFormData>
                 name="name"
                 label={t("inputs.name.label")}
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormTextInput<CreateFormData>
-                name="address"
-                label={t("inputs.address.label")}
+                name="legalForm"
+                label={t("inputs.legalForm.label")}
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
+              <FormTextInput<CreateFormData>
+                name="siren"
+                label={t("inputs.siren.label")}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
+              <FormTextInput<CreateFormData>
+                name="siret"
+                label={t("inputs.siret.label")}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
+              <FormTextInput<CreateFormData>
+                name="tvaNumber"
+                label={t("inputs.tvaNumber.label")}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 4, lg: 3 }}>
+              <FormDatePickerInput<CreateFormData>
+                name="creationDate"
+                label={t("inputs.creationDate.label")}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 2, lg: 1 }}>
+              <FormCheckboxBooleanInput<CreateFormData>
+                name="isActive"
+                label={t("inputs.isActive.label")}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
+              <FormTextInput<CreateFormData>
+                name="email"
+                label={t("inputs.email.label")}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
+              <FormTextInput<CreateFormData>
+                name="phone"
+                label={t("inputs.phone.label")}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
+              <FormTextInput<CreateFormData>
+                name="website"
+                label={t("inputs.website.label")}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <AddressFieldArray<CreateFormData> namespace="admin-panel-companies-create" />
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
               <CreateFormActions />
               <Box ml={1} component="span">
                 <Button

@@ -9,7 +9,7 @@
 
 ## Introduction
 
-As far as this boilerplate uses [Next.js](https://nextjs.org/) framework for building React applications, the folders are used as routes.  This means the more folders you add to your app folder, the more routes you will get. Additionally, if you create a new folder inside of another folder, you will get nested routes. To better understand these concepts, we suggest looking at the image below.
+As far as this boilerplate uses [Next.js](https://nextjs.org/) framework for building React applications, the folders are used as routes. This means the more folders you add to your app folder, the more routes you will get. Additionally, if you create a new folder inside of another folder, you will get nested routes. To better understand these concepts, we suggest looking at the image below.
 
 <img src="https://github.com/brocoders/extensive-react-boilerplate/assets/72293912/25dc524e-b2e2-41cf-b1af-99f729ee9c2f" width="450"/>
 

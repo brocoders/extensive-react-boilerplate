@@ -22,7 +22,7 @@ import {
   setTokensInfo as setTokensInfoToStorage,
 } from "./auth-tokens-info";
 
-function AuthProvider(props: PropsWithChildren<{}>) {
+function AuthProvider(props: PropsWithChildren<object>) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const fetchBase = useFetch();

@@ -1,9 +1,7 @@
 {
   "projectName": "extensive-react-boilerplate",
   "projectOwner": "brocoders",
-  "files": [
-    "README.md"
-  ],
+  "files": ["README.md"],
   "commitType": "docs",
   "commitConvention": "angular",
   "contributorsPerLine": 7,
@@ -13,48 +11,35 @@
       "name": "Vladyslav Shchepotin",
       "avatar_url": "https://avatars.githubusercontent.com/u/6001723?v=4",
       "profile": "https://github.com/Shchepotin",
-      "contributions": [
-        "maintenance",
-        "doc",
-        "code"
-      ]
+      "contributions": ["maintenance", "doc", "code"]
     },
     {
       "login": "ElenVlass",
       "name": "Elena Vlasenko",
       "avatar_url": "https://avatars.githubusercontent.com/u/72293912?v=4",
       "profile": "https://github.com/ElenVlass",
-      "contributions": [
-        "doc"
-      ]
+      "contributions": ["doc"]
     },
     {
       "login": "TetianaFomina",
       "name": "TetianaFomina",
       "avatar_url": "https://avatars.githubusercontent.com/u/72749258?v=4",
       "profile": "https://github.com/TetianaFomina",
-      "contributions": [
-        "test",
-        "bug"
-      ]
+      "contributions": ["test", "bug"]
     },
     {
       "login": "LiudmylaKostenko",
       "name": "Liudmyla Kostenko",
       "avatar_url": "https://avatars.githubusercontent.com/u/55603883?v=4",
       "profile": "https://github.com/LiudmylaKostenko",
-      "contributions": [
-        "code"
-      ]
+      "contributions": ["code"]
     },
     {
       "login": "sars",
       "name": "Rodion",
       "avatar_url": "https://avatars.githubusercontent.com/u/226194?v=4",
       "profile": "http://brocoders.com",
-      "contributions": [
-        "business"
-      ]
+      "contributions": ["business"]
     }
   ]
 }

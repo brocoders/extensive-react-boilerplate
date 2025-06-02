@@ -2,7 +2,9 @@
   "title": "Create company",
   "actions": {
     "submit": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "addAddress": "Add address",
+    "removeAddress": "Remove address"
   },
   "inputs": {
     "name": {
@@ -12,11 +14,24 @@
         "server": {}
       }
     },
-    "address": {
-      "label": "Address",
-      "validation": {
-        "server": {}
-      }
+    "legalForm": { "label": "Legal Form", "validation": { "server": {} } },
+    "siren": { "label": "SIREN", "validation": { "server": {} } },
+    "siret": { "label": "SIRET", "validation": { "server": {} } },
+    "tvaNumber": { "label": "VAT Number", "validation": { "server": {} } },
+    "creationDate": {
+      "label": "Creation Date",
+      "validation": { "server": {} }
+    },
+    "isActive": { "label": "Active", "validation": { "server": {} } },
+    "email": { "label": "Email", "validation": { "server": {} } },
+    "phone": { "label": "Phone", "validation": { "server": {} } },
+    "website": { "label": "Website", "validation": { "server": {} } },
+    "addresses": {
+      "label": "Addresses",
+      "street": { "label": "Street", "validation": { "server": {} } },
+      "postalCode": { "label": "Postal Code", "validation": { "server": {} } },
+      "city": { "label": "City", "validation": { "server": {} } },
+      "country": { "label": "Country", "validation": { "server": {} } }
     },
     "<system>": "Do not remove this property"
   },

@@ -22,8 +22,8 @@ Example:
 
 ```ts
 const backendData = {
-  first_name: 'John',
-  email: 'some@example.com',
+  first_name: "John",
+  email: "some@example.com",
   role_id: 1,
 };
 
@@ -34,7 +34,7 @@ const transformIn = (data) => ({
   email: data.email,
   role: {
     id: data.role_id,
-  }
+  },
 });
 
 const transformOut = (data) => ({
@@ -45,12 +45,11 @@ const transformOut = (data) => ({
 
 // Some code here...
 
-const { reset } = useForm(
-  // Some code here...
-);
+const { reset } = useForm();
+// Some code here...
 
 useEffect(() => {
-  reset(transformIn(backendData))
+  reset(transformIn(backendData));
 }, []);
 
 // Some code here...

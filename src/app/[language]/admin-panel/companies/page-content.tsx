@@ -12,7 +12,7 @@ import { TableVirtuoso } from "react-virtuoso";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import TableComponents from "@/components/table/table-components";
-import { useGetCompaniesQuery, companiesQueryKeys } from "./queries/queries";
+import { companiesQueryKeys, useGetCompaniesQuery } from "./queries/queries";
 import LinearProgress from "@mui/material/LinearProgress";
 import { useDeleteCompaniesService } from "@/services/api/services/companies";
 import useConfirmDialog from "@/components/confirm-dialog/use-confirm-dialog";
@@ -33,10 +33,13 @@ function PageContent() {
 
     if (isConfirmed) {
       const previousData = queryClient.getQueryData<
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         InfiniteData<{ nextPage: number; data: any[] }>
       >(companiesQueryKeys.list().key);
 
-      await queryClient.cancelQueries({ queryKey: companiesQueryKeys.list().key });
+      await queryClient.cancelQueries({
+        queryKey: companiesQueryKeys.list().key,
+      });
 
       const newData = {
         ...previousData,
@@ -52,10 +55,12 @@ function PageContent() {
     }
   };
 
+  const { fetchNextPage } = query;
+
   return (
     <Container maxWidth="md">
       <Grid container spacing={3} wrap="nowrap" pt={3}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="h3" gutterBottom>
             {t("title")}
           </Typography>
@@ -68,22 +73,23 @@ function PageContent() {
             {t("actions.create")}
           </Button>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <TableVirtuoso
-            data={query.data?.pages.flatMap((page) => page.data) || []}
-            components={TableComponents({ loading: query.isLoading })}
-            endReached={query.fetchNextPage}
+            data={query.data?.pages?.flatMap((page) => page?.data) || []}
+            components={TableComponents}
+            // @ts-expect-error abc
+            endReached={fetchNextPage}
             itemContent={(index, company) => (
               <>
-                <TableCell>{company.id}</TableCell>
-                <TableCell>{company.name}</TableCell>
+                <TableCell>{company?.id}</TableCell>
+                <TableCell>{company?.name}</TableCell>
                 <TableCell>
                   <Button
                     size="small"
                     color="primary"
                     variant="contained"
                     LinkComponent={Link}
-                    href={`/admin-panel/companies/edit/${company.id}`}
+                    href={`/admin-panel/companies/edit/${company?.id}`}
                   >
                     {t("actions.edit")}
                   </Button>
@@ -91,8 +97,8 @@ function PageContent() {
                     size="small"
                     color="inherit"
                     variant="contained"
-                    onClick={() => handleDelete(company.id)}
-                    style={{ marginLeft: 8 }}
+                    onClick={() => company?.id && handleDelete(company.id)}
+                    sx={{ ml: 8 }}
                   >
                     {t("actions.delete")}
                   </Button>
