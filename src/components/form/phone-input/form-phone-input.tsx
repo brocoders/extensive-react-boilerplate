@@ -17,6 +17,7 @@ export type PhoneInputProps = {
   disabled?: boolean;
   error?: string;
   testId?: string;
+  className?: string;
 };
 
 function PhoneInputRaw(
@@ -37,6 +38,7 @@ function PhoneInputRaw(
           "data-testid": props.testId,
         }}
         country="us"
+        inputClass={props.className}
         value={props.value}
         onChange={props.onChange}
         disabled={props.disabled}
@@ -63,7 +65,7 @@ const PhoneInputField = forwardRef(PhoneInputRaw) as never as (
 
 function FormPhoneInput<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >(
   props: PhoneInputProps &
     Pick<ControllerProps<TFieldValues, TName>, "name" | "defaultValue">
@@ -75,6 +77,7 @@ function FormPhoneInput<
       render={({ field, fieldState }) => (
         <PhoneInputField
           {...field}
+          className={props.className}
           label={props.label}
           disabled={props.disabled}
           testId={props.testId}

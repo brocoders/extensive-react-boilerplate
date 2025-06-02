@@ -99,6 +99,7 @@ function FormSelectInput<
   props: SelectInputProps<T> &
     Pick<ControllerProps<TFieldValues, TName>, "name" | "defaultValue">
 ) {
+  console.log("props", props);
   return (
     <Controller
       name={props.name}
@@ -109,7 +110,7 @@ function FormSelectInput<
           label={props.label}
           autoFocus={props.autoFocus}
           type={props.type}
-          error={fieldState.error?.message}
+          error={props.error}
           disabled={props.disabled}
           readOnly={props.readOnly}
           testId={props.testId}

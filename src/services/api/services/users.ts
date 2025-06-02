@@ -68,7 +68,16 @@ export function useGetUserService() {
 
 export type UserPostRequest = Pick<
   User,
-  | "email" | "firstName" | "lastName" | "photo" | "role" | "company" | "service" | "job" | "phone" | "enabled"
+  | "email"
+  | "firstName"
+  | "lastName"
+  | "photo"
+  | "role"
+  | "company"
+  | "service"
+  | "job"
+  | "phone"
+  | "enabled"
 > & {
   password: string;
 };

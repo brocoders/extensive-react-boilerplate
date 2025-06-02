@@ -30,7 +30,7 @@ import FormPhoneInput from "@/components/form/phone-input/form-phone-input";
 import FormCheckboxBooleanInput from "@/components/form/checkbox-boolean/form-checkbox-boolean";
 import { useGetCompaniesService } from "@/services/api/services/companies";
 import { Company } from "@/services/api/types/company";
-import CreateCompanyForm from "@/components/create-company-form";
+import { FormCreate } from "@/app/[language]/admin-panel/companies/create/page-content";
 
 const serviceOptions = [
   { id: "Management" },
@@ -49,17 +49,17 @@ type EditUserFormData = {
   lastName: string;
   photo?: FileEntity;
   role: Role;
-  company: Company;
+  company: { id: string | number; name?: string | null };
   service?: string;
   job?: string;
   phone?: string;
   enabled: boolean;
 };
 
-type ChangeUserPasswordFormData = {
-  password: string;
-  passwordConfirmation: string;
-};
+// type ChangeUserPasswordFormData = {
+//   password: string;
+//   passwordConfirmation: string;
+// };
 
 const useValidationEditUserSchema = () => {
   const { t } = useTranslation("admin-panel-users-edit");
@@ -92,12 +92,12 @@ const useValidationEditUserSchema = () => {
       .object()
       .shape({
         id: yup.mixed<string | number>().required(),
-        name: yup.string(),
+        name: yup.string().nullable().notRequired(),
       })
       .required(t("admin-panel-users-edit:inputs.company.validation.required")),
-    service: yup.string().optional(),
-    job: yup.string().optional(),
-    phone: yup.string().optional(),
+    // service: yup.string().optional(),
+    // job: yup.string().optional(),
+    // phone: yup.string().optional(),
     enabled: yup.boolean().required(),
   });
 };
@@ -143,22 +143,22 @@ function EditUserFormActions() {
   );
 }
 
-function ChangePasswordUserFormActions() {
-  const { t } = useTranslation("admin-panel-users-edit");
-  const { isSubmitting, isDirty } = useFormState();
-  useLeavePage(isDirty);
-
-  return (
-    <Button
-      variant="contained"
-      color="primary"
-      type="submit"
-      disabled={isSubmitting}
-    >
-      {t("admin-panel-users-edit:actions.submit")}
-    </Button>
-  );
-}
+// function ChangePasswordUserFormActions() {
+//   const { t } = useTranslation("admin-panel-users-edit");
+//   const { isSubmitting, isDirty } = useFormState();
+//   useLeavePage(isDirty);
+//
+//   return (
+//     <Button
+//       variant="contained"
+//       color="primary"
+//       type="submit"
+//       disabled={isSubmitting}
+//     >
+//       {t("admin-panel-users-edit:actions.submit")}
+//     </Button>
+//   );
+// }
 
 function FormEditUser() {
   const params = useParams<{ id: string }>();
@@ -192,7 +192,7 @@ function FormEditUser() {
       lastName: "",
       role: undefined,
       photo: undefined,
-      company: undefined as unknown as Company,
+      company: { id: "", name: "" },
       service: undefined,
       job: "",
       phone: "",
@@ -279,6 +279,13 @@ function FormEditUser() {
             </Grid>
 
             <Grid size={{ xs: 12 }}>
+              <FormCheckboxBooleanInput<EditUserFormData>
+                name="enabled"
+                label={t("admin-panel-users-edit:inputs.enabled.label")}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
               <FormTextInput<EditUserFormData>
                 name="email"
                 testId="email"
@@ -330,7 +337,11 @@ function FormEditUser() {
                 keyValue="id"
                 renderOption={(option) => option.name}
               />
-              <Button sx={{ ml: 1 }} size="small" onClick={() => setDrawerOpen(true)}>
+              <Button
+                sx={{ ml: 1 }}
+                size="small"
+                onClick={() => setDrawerOpen(true)}
+              >
                 {t("admin-panel-users-edit:actions.createCompany")}
               </Button>
             </Grid>
@@ -342,7 +353,9 @@ function FormEditUser() {
                 options={serviceOptions}
                 keyValue="id"
                 renderOption={(option) =>
-                  t(`admin-panel-users-edit:inputs.service.options.${option.id}`)
+                  t(
+                    `admin-panel-users-edit:inputs.service.options.${option.id}`
+                  )
                 }
               />
             </Grid>
@@ -356,15 +369,9 @@ function FormEditUser() {
 
             <Grid size={{ xs: 12 }}>
               <FormPhoneInput<EditUserFormData>
+                className={"w-full"}
                 name="phone"
                 label={t("admin-panel-users-edit:inputs.phone.label")}
-              />
-            </Grid>
-
-            <Grid size={{ xs: 12 }}>
-              <FormCheckboxBooleanInput<EditUserFormData>
-                name="enabled"
-                label={t("admin-panel-users-edit:inputs.enabled.label")}
               />
             </Grid>
 
@@ -390,110 +397,110 @@ function FormEditUser() {
         onClose={handleDrawerClose}
         PaperProps={{ sx: { width: "50vw" } }}
       >
-        <CreateCompanyForm onSuccess={handleCompanyCreated} />
+        <FormCreate onSuccess={handleCompanyCreated} />
       </Drawer>
     </FormProvider>
   );
 }
 
-function FormChangePasswordUser() {
-  const params = useParams<{ id: string }>();
-  const userId = params.id;
-  const fetchPatchUser = usePatchUserService();
-  const { t } = useTranslation("admin-panel-users-edit");
-  const validationSchema = useValidationChangePasswordSchema();
-  const { enqueueSnackbar } = useSnackbar();
-
-  const methods = useForm<ChangeUserPasswordFormData>({
-    resolver: yupResolver(validationSchema),
-    defaultValues: {
-      password: "",
-      passwordConfirmation: "",
-    },
-  });
-
-  const { handleSubmit, setError, reset } = methods;
-
-  const onSubmit = handleSubmit(async (formData) => {
-    const { data, status } = await fetchPatchUser({
-      id: userId,
-      data: formData,
-    });
-    if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
-      (
-        Object.keys(data.errors) as Array<keyof ChangeUserPasswordFormData>
-      ).forEach((key) => {
-        setError(key, {
-          type: "manual",
-          message: t(
-            `admin-panel-users-edit:inputs.${key}.validation.server.${data.errors[key]}`
-          ),
-        });
-      });
-      return;
-    }
-    if (status === HTTP_CODES_ENUM.OK) {
-      reset();
-      enqueueSnackbar(t("admin-panel-users-edit:alerts.password.success"), {
-        variant: "success",
-      });
-    }
-  });
-
-  return (
-    <FormProvider {...methods}>
-      <Container maxWidth="xs">
-        <form onSubmit={onSubmit}>
-          <Grid container spacing={2} mb={3} mt={3}>
-            <Grid size={{ xs: 12 }}>
-              <Typography variant="h6">
-                {t("admin-panel-users-edit:title2")}
-              </Typography>
-            </Grid>
-
-            <Grid size={{ xs: 12 }}>
-              <FormTextInput<ChangeUserPasswordFormData>
-                name="password"
-                type="password"
-                label={t("admin-panel-users-edit:inputs.password.label")}
-              />
-            </Grid>
-
-            <Grid size={{ xs: 12 }}>
-              <FormTextInput<ChangeUserPasswordFormData>
-                name="passwordConfirmation"
-                label={t(
-                  "admin-panel-users-edit:inputs.passwordConfirmation.label"
-                )}
-                type="password"
-              />
-            </Grid>
-
-            <Grid size={{ xs: 12 }}>
-              <ChangePasswordUserFormActions />
-              <Box ml={1} component="span">
-                <Button
-                  variant="contained"
-                  color="inherit"
-                  LinkComponent={Link}
-                  href="/admin-panel/users"
-                >
-                  {t("admin-panel-users-edit:actions.cancel")}
-                </Button>
-              </Box>
-            </Grid>
-          </Grid>
-        </form>
-      </Container>
-    </FormProvider>
-  );
-}
+// function FormChangePasswordUser() {
+//   const params = useParams<{ id: string }>();
+//   const userId = params.id;
+//   const fetchPatchUser = usePatchUserService();
+//   const { t } = useTranslation("admin-panel-users-edit");
+//   const validationSchema = useValidationChangePasswordSchema();
+//   const { enqueueSnackbar } = useSnackbar();
+//
+//   const methods = useForm<ChangeUserPasswordFormData>({
+//     resolver: yupResolver(validationSchema),
+//     defaultValues: {
+//       password: "",
+//       passwordConfirmation: "",
+//     },
+//   });
+//
+//   const { handleSubmit, setError, reset } = methods;
+//
+//   const onSubmit = handleSubmit(async (formData) => {
+//     const { data, status } = await fetchPatchUser({
+//       id: userId,
+//       data: formData,
+//     });
+//     if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
+//       (
+//         Object.keys(data.errors) as Array<keyof ChangeUserPasswordFormData>
+//       ).forEach((key) => {
+//         setError(key, {
+//           type: "manual",
+//           message: t(
+//             `admin-panel-users-edit:inputs.${key}.validation.server.${data.errors[key]}`
+//           ),
+//         });
+//       });
+//       return;
+//     }
+//     if (status === HTTP_CODES_ENUM.OK) {
+//       reset();
+//       enqueueSnackbar(t("admin-panel-users-edit:alerts.password.success"), {
+//         variant: "success",
+//       });
+//     }
+//   });
+//
+//   return (
+//     <FormProvider {...methods}>
+//       <Container maxWidth="xs">
+//         <form onSubmit={onSubmit}>
+//           <Grid container spacing={2} mb={3} mt={3}>
+//             <Grid size={{ xs: 12 }}>
+//               <Typography variant="h6">
+//                 {t("admin-panel-users-edit:title2")}
+//               </Typography>
+//             </Grid>
+//
+//             <Grid size={{ xs: 12 }}>
+//               <FormTextInput<ChangeUserPasswordFormData>
+//                 name="password"
+//                 type="password"
+//                 label={t("admin-panel-users-edit:inputs.password.label")}
+//               />
+//             </Grid>
+//
+//             <Grid size={{ xs: 12 }}>
+//               <FormTextInput<ChangeUserPasswordFormData>
+//                 name="passwordConfirmation"
+//                 label={t(
+//                   "admin-panel-users-edit:inputs.passwordConfirmation.label"
+//                 )}
+//                 type="password"
+//               />
+//             </Grid>
+//
+//             <Grid size={{ xs: 12 }}>
+//               <ChangePasswordUserFormActions />
+//               <Box ml={1} component="span">
+//                 <Button
+//                   variant="contained"
+//                   color="inherit"
+//                   LinkComponent={Link}
+//                   href="/admin-panel/users"
+//                 >
+//                   {t("admin-panel-users-edit:actions.cancel")}
+//                 </Button>
+//               </Box>
+//             </Grid>
+//           </Grid>
+//         </form>
+//       </Container>
+//     </FormProvider>
+//   );
+// }
 
 function EditUser() {
   return (
     <>
       <FormEditUser />
-      <FormChangePasswordUser />
+      {/*<FormChangePasswordUser />*/}
     </>
   );
 }

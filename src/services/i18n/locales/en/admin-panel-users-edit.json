@@ -58,7 +58,7 @@
     },
     "job": { "label": "Job" },
     "phone": { "label": "Phone" },
-    "enabled": { "label": "Enabled" },
+    "enabled": { "label": "Active" },
     "password": {
       "label": "Password",
       "validation": {
