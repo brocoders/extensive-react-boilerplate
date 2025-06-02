@@ -35,6 +35,8 @@ function ResponsiveAppBar() {
     useState<null | HTMLElement>(null);
   const [anchorElementCompanies, setAnchorElementCompanies] =
     useState<null | HTMLElement>(null);
+  const [anchorElementOpportunities, setAnchorElementOpportunities] =
+    useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElementNav(event.currentTarget);
@@ -47,6 +49,11 @@ function ResponsiveAppBar() {
   };
   const handleOpenCompaniesMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElementCompanies(event.currentTarget);
+  };
+  const handleOpenOpportunitiesMenu = (
+    event: React.MouseEvent<HTMLElement>
+  ) => {
+    setAnchorElementOpportunities(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
@@ -61,6 +68,9 @@ function ResponsiveAppBar() {
   };
   const handleCloseCompaniesMenu = () => {
     setAnchorElementCompanies(null);
+  };
+  const handleCloseOpportunitiesMenu = () => {
+    setAnchorElementOpportunities(null);
   };
 
   return (
@@ -160,6 +170,26 @@ function ResponsiveAppBar() {
                   >
                     <Typography textAlign="center">
                       {t("common:navigation.usersCreate")}
+                    </Typography>
+                  </MenuItem>,
+                  <MenuItem
+                    key="opportunities"
+                    onClick={handleCloseNavMenu}
+                    component={Link}
+                    href="/opportunities"
+                  >
+                    <Typography textAlign="center">
+                      {t("common:navigation.opportunities")}
+                    </Typography>
+                  </MenuItem>,
+                  <MenuItem
+                    key="opportunities-create"
+                    onClick={handleCloseNavMenu}
+                    component={Link}
+                    href="/opportunities/create"
+                  >
+                    <Typography textAlign="center">
+                      {t("common:navigation.opportunitiesCreate")}
                     </Typography>
                   </MenuItem>,
                   // mobile-menu-items
@@ -300,6 +330,46 @@ function ResponsiveAppBar() {
                     >
                       <Typography textAlign="center">
                         {t("common:navigation.usersCreate")}
+                      </Typography>
+                    </MenuItem>
+                  </Menu>
+                  <Button
+                    onClick={handleOpenOpportunitiesMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    {t("common:navigation.opportunities")}
+                  </Button>
+                  <Menu
+                    id="menu-opportunities"
+                    anchorEl={anchorElementOpportunities}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "left",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                    open={Boolean(anchorElementOpportunities)}
+                    onClose={handleCloseOpportunitiesMenu}
+                  >
+                    <MenuItem
+                      onClick={handleCloseOpportunitiesMenu}
+                      component={Link}
+                      href="/opportunities"
+                    >
+                      <Typography textAlign="center">
+                        {t("common:navigation.opportunities")}
+                      </Typography>
+                    </MenuItem>
+                    <MenuItem
+                      onClick={handleCloseOpportunitiesMenu}
+                      component={Link}
+                      href="/opportunities/create"
+                    >
+                      <Typography textAlign="center">
+                        {t("common:navigation.opportunitiesCreate")}
                       </Typography>
                     </MenuItem>
                   </Menu>
