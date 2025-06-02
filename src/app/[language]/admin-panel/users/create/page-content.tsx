@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@mui/material/Button";
+import Drawer from "@mui/material/Drawer";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -18,9 +19,26 @@ import Box from "@mui/material/Box";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 import { usePostUserService } from "@/services/api/services/users";
+import { useGetCompaniesService } from "@/services/api/services/companies";
+import { Company } from "@/services/api/types/company";
 import { useRouter } from "next/navigation";
+import { useEffect, useState, useCallback } from "react";
 import { Role, RoleEnum } from "@/services/api/types/role";
 import FormSelectInput from "@/components/form/select/form-select";
+import FormPhoneInput from "@/components/form/phone-input/form-phone-input";
+import FormCheckboxBooleanInput from "@/components/form/checkbox-boolean/form-checkbox-boolean";
+import CreateCompanyForm from "@/components/create-company-form";
+
+const serviceOptions = [
+  { id: "Management" },
+  { id: "Sales" },
+  { id: "Accounting" },
+  { id: "Customer Relations" },
+  { id: "Operations" },
+  { id: "Procurement" },
+  { id: "Retail" },
+  { id: "Support" },
+];
 
 type CreateFormData = {
   email: string;
@@ -30,6 +48,11 @@ type CreateFormData = {
   passwordConfirmation: string;
   photo?: FileEntity;
   role: Role;
+  company: Company;
+  service?: string;
+  job?: string;
+  phone?: string;
+  enabled: boolean;
 };
 
 const useValidationSchema = () => {
@@ -78,6 +101,17 @@ const useValidationSchema = () => {
         name: yup.string(),
       })
       .required(t("admin-panel-users-create:inputs.role.validation.required")),
+    company: yup
+      .object()
+      .shape({
+        id: yup.mixed<string | number>().required(),
+        name: yup.string(),
+      })
+      .required(t("admin-panel-users-create:inputs.company.validation.required")),
+    service: yup.string().optional(),
+    job: yup.string().optional(),
+    phone: yup.string().optional(),
+    enabled: yup.boolean().required(),
   });
 };
 
@@ -101,10 +135,25 @@ function CreateUserFormActions() {
 function FormCreateUser() {
   const router = useRouter();
   const fetchPostUser = usePostUserService();
+  const fetchCompanies = useGetCompaniesService();
   const { t } = useTranslation("admin-panel-users-create");
   const validationSchema = useValidationSchema();
 
   const { enqueueSnackbar } = useSnackbar();
+
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const loadCompanies = useCallback(async () => {
+    const { status, data } = await fetchCompanies({ page: 1, limit: 50 });
+    if (status === HTTP_CODES_ENUM.OK) {
+      setCompanies(data.data);
+    }
+  }, [fetchCompanies]);
+
+  useEffect(() => {
+    loadCompanies();
+  }, [loadCompanies]);
 
   const methods = useForm<CreateFormData>({
     resolver: yupResolver(validationSchema),
@@ -118,10 +167,22 @@ function FormCreateUser() {
         id: RoleEnum.USER,
       },
       photo: undefined,
+      company: undefined as unknown as Company,
+      service: undefined,
+      job: "",
+      phone: "",
+      enabled: false,
     },
   });
 
   const { handleSubmit, setError } = methods;
+
+  const handleDrawerClose = () => setDrawerOpen(false);
+
+  const handleCompanyCreated = async () => {
+    await loadCompanies();
+    handleDrawerClose();
+  };
 
   const onSubmit = handleSubmit(async (formData) => {
     const { data, status } = await fetchPostUser(formData);
@@ -227,6 +288,54 @@ function FormCreateUser() {
             </Grid>
 
             <Grid size={{ xs: 12 }}>
+              <FormSelectInput<CreateFormData, Company>
+                name="company"
+                label={t("admin-panel-users-create:inputs.company.label")}
+                options={companies}
+                keyValue="id"
+                renderOption={(option) => option.name}
+              />
+              <Button sx={{ ml: 1 }} size="small" onClick={() => setDrawerOpen(true)}>
+                {t("admin-panel-users-create:actions.createCompany")}
+              </Button>
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <FormSelectInput<CreateFormData, { id: string }>
+                name="service"
+                label={t("admin-panel-users-create:inputs.service.label")}
+                options={serviceOptions}
+                keyValue="id"
+                renderOption={(option) =>
+                  t(
+                    `admin-panel-users-create:inputs.service.options.${option.id}`
+                  )
+                }
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <FormTextInput<CreateFormData>
+                name="job"
+                label={t("admin-panel-users-create:inputs.job.label")}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <FormPhoneInput<CreateFormData>
+                name="phone"
+                label={t("admin-panel-users-create:inputs.phone.label")}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <FormCheckboxBooleanInput<CreateFormData>
+                name="enabled"
+                label={t("admin-panel-users-create:inputs.enabled.label")}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
               <CreateUserFormActions />
               <Box ml={1} component="span">
                 <Button
@@ -242,6 +351,14 @@ function FormCreateUser() {
           </Grid>
         </form>
       </Container>
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={handleDrawerClose}
+        PaperProps={{ sx: { width: "50vw" } }}
+      >
+        <CreateCompanyForm onSuccess={handleCompanyCreated} />
+      </Drawer>
     </FormProvider>
   );
 }

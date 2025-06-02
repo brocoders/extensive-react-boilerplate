@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@mui/material/Button";
+import Drawer from "@mui/material/Drawer";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -9,7 +10,7 @@ import FormTextInput from "@/components/form/text-input/form-text-input";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useSnackbar } from "@/hooks/use-snackbar";
 import Link from "@/components/link";
 import FormAvatarInput from "@/components/form/avatar-input/form-avatar-input";
@@ -25,6 +26,22 @@ import {
 import { useParams } from "next/navigation";
 import { Role, RoleEnum } from "@/services/api/types/role";
 import FormSelectInput from "@/components/form/select/form-select";
+import FormPhoneInput from "@/components/form/phone-input/form-phone-input";
+import FormCheckboxBooleanInput from "@/components/form/checkbox-boolean/form-checkbox-boolean";
+import { useGetCompaniesService } from "@/services/api/services/companies";
+import { Company } from "@/services/api/types/company";
+import CreateCompanyForm from "@/components/create-company-form";
+
+const serviceOptions = [
+  { id: "Management" },
+  { id: "Sales" },
+  { id: "Accounting" },
+  { id: "Customer Relations" },
+  { id: "Operations" },
+  { id: "Procurement" },
+  { id: "Retail" },
+  { id: "Support" },
+];
 
 type EditUserFormData = {
   email: string;
@@ -32,6 +49,11 @@ type EditUserFormData = {
   lastName: string;
   photo?: FileEntity;
   role: Role;
+  company: Company;
+  service?: string;
+  job?: string;
+  phone?: string;
+  enabled: boolean;
 };
 
 type ChangeUserPasswordFormData = {
@@ -66,6 +88,17 @@ const useValidationEditUserSchema = () => {
         name: yup.string(),
       })
       .required(t("admin-panel-users-edit:inputs.role.validation.required")),
+    company: yup
+      .object()
+      .shape({
+        id: yup.mixed<string | number>().required(),
+        name: yup.string(),
+      })
+      .required(t("admin-panel-users-edit:inputs.company.validation.required")),
+    service: yup.string().optional(),
+    job: yup.string().optional(),
+    phone: yup.string().optional(),
+    enabled: yup.boolean().required(),
   });
 };
 
@@ -132,9 +165,24 @@ function FormEditUser() {
   const userId = params.id;
   const fetchGetUser = useGetUserService();
   const fetchPatchUser = usePatchUserService();
+  const fetchCompanies = useGetCompaniesService();
   const { t } = useTranslation("admin-panel-users-edit");
   const validationSchema = useValidationEditUserSchema();
   const { enqueueSnackbar } = useSnackbar();
+
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const loadCompanies = useCallback(async () => {
+    const { status, data } = await fetchCompanies({ page: 1, limit: 50 });
+    if (status === HTTP_CODES_ENUM.OK) {
+      setCompanies(data.data);
+    }
+  }, [fetchCompanies]);
+
+  useEffect(() => {
+    loadCompanies();
+  }, [loadCompanies]);
 
   const methods = useForm<EditUserFormData>({
     resolver: yupResolver(validationSchema),
@@ -144,10 +192,22 @@ function FormEditUser() {
       lastName: "",
       role: undefined,
       photo: undefined,
+      company: undefined as unknown as Company,
+      service: undefined,
+      job: "",
+      phone: "",
+      enabled: false,
     },
   });
 
   const { handleSubmit, setError, reset } = methods;
+
+  const handleDrawerClose = () => setDrawerOpen(false);
+
+  const handleCompanyCreated = async () => {
+    await loadCompanies();
+    handleDrawerClose();
+  };
 
   const onSubmit = handleSubmit(async (formData) => {
     const isEmailDirty = methods.getFieldState("email").isDirty;
@@ -192,6 +252,11 @@ function FormEditUser() {
             id: Number(user?.role?.id),
           },
           photo: user?.photo,
+          company: user?.company as Company,
+          service: user?.service ?? undefined,
+          job: user?.job ?? "",
+          phone: user?.phone ?? "",
+          enabled: user?.enabled ?? false,
         });
       }
     };
@@ -258,6 +323,52 @@ function FormEditUser() {
             </Grid>
 
             <Grid size={{ xs: 12 }}>
+              <FormSelectInput<EditUserFormData, Company>
+                name="company"
+                label={t("admin-panel-users-edit:inputs.company.label")}
+                options={companies}
+                keyValue="id"
+                renderOption={(option) => option.name}
+              />
+              <Button sx={{ ml: 1 }} size="small" onClick={() => setDrawerOpen(true)}>
+                {t("admin-panel-users-edit:actions.createCompany")}
+              </Button>
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <FormSelectInput<EditUserFormData, { id: string }>
+                name="service"
+                label={t("admin-panel-users-edit:inputs.service.label")}
+                options={serviceOptions}
+                keyValue="id"
+                renderOption={(option) =>
+                  t(`admin-panel-users-edit:inputs.service.options.${option.id}`)
+                }
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <FormTextInput<EditUserFormData>
+                name="job"
+                label={t("admin-panel-users-edit:inputs.job.label")}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <FormPhoneInput<EditUserFormData>
+                name="phone"
+                label={t("admin-panel-users-edit:inputs.phone.label")}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <FormCheckboxBooleanInput<EditUserFormData>
+                name="enabled"
+                label={t("admin-panel-users-edit:inputs.enabled.label")}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
               <EditUserFormActions />
               <Box ml={1} component="span">
                 <Button
@@ -273,6 +384,14 @@ function FormEditUser() {
           </Grid>
         </form>
       </Container>
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={handleDrawerClose}
+        PaperProps={{ sx: { width: "50vw" } }}
+      >
+        <CreateCompanyForm onSuccess={handleCompanyCreated} />
+      </Drawer>
     </FormProvider>
   );
 }

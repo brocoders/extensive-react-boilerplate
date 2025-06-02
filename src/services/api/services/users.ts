@@ -68,7 +68,7 @@ export function useGetUserService() {
 
 export type UserPostRequest = Pick<
   User,
-  "email" | "firstName" | "lastName" | "photo" | "role"
+  | "email" | "firstName" | "lastName" | "photo" | "role" | "company" | "service" | "job" | "phone" | "enabled"
 > & {
   password: string;
 };
@@ -93,9 +93,19 @@ export function usePostUserService() {
 export type UserPatchRequest = {
   id: User["id"];
   data: Partial<
-    Pick<User, "email" | "firstName" | "lastName" | "photo" | "role"> & {
-      password: string;
-    }
+    Pick<
+      User,
+      | "email"
+      | "firstName"
+      | "lastName"
+      | "photo"
+      | "role"
+      | "company"
+      | "service"
+      | "job"
+      | "phone"
+      | "enabled"
+    > & { password: string }
   >;
 };
 
