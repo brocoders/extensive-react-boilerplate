@@ -2,7 +2,8 @@
   "title": "Create user",
   "actions": {
     "submit": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "createCompany": "Create company"
   },
   "inputs": {
     "email": {
@@ -37,6 +38,26 @@
         "2": "User"
       }
     },
+    "company": {
+      "label": "Company",
+      "validation": { "required": "Company is required" }
+    },
+    "service": {
+      "label": "Service",
+      "options": {
+        "Management": "Management",
+        "Sales": "Sales",
+        "Accounting": "Accounting",
+        "Customer Relations": "Customer Relations",
+        "Operations": "Operations",
+        "Procurement": "Procurement",
+        "Retail": "Retail",
+        "Support": "Support"
+      }
+    },
+    "job": { "label": "Job" },
+    "phone": { "label": "Phone" },
+    "enabled": { "label": "Active" },
     "password": {
       "label": "Password",
       "validation": {

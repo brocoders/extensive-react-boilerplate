@@ -15,4 +15,9 @@ export type User = {
   provider?: UserProviderEnum;
   socialId?: string;
   role?: Role;
+  company?: import("./company").Company;
+  service?: string;
+  job?: string;
+  phone?: string;
+  enabled?: boolean;
 };

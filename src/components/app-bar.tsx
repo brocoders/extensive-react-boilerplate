@@ -31,6 +31,8 @@ function ResponsiveAppBar() {
   );
   const [anchorElementUser, setAnchorElementUser] =
     useState<null | HTMLElement>(null);
+  const [anchorElementUsers, setAnchorElementUsers] =
+    useState<null | HTMLElement>(null);
   const [anchorElementCompanies, setAnchorElementCompanies] =
     useState<null | HTMLElement>(null);
 
@@ -39,6 +41,9 @@ function ResponsiveAppBar() {
   };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElementUser(event.currentTarget);
+  };
+  const handleOpenUsersMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElementUsers(event.currentTarget);
   };
   const handleOpenCompaniesMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElementCompanies(event.currentTarget);
@@ -50,6 +55,9 @@ function ResponsiveAppBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElementUser(null);
+  };
+  const handleCloseUsersMenu = () => {
+    setAnchorElementUsers(null);
   };
   const handleCloseCompaniesMenu = () => {
     setAnchorElementCompanies(null);
@@ -142,6 +150,16 @@ function ResponsiveAppBar() {
                   >
                     <Typography textAlign="center">
                       {t("common:navigation.users")}
+                    </Typography>
+                  </MenuItem>,
+                  <MenuItem
+                    key="users-create"
+                    onClick={handleCloseNavMenu}
+                    component={Link}
+                    href="/admin-panel/users/create"
+                  >
+                    <Typography textAlign="center">
+                      {t("common:navigation.usersCreate")}
                     </Typography>
                   </MenuItem>,
                   // mobile-menu-items
@@ -246,13 +264,45 @@ function ResponsiveAppBar() {
                     </MenuItem>
                   </Menu>
                   <Button
-                    onClick={handleCloseNavMenu}
+                    onClick={handleOpenUsersMenu}
                     sx={{ my: 2, color: "white", display: "block" }}
-                    component={Link}
-                    href="/admin-panel/users"
                   >
                     {t("common:navigation.users")}
                   </Button>
+                  <Menu
+                    id="menu-users"
+                    anchorEl={anchorElementUsers}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "left",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                    open={Boolean(anchorElementUsers)}
+                    onClose={handleCloseUsersMenu}
+                  >
+                    <MenuItem
+                      onClick={handleCloseUsersMenu}
+                      component={Link}
+                      href="/admin-panel/users"
+                    >
+                      <Typography textAlign="center">
+                        {t("common:navigation.users")}
+                      </Typography>
+                    </MenuItem>
+                    <MenuItem
+                      onClick={handleCloseUsersMenu}
+                      component={Link}
+                      href="/admin-panel/users/create"
+                    >
+                      <Typography textAlign="center">
+                        {t("common:navigation.usersCreate")}
+                      </Typography>
+                    </MenuItem>
+                  </Menu>
                   {/* desktop-menu-items */}
                 </>
               )}

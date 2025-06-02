@@ -88,7 +88,7 @@ function CreateFormActions() {
   );
 }
 
-function FormCreate() {
+export function FormCreate({ onSuccess }: { onSuccess?: () => void }) {
   const router = useRouter();
   const fetchCreateCompany = usePostCompanyService();
   const { t } = useTranslation("admin-panel-companies-create");
@@ -124,7 +124,7 @@ function FormCreate() {
       enqueueSnackbar(t("alerts.success"), {
         variant: "success",
       });
-      router.push("/admin-panel/companies");
+      router.push(`/admin-panel/${onSuccess ? "users" : "companies"}`);
     }
   });
 
@@ -136,6 +136,13 @@ function FormCreate() {
         </Grid>
         <form onSubmit={onSubmit}>
           <Grid component="div" container spacing={2} mb={3} mt={3}>
+            <Grid size={{ xs: 12 }}>
+              <FormCheckboxBooleanInput<CreateFormData>
+                name="isActive"
+                label={t("inputs.isActive.label")}
+              />
+            </Grid>
+
             <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormTextInput<CreateFormData>
                 name="name"
@@ -171,17 +178,10 @@ function FormCreate() {
               />
             </Grid>
 
-            <Grid size={{ xs: 12, sm: 4, lg: 3 }}>
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
               <FormDatePickerInput<CreateFormData>
                 name="creationDate"
                 label={t("inputs.creationDate.label")}
-              />
-            </Grid>
-
-            <Grid size={{ xs: 12, sm: 2, lg: 1 }}>
-              <FormCheckboxBooleanInput<CreateFormData>
-                name="isActive"
-                label={t("inputs.isActive.label")}
               />
             </Grid>
 
