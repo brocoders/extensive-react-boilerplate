@@ -20,7 +20,7 @@ import { useSnackbar } from "@/hooks/use-snackbar";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useRouter } from "next/navigation";
 import { ClientFieldArray } from "./client-field-array";
-import { PartnerFieldArray } from "./partener-field-array";
+import { PartnerFieldArray } from "./partner-field-array";
 import { SubmitButtons } from "./submit-buttons";
 import FormTextInput from "@/components/form/text-input/form-text-input";
 
