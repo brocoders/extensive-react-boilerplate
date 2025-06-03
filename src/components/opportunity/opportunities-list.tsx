@@ -12,25 +12,27 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useRouter } from "next/navigation";
 import {
-  mockDeleteOpportunity,
-  mockGetOpportunities,
+  useDeleteOpportunityService,
+  useGetOpportunitiesService,
 } from "@/services/api/services/opportunities";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { Opportunity } from "@/services/api/types/opportunity";
 import { useSnackbar } from "@/hooks/use-snackbar";
+import { useTranslation } from "@/services/i18n/client";
 
 function OpportunitiesList() {
   const router = useRouter();
-  const fetchOpportunities = mockGetOpportunities;
-  const deleteOpportunity = mockDeleteOpportunity;
+  const fetchOpportunities = useGetOpportunitiesService();
+  const deleteOpportunity = useDeleteOpportunityService();
   const { enqueueSnackbar } = useSnackbar();
+  const { t } = useTranslation("opportunities");
 
   const [data, setData] = useState<Opportunity[]>([]);
   const [loading, setLoading] = useState(true);
 
   const load = async () => {
     setLoading(true);
-    const { status, data } = await fetchOpportunities();
+    const { status, data } = await fetchOpportunities({ page: 1, limit: 50 });
     if (status === HTTP_CODES_ENUM.OK) {
       setData(data.data as Opportunity[]);
     }
@@ -61,24 +63,28 @@ function OpportunitiesList() {
         onClick={() => router.push("/opportunities/create")}
         sx={{ mb: 2 }}
       >
-        Create Opportunity
+        {t("title.create")}
       </Button>
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Type</TableCell>
-            <TableCell>Clients</TableCell>
-            <TableCell>Partners</TableCell>
-            <TableCell>Created At</TableCell>
-            <TableCell>Actions</TableCell>
+            <TableCell>{t("table.column.type")}</TableCell>
+            <TableCell>{t("table.column.numClients")}</TableCell>
+            <TableCell>{t("table.column.numPartners")}</TableCell>
+            <TableCell>{t("table.column.createdAt")}</TableCell>
+            <TableCell>{t("table.column.actions")}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map((op) => (
             <TableRow key={op.id} hover>
               <TableCell>{op.type}</TableCell>
-              <TableCell>{op.clients.length} clients</TableCell>
-              <TableCell>{op.partners.length} partners</TableCell>
+              <TableCell>
+                {op.clients.length} {t("table.column.numClients")}
+              </TableCell>
+              <TableCell>
+                {op.partners.length} {t("table.column.numPartners")}
+              </TableCell>
               <TableCell>{op.createdAt?.slice(0, 10)}</TableCell>
               <TableCell>
                 <IconButton

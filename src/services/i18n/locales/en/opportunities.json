@@ -1,5 +1,49 @@
 {
-  "title": "Opportunities",
-  "create": "Create Opportunity",
-  "edit": "Edit Opportunity"
+  "title": {
+    "list": "Opportunities",
+    "create": "Create Opportunity",
+    "edit": "Edit Opportunity"
+  },
+  "table": {
+    "column": {
+      "type": "Type",
+      "numClients": "# Clients",
+      "numPartners": "# Partners",
+      "createdAt": "Created At",
+      "actions": "Actions"
+    }
+  },
+  "form": {
+    "type": { "label": "Type" },
+    "clients": {
+      "sectionTitle": "Clients",
+      "company": { "label": "Company" },
+      "addButton": "Add Client",
+      "removeButton": "Remove Client",
+      "contactLabel": "Contact",
+      "createCompanyButton": "+ Create Company",
+      "createUserButton": "+ Create User"
+    },
+    "partners": {
+      "sectionTitle": "Partners",
+      "type": { "label": "Partner Type" },
+      "company": { "label": "Company" },
+      "addButton": "Add Partner",
+      "removeButton": "Remove Partner",
+      "contactLabel": "Contact",
+      "createCompanyButton": "+ Create Company",
+      "createUserButton": "+ Create User"
+    }
+  },
+  "buttons": {
+    "submit": "Submit",
+    "cancel": "Cancel"
+  },
+  "alerts": {
+    "saved": "Opportunity saved successfully"
+  },
+  "validation": {
+    "minClients": "At least one client required",
+    "minPartners": "At least one partner required"
+  }
 }

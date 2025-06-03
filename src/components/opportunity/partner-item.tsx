@@ -11,6 +11,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Typography from "@mui/material/Typography";
 import FormSelectInput from "@/components/form/select/form-select";
 import { OpportunityFormData } from "./opportunity-form";
+import { useTranslation } from "@/services/i18n/client";
 
 type User = { id: number; name: string };
 
@@ -23,6 +24,7 @@ interface PartnerItemProps {
 
 export function PartnerItem({ partnerIndex, indexKey, users, onRemove }: PartnerItemProps) {
   const { control } = useFormContext<OpportunityFormData>();
+  const { t } = useTranslation("opportunities");
   const {
     fields: contactFields,
     append: appendContact,
@@ -33,14 +35,14 @@ export function PartnerItem({ partnerIndex, indexKey, users, onRemove }: Partner
   return (
     <Grid container spacing={2} key={indexKey}>
       <Grid item xs={12}>
-        <Typography variant="subtitle1">Contacts</Typography>
+        <Typography variant="subtitle1">{t("form.partners.contactLabel") + "s"}</Typography>
       </Grid>
       {contactFields.map((contactField, contactIndex) => (
         <Grid item xs={12} lg={6} key={contactField.id}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1 }}>
             <FormSelectInput<OpportunityFormData, User>
               name={`partners.${partnerIndex}.contacts.${contactIndex}.id`}
-              label={`Contact ${contactIndex + 1}`}
+              label={`${t("form.partners.contactLabel")} ${contactIndex + 1}`}
               options={users}
               keyValue="id"
               renderOption={(u) => u.name}
@@ -67,7 +69,7 @@ export function PartnerItem({ partnerIndex, indexKey, users, onRemove }: Partner
             Add Contact
           </Button>
           <Button size="small" onClick={() => { /* TODO: open Create User drawer */ }}>
-            + Create User
+            {t("form.partners.createUserButton")}
           </Button>
         </Box>
       </Grid>
@@ -87,7 +89,7 @@ export function PartnerItem({ partnerIndex, indexKey, users, onRemove }: Partner
             color="error"
             onClick={() => onRemove(partnerIndex)}
           >
-            Remove Partner
+            {t("form.partners.removeButton")}
           </Button>
         </Grid>
       )}
