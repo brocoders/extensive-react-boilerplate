@@ -27,9 +27,7 @@ import { Role, RoleEnum } from "@/services/api/types/role";
 import FormSelectInput from "@/components/form/select/form-select";
 import FormPhoneInput from "@/components/form/phone-input/form-phone-input";
 import FormCheckboxBooleanInput from "@/components/form/checkbox-boolean/form-checkbox-boolean";
-import CreateCompany, {
-  FormCreate,
-} from "@/app/[language]/admin-panel/companies/create/page-content";
+import CreateCompanyForm from "@/components/create-company-form";
 
 const serviceOptions = [
   { id: "Management" },
@@ -180,12 +178,14 @@ function FormCreateUser() {
     },
   });
 
-  const { handleSubmit, setError } = methods;
+  const { handleSubmit, setError, setValue } = methods;
 
   const handleDrawerClose = () => setDrawerOpen(false);
 
-  const handleCompanyCreated = async () => {
+  const handleCompanyCreated = async (company: Company) => {
     await loadCompanies();
+    setValue("company.id", company.id);
+    setValue("company.name", company.name);
     handleDrawerClose();
   };
 
@@ -366,7 +366,10 @@ function FormCreateUser() {
         onClose={handleDrawerClose}
         PaperProps={{ sx: { width: "50vw" } }}
       >
-        <FormCreate onSuccess={handleCompanyCreated} />
+        <CreateCompanyForm
+          onSuccess={handleCompanyCreated}
+          onCancel={handleDrawerClose}
+        />
       </Drawer>
     </FormProvider>
   );

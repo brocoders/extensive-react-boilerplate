@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useFieldArray, useFormContext, useFormState } from "react-hook-form";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -12,6 +12,8 @@ import Typography from "@mui/material/Typography";
 import FormSelectInput from "@/components/form/select/form-select";
 import { OpportunityFormData } from "./opportunity-form";
 import { useTranslation } from "@/services/i18n/client";
+import Drawer from "@mui/material/Drawer";
+import CreateUserForm from "@/components/create-user-form";
 
 type User = { id: number; name: string };
 
@@ -28,8 +30,9 @@ export function PartnerItem({
   users,
   onRemove,
 }: PartnerItemProps) {
-  const { control } = useFormContext<OpportunityFormData>();
+  const { control, setValue } = useFormContext<OpportunityFormData>();
   const { t } = useTranslation("opportunities");
+  const [drawerContactIndex, setDrawerContactIndex] = useState<number | null>(null);
   const {
     fields: contactFields,
     append: appendContact,
@@ -77,9 +80,7 @@ export function PartnerItem({
           </Button>
           <Button
             size="small"
-            onClick={() => {
-              /* TODO: open Create User drawer */
-            }}
+            onClick={() => setDrawerContactIndex(contactFields.length - 1)}
           >
             {t("form.partners.createUserButton")}
           </Button>
@@ -94,17 +95,39 @@ export function PartnerItem({
             </Typography>
           </Grid>
         )}
-      {partnerIndex > 0 && (
-        <Grid item xs={12} sx={{ display: "flex", justifyContent: "end" }}>
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => onRemove(partnerIndex)}
-          >
-            {t("form.partners.removeButton")}
-          </Button>
-        </Grid>
-      )}
+  {partnerIndex > 0 && (
+    <Grid item xs={12} sx={{ display: "flex", justifyContent: "end" }}>
+      <Button
+        variant="contained"
+        color="error"
+        onClick={() => onRemove(partnerIndex)}
+      >
+        {t("form.partners.removeButton")}
+      </Button>
     </Grid>
+  )}
+  </Grid>
+  <Drawer
+    anchor="right"
+    open={drawerContactIndex !== null}
+    onClose={() => setDrawerContactIndex(null)}
+    PaperProps={{ sx: { width: "50vw" } }}
+  >
+    <CreateUserForm
+      onSuccess={(user) => {
+        if (drawerContactIndex === null) return;
+        setValue(
+          `partners.${partnerIndex}.contacts.${drawerContactIndex}.id`,
+          user.id
+        );
+        setValue(
+          `partners.${partnerIndex}.contacts.${drawerContactIndex}.name`,
+          user.name || ""
+        );
+        setDrawerContactIndex(null);
+      }}
+      onCancel={() => setDrawerContactIndex(null)}
+    />
+  </Drawer>
   );
 }

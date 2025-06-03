@@ -9,23 +9,24 @@ import FormTextInput from "@/components/form/text-input/form-text-input";
 import { useTranslation } from "@/services/i18n/client";
 import { FC } from "react";
 
-type Company = { id: number; name: string };
+export type SimpleUser = { id: number; firstName: string; lastName: string };
 
 type Props = {
-  onSuccess?: (company: Company) => void;
+  onSuccess?: (user: SimpleUser) => void;
   onCancel?: () => void;
 };
 
 const validationSchema = yup.object({
-  name: yup.string().required(),
+  firstName: yup.string().required(),
+  lastName: yup.string().required(),
 });
 
-const CreateCompanyForm: FC<Props> = ({ onSuccess, onCancel }) => {
-  const { t } = useTranslation("admin-panel-companies-create");
+const CreateUserForm: FC<Props> = ({ onSuccess, onCancel }) => {
+  const { t } = useTranslation("admin-panel-users-create");
 
-  const methods = useForm<{ name: string }>({
+  const methods = useForm<{ firstName: string; lastName: string }>({
     resolver: yupResolver(validationSchema),
-    defaultValues: { name: "" },
+    defaultValues: { firstName: "", lastName: "" },
   });
 
   const { handleSubmit, setError } = methods;
@@ -33,10 +34,14 @@ const CreateCompanyForm: FC<Props> = ({ onSuccess, onCancel }) => {
 
   const submit = handleSubmit(async (data) => {
     try {
-      const newCompany = { id: Date.now(), name: data.name };
-      onSuccess?.(newCompany);
+      const newUser: SimpleUser = {
+        id: Date.now(),
+        firstName: data.firstName,
+        lastName: data.lastName,
+      };
+      onSuccess?.(newUser);
     } catch (e) {
-      setError("name", { type: "manual", message: String(e) });
+      setError("firstName", { type: "manual", message: String(e) });
     }
   });
 
@@ -45,7 +50,16 @@ const CreateCompanyForm: FC<Props> = ({ onSuccess, onCancel }) => {
       <form onSubmit={submit}>
         <Grid container spacing={2} p={2} width={{ xs: "80vw", sm: "50vw" }}>
           <Grid item xs={12}>
-            <FormTextInput name="name" label={t("inputs.name.label") || "Name"} />
+            <FormTextInput
+              name="firstName"
+              label={t("inputs.firstName.label") || "First Name"}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <FormTextInput
+              name="lastName"
+              label={t("inputs.lastName.label") || "Last Name"}
+            />
           </Grid>
           <Grid item xs={12} sx={{ display: "flex", gap: 1 }}>
             <Button type="submit" variant="contained" disabled={isSubmitting}>
@@ -66,4 +80,4 @@ const CreateCompanyForm: FC<Props> = ({ onSuccess, onCancel }) => {
   );
 };
 
-export default CreateCompanyForm;
+export default CreateUserForm;

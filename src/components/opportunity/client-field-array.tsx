@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useFieldArray, useFormContext, useFormState } from "react-hook-form";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
@@ -14,6 +14,8 @@ import { useGetCompaniesService } from "@/services/api/services/companies";
 import { useGetUsersService } from "@/services/api/services/users";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
+import Drawer from "@mui/material/Drawer";
+import CreateCompanyForm from "@/components/create-company-form";
 
 type Company = { id: number; name: string };
 type User = { id: number; name: string };
@@ -31,7 +33,8 @@ export function ClientFieldArray({ emptyClient }: ClientFieldArrayProps) {
   const fetchUsers = useGetUsersService();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [users, setUsers] = useState<User[]>([]);
-  const { control } = useFormContext<OpportunityFormData>();
+  const [companyDrawerIndex, setCompanyDrawerIndex] = useState<number | null>(null);
+  const { control, setValue } = useFormContext<OpportunityFormData>();
 
   // FieldArray pour "clients"
   const {
@@ -46,25 +49,37 @@ export function ClientFieldArray({ emptyClient }: ClientFieldArrayProps) {
   // Validation errors pour "clients"
   const { errors } = useFormState({ control });
 
-  useEffect(() => {
-    const loadCompanies = async () => {
-      const { status, data } = await fetchCompanies({ page: 1, limit: 50 });
-      if (status === HTTP_CODES_ENUM.OK) {
-        setCompanies(data.data as Company[]);
-      }
-    };
-    loadCompanies();
+  const loadCompanies = useCallback(async () => {
+    const { status, data } = await fetchCompanies({ page: 1, limit: 50 });
+    if (status === HTTP_CODES_ENUM.OK) {
+      setCompanies(data.data as Company[]);
+    }
   }, [fetchCompanies]);
 
-  useEffect(() => {
-    const loadUsers = async () => {
-      const { status, data } = await fetchUsers({ page: 1, limit: 50 });
-      if (status === HTTP_CODES_ENUM.OK) {
-        setUsers(data.data as User[]);
-      }
-    };
-    loadUsers();
+  const loadUsers = useCallback(async () => {
+    const { status, data } = await fetchUsers({ page: 1, limit: 50 });
+    if (status === HTTP_CODES_ENUM.OK) {
+      setUsers(data.data as User[]);
+    }
   }, [fetchUsers]);
+
+  const handleCompanyCreated = async (company: Company) => {
+    if (companyDrawerIndex === null) return;
+    await loadCompanies();
+    setValue(`clients.${companyDrawerIndex}.company.id`, company.id);
+    setValue(`clients.${companyDrawerIndex}.company.name`, company.name);
+    setCompanyDrawerIndex(null);
+  };
+
+
+  useEffect(() => {
+    loadCompanies();
+  }, [loadCompanies]);
+
+  useEffect(() => {
+    loadUsers();
+  }, [loadUsers]);
+
 
   return (
     <>
@@ -94,9 +109,7 @@ export function ClientFieldArray({ emptyClient }: ClientFieldArrayProps) {
                 <Button
                   size="small"
                   sx={{ mt: 1 }}
-                  onClick={() => {
-                    // TODO : ouvrir le Drawer “Create Company”
-                  }}
+                  onClick={() => setCompanyDrawerIndex(index)}
                 >
                   {t("form.clients.createCompanyButton")}
                 </Button>
@@ -146,6 +159,17 @@ export function ClientFieldArray({ emptyClient }: ClientFieldArrayProps) {
           {t("form.clients.addButton")}
         </Button>
       </Grid>
+      <Drawer
+        anchor="right"
+        open={companyDrawerIndex !== null}
+        onClose={() => setCompanyDrawerIndex(null)}
+        PaperProps={{ sx: { width: "50vw" } }}
+      >
+        <CreateCompanyForm
+          onSuccess={handleCompanyCreated}
+          onCancel={() => setCompanyDrawerIndex(null)}
+        />
+      </Drawer>
     </>
   );
 }

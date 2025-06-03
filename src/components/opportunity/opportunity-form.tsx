@@ -2,7 +2,6 @@
 
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import Drawer from "@mui/material/Drawer";
 import Typography from "@mui/material/Typography";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -104,7 +103,6 @@ export default function OpportunityForm({ initialValues, onSuccess }: Props) {
   const { t } = useTranslation("opportunities");
   const postOpportunity = mockPostOpportunity;
   const putOpportunity = mockPutOpportunity;
-  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const methods = useForm<OpportunityFormData>({
     resolver: yupResolver(validationSchema),
@@ -198,14 +196,7 @@ export default function OpportunityForm({ initialValues, onSuccess }: Props) {
         </Grid>
       </form>
 
-      <Drawer
-        anchor="right"
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        PaperProps={{ sx: { width: "50vw" } }}
-      >
-        {/* TODO: create company or user forms */}
-      </Drawer>
+      {/* Drawers handled in sub components */}
     </FormProvider>
   );
 }
