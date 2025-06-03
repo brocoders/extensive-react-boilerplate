@@ -33,7 +33,10 @@ export function PartnerFieldArray({ emptyPartner }: PartnerFieldArrayProps) {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const { control } = useFormContext<OpportunityFormData>();
-  const { fields, append, remove } = useFieldArray({ name: "partners", control });
+  const { fields, append, remove } = useFieldArray({
+    name: "partners",
+    control,
+  });
   const { errors } = useFormState({ control });
 
   useEffect(() => {
@@ -59,7 +62,10 @@ export function PartnerFieldArray({ emptyPartner }: PartnerFieldArrayProps) {
   return (
     <>
       {fields.map((field, index) => (
-        <Box key={field.id} sx={{ p: 2, border: "1px dashed grey", borderRadius: "5px", my: 1 }}>
+        <Box
+          key={field.id}
+          sx={{ p: 2, border: "1px dashed grey", borderRadius: "5px", my: 1 }}
+        >
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant="subtitle1">Partner #{index + 1}</Typography>
@@ -70,7 +76,9 @@ export function PartnerFieldArray({ emptyPartner }: PartnerFieldArrayProps) {
                 label={t("form.partners.type.label")}
                 options={[{ id: "factor" }, { id: "credit_insurer" }]}
                 keyValue="id"
-                renderOption={(o) => (o.id === "factor" ? "Factor" : "Credit Insurer")}
+                renderOption={(o) =>
+                  o.id === "factor" ? "Factor" : "Credit Insurer"
+                }
               />
               <FormSelectInput<OpportunityFormData, Company>
                 name={`partners.${index}.company.id`}
@@ -81,17 +89,29 @@ export function PartnerFieldArray({ emptyPartner }: PartnerFieldArrayProps) {
                 sx={{ mt: 1 }}
                 disabled={companies.length === 0}
               />
-              <Button size="small" sx={{ mt: 1 }} onClick={() => { /* TODO: open Create Company drawer */ }}>
+              <Button
+                size="small"
+                sx={{ mt: 1 }}
+                onClick={() => {
+                  /* TODO: open Create Company drawer */
+                }}
+              >
                 {t("form.partners.createCompanyButton")}
               </Button>
             </Grid>
             <Grid item xs={12} lg={6}>
-              <PartnerItem partnerIndex={index} indexKey={field.id} users={users} onRemove={remove} />
+              <PartnerItem
+                partnerIndex={index}
+                indexKey={field.id}
+                users={users}
+                onRemove={remove}
+              />
             </Grid>
             {index === fields.length - 1 && errors.partners && (
               <Grid item xs={12} sx={{ mt: 1 }}>
                 <Typography color="error" variant="body2">
-                  {(errors.partners as any).message || t("validation.minPartners")}
+                  {(errors.partners as any).message ||
+                    t("validation.minPartners")}
                 </Typography>
               </Grid>
             )}
@@ -99,7 +119,11 @@ export function PartnerFieldArray({ emptyPartner }: PartnerFieldArrayProps) {
         </Box>
       ))}
       <Grid item xs={12} sx={{ mt: 2 }}>
-        <Button startIcon={<AddIcon />} variant="outlined" onClick={() => append(emptyPartner)}>
+        <Button
+          startIcon={<AddIcon />}
+          variant="outlined"
+          onClick={() => append(emptyPartner)}
+        >
           {t("form.partners.addButton")}
         </Button>
       </Grid>

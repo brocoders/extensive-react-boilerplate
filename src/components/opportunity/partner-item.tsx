@@ -22,7 +22,12 @@ interface PartnerItemProps {
   onRemove: (index: number) => void;
 }
 
-export function PartnerItem({ partnerIndex, indexKey, users, onRemove }: PartnerItemProps) {
+export function PartnerItem({
+  partnerIndex,
+  indexKey,
+  users,
+  onRemove,
+}: PartnerItemProps) {
   const { control } = useFormContext<OpportunityFormData>();
   const { t } = useTranslation("opportunities");
   const {
@@ -35,7 +40,9 @@ export function PartnerItem({ partnerIndex, indexKey, users, onRemove }: Partner
   return (
     <Grid container spacing={2} key={indexKey}>
       <Grid item xs={12}>
-        <Typography variant="subtitle1">{t("form.partners.contactLabel") + "s"}</Typography>
+        <Typography variant="subtitle1">
+          {t("form.partners.contactLabel") + "s"}
+        </Typography>
       </Grid>
       {contactFields.map((contactField, contactIndex) => (
         <Grid item xs={12} lg={6} key={contactField.id}>
@@ -68,7 +75,12 @@ export function PartnerItem({ partnerIndex, indexKey, users, onRemove }: Partner
           >
             Add Contact
           </Button>
-          <Button size="small" onClick={() => { /* TODO: open Create User drawer */ }}>
+          <Button
+            size="small"
+            onClick={() => {
+              /* TODO: open Create User drawer */
+            }}
+          >
             {t("form.partners.createUserButton")}
           </Button>
         </Box>

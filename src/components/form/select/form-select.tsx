@@ -99,7 +99,6 @@ function FormSelectInput<
   props: SelectInputProps<T> &
     Pick<ControllerProps<TFieldValues, TName>, "name" | "defaultValue">
 ) {
-  console.log("props", props);
   return (
     <Controller
       name={props.name}

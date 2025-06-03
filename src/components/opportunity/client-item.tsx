@@ -13,7 +13,7 @@ import FormSelectInput from "@/components/form/select/form-select";
 import { OpportunityFormData } from "./opportunity-form";
 import { useTranslation } from "@/services/i18n/client";
 
-type User = { id: number; name: string };
+type User = { id: number; firstName: string; lastName: string };
 
 interface ClientItemProps {
   clientIndex: number;
@@ -49,7 +49,9 @@ export function ClientItem({
     <Grid container spacing={2}>
       {/* Contacts Section */}
       <Grid size={12}>
-        <Typography variant="subtitle1">{t("form.clients.contactLabel") + "s"}</Typography>
+        <Typography variant="subtitle1">
+          {t("form.clients.contactLabel") + "s"}
+        </Typography>
 
         {contactFields.map((contactField, contactIndex) => (
           <Box
@@ -66,7 +68,7 @@ export function ClientItem({
               label={`${t("form.clients.contactLabel")} ${contactIndex + 1}`}
               options={users}
               keyValue="id"
-              renderOption={(u) => u.name}
+              renderOption={(u) => u.firstName + " " + u.lastName}
             />
             <Button
               startIcon={<AddIcon />}
