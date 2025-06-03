@@ -30,7 +30,7 @@ import FormPhoneInput from "@/components/form/phone-input/form-phone-input";
 import FormCheckboxBooleanInput from "@/components/form/checkbox-boolean/form-checkbox-boolean";
 import { useGetCompaniesService } from "@/services/api/services/companies";
 import { Company } from "@/services/api/types/company";
-import CreateCompanyForm from "@/components/create-company-form";
+import { FormCreate as CreateCompanyForm } from "@/app/[language]/admin-panel/companies/create/page-content";
 
 const serviceOptions = [
   { id: "Management" },

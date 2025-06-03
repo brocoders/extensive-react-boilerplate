@@ -13,7 +13,7 @@ import FormSelectInput from "@/components/form/select/form-select";
 import { OpportunityFormData } from "./opportunity-form";
 import { useTranslation } from "@/services/i18n/client";
 import Drawer from "@mui/material/Drawer";
-import CreateUserForm from "@/components/create-user-form";
+import { FormCreateUser as CreateUserForm } from "@/app/[language]/admin-panel/users/create/page-content";
 
 type User = { id: number; name: string };
 

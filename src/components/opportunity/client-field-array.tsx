@@ -15,7 +15,7 @@ import { useGetUsersService } from "@/services/api/services/users";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 import Drawer from "@mui/material/Drawer";
-import CreateCompanyForm from "@/components/create-company-form";
+import { FormCreate as CreateCompanyForm } from "@/app/[language]/admin-panel/companies/create/page-content";
 
 type Company = { id: number; name: string };
 type User = { id: number; name: string };
