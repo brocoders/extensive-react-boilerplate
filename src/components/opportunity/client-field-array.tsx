@@ -33,7 +33,9 @@ export function ClientFieldArray({ emptyClient }: ClientFieldArrayProps) {
   const fetchUsers = useGetUsersService();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [users, setUsers] = useState<User[]>([]);
-  const [companyDrawerIndex, setCompanyDrawerIndex] = useState<number | null>(null);
+  const [companyDrawerIndex, setCompanyDrawerIndex] = useState<number | null>(
+    null
+  );
   const { control, setValue } = useFormContext<OpportunityFormData>();
 
   // FieldArray pour "clients"
@@ -71,7 +73,6 @@ export function ClientFieldArray({ emptyClient }: ClientFieldArrayProps) {
     setCompanyDrawerIndex(null);
   };
 
-
   useEffect(() => {
     loadCompanies();
   }, [loadCompanies]);
@@ -79,7 +80,6 @@ export function ClientFieldArray({ emptyClient }: ClientFieldArrayProps) {
   useEffect(() => {
     loadUsers();
   }, [loadUsers]);
-
 
   return (
     <>

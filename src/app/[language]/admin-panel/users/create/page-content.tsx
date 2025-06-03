@@ -359,7 +359,11 @@ export function FormCreateUser({
               <CreateUserFormActions />
               <Box ml={1} component="span">
                 {onCancel ? (
-                  <Button variant="contained" color="inherit" onClick={onCancel}>
+                  <Button
+                    variant="contained"
+                    color="inherit"
+                    onClick={onCancel}
+                  >
                     {t("admin-panel-users-create:actions.cancel")}
                   </Button>
                 ) : (

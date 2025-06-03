@@ -225,7 +225,11 @@ export function FormCreate({
               <CreateFormActions />
               <Box ml={1} component="span">
                 {onCancel ? (
-                  <Button variant="contained" color="inherit" onClick={onCancel}>
+                  <Button
+                    variant="contained"
+                    color="inherit"
+                    onClick={onCancel}
+                  >
                     {t("actions.cancel")}
                   </Button>
                 ) : (

@@ -34,7 +34,9 @@ export function PartnerFieldArray({ emptyPartner }: PartnerFieldArrayProps) {
   const fetchUsers = useGetUsersService();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [users, setUsers] = useState<User[]>([]);
-  const [companyDrawerIndex, setCompanyDrawerIndex] = useState<number | null>(null);
+  const [companyDrawerIndex, setCompanyDrawerIndex] = useState<number | null>(
+    null
+  );
   const { control, setValue } = useFormContext<OpportunityFormData>();
   const { fields, append, remove } = useFieldArray({
     name: "partners",
