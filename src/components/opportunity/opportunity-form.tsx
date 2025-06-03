@@ -8,7 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { InferType } from "yup";
 import { FormProvider, useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import FormSelectInput from "@/components/form/select/form-select";
 import { useGetCompaniesService } from "@/services/api/services/companies";
 import { useGetUsersService } from "@/services/api/services/users";
@@ -22,8 +22,10 @@ import { useRouter } from "next/navigation";
 import { ClientFieldArray } from "./client-field-array";
 import { PartnerFieldArray } from "./partener-field-array";
 import { SubmitButtons } from "./submit-buttons";
+import FormTextInput from "@/components/form/text-input/form-text-input";
 
 export const validationSchema = yup.object({
+  name: yup.string().required(),
   type: yup
     .string()
     .oneOf(["factoring", "reverse_factoring", "credit_insurance"])
@@ -167,26 +169,30 @@ export default function OpportunityForm({ initialValues, onSuccess }: Props) {
     <FormProvider {...methods}>
       <form onSubmit={onSubmit}>
         <Grid container spacing={2} mb={3} mt={3}>
+          <Grid size={{ xs: 12 }}>
+            <Typography variant="h6">Create an opportunity</Typography>
+          </Grid>
           {/* Type field (full width) */}
-          <Grid item xs={12}>
-            <FormSelectInput<OpportunityFormData, { id: string }>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <FormTextInput<OpportunityFormData> name="name" label="Name" />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <FormSelectInput<OpportunityFormData, { id: string; label: string }>
               name="type"
-              label="Type"
+              label="Opportunity type"
               options={[
-                { id: "factoring" },
-                { id: "reverse_factoring" },
-                { id: "credit_insurance" },
+                { id: "factoring", label: "Factoring" },
+                { id: "reverse_factoring", label: "Reverse Factoring" },
+                { id: "credit_insurance", label: "Credit Insurance" },
               ]}
               keyValue="id"
-              renderOption={(opt) => opt.id}
+              renderOption={(opt) => opt.label}
             />
           </Grid>
 
           {/* Clients Section */}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography variant="h6">Clients</Typography>
-          </Grid>
-          <Grid item xs={12}>
             <ClientFieldArray
               companies={companies}
               users={users}
@@ -195,10 +201,10 @@ export default function OpportunityForm({ initialValues, onSuccess }: Props) {
           </Grid>
 
           {/* Partners Section */}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography variant="h6">Partners</Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <PartnerFieldArray
               companies={companies}
               users={users}
@@ -207,7 +213,7 @@ export default function OpportunityForm({ initialValues, onSuccess }: Props) {
           </Grid>
 
           {/* Submit / Cancel Buttons */}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <SubmitButtons />
             <Button
               sx={{ ml: 1 }}

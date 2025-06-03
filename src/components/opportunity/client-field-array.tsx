@@ -4,12 +4,12 @@ import React from "react";
 import { useFieldArray, useFormContext, useFormState } from "react-hook-form";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import Typography from "@mui/material/Typography";
-import FormSelectInput from "@/components/form/select/form-select";
+import { ClientItem } from "./client-item";
 import { OpportunityFormData } from "./opportunity-form";
+import FormSelectInput from "@/components/form/select/form-select";
+import Box from "@mui/material/Box";
 
 type Company = { id: number; name: string };
 type User = { id: number; name: string };
@@ -28,93 +28,101 @@ export function ClientFieldArray({
   users,
   emptyClient,
 }: ClientFieldArrayProps) {
+  // Accès au contrôle du formulaire
   const { control } = useFormContext<OpportunityFormData>();
-  const { fields, append, remove } = useFieldArray({
+
+  // FieldArray pour "clients"
+  const {
+    fields: clientFields,
+    append: appendClient,
+    remove: removeClient,
+  } = useFieldArray({
     control,
     name: "clients",
   });
+
+  // Validation errors pour "clients"
   const { errors } = useFormState({ control });
 
   return (
     <>
-      {fields.map((field, index) => (
-        <Grid
-          container
-          spacing={2}
-          key={field.id}
-          alignItems="center"
-          marginBottom={2}
+      {clientFields.map((clientField, index) => (
+        <Box
+          key={index}
+          sx={{
+            p: 2,
+            border: "1px dashed grey",
+            borderRadius: "5px",
+            my: 1,
+          }}
         >
-          {/* Company + Create Company Button */}
-          <Grid item xs={12} lg={6}>
-            <FormSelectInput<OpportunityFormData, Company>
-              name={`clients.${index}.company.id`}
-              label="Company"
-              options={companies}
-              keyValue="id"
-              renderOption={(c) => c.name}
-            />
-            <Button
-              size="small"
-              sx={{ mt: 1 }}
-              onClick={() => {
-                // TODO: ouvrir le Drawer “Create Company”
-              }}
-            >
-              + Create Company
-            </Button>
-          </Grid>
+          <Grid size={12} key={clientField.id}>
+            {/* Champ "Company" pour chaque client */}
+            <Grid container spacing={2}>
+              <Grid size={5}>
+                <Typography variant="subtitle1">Client #{index + 1}</Typography>
+                <FormSelectInput<OpportunityFormData, Company>
+                  name={`clients.${index}.company.id`}
+                  label="Company"
+                  options={companies}
+                  keyValue="id"
+                  renderOption={(c) => c.name}
+                />
+                <Button
+                  size="small"
+                  sx={{ mt: 1 }}
+                  onClick={() => {
+                    // TODO : ouvrir le Drawer “Create Company”
+                  }}
+                >
+                  + Create Company
+                </Button>
+              </Grid>
 
-          {/* Contact + Create User Button */}
-          <Grid item xs={12} lg={6}>
-            <FormSelectInput<OpportunityFormData, User>
-              name={`clients.${index}.contacts.0.id`}
-              label="Contact"
-              options={users}
-              keyValue="id"
-              renderOption={(u) => u.name}
-            />
-            <Button
-              size="small"
-              sx={{ mt: 1 }}
-              onClick={() => {
-                // TODO: ouvrir le Drawer “Create User”
-              }}
-            >
-              + Create User
-            </Button>
-          </Grid>
+              {/* Si erreur sur la company */}
+              {errors.clients &&
+                Array.isArray(errors.clients) &&
+                errors.clients[index]?.company && (
+                  <Grid size={12}>
+                    <Typography color="error" variant="body2">
+                      Client’s company is required
+                    </Typography>
+                  </Grid>
+                )}
+              {/* Sous-composant pour gérer les "Contacts" de ce client */}
+              <Grid size={7}>
+                <ClientItem
+                  clientIndex={index}
+                  indexKey={clientField.id}
+                  users={users}
+                  onRemove={removeClient}
+                />
+              </Grid>
+            </Grid>
 
-          {/* Remove Client Button */}
-          <Grid item xs={12}>
-            <IconButton onClick={() => remove(index)} color="error">
-              <DeleteIcon />
-            </IconButton>
+            {/* Erreur de validation globale sur la liste "clients" */}
+            {index === clientFields.length - 1 && errors.clients && (
+              <Grid size={12} sx={{ mt: 1 }}>
+                <Typography color="error" variant="body2">
+                  {(errors.clients as any).message ||
+                    "At least one client required"}
+                </Typography>
+              </Grid>
+            )}
           </Grid>
-        </Grid>
+        </Box>
       ))}
 
       {/* Add Client Button */}
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Button
           startIcon={<AddIcon />}
           variant="outlined"
-          onClick={() => append(emptyClient)}
+          onClick={() => appendClient(emptyClient)}
         >
-          + Add Client
+          Add Client
         </Button>
       </Grid>
-
-      {/* Validation error for clients array */}
-      {errors.clients && (
-        <Grid item xs={12}>
-          <Typography color="error" variant="body2">
-            {Array.isArray(errors.clients)
-              ? "At least one client required"
-              : "Invalid clients"}
-          </Typography>
-        </Grid>
-      )}
     </>
   );
 }
