@@ -5,6 +5,103 @@ import wrapperFetchJsonResponse from "../wrapper-fetch-json-response";
 import { Opportunity } from "../types/opportunity";
 import { InfinityPaginationType } from "../types/infinity-pagination";
 import { RequestConfigType } from "./types/request-config";
+import HTTP_CODES_ENUM from "../types/http-codes";
+
+// ----- Mock data -----
+let mockOpportunities: Opportunity[] = [
+  {
+    id: 1,
+    type: "factoring",
+    clients: [
+      {
+        company: { id: 10, name: "Acme Corp" },
+        contacts: [{ id: 100, name: "Alice" }],
+      },
+      {
+        company: { id: 11, name: "Beta SA" },
+        contacts: [{ id: 101, name: "Bob" }],
+      },
+    ],
+    partners: [
+      {
+        type: "factor",
+        company: { id: 20, name: "FactorCo" },
+        contacts: [{ id: 200, name: "Charlie" }],
+      },
+    ],
+    createdAt: "2025-05-15",
+  },
+  {
+    id: 2,
+    type: "reverse_factoring",
+    clients: [
+      {
+        company: { id: 12, name: "Gamma Ltd" },
+        contacts: [{ id: 102, name: "Diane" }],
+      },
+    ],
+    partners: [
+      {
+        type: "credit_insurer",
+        company: { id: 21, name: "InsureAll" },
+        contacts: [{ id: 201, name: "Evan" }],
+      },
+    ],
+    createdAt: "2025-06-01",
+  },
+  {
+    id: 3,
+    type: "credit_insurance",
+    clients: [
+      {
+        company: { id: 13, name: "Delta LLC" },
+        contacts: [{ id: 103, name: "Frank" }],
+      },
+    ],
+    partners: [
+      {
+        type: "factor",
+        company: { id: 22, name: "FinancePlus" },
+        contacts: [{ id: 202, name: "Grace" }],
+      },
+    ],
+    createdAt: "2025-04-20",
+  },
+];
+
+export function mockGetOpportunities() {
+  return Promise.resolve({
+    status: HTTP_CODES_ENUM.OK,
+    data: { data: mockOpportunities },
+  });
+}
+
+export function mockDeleteOpportunity({ id }: { id: number }) {
+  mockOpportunities = mockOpportunities.filter((o) => o.id !== id);
+  return Promise.resolve({ status: HTTP_CODES_ENUM.OK });
+}
+
+export function mockPostOpportunity(data: OpportunityPostRequest) {
+  const newId = Math.max(0, ...mockOpportunities.map((o) => o.id)) + 1;
+  const created: Opportunity = {
+    ...data,
+    id: newId,
+    createdAt: new Date().toISOString().slice(0, 10),
+  };
+  mockOpportunities.push(created);
+  return Promise.resolve({ status: HTTP_CODES_ENUM.CREATED, data: created });
+}
+
+export function mockPutOpportunity({ id, data }: OpportunityPutRequest) {
+  const index = mockOpportunities.findIndex((o) => o.id === id);
+  if (index !== -1) {
+    mockOpportunities[index] = { ...mockOpportunities[index], ...data };
+  }
+  return Promise.resolve({
+    status: HTTP_CODES_ENUM.OK,
+    data: mockOpportunities[index],
+  });
+}
 
 export type OpportunitiesRequest = { page: number; limit: number };
 export type OpportunitiesResponse = InfinityPaginationType<Opportunity>;

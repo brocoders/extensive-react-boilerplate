@@ -3,26 +3,25 @@
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Drawer from "@mui/material/Drawer";
+import Typography from "@mui/material/Typography";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { InferType } from "yup";
-import {
-  FormProvider,
-  useFieldArray,
-  useForm,
-  useFormState,
-} from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import FormSelectInput from "@/components/form/select/form-select";
 import { useGetCompaniesService } from "@/services/api/services/companies";
 import { useGetUsersService } from "@/services/api/services/users";
 import {
-  usePostOpportunityService,
-  usePutOpportunityService,
+  mockPostOpportunity,
+  mockPutOpportunity,
 } from "@/services/api/services/opportunities";
 import { useSnackbar } from "@/hooks/use-snackbar";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useRouter } from "next/navigation";
+import { ClientFieldArray } from "./client-field-array";
+import { PartnerFieldArray } from "./partener-field-array";
+import { SubmitButtons } from "./submit-buttons";
 
 export const validationSchema = yup.object({
   type: yup
@@ -34,7 +33,10 @@ export const validationSchema = yup.object({
     .of(
       yup.object({
         company: yup
-          .object({ id: yup.number().required(), name: yup.string().nullable() })
+          .object({
+            id: yup.number().required(),
+            name: yup.string().nullable(),
+          })
           .required(),
         contacts: yup
           .array()
@@ -56,7 +58,10 @@ export const validationSchema = yup.object({
       yup.object({
         type: yup.string().oneOf(["factor", "credit_insurer"]).required(),
         company: yup
-          .object({ id: yup.number().required(), name: yup.string().nullable() })
+          .object({
+            id: yup.number().required(),
+            name: yup.string().nullable(),
+          })
           .required(),
         contacts: yup
           .array()
@@ -82,27 +87,29 @@ const emptyClient = {
 };
 
 const emptyPartner = {
-  type: "factor" as const,
+  type: undefined,
   company: { id: 0, name: "" },
   contacts: [{ id: 0, name: "" }],
-};
+} as unknown as OpportunityFormData["partners"][number];
 
 type Props = {
   initialValues?: OpportunityFormData & { id?: number };
   onSuccess: () => void;
 };
 
-function OpportunityForm({ initialValues, onSuccess }: Props) {
+export default function OpportunityForm({ initialValues, onSuccess }: Props) {
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const fetchCompanies = useGetCompaniesService();
   const fetchUsers = useGetUsersService();
-  const postOpportunity = usePostOpportunityService();
-  const putOpportunity = usePutOpportunityService();
+  const postOpportunity = mockPostOpportunity;
+  const putOpportunity = mockPutOpportunity;
 
-  const [companies, setCompanies] = useState<{ id: number; name: string }[]>([]);
+  const [companies, setCompanies] = useState<{ id: number; name: string }[]>(
+    []
+  );
   const [users, setUsers] = useState<{ id: number; name: string }[]>([]);
-  const [drawerOpen, setDrawerOpen] = useState(false); // placeholder
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     const loadCompanies = async () => {
@@ -127,18 +134,15 @@ function OpportunityForm({ initialValues, onSuccess }: Props) {
   const methods = useForm<OpportunityFormData>({
     resolver: yupResolver(validationSchema),
     defaultValues:
-      initialValues ?? {
+      (initialValues as OpportunityFormData) ??
+      ({
         type: undefined,
         clients: [emptyClient],
         partners: [emptyPartner],
-      },
+      } as OpportunityFormData),
   });
 
-  const { control, handleSubmit, setError } = methods;
-  const { isSubmitting } = useFormState({ control });
-
-  const clientsArray = useFieldArray({ control, name: "clients" });
-  const partnersArray = useFieldArray({ control, name: "partners" });
+  const { handleSubmit, setError } = methods;
 
   const onSubmit = handleSubmit(async (formData) => {
     const requestData = formData;
@@ -163,7 +167,8 @@ function OpportunityForm({ initialValues, onSuccess }: Props) {
     <FormProvider {...methods}>
       <form onSubmit={onSubmit}>
         <Grid container spacing={2} mb={3} mt={3}>
-          <Grid xs={12} item>
+          {/* Type field (full width) */}
+          <Grid item xs={12}>
             <FormSelectInput<OpportunityFormData, { id: string }>
               name="type"
               label="Type"
@@ -176,97 +181,34 @@ function OpportunityForm({ initialValues, onSuccess }: Props) {
               renderOption={(opt) => opt.id}
             />
           </Grid>
-          {clientsArray.fields.map((field, index) => (
-            <Grid key={field.id || index} container spacing={2} xs={12} item>
-              <Grid xs={12} sm={6} item>
-                <FormSelectInput<OpportunityFormData, { id: number; name: string }>
-                  name={`clients.${index}.company`}
-                  label="Company"
-                  options={companies}
-                  keyValue="id"
-                  renderOption={(c) => c.name}
-                />
-              </Grid>
-              <Grid xs={12} sm={6} item>
-                <FormSelectInput<OpportunityFormData, { id: number; name: string }>
-                  name={`clients.${index}.contacts.0` as never}
-                  label="Contact"
-                  options={users}
-                  keyValue="id"
-                  renderOption={(u) => u.name}
-                />
-              </Grid>
-              <Grid xs={12} item>
-                <Button
-                  variant="contained"
-                  color="inherit"
-                  onClick={() => clientsArray.remove(index)}
-                >
-                  Remove Client
-                </Button>
-              </Grid>
-            </Grid>
-          ))}
-          <Grid xs={12} item>
-            <Button
-              variant="contained"
-              onClick={() => clientsArray.append(emptyClient)}
-            >
-              Add Client
-            </Button>
+
+          {/* Clients Section */}
+          <Grid item xs={12}>
+            <Typography variant="h6">Clients</Typography>
           </Grid>
-          {partnersArray.fields.map((field, index) => (
-            <Grid key={field.id || index} container spacing={2} xs={12} item>
-              <Grid xs={12} sm={4} item>
-                <FormSelectInput<OpportunityFormData, { id: string }>
-                  name={`partners.${index}.type`}
-                  label="Partner Type"
-                  options={[{ id: "factor" }, { id: "credit_insurer" }]}
-                  keyValue="id"
-                  renderOption={(o) => o.id}
-                />
-              </Grid>
-              <Grid xs={12} sm={4} item>
-                <FormSelectInput<OpportunityFormData, { id: number; name: string }>
-                  name={`partners.${index}.company`}
-                  label="Company"
-                  options={companies}
-                  keyValue="id"
-                  renderOption={(c) => c.name}
-                />
-              </Grid>
-              <Grid xs={12} sm={4} item>
-                <FormSelectInput<OpportunityFormData, { id: number; name: string }>
-                  name={`partners.${index}.contacts.0` as never}
-                  label="Contact"
-                  options={users}
-                  keyValue="id"
-                  renderOption={(u) => u.name}
-                />
-              </Grid>
-              <Grid xs={12} item>
-                <Button
-                  variant="contained"
-                  color="inherit"
-                  onClick={() => partnersArray.remove(index)}
-                >
-                  Remove Partner
-                </Button>
-              </Grid>
-            </Grid>
-          ))}
-          <Grid xs={12} item>
-            <Button
-              variant="contained"
-              onClick={() => partnersArray.append(emptyPartner)}
-            >
-              Add Partner
-            </Button>
+          <Grid item xs={12}>
+            <ClientFieldArray
+              companies={companies}
+              users={users}
+              emptyClient={emptyClient}
+            />
           </Grid>
-          <Grid xs={12} item>
-            <Button type="submit" variant="contained" disabled={isSubmitting}>
-              Submit
-            </Button>
+
+          {/* Partners Section */}
+          <Grid item xs={12}>
+            <Typography variant="h6">Partners</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <PartnerFieldArray
+              companies={companies}
+              users={users}
+              emptyPartner={emptyPartner}
+            />
+          </Grid>
+
+          {/* Submit / Cancel Buttons */}
+          <Grid item xs={12}>
+            <SubmitButtons />
             <Button
               sx={{ ml: 1 }}
               variant="contained"
@@ -278,6 +220,7 @@ function OpportunityForm({ initialValues, onSuccess }: Props) {
           </Grid>
         </Grid>
       </form>
+
       <Drawer
         anchor="right"
         open={drawerOpen}
@@ -289,5 +232,3 @@ function OpportunityForm({ initialValues, onSuccess }: Props) {
     </FormProvider>
   );
 }
-
-export default OpportunityForm;

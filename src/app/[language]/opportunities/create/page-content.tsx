@@ -10,7 +10,7 @@ function PageContent() {
   const router = useRouter();
   return (
     <Container maxWidth="md" sx={{ mt: 4 }}>
-      <OpportunityForm onSuccess={() => router.push("/opportunities")}/>
+      <OpportunityForm onSuccess={() => router.push("/opportunities")} />
     </Container>
   );
 }

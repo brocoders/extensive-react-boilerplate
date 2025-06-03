@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import Container from "@mui/material/Container";
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
 import { RoleEnum } from "@/services/api/types/role";
-import OpportunityForm, { OpportunityFormData } from "@/components/opportunity/opportunity-form";
+import OpportunityForm, {
+  OpportunityFormData,
+} from "@/components/opportunity/opportunity-form";
 import { useGetOpportunityService } from "@/services/api/services/opportunities";
 import { useParams, useRouter } from "next/navigation";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
@@ -13,12 +15,16 @@ function PageContent() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
   const fetchOpportunity = useGetOpportunityService();
-  const [initialValues, setInitialValues] = useState<OpportunityFormData & { id: number }>();
+  const [initialValues, setInitialValues] = useState<
+    OpportunityFormData & { id: number }
+  >();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {
-      const { status, data } = await fetchOpportunity({ id: Number(params.id) });
+      const { status, data } = await fetchOpportunity({
+        id: Number(params.id),
+      });
       if (status === HTTP_CODES_ENUM.OK) {
         const mapped = {
           id: data.id,

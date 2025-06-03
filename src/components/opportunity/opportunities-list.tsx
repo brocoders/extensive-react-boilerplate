@@ -7,14 +7,13 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
-import Link from "next/link";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useRouter } from "next/navigation";
 import {
-  useDeleteOpportunityService,
-  useGetOpportunitiesService,
+  mockDeleteOpportunity,
+  mockGetOpportunities,
 } from "@/services/api/services/opportunities";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { Opportunity } from "@/services/api/types/opportunity";
@@ -22,8 +21,8 @@ import { useSnackbar } from "@/hooks/use-snackbar";
 
 function OpportunitiesList() {
   const router = useRouter();
-  const fetchOpportunities = useGetOpportunitiesService();
-  const deleteOpportunity = useDeleteOpportunityService();
+  const fetchOpportunities = mockGetOpportunities;
+  const deleteOpportunity = mockDeleteOpportunity;
   const { enqueueSnackbar } = useSnackbar();
 
   const [data, setData] = useState<Opportunity[]>([]);
@@ -31,7 +30,7 @@ function OpportunitiesList() {
 
   const load = async () => {
     setLoading(true);
-    const { status, data } = await fetchOpportunities({ page: 1, limit: 50 });
+    const { status, data } = await fetchOpportunities();
     if (status === HTTP_CODES_ENUM.OK) {
       setData(data.data as Opportunity[]);
     }
@@ -44,7 +43,10 @@ function OpportunitiesList() {
 
   const handleDelete = async (id: number) => {
     const { status } = await deleteOpportunity({ id });
-    if (status === HTTP_CODES_ENUM.OK || status === HTTP_CODES_ENUM.NO_CONTENT) {
+    if (
+      status === HTTP_CODES_ENUM.OK ||
+      status === HTTP_CODES_ENUM.NO_CONTENT
+    ) {
       enqueueSnackbar("Deleted", { variant: "success" });
       load();
     } else {
