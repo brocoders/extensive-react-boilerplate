@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useFieldArray, useFormContext, useFormState } from "react-hook-form";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
@@ -10,25 +10,27 @@ import { ClientItem } from "./client-item";
 import { OpportunityFormData } from "./opportunity-form";
 import FormSelectInput from "@/components/form/select/form-select";
 import Box from "@mui/material/Box";
+import { useGetCompaniesService } from "@/services/api/services/companies";
+import { useGetUsersService } from "@/services/api/services/users";
+import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
+import { useTranslation } from "@/services/i18n/client";
 
 type Company = { id: number; name: string };
 type User = { id: number; name: string };
 
 interface ClientFieldArrayProps {
-  companies: Company[];
-  users: User[];
   emptyClient: {
     company: { id: number; name: string };
     contacts: { id: number; name: string }[];
   };
 }
 
-export function ClientFieldArray({
-  companies,
-  users,
-  emptyClient,
-}: ClientFieldArrayProps) {
-  // Accès au contrôle du formulaire
+export function ClientFieldArray({ emptyClient }: ClientFieldArrayProps) {
+  const { t } = useTranslation("opportunities");
+  const fetchCompanies = useGetCompaniesService();
+  const fetchUsers = useGetUsersService();
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const { control } = useFormContext<OpportunityFormData>();
 
   // FieldArray pour "clients"
@@ -43,6 +45,26 @@ export function ClientFieldArray({
 
   // Validation errors pour "clients"
   const { errors } = useFormState({ control });
+
+  useEffect(() => {
+    const loadCompanies = async () => {
+      const { status, data } = await fetchCompanies({ page: 1, limit: 50 });
+      if (status === HTTP_CODES_ENUM.OK) {
+        setCompanies(data.data as Company[]);
+      }
+    };
+    loadCompanies();
+  }, [fetchCompanies]);
+
+  useEffect(() => {
+    const loadUsers = async () => {
+      const { status, data } = await fetchUsers({ page: 1, limit: 50 });
+      if (status === HTTP_CODES_ENUM.OK) {
+        setUsers(data.data as User[]);
+      }
+    };
+    loadUsers();
+  }, [fetchUsers]);
 
   return (
     <>
@@ -63,10 +85,11 @@ export function ClientFieldArray({
                 <Typography variant="subtitle1">Client #{index + 1}</Typography>
                 <FormSelectInput<OpportunityFormData, Company>
                   name={`clients.${index}.company.id`}
-                  label="Company"
+                  label={t("form.clients.company.label")}
                   options={companies}
                   keyValue="id"
                   renderOption={(c) => c.name}
+                  disabled={companies.length === 0}
                 />
                 <Button
                   size="small"
@@ -75,7 +98,7 @@ export function ClientFieldArray({
                     // TODO : ouvrir le Drawer “Create Company”
                   }}
                 >
-                  + Create Company
+                  {t("form.clients.createCompanyButton")}
                 </Button>
               </Grid>
 
@@ -105,7 +128,7 @@ export function ClientFieldArray({
               <Grid size={12} sx={{ mt: 1 }}>
                 <Typography color="error" variant="body2">
                   {(errors.clients as any).message ||
-                    "At least one client required"}
+                    t("validation.minClients")}
                 </Typography>
               </Grid>
             )}
@@ -120,7 +143,7 @@ export function ClientFieldArray({
           variant="outlined"
           onClick={() => appendClient(emptyClient)}
         >
-          Add Client
+          {t("form.clients.addButton")}
         </Button>
       </Grid>
     </>

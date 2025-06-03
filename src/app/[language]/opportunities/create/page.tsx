@@ -9,7 +9,7 @@ type Props = {
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
   const { t } = await getServerTranslation(params.language, "opportunities");
-  return { title: t("create") };
+  return { title: t("title.create") };
 }
 
 export default function Page() {

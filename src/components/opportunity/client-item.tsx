@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import FormSelectInput from "@/components/form/select/form-select";
 import { OpportunityFormData } from "./opportunity-form";
+import { useTranslation } from "@/services/i18n/client";
 
 type User = { id: number; name: string };
 
@@ -29,6 +30,7 @@ export function ClientItem({
 }: ClientItemProps) {
   // Accès au contexte du formulaire
   const { control } = useFormContext<OpportunityFormData>();
+  const { t } = useTranslation("opportunities");
 
   // Champ “contacts” (FieldArray imbriqué) pour ce client
   const {
@@ -47,7 +49,7 @@ export function ClientItem({
     <Grid container spacing={2}>
       {/* Contacts Section */}
       <Grid size={12}>
-        <Typography variant="subtitle1">Contacts</Typography>
+        <Typography variant="subtitle1">{t("form.clients.contactLabel") + "s"}</Typography>
 
         {contactFields.map((contactField, contactIndex) => (
           <Box
@@ -61,7 +63,7 @@ export function ClientItem({
           >
             <FormSelectInput<OpportunityFormData, User>
               name={`clients.${clientIndex}.contacts.${contactIndex}.id`}
-              label={`Contact ${contactIndex + 1}`}
+              label={`${t("form.clients.contactLabel")} ${contactIndex + 1}`}
               options={users}
               keyValue="id"
               renderOption={(u) => u.name}
@@ -91,7 +93,7 @@ export function ClientItem({
             // TODO : ouvrir le Drawer “Create User”
           }}
         >
-          + Create User
+          {t("form.clients.createUserButton")}
         </Button>
 
         {/* Erreur de validation du tableau “contacts” */}
@@ -114,7 +116,7 @@ export function ClientItem({
             color="error"
             onClick={() => onRemove(clientIndex)}
           >
-            Remove Client
+            {t("form.clients.removeButton")}
           </Button>
         </Grid>
       )}

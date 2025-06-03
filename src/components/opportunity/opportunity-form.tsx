@@ -8,10 +8,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { InferType } from "yup";
 import { FormProvider, useForm } from "react-hook-form";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import FormSelectInput from "@/components/form/select/form-select";
-import { useGetCompaniesService } from "@/services/api/services/companies";
-import { useGetUsersService } from "@/services/api/services/users";
 import {
   mockPostOpportunity,
   mockPutOpportunity,
@@ -23,6 +21,7 @@ import { ClientFieldArray } from "./client-field-array";
 import { PartnerFieldArray } from "./partner-field-array";
 import { SubmitButtons } from "./submit-buttons";
 import FormTextInput from "@/components/form/text-input/form-text-input";
+import { useTranslation } from "@/services/i18n/client";
 
 export const validationSchema = yup.object({
   name: yup.string().required(),
@@ -102,36 +101,10 @@ type Props = {
 export default function OpportunityForm({ initialValues, onSuccess }: Props) {
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
-  const fetchCompanies = useGetCompaniesService();
-  const fetchUsers = useGetUsersService();
+  const { t } = useTranslation("opportunities");
   const postOpportunity = mockPostOpportunity;
   const putOpportunity = mockPutOpportunity;
-
-  const [companies, setCompanies] = useState<{ id: number; name: string }[]>(
-    []
-  );
-  const [users, setUsers] = useState<{ id: number; name: string }[]>([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-  useEffect(() => {
-    const loadCompanies = async () => {
-      const { status, data } = await fetchCompanies({ page: 1, limit: 50 });
-      if (status === HTTP_CODES_ENUM.OK) {
-        setCompanies(data.data as { id: number; name: string }[]);
-      }
-    };
-    loadCompanies();
-  }, [fetchCompanies]);
-
-  useEffect(() => {
-    const loadUsers = async () => {
-      const { status, data } = await fetchUsers({ page: 1, limit: 50 });
-      if (status === HTTP_CODES_ENUM.OK) {
-        setUsers(data.data as { id: number; name: string }[]);
-      }
-    };
-    loadUsers();
-  }, [fetchUsers]);
 
   const methods = useForm<OpportunityFormData>({
     resolver: yupResolver(validationSchema),
@@ -160,7 +133,7 @@ export default function OpportunityForm({ initialValues, onSuccess }: Props) {
       return;
     }
     if (status === HTTP_CODES_ENUM.CREATED || status === HTTP_CODES_ENUM.OK) {
-      enqueueSnackbar("Saved", { variant: "success" });
+      enqueueSnackbar(t("alerts.saved"), { variant: "success" });
       onSuccess();
     }
   });
@@ -170,7 +143,9 @@ export default function OpportunityForm({ initialValues, onSuccess }: Props) {
       <form onSubmit={onSubmit}>
         <Grid container spacing={2} mb={3} mt={3}>
           <Grid size={{ xs: 12 }}>
-            <Typography variant="h6">Create an opportunity</Typography>
+            <Typography variant="h6">
+              {initialValues ? t("title.edit") : t("title.create")}
+            </Typography>
           </Grid>
           {/* Type field (full width) */}
           <Grid size={{ xs: 12, sm: 6 }}>
@@ -179,7 +154,7 @@ export default function OpportunityForm({ initialValues, onSuccess }: Props) {
           <Grid size={{ xs: 12, sm: 6 }}>
             <FormSelectInput<OpportunityFormData, { id: string; label: string }>
               name="type"
-              label="Opportunity type"
+              label={t("form.type.label")}
               options={[
                 { id: "factoring", label: "Factoring" },
                 { id: "reverse_factoring", label: "Reverse Factoring" },
@@ -192,24 +167,20 @@ export default function OpportunityForm({ initialValues, onSuccess }: Props) {
 
           {/* Clients Section */}
           <Grid size={12}>
-            <Typography variant="h6">Clients</Typography>
-            <ClientFieldArray
-              companies={companies}
-              users={users}
-              emptyClient={emptyClient}
-            />
+            <Typography variant="h6">
+              {t("form.clients.sectionTitle")}
+            </Typography>
+            <ClientFieldArray emptyClient={emptyClient} />
           </Grid>
 
           {/* Partners Section */}
           <Grid size={12}>
-            <Typography variant="h6">Partners</Typography>
+            <Typography variant="h6">
+              {t("form.partners.sectionTitle")}
+            </Typography>
           </Grid>
           <Grid size={12}>
-            <PartnerFieldArray
-              companies={companies}
-              users={users}
-              emptyPartner={emptyPartner}
-            />
+            <PartnerFieldArray emptyPartner={emptyPartner} />
           </Grid>
 
           {/* Submit / Cancel Buttons */}
@@ -221,7 +192,7 @@ export default function OpportunityForm({ initialValues, onSuccess }: Props) {
               color="inherit"
               onClick={() => router.push("/opportunities")}
             >
-              Cancel
+              {t("buttons.cancel")}
             </Button>
           </Grid>
         </Grid>
