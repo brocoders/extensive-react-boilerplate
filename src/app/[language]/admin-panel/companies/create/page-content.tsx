@@ -15,6 +15,7 @@ import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 import { useRouter } from "next/navigation";
 import { usePostCompanyService } from "@/services/api/services/companies";
+import { Company } from "@/services/api/types/company";
 import FormTextInput from "@/components/form/text-input/form-text-input";
 import FormDatePickerInput from "@/components/form/date-pickers/date-picker";
 import FormCheckboxBooleanInput from "@/components/form/checkbox-boolean/form-checkbox-boolean";
@@ -88,7 +89,13 @@ function CreateFormActions() {
   );
 }
 
-export function FormCreate({ onSuccess }: { onSuccess?: () => void }) {
+export function FormCreate({
+  onSuccess,
+  onCancel,
+}: {
+  onSuccess?: (company: Company) => void;
+  onCancel?: () => void;
+}) {
   const router = useRouter();
   const fetchCreateCompany = usePostCompanyService();
   const { t } = useTranslation("admin-panel-companies-create");
@@ -124,7 +131,11 @@ export function FormCreate({ onSuccess }: { onSuccess?: () => void }) {
       enqueueSnackbar(t("alerts.success"), {
         variant: "success",
       });
-      router.push(`/admin-panel/${onSuccess ? "users" : "companies"}`);
+      if (onSuccess) {
+        onSuccess(data);
+      } else {
+        router.push("/admin-panel/companies");
+      }
     }
   });
 
@@ -213,14 +224,24 @@ export function FormCreate({ onSuccess }: { onSuccess?: () => void }) {
             <Grid size={{ xs: 12 }}>
               <CreateFormActions />
               <Box ml={1} component="span">
-                <Button
-                  variant="contained"
-                  color="inherit"
-                  LinkComponent={Link}
-                  href="/admin-panel/companies"
-                >
-                  {t("actions.cancel")}
-                </Button>
+                {onCancel ? (
+                  <Button
+                    variant="contained"
+                    color="inherit"
+                    onClick={onCancel}
+                  >
+                    {t("actions.cancel")}
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="inherit"
+                    LinkComponent={Link}
+                    href="/admin-panel/companies"
+                  >
+                    {t("actions.cancel")}
+                  </Button>
+                )}
               </Box>
             </Grid>
           </Grid>

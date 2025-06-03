@@ -30,7 +30,7 @@ import FormPhoneInput from "@/components/form/phone-input/form-phone-input";
 import FormCheckboxBooleanInput from "@/components/form/checkbox-boolean/form-checkbox-boolean";
 import { useGetCompaniesService } from "@/services/api/services/companies";
 import { Company } from "@/services/api/types/company";
-import { FormCreate } from "@/app/[language]/admin-panel/companies/create/page-content";
+import { FormCreate as CreateCompanyForm } from "@/app/[language]/admin-panel/companies/create/page-content";
 
 const serviceOptions = [
   { id: "Management" },
@@ -200,12 +200,14 @@ function FormEditUser() {
     },
   });
 
-  const { handleSubmit, setError, reset } = methods;
+  const { handleSubmit, setError, reset, setValue } = methods;
 
   const handleDrawerClose = () => setDrawerOpen(false);
 
-  const handleCompanyCreated = async () => {
+  const handleCompanyCreated = async (company: Company) => {
     await loadCompanies();
+    setValue("company.id", company.id);
+    setValue("company.name", company.name);
     handleDrawerClose();
   };
 
@@ -397,7 +399,10 @@ function FormEditUser() {
         onClose={handleDrawerClose}
         PaperProps={{ sx: { width: "50vw" } }}
       >
-        <FormCreate onSuccess={handleCompanyCreated} />
+        <CreateCompanyForm
+          onSuccess={handleCompanyCreated}
+          onCancel={handleDrawerClose}
+        />
       </Drawer>
     </FormProvider>
   );

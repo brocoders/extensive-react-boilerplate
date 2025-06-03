@@ -21,15 +21,14 @@ import { useTranslation } from "@/services/i18n/client";
 import { usePostUserService } from "@/services/api/services/users";
 import { useGetCompaniesService } from "@/services/api/services/companies";
 import { Company } from "@/services/api/types/company";
+import { User } from "@/services/api/types/user";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import { Role, RoleEnum } from "@/services/api/types/role";
 import FormSelectInput from "@/components/form/select/form-select";
 import FormPhoneInput from "@/components/form/phone-input/form-phone-input";
 import FormCheckboxBooleanInput from "@/components/form/checkbox-boolean/form-checkbox-boolean";
-import CreateCompany, {
-  FormCreate,
-} from "@/app/[language]/admin-panel/companies/create/page-content";
+import { FormCreate as CreateCompanyForm } from "@/app/[language]/admin-panel/companies/create/page-content";
 
 const serviceOptions = [
   { id: "Management" },
@@ -136,7 +135,13 @@ function CreateUserFormActions() {
   );
 }
 
-function FormCreateUser() {
+export function FormCreateUser({
+  onSuccess,
+  onCancel,
+}: {
+  onSuccess?: (user: User) => void;
+  onCancel?: () => void;
+}) {
   const router = useRouter();
   const fetchPostUser = usePostUserService();
   const fetchCompanies = useGetCompaniesService();
@@ -180,12 +185,14 @@ function FormCreateUser() {
     },
   });
 
-  const { handleSubmit, setError } = methods;
+  const { handleSubmit, setError, setValue } = methods;
 
   const handleDrawerClose = () => setDrawerOpen(false);
 
-  const handleCompanyCreated = async () => {
+  const handleCompanyCreated = async (company: Company) => {
     await loadCompanies();
+    setValue("company.id", company.id);
+    setValue("company.name", company.name);
     handleDrawerClose();
   };
 
@@ -209,7 +216,11 @@ function FormCreateUser() {
       enqueueSnackbar(t("admin-panel-users-create:alerts.user.success"), {
         variant: "success",
       });
-      router.push("/admin-panel/users");
+      if (onSuccess) {
+        onSuccess(data);
+      } else {
+        router.push("/admin-panel/users");
+      }
     }
   });
 
@@ -347,14 +358,24 @@ function FormCreateUser() {
             <Grid size={{ xs: 12 }}>
               <CreateUserFormActions />
               <Box ml={1} component="span">
-                <Button
-                  variant="contained"
-                  color="inherit"
-                  LinkComponent={Link}
-                  href="/admin-panel/users"
-                >
-                  {t("admin-panel-users-create:actions.cancel")}
-                </Button>
+                {onCancel ? (
+                  <Button
+                    variant="contained"
+                    color="inherit"
+                    onClick={onCancel}
+                  >
+                    {t("admin-panel-users-create:actions.cancel")}
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="inherit"
+                    LinkComponent={Link}
+                    href="/admin-panel/users"
+                  >
+                    {t("admin-panel-users-create:actions.cancel")}
+                  </Button>
+                )}
               </Box>
             </Grid>
           </Grid>
@@ -366,7 +387,10 @@ function FormCreateUser() {
         onClose={handleDrawerClose}
         PaperProps={{ sx: { width: "50vw" } }}
       >
-        <FormCreate onSuccess={handleCompanyCreated} />
+        <CreateCompanyForm
+          onSuccess={handleCompanyCreated}
+          onCancel={handleDrawerClose}
+        />
       </Drawer>
     </FormProvider>
   );
