@@ -197,10 +197,7 @@ export function FormCreateUser({
   };
 
   const onSubmit = handleSubmit(async (formData) => {
-    formData.password = "Qumdt77up08.@!";
-    console.log(formData);
     const { data, status } = await fetchPostUser(formData);
-    console.log(data);
     if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
       (Object.keys(data.errors) as Array<keyof CreateFormData>).forEach(
         (key) => {
