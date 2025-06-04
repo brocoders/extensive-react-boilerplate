@@ -1,0 +1,50 @@
+{
+  "title": {
+    "list": "Contacts",
+    "create": "Create Contact",
+    "edit": "Edit Contact"
+  },
+  "table": {
+    "column": {
+      "email": "Email",
+      "firstname": "First Name",
+      "lastname": "Last Name",
+      "phone": "Phone",
+      "job": "Job",
+      "companies": "Companies",
+      "actions": "Actions"
+    }
+  },
+  "form": {
+    "email": { "label": "Email" },
+    "firstname": { "label": "First Name" },
+    "lastname": { "label": "Last Name" },
+    "phone": { "label": "Phone" },
+    "birthdate": { "label": "Birthdate" },
+    "job": { "label": "Job" },
+    "companies": { "label": "Companies" }
+  },
+  "buttons": {
+    "submit": "Submit",
+    "cancel": "Cancel"
+  },
+  "alerts": {
+    "created": "Contact created successfully",
+    "updated": "Contact updated successfully",
+    "deleted": "Contact deleted successfully"
+  },
+  "validation": {
+    "required": "This field is required",
+    "minCompanies": "At least one company required"
+  },
+  "actions": {
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "confirm": {
+    "delete": {
+      "title": "Delete Contact",
+      "message": "Are you sure you want to delete this contact?"
+    }
+  }
+}
