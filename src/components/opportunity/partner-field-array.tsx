@@ -82,10 +82,8 @@ export function PartnerFieldArray({ emptyPartner }: PartnerFieldArrayProps) {
           sx={{ p: 2, border: "1px dashed grey", borderRadius: "5px", my: 1 }}
         >
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={5}>
               <Typography variant="subtitle1">Partner #{index + 1}</Typography>
-            </Grid>
-            <Grid item xs={12} lg={6}>
               <FormSelectInput<OpportunityFormData, { id: string }>
                 name={`partners.${index}.type`}
                 label={t("form.partners.type.label")}
@@ -112,7 +110,7 @@ export function PartnerFieldArray({ emptyPartner }: PartnerFieldArrayProps) {
                 {t("form.partners.createCompanyButton")}
               </Button>
             </Grid>
-            <Grid item xs={12} lg={6}>
+            <Grid size={7}>
               <PartnerItem
                 partnerIndex={index}
                 indexKey={field.id}
@@ -121,7 +119,7 @@ export function PartnerFieldArray({ emptyPartner }: PartnerFieldArrayProps) {
               />
             </Grid>
             {index === fields.length - 1 && errors.partners && (
-              <Grid item xs={12} sx={{ mt: 1 }}>
+              <Grid size={12} sx={{ mt: 1 }}>
                 <Typography color="error" variant="body2">
                   {(errors.partners as any).message ||
                     t("validation.minPartners")}
@@ -131,7 +129,7 @@ export function PartnerFieldArray({ emptyPartner }: PartnerFieldArrayProps) {
           </Grid>
         </Box>
       ))}
-      <Grid item xs={12} sx={{ mt: 2 }}>
+      <Grid size={12}>
         <Button
           startIcon={<AddIcon />}
           variant="outlined"

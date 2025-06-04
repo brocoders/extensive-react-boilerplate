@@ -45,14 +45,16 @@ export function PartnerItem({
   return (
     <>
       <Grid container spacing={2} key={indexKey}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="subtitle1">
             {t("form.partners.contactLabel") + "s"}
           </Typography>
-        </Grid>
-        {contactFields.map((contactField, contactIndex) => (
-          <Grid item xs={12} lg={6} key={contactField.id}>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1 }}>
+
+          {contactFields.map((contactField, contactIndex) => (
+            <Box
+              key={contactField.id}
+              sx={{ display: "flex", alignItems: "center", gap: 2 }}
+            >
               <FormSelectInput<OpportunityFormData, User>
                 name={`partners.${partnerIndex}.contacts.${contactIndex}.id`}
                 label={`${t("form.partners.contactLabel")} ${contactIndex + 1}`}
@@ -60,6 +62,13 @@ export function PartnerItem({
                 keyValue="id"
                 renderOption={(u) => u.name}
               />
+              <Button
+                startIcon={<AddIcon />}
+                variant="outlined"
+                onClick={() => appendContact({ id: 0, name: "" })}
+              >
+                Add
+              </Button>
               {contactIndex > 0 && (
                 <IconButton
                   onClick={() => removeContact(contactIndex)}
@@ -70,17 +79,9 @@ export function PartnerItem({
                 </IconButton>
               )}
             </Box>
-          </Grid>
-        ))}
-        <Grid item xs={12} lg={6}>
+          ))}
+
           <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1 }}>
-            <Button
-              startIcon={<AddIcon />}
-              variant="outlined"
-              onClick={() => appendContact({ id: 0, name: "" })}
-            >
-              Add Contact
-            </Button>
             <Button
               size="small"
               onClick={() => setDrawerContactIndex(contactFields.length - 1)}
@@ -92,14 +93,14 @@ export function PartnerItem({
         {errors.partners &&
           Array.isArray(errors.partners) &&
           errors.partners[partnerIndex]?.contacts && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography color="error" variant="body2">
                 At least one contact required
               </Typography>
             </Grid>
           )}
         {partnerIndex > 0 && (
-          <Grid item xs={12} sx={{ display: "flex", justifyContent: "end" }}>
+          <Grid size={12} sx={{ display: "flex", justifyContent: "end" }}>
             <Button
               variant="contained"
               color="error"

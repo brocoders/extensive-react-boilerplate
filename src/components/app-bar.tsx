@@ -143,16 +143,6 @@ function ResponsiveAppBar() {
                     </Typography>
                   </MenuItem>,
                   <MenuItem
-                    key="companies-create"
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    href="/admin-panel/companies/create"
-                  >
-                    <Typography textAlign="center">
-                      {t("common:navigation.companiesCreate")}
-                    </Typography>
-                  </MenuItem>,
-                  <MenuItem
                     key="users"
                     onClick={handleCloseNavMenu}
                     component={Link}
@@ -163,16 +153,6 @@ function ResponsiveAppBar() {
                     </Typography>
                   </MenuItem>,
                   <MenuItem
-                    key="users-create"
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    href="/admin-panel/users/create"
-                  >
-                    <Typography textAlign="center">
-                      {t("common:navigation.usersCreate")}
-                    </Typography>
-                  </MenuItem>,
-                  <MenuItem
                     key="opportunities"
                     onClick={handleCloseNavMenu}
                     component={Link}
@@ -180,16 +160,6 @@ function ResponsiveAppBar() {
                   >
                     <Typography textAlign="center">
                       {t("common:navigation.opportunities")}
-                    </Typography>
-                  </MenuItem>,
-                  <MenuItem
-                    key="opportunities-create"
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    href="/opportunities/create"
-                  >
-                    <Typography textAlign="center">
-                      {t("common:navigation.opportunitiesCreate")}
                     </Typography>
                   </MenuItem>,
                   // mobile-menu-items
