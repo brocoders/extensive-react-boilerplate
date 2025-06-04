@@ -123,7 +123,6 @@ export function FormCreate({
           });
         }
       );
-
       return;
     }
 
@@ -136,6 +135,11 @@ export function FormCreate({
       } else {
         router.push("/admin-panel/companies");
       }
+    }
+    if (status === HTTP_CODES_ENUM.INTERNAL_SERVER_ERROR) {
+      enqueueSnackbar(t("alerts.error"), {
+        variant: "error",
+      });
     }
   });
 

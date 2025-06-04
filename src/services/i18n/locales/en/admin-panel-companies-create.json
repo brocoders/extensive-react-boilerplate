@@ -36,6 +36,7 @@
     "<system>": "Do not remove this property"
   },
   "alerts": {
-    "success": "Company has been created successfully"
+    "success": "Company has been created successfully",
+    "error": "An internal server error occurred. Please try later or contact your account manager."
   }
 }

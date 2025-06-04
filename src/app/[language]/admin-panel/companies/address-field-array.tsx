@@ -38,8 +38,15 @@ function AddressFieldArray<T extends { addresses: Address[] }>({
       {fields.map((field, index) => (
         <Grid key={field.id} container spacing={2}>
           <Grid size={{ xs: 12, sm: 6 }}>
+            {/*@Todo: replace the input by a select or remove it according to backend*/}
             <FormTextInput<T>
-              name={`addresses.${index}.street` as Path<T>}
+              name={`addresses[${index}].type` as Path<T>}
+              label={"Type"}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <FormTextInput<T>
+              name={`addresses[${index}].street` as Path<T>}
               label={t("inputs.addresses.street.label")}
             />
           </Grid>
