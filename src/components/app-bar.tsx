@@ -343,6 +343,13 @@ function ResponsiveAppBar() {
                       </Typography>
                     </MenuItem>
                   </Menu>
+                  <Button
+                    sx={{ my: 2, color: "white", display: "block" }}
+                    component={Link}
+                    href="/admin-panel/contacts"
+                  >
+                    {"Contacts"}
+                  </Button>
                   {/* desktop-menu-items */}
                 </>
               )}

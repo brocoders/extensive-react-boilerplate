@@ -14,7 +14,10 @@ import Link from "@/components/link";
 import useConfirmDialog from "@/components/confirm-dialog/use-confirm-dialog";
 import { useDeleteContactService } from "@/services/api/services/contacts";
 import { InfiniteData, useQueryClient } from "@tanstack/react-query";
-import { contactsQueryKeys, useGetContactsQuery } from "@/app/[language]/admin-panel/contacts/queries/queries";
+import {
+  contactsQueryKeys,
+  useGetContactsQuery,
+} from "@/app/[language]/admin-panel/contacts/queries/queries";
 
 export default function ContactList() {
   const { t } = useTranslation("contacts");
@@ -34,7 +37,9 @@ export default function ContactList() {
         InfiniteData<{ nextPage: number; data: any[] }>
       >(contactsQueryKeys.list().key);
 
-      await queryClient.cancelQueries({ queryKey: contactsQueryKeys.list().key });
+      await queryClient.cancelQueries({
+        queryKey: contactsQueryKeys.list().key,
+      });
 
       const newData = {
         ...previousData,

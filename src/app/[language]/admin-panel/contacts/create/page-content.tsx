@@ -22,4 +22,6 @@ function CreateContactPage() {
   );
 }
 
-export default withPageRequiredAuth(CreateContactPage, { roles: [RoleEnum.ADMIN] });
+export default withPageRequiredAuth(CreateContactPage, {
+  roles: [RoleEnum.ADMIN],
+});

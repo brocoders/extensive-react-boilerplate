@@ -18,7 +18,9 @@ function EditContactPage() {
   const { enqueueSnackbar } = useSnackbar();
   const { t } = useTranslation("contacts");
   const fetchContact = useGetContactByIdService();
-  const [initialValues, setInitialValues] = useState<ContactFormData | undefined>();
+  const [initialValues, setInitialValues] = useState<
+    ContactFormData | undefined
+  >();
 
   useEffect(() => {
     (async () => {
@@ -50,4 +52,6 @@ function EditContactPage() {
   );
 }
 
-export default withPageRequiredAuth(EditContactPage, { roles: [RoleEnum.ADMIN] });
+export default withPageRequiredAuth(EditContactPage, {
+  roles: [RoleEnum.ADMIN],
+});

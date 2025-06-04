@@ -39,7 +39,10 @@ const useValidationSchema = () => {
     companies: yup
       .array()
       .of(
-        yup.object({ id: yup.number().required(), name: yup.string().required() })
+        yup.object({
+          id: yup.number().required(),
+          name: yup.string().required(),
+        })
       )
       .min(1, t("validation.minCompanies"))
       .required(t("validation.minCompanies")),
@@ -73,16 +76,15 @@ export default function ContactForm({
 
   const methods = useForm<ContactFormData>({
     resolver: yupResolver(schema),
-    defaultValues:
-      initialValues ?? {
-        email: "",
-        phone: "",
-        firstname: "",
-        lastname: "",
-        birthdate: undefined,
-        job: "",
-        companies: [],
-      },
+    defaultValues: initialValues ?? {
+      email: "",
+      phone: "",
+      firstname: "",
+      lastname: "",
+      birthdate: undefined,
+      job: "",
+      companies: [],
+    },
   });
 
   const { handleSubmit, setError } = methods;
@@ -93,9 +95,11 @@ export default function ContactForm({
       : await postContact(formData);
 
     if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
-      (Object.keys(data.errors) as Array<keyof ContactFormData>).forEach((key) => {
-        setError(key, { type: "manual", message: data.errors[key] });
-      });
+      (Object.keys(data.errors) as Array<keyof ContactFormData>).forEach(
+        (key) => {
+          setError(key, { type: "manual", message: data.errors[key] });
+        }
+      );
       return;
     }
 

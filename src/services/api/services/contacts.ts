@@ -58,7 +58,10 @@ export function usePostContactService() {
   );
 }
 
-export type ContactPutRequest = { id: number | string; data: ContactPostRequest };
+export type ContactPutRequest = {
+  id: number | string;
+  data: ContactPostRequest;
+};
 export type ContactPutResponse = Contact;
 
 export function usePutContactService() {
