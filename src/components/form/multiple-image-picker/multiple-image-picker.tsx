@@ -42,9 +42,7 @@ const MultipleImagePickerContainer = styled("div")(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   cursor: "pointer",
 
-  "&:hover": {
-    borderColor: theme.palette.text.primary,
-  },
+  "&:hover": { borderColor: theme.palette.text.primary },
 }));
 
 const StyledOverlay = styled("div")(() => {
@@ -60,9 +58,7 @@ const StyledOverlay = styled("div")(() => {
     background: "rgba(0, 0, 0, 0.7)",
     transition: ".5s ease",
     opacity: 0,
-    "&:hover": {
-      opacity: 1,
-    },
+    "&:hover": { opacity: 1 },
   };
 });
 
@@ -87,6 +83,8 @@ function MultipleImagePicker(props: MultipleImagePickerProps) {
     accept: {
       "image/jpeg": [],
       "image/png": [],
+      "image/jpg": [],
+      "image/webp": [],
     },
     maxFiles: 1,
     maxSize: 1024 * 1024 * 2, // 2MB
@@ -158,6 +156,7 @@ function MultipleImagePicker(props: MultipleImagePickerProps) {
           component="label"
           disabled={isLoading}
           data-testid={props.testId}
+          onClick={(e) => e.stopPropagation()}
         >
           {isLoading
             ? t("common:loading")
