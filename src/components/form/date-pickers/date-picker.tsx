@@ -67,9 +67,7 @@ function DatePickerInputRaw(
           textField: {
             helperText: props.error,
             error: !!props.error,
-            InputProps: {
-              readOnly: props.readOnly,
-            },
+            InputProps: { readOnly: props.readOnly },
           },
         }}
         onAccept={props.onChange}

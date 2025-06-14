@@ -28,6 +28,10 @@
     "no-restricted-syntax": [
       "error",
       {
+        "selector": "CallExpression[callee.property.name=required][callee.object.callee.property.name=nullable]",
+        "message": ".nullable() should be after .required() for correct validation and type inference. Example: id: yup.string().required().nullable()"
+      },
+      {
         "selector": "CallExpression[callee.name=watch], MemberExpression[object.name=methods][property.name=watch]",
         "message": "\"watch\" re-render the whole form component. Use hook \"useWatch\" instead."
       },
@@ -109,7 +113,7 @@
       },
       {
         "selector": "ExpressionStatement[expression.callee.object.name=JSON][expression.callee.property.name=parse][expression.arguments.0.callee.object.name=JSON][expression.arguments.0.callee.property.name=stringify]",
-        "message": "Do not use JSON.parse(JSON.stringify(...)) for deep copy. Use structuredClone instead."
+        "message": "Do not use JSON.parse(JSON.stringify(...)) for deep copy. Use \"structuredClone\" instead."
       },
       {
         "selector": "CallExpression[callee.name=test][arguments.0.value!=/^should/]",

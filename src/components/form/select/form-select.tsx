@@ -46,9 +46,7 @@ function SelectInputRaw<T extends object>(
         size={props.size}
         value={props.value?.[props.keyValue]?.toString() ?? ""}
         label={props.label}
-        inputProps={{
-          readOnly: props.readOnly,
-        }}
+        inputProps={{ readOnly: props.readOnly }}
         onChange={(event) => {
           const newValue = props.options.find(
             (option) =>

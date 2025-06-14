@@ -39,9 +39,7 @@ const AvatarInputContainer = styled("div")(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   cursor: "pointer",
 
-  "&:hover": {
-    borderColor: theme.palette.text.primary,
-  },
+  "&:hover": { borderColor: theme.palette.text.primary },
 }));
 
 const StyledWrapperAvatar = styled("div")(() => ({
@@ -64,16 +62,11 @@ const StyledOverlay = styled("div")(() => {
     background: "rgba(0, 0, 0, 0.7)",
     transition: ".5s ease",
     opacity: 0,
-    "&:hover": {
-      opacity: 1,
-    },
+    "&:hover": { opacity: 1 },
   };
 });
 
-const StyledAvatar = styled(Avatar)(({}) => ({
-  width: 100,
-  height: 100,
-}));
+const StyledAvatar = styled(Avatar)(({}) => ({ width: 100, height: 100 }));
 
 function AvatarInput(props: AvatarInputProps) {
   const { onChange } = props;
@@ -96,6 +89,8 @@ function AvatarInput(props: AvatarInputProps) {
     accept: {
       "image/jpeg": [],
       "image/png": [],
+      "image/jpg": [],
+      "image/webp": [],
     },
     maxFiles: 1,
     maxSize: 1024 * 1024 * 2, // 2MB
@@ -161,6 +156,7 @@ function AvatarInput(props: AvatarInputProps) {
           component="label"
           disabled={isLoading}
           data-testid={props.testId}
+          onClick={(e) => e.stopPropagation()}
         >
           {isLoading
             ? t("common:loading")
