@@ -52,7 +52,7 @@
     "react-hook-form": "^7.57.0",
     "react-i18next": "^15.5.3",
     "react-toastify": "^11.0.5",
-    "react-virtuoso": "4.12.8",
+    "react-virtuoso": "4.13.0",
     "typescript": "5.8.3",
     "yup": "^1.6.1"
   },
