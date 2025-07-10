@@ -1,11 +1,7 @@
 import ResponsiveAppBar from "@/components/app-bar";
 import AuthProvider from "@/services/auth/auth-provider";
 import "../globals.css";
-import "@fontsource/inter/300.css";
-import "@fontsource/inter/400.css";
-import "@fontsource/inter/500.css";
-import "@fontsource/inter/700.css";
-import "@fontsource/lexend-deca/700.css";
+import { inter, lexendDeca } from "@/theme/fonts";
 import CssBaseline from "@mui/material/CssBaseline";
 import { dir } from "i18next";
 import "@/services/i18n/config";
@@ -54,7 +50,12 @@ export default async function RootLayout(props: {
   const { children } = props;
 
   return (
-    <html lang={language} dir={dir(language)} suppressHydrationWarning>
+    <html
+      lang={language}
+      dir={dir(language)}
+      className={`${inter.variable} ${lexendDeca.variable}`}
+      suppressHydrationWarning
+    >
       <body suppressHydrationWarning>
         <InitColorSchemeScript />
         <QueryClientProvider client={queryClient}>

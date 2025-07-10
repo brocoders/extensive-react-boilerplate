@@ -15,7 +15,7 @@ const theme = createTheme({
   },
   shape: { borderRadius: 10 },
   typography: {
-    fontFamily: "Inter, sans-serif",
+    fontFamily: "var(--font-inter), sans-serif",
   },
   components: {
     MuiButton: {
@@ -85,13 +85,13 @@ const theme = createTheme({
     MuiTypography: {
       styleOverrides: {
         h3: {
-          fontFamily: '"Lexend Deca", Inter, sans-serif',
+          fontFamily: "var(--font-lexend), var(--font-inter), sans-serif",
           fontSize: "36px",
           fontWeight: 700,
           color: "#1e293b",
         },
         h4: {
-          fontFamily: '"Lexend Deca", Inter, sans-serif',
+          fontFamily: "var(--font-lexend), var(--font-inter), sans-serif",
           fontWeight: 700,
           color: "#1e293b",
         },
