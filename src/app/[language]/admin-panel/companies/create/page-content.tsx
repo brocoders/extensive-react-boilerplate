@@ -33,15 +33,16 @@ const defaultValues = {
   isActive: false,
   email: "",
   phone: "",
-  website: "",
-  addresses: [
-    {
-      street: "",
-      postalCode: "",
-      city: "",
-      country: "",
-    },
-  ],
+  // website: "",
+  // addresses: [
+  //   {
+  //     street: "",
+  //     postalCode: "",
+  //     city: "",
+  //     country: "",
+  //     type: ""
+  //   },
+  // ],
 };
 
 const useValidationSchema = () => {
@@ -57,18 +58,19 @@ const useValidationSchema = () => {
     isActive: yup.boolean().required(),
     email: yup.string().required(),
     phone: yup.string().required(),
-    website: yup.string().required(),
-    addresses: yup
-      .array()
-      .of(
-        yup.object({
-          street: yup.string().required(),
-          postalCode: yup.string().required(),
-          city: yup.string().required(),
-          country: yup.string().required(),
-        })
-      )
-      .required(),
+    // website: yup.string().required(),
+    // addresses: yup
+    //   .array()
+    //   .of(
+    //     yup.object({
+    //       street: yup.string().required(),
+    //       postalCode: yup.string().required(),
+    //       city: yup.string().required(),
+    //       country: yup.string().required(),
+    //       type: yup.string().required()
+    //     })
+    //   )
+    //   .required(),
   });
 };
 
@@ -112,17 +114,18 @@ export function FormCreate({
   const { handleSubmit, setError } = methods;
 
   const onSubmit = handleSubmit(async (formData) => {
+    console.log(formData);
     const { data, status } = await fetchCreateCompany(formData);
 
     if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
-      (Object.keys(data.errors) as Array<keyof CreateFormData>).forEach(
-        (key) => {
+      console
+        .log(data)(Object.keys(data.errors) as Array<keyof CreateFormData>)
+        .forEach((key) => {
           setError(key, {
             type: "manual",
             message: t(`inputs.${key}.validation.server.${data.errors[key]}`),
           });
-        }
-      );
+        });
       return;
     }
 
@@ -214,16 +217,16 @@ export function FormCreate({
               />
             </Grid>
 
-            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
-              <FormTextInput<CreateFormData>
-                name="website"
-                label={t("inputs.website.label")}
-              />
-            </Grid>
+            {/*<Grid size={{ xs: 12, sm: 6, lg: 4 }}>*/}
+            {/*  <FormTextInput<CreateFormData>*/}
+            {/*    name="website"*/}
+            {/*    label={t("inputs.website.label")}*/}
+            {/*  />*/}
+            {/*</Grid>*/}
 
-            <Grid size={{ xs: 12 }}>
-              <AddressFieldArray<CreateFormData> namespace="admin-panel-companies-create" />
-            </Grid>
+            {/*<Grid size={{ xs: 12 }}>*/}
+            {/*  <AddressFieldArray<CreateFormData> namespace="admin-panel-companies-create" />*/}
+            {/*</Grid>*/}
 
             <Grid size={{ xs: 12 }}>
               <CreateFormActions />

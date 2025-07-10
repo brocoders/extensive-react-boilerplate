@@ -17,6 +17,7 @@ export type Address = {
   postalCode: string;
   city: string;
   country: string;
+  type: string;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -88,6 +89,7 @@ function AddressFieldArray<T extends { addresses: Address[] }>({
               postalCode: "",
               city: "",
               country: "",
+              type: "",
             } as unknown as FieldArray<T, ArrayPath<T>>)
           }
         >

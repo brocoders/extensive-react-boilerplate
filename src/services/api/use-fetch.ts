@@ -13,6 +13,8 @@ function useFetch() {
     async (input: FetchInputType, init?: FetchInitType) => {
       const tokens = getTokensInfo();
 
+      console.log(tokens);
+
       let headers: HeadersInit = {
         "x-custom-lang": language,
       };

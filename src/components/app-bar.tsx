@@ -156,7 +156,7 @@ function ResponsiveAppBar() {
                     key="opportunities"
                     onClick={handleCloseNavMenu}
                     component={Link}
-                    href="/opportunities"
+                    href="/admin-panel/opportunities"
                   >
                     <Typography textAlign="center">
                       {t("common:navigation.opportunities")}
@@ -327,7 +327,7 @@ function ResponsiveAppBar() {
                     <MenuItem
                       onClick={handleCloseOpportunitiesMenu}
                       component={Link}
-                      href="/opportunities"
+                      href="/admin-panel/opportunities"
                     >
                       <Typography textAlign="center">
                         {t("common:navigation.opportunities")}
@@ -336,7 +336,7 @@ function ResponsiveAppBar() {
                     <MenuItem
                       onClick={handleCloseOpportunitiesMenu}
                       component={Link}
-                      href="/opportunities/create"
+                      href="/admin-panel/opportunities/create"
                     >
                       <Typography textAlign="center">
                         {t("common:navigation.opportunitiesCreate")}

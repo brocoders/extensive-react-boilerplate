@@ -58,23 +58,30 @@ export default function ContactList() {
   const { fetchNextPage } = query;
 
   return (
-    <Container maxWidth="md">
-      <Grid container spacing={3} wrap="nowrap" pt={3}>
-        <Grid size={12}>
-          <Typography variant="h3" gutterBottom>
-            {t("title.list")}
-          </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            LinkComponent={Link}
-            href="/admin-panel/contacts/create"
-          >
-            {t("title.create")}
-          </Button>
+    <Container maxWidth="xl">
+      <Grid container spacing={3} pt={3}>
+        <Grid container spacing={3} size={{ xs: 12 }}>
+          <Grid size="grow">
+            <Typography variant="h3" gutterBottom>
+              {t("title.list")}
+            </Typography>
+          </Grid>
+          <Grid container size="auto" wrap="nowrap" spacing={2}>
+            <Grid size="auto">
+              <Button
+                variant="contained"
+                color="success"
+                LinkComponent={Link}
+                href="/admin-panel/contacts/create"
+              >
+                {t("title.create")}
+              </Button>
+            </Grid>
+          </Grid>
         </Grid>
         <Grid size={12}>
           <TableVirtuoso
+            style={{ height: 500 }}
             data={query.data?.pages?.flatMap((page) => page?.data) || []}
             components={TableComponents}
             endReached={fetchNextPage}
@@ -120,7 +127,6 @@ export default function ContactList() {
               </TableRow>
             )}
           />
-          {query.isFetching && <LinearProgress />}
         </Grid>
       </Grid>
     </Container>
