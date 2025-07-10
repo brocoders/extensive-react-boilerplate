@@ -1,6 +1,7 @@
 "use client";
 
-import Container from "@mui/material/Container";
+// use PageContainer for consistent spacing
+import PageContainer from "@/components/page-container";
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
 import { RoleEnum } from "@/services/api/types/role";
 import OpportunityForm from "@/components/opportunity/opportunity-form";
@@ -9,9 +10,9 @@ import { useRouter } from "next/navigation";
 function PageContent() {
   const router = useRouter();
   return (
-    <Container maxWidth="md" sx={{ mt: 4 }}>
+    <PageContainer sx={{ mt: 4, maxWidth: 800 }}>
       <OpportunityForm onSuccess={() => router.push("/opportunities")} />
-    </Container>
+    </PageContainer>
   );
 }
 

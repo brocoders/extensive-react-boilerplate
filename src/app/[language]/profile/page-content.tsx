@@ -1,7 +1,8 @@
 "use client";
 import useAuth from "@/services/auth/use-auth";
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
-import Container from "@mui/material/Container";
+// container for user profile layout
+import PageContainer from "@/components/page-container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
@@ -19,7 +20,7 @@ function Profile() {
   const { user } = useAuth();
   const { t } = useTranslation("profile");
   return (
-    <Container maxWidth="sm">
+    <PageContainer sx={{ maxWidth: 600 }}>
       <Grid container spacing={3} wrap="nowrap" pt={3}>
         <Grid size="auto">
           <StyledAvatar
@@ -50,7 +51,7 @@ function Profile() {
           </Grid>
         </Grid>
       </Grid>
-    </Container>
+    </PageContainer>
   );
 }
 

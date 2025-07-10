@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getServerTranslation } from "@/services/i18n";
-import Container from "@mui/material/Container";
+// use fluid layout container to occupy full width with padding
+import PageContainer from "@/components/page-container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import MuiLink from "@mui/material/Link";
@@ -24,7 +25,7 @@ export default async function Home(props: Props) {
   const { t } = await getServerTranslation(params.language, "home");
 
   return (
-    <Container maxWidth="md">
+    <PageContainer>
       <Grid
         container
         spacing={3}
@@ -58,6 +59,6 @@ export default async function Home(props: Props) {
           <MuiLink href="/privacy-policy">Privacy Policy</MuiLink>
         </Grid>
       </Grid>
-    </Container>
+    </PageContainer>
   );
 }

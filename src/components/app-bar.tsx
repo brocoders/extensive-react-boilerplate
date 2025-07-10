@@ -1,451 +1,121 @@
 "use client";
 import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
+import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Tooltip from "@mui/material/Tooltip";
+import MenuIcon from "@mui/icons-material/Menu";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import useAuth from "@/services/auth/use-auth";
 import useAuthActions from "@/services/auth/use-auth-actions";
-import CircularProgress from "@mui/material/CircularProgress";
 import { useTranslation } from "@/services/i18n/client";
 import Link from "@/components/link";
-import { RoleEnum } from "@/services/api/types/role";
-import Divider from "@mui/material/Divider";
 import ThemeSwitchButton from "@/components/switch-theme-button";
+import Button from "@mui/material/Button";
 import { IS_SIGN_UP_ENABLED } from "@/services/auth/config";
 
-function ResponsiveAppBar() {
+interface AppBarProps {
+  onMenuClick: () => void;
+}
+
+export default function ResponsiveAppBar({ onMenuClick }: AppBarProps) {
   const { t } = useTranslation("common");
   const { user, isLoaded } = useAuth();
   const { logOut } = useAuthActions();
-  const [anchorElementNav, setAnchorElementNav] = useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElementUser, setAnchorElementUser] =
-    useState<null | HTMLElement>(null);
-  const [anchorElementUsers, setAnchorElementUsers] =
-    useState<null | HTMLElement>(null);
-  const [anchorElementCompanies, setAnchorElementCompanies] =
-    useState<null | HTMLElement>(null);
-  const [anchorElementOpportunities, setAnchorElementOpportunities] =
-    useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElementNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElementUser(event.currentTarget);
-  };
-  const handleOpenUsersMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElementUsers(event.currentTarget);
-  };
-  const handleOpenCompaniesMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElementCompanies(event.currentTarget);
-  };
-  const handleOpenOpportunitiesMenu = (
-    event: React.MouseEvent<HTMLElement>
-  ) => {
-    setAnchorElementOpportunities(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElementNav(null);
+    setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseUserMenu = () => {
-    setAnchorElementUser(null);
-  };
-  const handleCloseUsersMenu = () => {
-    setAnchorElementUsers(null);
-  };
-  const handleCloseCompaniesMenu = () => {
-    setAnchorElementCompanies(null);
-  };
-  const handleCloseOpportunitiesMenu = () => {
-    setAnchorElementOpportunities(null);
+    setAnchorElUser(null);
   };
 
   return (
-    <AppBar position="static">
+    <AppBar
+      position="fixed"
+      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          <IconButton
+            color="inherit"
+            edge="start"
+            onClick={onMenuClick}
+            sx={{ display: { xs: "flex", md: "none" }, mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
           <Typography
             variant="h6"
             noWrap
-            component="a"
+            component={Link}
             href="/"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
+            sx={{ flexGrow: 1, color: "inherit", textDecoration: "none" }}
           >
             {t("common:app-name")}
           </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElementNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElementNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              <MenuItem onClick={handleCloseNavMenu} component={Link} href="/">
-                <Typography textAlign="center">
-                  {t("common:navigation.home")}
-                </Typography>
-              </MenuItem>
-
-              {!!user?.role &&
-                [RoleEnum.ADMIN].includes(Number(user?.role?.id)) && [
-                  <MenuItem
-                    key="companies"
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    href="/admin-panel/companies"
-                  >
-                    <Typography textAlign="center">
-                      {t("common:navigation.companies")}
-                    </Typography>
-                  </MenuItem>,
-                  <MenuItem
-                    key="users"
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    href="/admin-panel/users"
-                  >
-                    <Typography textAlign="center">
-                      {t("common:navigation.users")}
-                    </Typography>
-                  </MenuItem>,
-                  <MenuItem
-                    key="opportunities"
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    href="/admin-panel/opportunities"
-                  >
-                    <Typography textAlign="center">
-                      {t("common:navigation.opportunities")}
-                    </Typography>
-                  </MenuItem>,
-                  // mobile-menu-items
-                ]}
-              {isLoaded &&
-                !user && [
-                  <Divider key="divider" />,
-                  <MenuItem
-                    key="sign-in"
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    href="/sign-in"
-                  >
-                    <Typography textAlign="center">
-                      {t("common:navigation.signIn")}
-                    </Typography>
-                  </MenuItem>,
-                  IS_SIGN_UP_ENABLED ? (
-                    <MenuItem
-                      key="sign-up"
-                      onClick={handleCloseNavMenu}
-                      component={Link}
-                      href="/sign-up"
-                    >
-                      <Typography textAlign="center">
-                        {t("common:navigation.signUp")}
-                      </Typography>
-                    </MenuItem>
-                  ) : null,
-                ]}
-            </Menu>
-          </Box>
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            {t("common:app-name")}
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Button
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
-              component={Link}
-              href="/"
-            >
-              {t("common:navigation.home")}
-            </Button>
-
-            {!!user?.role &&
-              [RoleEnum.ADMIN].includes(Number(user?.role?.id)) && (
-                <>
-                  <Button
-                    onClick={handleOpenCompaniesMenu}
-                    sx={{ my: 2, color: "white", display: "block" }}
-                  >
-                    {t("common:navigation.companies")}
-                  </Button>
-                  <Menu
-                    id="menu-companies"
-                    anchorEl={anchorElementCompanies}
-                    anchorOrigin={{
-                      vertical: "bottom",
-                      horizontal: "left",
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "left",
-                    }}
-                    open={Boolean(anchorElementCompanies)}
-                    onClose={handleCloseCompaniesMenu}
-                  >
-                    <MenuItem
-                      onClick={handleCloseCompaniesMenu}
-                      component={Link}
-                      href="/admin-panel/companies"
-                    >
-                      <Typography textAlign="center">
-                        {t("common:navigation.companies")}
-                      </Typography>
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleCloseCompaniesMenu}
-                      component={Link}
-                      href="/admin-panel/companies/create"
-                    >
-                      <Typography textAlign="center">
-                        {t("common:navigation.companiesCreate")}
-                      </Typography>
-                    </MenuItem>
-                  </Menu>
-                  <Button
-                    onClick={handleOpenUsersMenu}
-                    sx={{ my: 2, color: "white", display: "block" }}
-                  >
-                    {t("common:navigation.users")}
-                  </Button>
-                  <Menu
-                    id="menu-users"
-                    anchorEl={anchorElementUsers}
-                    anchorOrigin={{
-                      vertical: "bottom",
-                      horizontal: "left",
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "left",
-                    }}
-                    open={Boolean(anchorElementUsers)}
-                    onClose={handleCloseUsersMenu}
-                  >
-                    <MenuItem
-                      onClick={handleCloseUsersMenu}
-                      component={Link}
-                      href="/admin-panel/users"
-                    >
-                      <Typography textAlign="center">
-                        {t("common:navigation.users")}
-                      </Typography>
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleCloseUsersMenu}
-                      component={Link}
-                      href="/admin-panel/users/create"
-                    >
-                      <Typography textAlign="center">
-                        {t("common:navigation.usersCreate")}
-                      </Typography>
-                    </MenuItem>
-                  </Menu>
-                  <Button
-                    onClick={handleOpenOpportunitiesMenu}
-                    sx={{ my: 2, color: "white", display: "block" }}
-                  >
-                    {t("common:navigation.opportunities")}
-                  </Button>
-                  <Menu
-                    id="menu-opportunities"
-                    anchorEl={anchorElementOpportunities}
-                    anchorOrigin={{
-                      vertical: "bottom",
-                      horizontal: "left",
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "left",
-                    }}
-                    open={Boolean(anchorElementOpportunities)}
-                    onClose={handleCloseOpportunitiesMenu}
-                  >
-                    <MenuItem
-                      onClick={handleCloseOpportunitiesMenu}
-                      component={Link}
-                      href="/admin-panel/opportunities"
-                    >
-                      <Typography textAlign="center">
-                        {t("common:navigation.opportunities")}
-                      </Typography>
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleCloseOpportunitiesMenu}
-                      component={Link}
-                      href="/admin-panel/opportunities/create"
-                    >
-                      <Typography textAlign="center">
-                        {t("common:navigation.opportunitiesCreate")}
-                      </Typography>
-                    </MenuItem>
-                  </Menu>
-                  <Button
-                    sx={{ my: 2, color: "white", display: "block" }}
-                    component={Link}
-                    href="/admin-panel/contacts"
-                  >
-                    {"Contacts"}
-                  </Button>
-                  {/* desktop-menu-items */}
-                </>
-              )}
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              mr: 1,
-            }}
-          >
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <ThemeSwitchButton />
-          </Box>
-
-          {!isLoaded ? (
-            <CircularProgress color="inherit" />
-          ) : user ? (
-            <>
-              <Box sx={{ flexGrow: 0 }}>
+            {!isLoaded ? (
+              <CircularProgress color="inherit" size={24} />
+            ) : user ? (
+              <>
                 <Tooltip title="Profile menu">
-                  <IconButton
-                    onClick={handleOpenUserMenu}
-                    sx={{ p: 0 }}
-                    data-testid="profile-menu-item"
-                  >
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
-                      alt={user?.firstName + " " + user?.lastName}
+                      alt={user.firstName + " " + user.lastName}
                       src={user.photo?.path}
                     />
                   </IconButton>
                 </Tooltip>
                 <Menu
                   sx={{ mt: 5.5 }}
-                  id="menu-appbar"
-                  anchorEl={anchorElementUser}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={Boolean(anchorElementUser)}
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                  transformOrigin={{ vertical: "top", horizontal: "right" }}
+                  open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
                   <MenuItem
                     onClick={handleCloseUserMenu}
                     component={Link}
                     href="/profile"
-                    data-testid="user-profile"
                   >
-                    <Typography textAlign="center">
-                      {t("common:navigation.profile")}
-                    </Typography>
+                    {t("common:navigation.profile")}
                   </MenuItem>
                   <MenuItem
                     onClick={() => {
                       logOut();
                       handleCloseUserMenu();
                     }}
-                    data-testid="logout-menu-item"
                   >
-                    <Typography textAlign="center">
-                      {t("common:navigation.logout")}
-                    </Typography>
+                    {t("common:navigation.logout")}
                   </MenuItem>
                 </Menu>
-              </Box>
-            </>
-          ) : (
-            <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-              <Button
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-                component={Link}
-                href="/sign-in"
-              >
-                {t("common:navigation.signIn")}
-              </Button>
-              {IS_SIGN_UP_ENABLED && (
-                <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                  component={Link}
-                  href="/sign-up"
-                >
-                  {t("common:navigation.signUp")}
+              </>
+            ) : (
+              <Box sx={{ display: { xs: "none", md: "flex" }, gap: 1 }}>
+                <Button color="inherit" component={Link} href="/sign-in">
+                  {t("common:navigation.signIn")}
                 </Button>
-              )}
-            </Box>
-          )}
+                {IS_SIGN_UP_ENABLED && (
+                  <Button color="inherit" component={Link} href="/sign-up">
+                    {t("common:navigation.signUp")}
+                  </Button>
+                )}
+              </Box>
+            )}
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
   );
 }
-export default ResponsiveAppBar;

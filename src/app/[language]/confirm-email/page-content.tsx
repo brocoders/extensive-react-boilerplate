@@ -6,7 +6,8 @@ import Box from "@mui/material/Box";
 import { useAuthConfirmEmailService } from "@/services/api/services/auth";
 import { useRouter } from "next/navigation";
 import { useSnackbar } from "@/hooks/use-snackbar";
-import Container from "@mui/material/Container";
+// container for confirmation message
+import PageContainer from "@/components/page-container";
 import Grid from "@mui/material/Grid";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
@@ -45,7 +46,7 @@ export default function ConfirmEmail() {
   }, [fetchConfirmEmail, router, enqueueSnackbar, t]);
 
   return (
-    <Container maxWidth="sm">
+    <PageContainer sx={{ maxWidth: 600 }}>
       <Grid container>
         <Grid size={{ xs: 12 }}>
           <Box
@@ -60,6 +61,6 @@ export default function ConfirmEmail() {
           </Box>
         </Grid>
       </Grid>
-    </Container>
+    </PageContainer>
   );
 }

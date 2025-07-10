@@ -6,7 +6,8 @@ import ContactForm from "@/components/form/contact-form";
 import { useRouter } from "next/navigation";
 import { useSnackbar } from "@/hooks/use-snackbar";
 import { useTranslation } from "@/services/i18n/client";
-import Container from "@mui/material/Container";
+// fluid container for full width
+import PageContainer from "@/components/page-container";
 
 function CreateContactPage() {
   const router = useRouter();
@@ -14,14 +15,14 @@ function CreateContactPage() {
   const { t } = useTranslation("contacts");
 
   return (
-    <Container maxWidth={"md"}>
+    <PageContainer>
       <ContactForm
         onSuccess={() => {
           enqueueSnackbar(t("alerts.created"), { variant: "success" });
           router.push("/admin-panel/contacts");
         }}
       />
-    </Container>
+    </PageContainer>
   );
 }
 

@@ -1,10 +1,6 @@
-import ResponsiveAppBar from "@/components/app-bar";
 import AuthProvider from "@/services/auth/auth-provider";
 import "../globals.css";
-import "@fontsource/roboto/300.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
+import { inter, lexendDeca } from "@/fonts";
 import CssBaseline from "@mui/material/CssBaseline";
 import { dir } from "i18next";
 import "@/services/i18n/config";
@@ -14,6 +10,7 @@ import ToastContainer from "@/components/snackbar-provider";
 import { getServerTranslation } from "@/services/i18n";
 import StoreLanguageProvider from "@/services/i18n/store-language-provider";
 import ThemeProvider from "@/components/theme/theme-provider";
+import LayoutClient from "@/components/layout-client";
 import LeavePageProvider from "@/services/leave-page/leave-page-provider";
 import QueryClientProvider from "@/services/react-query/query-client-provider";
 import queryClient from "@/services/react-query/query-client";
@@ -51,7 +48,12 @@ export default async function RootLayout(props: {
   const { children } = props;
 
   return (
-    <html lang={language} dir={dir(language)} suppressHydrationWarning>
+    <html
+      lang={language}
+      dir={dir(language)}
+      className={`${inter.variable} ${lexendDeca.variable}`}
+      suppressHydrationWarning
+    >
       <body suppressHydrationWarning>
         <InitColorSchemeScript />
         <QueryClientProvider client={queryClient}>
@@ -65,8 +67,7 @@ export default async function RootLayout(props: {
                   <GoogleAuthProvider>
                     <FacebookAuthProvider>
                       <LeavePageProvider>
-                        <ResponsiveAppBar />
-                        {children}
+                        <LayoutClient>{children}</LayoutClient>
                         <ToastContainer
                           position="bottom-left"
                           hideProgressBar

@@ -3,7 +3,8 @@
 import { RoleEnum } from "@/services/api/types/role";
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
 import { useTranslation } from "@/services/i18n/client";
-import Container from "@mui/material/Container";
+// use PageContainer to allow tables to stretch fully
+import PageContainer from "@/components/page-container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import {
@@ -295,7 +296,7 @@ function Users() {
   }, [data]);
 
   return (
-    <Container maxWidth="xl">
+    <PageContainer>
       <Grid container spacing={3} pt={3}>
         <Grid container spacing={3} size={{ xs: 12 }}>
           <Grid size="grow">
@@ -392,7 +393,7 @@ function Users() {
           />
         </Grid>
       </Grid>
-    </Container>
+    </PageContainer>
   );
 }
 

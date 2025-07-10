@@ -3,7 +3,8 @@ import Button from "@mui/material/Button";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
 import { useAuthPatchMeService } from "@/services/api/services/auth";
 import useAuthActions from "@/services/auth/use-auth-actions";
-import Container from "@mui/material/Container";
+// fluid container for profile forms
+import PageContainer from "@/components/page-container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import FormTextInput from "@/components/form/text-input/form-text-input";
@@ -207,7 +208,7 @@ function FormBasicInfo() {
 
   return (
     <FormProvider {...methods}>
-      <Container maxWidth="xs">
+      <PageContainer sx={{ maxWidth: 400 }}>
         <form onSubmit={onSubmit}>
           <Grid container spacing={2} mb={3} mt={3}>
             <Grid size={{ xs: 12 }}>
@@ -252,7 +253,7 @@ function FormBasicInfo() {
             </Grid>
           </Grid>
         </form>
-      </Container>
+      </PageContainer>
     </FormProvider>
   );
 }
@@ -306,7 +307,7 @@ function FormChangeEmail() {
 
   return (
     <FormProvider {...methods}>
-      <Container maxWidth="xs">
+      <PageContainer sx={{ maxWidth: 400 }}>
         <form onSubmit={onSubmit}>
           <Grid container spacing={2} mb={3}>
             <Grid size={{ xs: 12 }}>
@@ -349,7 +350,7 @@ function FormChangeEmail() {
             </Grid>
           </Grid>
         </form>
-      </Container>
+      </PageContainer>
     </FormProvider>
   );
 }
@@ -405,7 +406,7 @@ function FormChangePassword() {
 
   return (
     <FormProvider {...methods}>
-      <Container maxWidth="xs">
+      <PageContainer sx={{ maxWidth: 400 }}>
         <form onSubmit={onSubmit}>
           <Grid container spacing={2} mb={2}>
             <Grid size={{ xs: 12 }}>
@@ -454,7 +455,7 @@ function FormChangePassword() {
             </Grid>
           </Grid>
         </form>
-      </Container>
+      </PageContainer>
     </FormProvider>
   );
 }

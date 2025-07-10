@@ -6,7 +6,8 @@ import { useForm, FormProvider, useFormState } from "react-hook-form";
 import { useAuthLoginService } from "@/services/api/services/auth";
 import useAuthActions from "@/services/auth/use-auth-actions";
 import useAuthTokens from "@/services/auth/use-auth-tokens";
-import Container from "@mui/material/Container";
+// container for login form layout
+import PageContainer from "@/components/page-container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import FormTextInput from "@/components/form/text-input/form-text-input";
@@ -107,7 +108,7 @@ function Form() {
 
   return (
     <FormProvider {...methods}>
-      <Container maxWidth="xs">
+      <PageContainer sx={{ maxWidth: 400 }}>
         <form onSubmit={onSubmit}>
           <Grid container spacing={2} mb={2}>
             <Grid size={{ xs: 12 }} mt={3}>
@@ -170,7 +171,7 @@ function Form() {
             )}
           </Grid>
         </form>
-      </Container>
+      </PageContainer>
     </FormProvider>
   );
 }

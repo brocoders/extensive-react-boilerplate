@@ -2,7 +2,8 @@
 
 import Button from "@mui/material/Button";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
-import Container from "@mui/material/Container";
+// fluid container for edit company form
+import PageContainer from "@/components/page-container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import * as yup from "yup";
@@ -150,7 +151,7 @@ function FormEditCompany() {
 
   return (
     <FormProvider {...methods}>
-      <Container maxWidth="md">
+      <PageContainer>
         <Grid pt={4} size={12}>
           <Typography variant="h6">{t("title")}</Typography>
         </Grid>
@@ -245,7 +246,7 @@ function FormEditCompany() {
             </Grid>
           </Grid>
         </form>
-      </Container>
+      </PageContainer>
     </FormProvider>
   );
 }

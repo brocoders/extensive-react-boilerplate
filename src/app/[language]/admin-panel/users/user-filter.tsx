@@ -4,7 +4,8 @@ import FormMultipleSelectInput from "@/components/form/multiple-select/form-mult
 import { Role, RoleEnum } from "@/services/api/types/role";
 import { useTranslation } from "@/services/i18n/client";
 import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
+// use PageContainer for consistent spacing inside popover
+import PageContainer from "@/components/page-container";
 import Grid from "@mui/material/Grid";
 import Popover from "@mui/material/Popover";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -61,11 +62,7 @@ function UserFilter() {
           horizontal: "left",
         }}
       >
-        <Container
-          sx={{
-            minWidth: 300,
-          }}
-        >
+        <PageContainer sx={{ minWidth: 300 }}>
           <form
             onSubmit={handleSubmit((data) => {
               const searchParams = new URLSearchParams(window.location.search);
@@ -113,7 +110,7 @@ function UserFilter() {
               </Grid>
             </Grid>
           </form>
-        </Container>
+        </PageContainer>
       </Popover>
       <Button aria-describedby={id} variant="contained" onClick={handleClick}>
         {t("admin-panel-users:filter.actions.filter")}
