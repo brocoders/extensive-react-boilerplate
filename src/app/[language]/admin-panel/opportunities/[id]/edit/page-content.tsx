@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Container from "@mui/material/Container";
+// fluid container for edit form
+import PageContainer from "@/components/page-container";
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
 import { RoleEnum } from "@/services/api/types/role";
 import OpportunityForm, {
@@ -43,12 +44,12 @@ function PageContent() {
   if (!initialValues) return null;
 
   return (
-    <Container maxWidth="md" sx={{ mt: 4 }}>
+    <PageContainer sx={{ mt: 4, maxWidth: 800 }}>
       <OpportunityForm
         initialValues={initialValues}
         onSuccess={() => router.push("/opportunities")}
       />
-    </Container>
+    </PageContainer>
   );
 }
 

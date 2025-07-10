@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getServerTranslation } from "@/services/i18n";
-import Container from "@mui/material/Container";
+// container ensures text width with consistent padding
+import PageContainer from "@/components/page-container";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -24,7 +25,7 @@ async function PrivacyPolicy(props: Props) {
   const { t } = await getServerTranslation(params.language, "privacy-policy");
 
   return (
-    <Container maxWidth="md" sx={{ py: 8 }}>
+    <PageContainer sx={{ py: 8, maxWidth: 800 }}>
       <Typography
         variant="h2"
         component="h1"
@@ -544,7 +545,7 @@ async function PrivacyPolicy(props: Props) {
           </MuiLink>
         </ListItem>
       </List>
-    </Container>
+    </PageContainer>
   );
 }
 export default PrivacyPolicy;

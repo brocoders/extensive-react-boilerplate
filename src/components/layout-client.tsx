@@ -14,7 +14,7 @@ export default function LayoutClient({
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleToggleSidebar = () => setMobileOpen((o) => !o);
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", width: "100%", minHeight: "100vh" }}>
       <ResponsiveAppBar onMenuClick={handleToggleSidebar} />
       <Sidebar mobileOpen={mobileOpen} onToggle={handleToggleSidebar} />
       <Box
@@ -26,7 +26,7 @@ export default function LayoutClient({
           ml: { md: `${drawerWidth}px` },
           width: "100%",
           mt: 8,
-          p: 2,
+          p: { xs: 2, sm: 3, md: 4 },
         }}
       >
         {children}

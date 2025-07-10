@@ -3,7 +3,8 @@
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
 import { RoleEnum } from "@/services/api/types/role";
 import { useTranslation } from "@/services/i18n/client";
-import Container from "@mui/material/Container";
+// fluid container ensures full width layout with responsive padding
+import PageContainer from "@/components/page-container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -58,7 +59,7 @@ function PageContent() {
   const { fetchNextPage } = query;
 
   return (
-    <Container maxWidth="md">
+    <PageContainer>
       <Grid container spacing={3} wrap="nowrap" pt={3}>
         <Grid size={12}>
           <Typography variant="h3" gutterBottom>
@@ -116,7 +117,7 @@ function PageContent() {
           {query.isFetching && <LinearProgress />}
         </Grid>
       </Grid>
-    </Container>
+    </PageContainer>
   );
 }
 

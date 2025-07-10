@@ -3,7 +3,8 @@
 import Button from "@mui/material/Button";
 import Drawer from "@mui/material/Drawer";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
-import Container from "@mui/material/Container";
+// ensure form page uses fluid container
+import PageContainer from "@/components/page-container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import FormTextInput from "@/components/form/text-input/form-text-input";
@@ -268,7 +269,7 @@ function FormEditUser() {
 
   return (
     <FormProvider {...methods}>
-      <Container maxWidth="xs">
+      <PageContainer sx={{ maxWidth: 400 }}>
         <form onSubmit={onSubmit}>
           <Grid container spacing={2} mb={3} mt={3}>
             <Grid size={{ xs: 12 }}>
@@ -392,7 +393,7 @@ function FormEditUser() {
             </Grid>
           </Grid>
         </form>
-      </Container>
+      </PageContainer>
       <Drawer
         anchor="right"
         open={drawerOpen}

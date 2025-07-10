@@ -3,7 +3,8 @@
 import Button from "@mui/material/Button";
 import Drawer from "@mui/material/Drawer";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
-import Container from "@mui/material/Container";
+// container full width with responsive spacing
+import PageContainer from "@/components/page-container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import FormTextInput from "@/components/form/text-input/form-text-input";
@@ -225,7 +226,7 @@ export function FormCreateUser({
 
   return (
     <FormProvider {...methods}>
-      <Container maxWidth="xs">
+      <PageContainer sx={{ maxWidth: 400 }}>
         <form onSubmit={onSubmit} autoComplete="create-new-user">
           <Grid container spacing={2} mb={3} mt={3}>
             <Grid size={{ xs: 12 }}>
@@ -379,7 +380,7 @@ export function FormCreateUser({
             </Grid>
           </Grid>
         </form>
-      </Container>
+      </PageContainer>
       <Drawer
         anchor="right"
         open={drawerOpen}

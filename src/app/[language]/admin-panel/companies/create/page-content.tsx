@@ -2,7 +2,8 @@
 
 import Button from "@mui/material/Button";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
-import Container from "@mui/material/Container";
+// use fluid container for create form
+import PageContainer from "@/components/page-container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import * as yup from "yup";
@@ -148,7 +149,7 @@ export function FormCreate({
 
   return (
     <FormProvider {...methods}>
-      <Container maxWidth="md">
+      <PageContainer>
         <Grid paddingTop={4} size={{ xs: 12, sm: 6, lg: 4 }}>
           <Typography variant="h6">{t("title")}</Typography>
         </Grid>
@@ -253,7 +254,7 @@ export function FormCreate({
             </Grid>
           </Grid>
         </form>
-      </Container>
+      </PageContainer>
     </FormProvider>
   );
 }

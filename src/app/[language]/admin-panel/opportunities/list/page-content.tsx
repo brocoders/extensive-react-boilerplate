@@ -2,14 +2,15 @@
 
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
 import { RoleEnum } from "@/services/api/types/role";
-import Container from "@mui/material/Container";
+// full-width container for list
+import PageContainer from "@/components/page-container";
 import OpportunitiesList from "@/components/opportunity/opportunities-list";
 
 function PageContent() {
   return (
-    <Container maxWidth="md" sx={{ mt: 4 }}>
+    <PageContainer sx={{ mt: 4, maxWidth: 800 }}>
       <OpportunitiesList />
-    </Container>
+    </PageContainer>
   );
 }
 
