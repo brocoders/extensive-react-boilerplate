@@ -1,4 +1,3 @@
-import ResponsiveAppBar from "@/components/app-bar";
 import AuthProvider from "@/services/auth/auth-provider";
 import "../globals.css";
 import { inter, lexendDeca } from "@/theme/fonts";
@@ -11,12 +10,11 @@ import ToastContainer from "@/components/snackbar-provider";
 import { getServerTranslation } from "@/services/i18n";
 import StoreLanguageProvider from "@/services/i18n/store-language-provider";
 import ThemeProvider from "@/components/theme/theme-provider";
-import Sidebar from "@/components/sidebar";
+import LayoutClient from "@/components/layout-client";
 import LeavePageProvider from "@/services/leave-page/leave-page-provider";
 import QueryClientProvider from "@/services/react-query/query-client-provider";
 import queryClient from "@/services/react-query/query-client";
 import ReactQueryDevtools from "@/services/react-query/react-query-devtools";
-import Box from "@mui/material/Box";
 import GoogleAuthProvider from "@/services/social-auth/google/google-auth-provider";
 import FacebookAuthProvider from "@/services/social-auth/facebook/facebook-auth-provider";
 import ConfirmDialogProvider from "@/components/confirm-dialog/confirm-dialog-provider";
@@ -69,13 +67,7 @@ export default async function RootLayout(props: {
                   <GoogleAuthProvider>
                     <FacebookAuthProvider>
                       <LeavePageProvider>
-                        <ResponsiveAppBar />
-                        <Box sx={{ display: "flex" }}>
-                          <Sidebar />
-                          <Box component="main" sx={{ flexGrow: 1 }}>
-                            {children}
-                          </Box>
-                        </Box>
+                        <LayoutClient>{children}</LayoutClient>
                         <ToastContainer
                           position="bottom-left"
                           hideProgressBar
