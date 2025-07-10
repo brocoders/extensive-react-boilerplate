@@ -23,10 +23,10 @@ export default function LayoutClient({
            margin equal to app bar height */
         sx={{
           flexGrow: 1,
-          ml: { md: `${drawerWidth}px` },
+          // ml: { md: `${drawerWidth}px` },
           width: "100%",
-          mt: 8,
-          p: { xs: 2, sm: 3, md: 4 },
+          mt: 5,
+          // p: { xs: 2, sm: 3, md: 2 },
         }}
       >
         {children}

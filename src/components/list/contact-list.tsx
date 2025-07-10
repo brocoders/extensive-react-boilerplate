@@ -18,6 +18,7 @@ import {
   contactsQueryKeys,
   useGetContactsQuery,
 } from "@/app/[language]/admin-panel/contacts/queries/queries";
+import PageContainer from "@/components/page-container";
 
 export default function ContactList() {
   const { t } = useTranslation("contacts");
@@ -58,7 +59,7 @@ export default function ContactList() {
   const { fetchNextPage } = query;
 
   return (
-    <Container maxWidth="xl">
+    <PageContainer>
       <Grid container spacing={3} pt={3}>
         <Grid container spacing={3} size={{ xs: 12 }}>
           <Grid size="grow">
@@ -129,6 +130,6 @@ export default function ContactList() {
           />
         </Grid>
       </Grid>
-    </Container>
+    </PageContainer>
   );
 }

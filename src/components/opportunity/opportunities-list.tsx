@@ -50,6 +50,7 @@ import Paper from "@mui/material/Paper";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import MenuList from "@mui/material/MenuList";
 import MenuItem from "@mui/material/MenuItem";
+import PageContainer from "@/components/page-container";
 
 function Actions({ user }: { user: User }) {
   const [open, setOpen] = useState(false);
@@ -246,7 +247,7 @@ function OpportunitiesList() {
   };
 
   return (
-    <Container maxWidth="xl">
+    <PageContainer>
       <Grid container spacing={3} pt={3}>
         <Grid container spacing={3} size={{ xs: 12 }}>
           <Grid size="grow">
@@ -332,7 +333,7 @@ function OpportunitiesList() {
           />
         </Grid>
       </Grid>
-    </Container>
+    </PageContainer>
   );
 }
 

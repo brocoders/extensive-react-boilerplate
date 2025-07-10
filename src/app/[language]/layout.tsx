@@ -1,6 +1,6 @@
 import AuthProvider from "@/services/auth/auth-provider";
 import "../globals.css";
-import { inter, lexendDeca } from "@/theme/fonts";
+import { inter, lexendDeca } from "@/fonts";
 import CssBaseline from "@mui/material/CssBaseline";
 import { dir } from "i18next";
 import "@/services/i18n/config";
