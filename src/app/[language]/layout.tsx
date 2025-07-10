@@ -1,10 +1,11 @@
 import ResponsiveAppBar from "@/components/app-bar";
 import AuthProvider from "@/services/auth/auth-provider";
 import "../globals.css";
-import "@fontsource/roboto/300.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
+import "@fontsource/inter/300.css";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/700.css";
+import "@fontsource/lexend-deca/700.css";
 import CssBaseline from "@mui/material/CssBaseline";
 import { dir } from "i18next";
 import "@/services/i18n/config";
@@ -14,10 +15,12 @@ import ToastContainer from "@/components/snackbar-provider";
 import { getServerTranslation } from "@/services/i18n";
 import StoreLanguageProvider from "@/services/i18n/store-language-provider";
 import ThemeProvider from "@/components/theme/theme-provider";
+import Sidebar from "@/components/sidebar";
 import LeavePageProvider from "@/services/leave-page/leave-page-provider";
 import QueryClientProvider from "@/services/react-query/query-client-provider";
 import queryClient from "@/services/react-query/query-client";
 import ReactQueryDevtools from "@/services/react-query/react-query-devtools";
+import Box from "@mui/material/Box";
 import GoogleAuthProvider from "@/services/social-auth/google/google-auth-provider";
 import FacebookAuthProvider from "@/services/social-auth/facebook/facebook-auth-provider";
 import ConfirmDialogProvider from "@/components/confirm-dialog/confirm-dialog-provider";
@@ -66,7 +69,12 @@ export default async function RootLayout(props: {
                     <FacebookAuthProvider>
                       <LeavePageProvider>
                         <ResponsiveAppBar />
-                        {children}
+                        <Box sx={{ display: "flex" }}>
+                          <Sidebar />
+                          <Box component="main" sx={{ flexGrow: 1 }}>
+                            {children}
+                          </Box>
+                        </Box>
                         <ToastContainer
                           position="bottom-left"
                           hideProgressBar
