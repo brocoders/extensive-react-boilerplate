@@ -1,68 +1,75 @@
-import mailParser, { ParsedMail } from "mailparser";
-import Imap from "imap";
-
-const imap = new Imap({
-  user: process.env.TEST_IMAP_USER ?? "",
-  password: process.env.TEST_IMAP_PASSWORD ?? "",
-  host: process.env.TEST_IMAP_HOST ?? "",
-  port: Number(process.env.TEST_IMAP_PORT) ?? 993,
-  tls: process.env.TEST_IMAP_TLS === "true",
-});
-
-function connectImap() {
-  if (imap.state !== "authenticated") {
-    return new Promise((resolve, reject) => {
-      imap.once("ready", resolve);
-      imap.once("error", reject);
-      imap.connect();
-    });
-  }
-
-  return Promise.resolve();
+interface MailDevEmail {
+  html: string;
+  text: string;
+  headers: {
+    from: string;
+    to: string;
+    subject: string;
+    "message-id": string;
+    date: string;
+    "mime-version": string;
+    "content-type": string;
+  };
+  subject: string;
+  messageId: string;
+  priority: string;
+  from: Array<{ address: string; name: string }>;
+  to: Array<{ address: string; name: string }>;
+  date: string;
+  id: string;
+  time: string;
+  read: boolean;
+  envelope: {
+    from: { address: string; args: boolean };
+    to: Array<{ address: string; args: boolean }>;
+    host: string;
+    remoteAddress: string;
+  };
+  source: string;
+  size: number;
+  sizeHuman: string;
+  attachments: null;
+  calculatedBcc: unknown[];
 }
 
+const MAILDEV_BASE_URL =
+  process.env.MAILDEV_BASE_URL ?? "http://localhost:1080";
+
 export async function getLatestEmail({
-  email,
+  targetEmail,
 }: {
-  email: string;
-}): Promise<ParsedMail> {
-  await connectImap();
+  targetEmail: string;
+}): Promise<MailDevEmail> {
+  try {
+    const response = await fetch(`${MAILDEV_BASE_URL}/email`);
 
-  return new Promise((resolve, reject) => {
-    imap.openBox("INBOX", true, (error) => {
-      if (error) reject(error);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch emails: ${response.statusText}`);
+    }
 
-      imap.search(["ALL", ["TO", email]], function (error, results) {
-        if (error) reject(error);
+    const emails: MailDevEmail[] = await response.json();
 
-        if (results.length === 0) {
-          reject(Error("No emails found to the target email address."));
-          imap.end();
-          return;
-        }
+    // Filter emails by target email address
+    const filteredEmails = emails.filter(
+      (email) =>
+        email.to.some(
+          (recipient) =>
+            recipient.address.toLowerCase() === targetEmail.toLowerCase()
+        ) ||
+        email.envelope.to.some(
+          (recipient) =>
+            recipient.address.toLowerCase() === targetEmail.toLowerCase()
+        )
+    );
 
-        const lastEmailUid = results[results.length - 1];
+    if (filteredEmails.length === 0) {
+      throw new Error("No emails found to the target email address.");
+    }
 
-        const fetchImap = imap.fetch([lastEmailUid], { bodies: "" });
-
-        fetchImap.on("message", (message) => {
-          message.on("body", (stream) => {
-            let content = "";
-
-            stream.on("data", (chunk) => {
-              content += chunk.toString("utf-8");
-            });
-
-            stream.once("end", () => {
-              mailParser.simpleParser(content, (error, mail) => {
-                if (error) reject(error);
-
-                resolve(mail);
-              });
-            });
-          });
-        });
-      });
-    });
-  });
+    return filteredEmails[filteredEmails.length - 1];
+  } catch (error) {
+    throw new Error(
+      `Failed to get latest email: ${error instanceof Error ? error.message : "Unknown error"}`
+    );
+  }
 }
