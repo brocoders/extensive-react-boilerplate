@@ -75,7 +75,7 @@ test.describe("Change password", () => {
   test("should send a password reset email and navigate to reset password page", async ({
     page,
   }) => {
-    const resultEmail = await getLatestEmail({ email });
+    const resultEmail = await getLatestEmail({ targetEmail: email });
     const url = resultEmail.text?.split(" ")[0];
     if (url) {
       page.goto(url);
@@ -86,7 +86,7 @@ test.describe("Change password", () => {
   });
 
   test("should handle errors for invalid password", async ({ page }) => {
-    const resultEmail = await getLatestEmail({ email });
+    const resultEmail = await getLatestEmail({ targetEmail: email });
     const url = resultEmail.text?.split(" ")[0];
     if (url) {
       page.goto(url);
@@ -113,7 +113,7 @@ test.describe("Change password", () => {
   });
 
   test("should reset password successfully", async ({ page }) => {
-    const resultEmail = await getLatestEmail({ email });
+    const resultEmail = await getLatestEmail({ targetEmail: email });
     const url = resultEmail.text?.split(" ")[0];
     if (url) {
       page.goto(url);
