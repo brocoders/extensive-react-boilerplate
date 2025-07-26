@@ -9,7 +9,7 @@ before: \<edit\-component\-reference\-field \/\>
     function <%= h.inflection.camelize(property, false) %>Field() {
       const { t } = useTranslation("admin-panel-<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>-edit");
       const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
-        useGet<%= h.inflection.transform(type, ['pluralize']) %>Query();
+        useGet<%= h.inflection.transform(type, ['pluralize']) %>ListQuery();
 
       const options = useMemo(
         () => (data?.pages.flatMap((page) => page?.data ?? []).filter(Boolean) ?? []),

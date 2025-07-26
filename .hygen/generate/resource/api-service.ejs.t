@@ -9,18 +9,18 @@ import { InfinityPaginationType } from "../types/infinity-pagination";
 import { RequestConfigType } from "./types/request-config";
 import { <%= name %> as Entity } from "../types/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>";
 
-export type Get<%= h.inflection.transform(name, ['pluralize']) %>Request = {
+export type Get<%= h.inflection.transform(name, ['pluralize']) %>ListRequest = {
   page: number;
   limit: number;
 };
 
-export type Get<%= h.inflection.transform(name, ['pluralize']) %>Response = InfinityPaginationType<Entity>;
+export type Get<%= h.inflection.transform(name, ['pluralize']) %>ListResponse = InfinityPaginationType<Entity>;
 
-export function useGet<%= h.inflection.transform(name, ['pluralize']) %>Service() {
+export function useGet<%= h.inflection.transform(name, ['pluralize']) %>ListService() {
   const fetch = useFetch();
 
   return useCallback(
-    (data: Get<%= h.inflection.transform(name, ['pluralize']) %>Request, requestConfig?: RequestConfigType) => {
+    (data: Get<%= h.inflection.transform(name, ['pluralize']) %>ListRequest, requestConfig?: RequestConfigType) => {
       const requestUrl = new URL(`${API_URL}/v1/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>`);
       requestUrl.searchParams.append("page", data.page.toString());
       requestUrl.searchParams.append("limit", data.limit.toString());
@@ -28,7 +28,7 @@ export function useGet<%= h.inflection.transform(name, ['pluralize']) %>Service(
       return fetch(requestUrl, {
         method: "GET",
         ...requestConfig,
-      }).then(wrapperFetchJsonResponse<Get<%= h.inflection.transform(name, ['pluralize']) %>Response>);
+      }).then(wrapperFetchJsonResponse<Get<%= h.inflection.transform(name, ['pluralize']) %>ListResponse>);
     },
     [fetch]
   );

@@ -1,0 +1,32 @@
+name: CLI tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out frontend
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm ci
+      - name: Generate resources and fields
+        run: npm run generate:resource -- --name=Department
+      - run: npm run generate:resource -- --name=People
+      - run: npm run generate:field -- --name=Department --property=name --kind=primitive --type=string --isOptional=false --isShowInTable=true
+      - run: npm run generate:field -- --name=People --property=profilePicture --kind=reference --referenceType=toOne --type=File --isOptional=true --isShowInTable=true
+      - run: npm run generate:field -- --name=People --property=firstName --kind=primitive --type=string --isOptional=false --isShowInTable=true
+      - run: npm run generate:field -- --name=People --property=lastName --kind=primitive --type=string --isOptional=false --isShowInTable=true
+      - run: npm run generate:field -- --name=People --property=department --kind=reference --referenceType=toOne --type=Department --isOptional=true --isShowInTable=true --propertyForSelect=name
+      - run: npm run generate:field -- --name=People --property=isActive --kind=primitive --type=boolean --isOptional=false --isShowInTable=true
+      - run: npm run generate:field -- --name=People --property=birthDate --kind=primitive --type=Date --isOptional=true --isShowInTable=true
+      - run: npm run generate:field -- --name=People --property=hireDate --kind=primitive --type=Date --isOptional=false --isShowInTable=true
+      - run: npm run generate:field -- --name=People --property=salary --kind=primitive --type=number --isOptional=false --isShowInTable=true
+      - name: Build
+        run: npm run build

@@ -10,7 +10,7 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useCallback, useMemo, useRef, useState } from "react";
-import { useGet<%= h.inflection.transform(name, ['pluralize']) %>Query, <%= h.inflection.camelize(h.inflection.pluralize(name), true) %>QueryKeys } from "./queries/queries";
+import { useGet<%= h.inflection.transform(name, ['pluralize']) %>ListQuery, <%= h.inflection.camelize(h.inflection.pluralize(name), true) %>QueryKeys } from "./queries/queries";
 import { TableVirtuoso } from "react-virtuoso";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
@@ -172,11 +172,11 @@ function Actions({ entityItem }: { entityItem: <%= name %> }) {
   );
 }
 
-function <%= h.inflection.transform(name, ['pluralize']) %>() {
+function <%= h.inflection.transform(name, ['pluralize']) %>PageContent() {
   const { t } = useTranslation("admin-panel-<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>");
 
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
-    useGet<%= h.inflection.transform(name, ['pluralize']) %>Query();
+    useGet<%= h.inflection.transform(name, ['pluralize']) %>ListQuery();
 
   const handleScroll = useCallback(() => {
     if (!hasNextPage || isFetchingNextPage) return;
@@ -255,4 +255,4 @@ function <%= h.inflection.transform(name, ['pluralize']) %>() {
   );
 }
 
-export default withPageRequiredAuth(<%= h.inflection.transform(name, ['pluralize']) %>, { roles: [RoleEnum.ADMIN] });
+export default withPageRequiredAuth(<%= h.inflection.transform(name, ['pluralize']) %>PageContent, { roles: [RoleEnum.ADMIN] });

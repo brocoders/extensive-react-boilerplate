@@ -10,6 +10,8 @@ before: \<create\-form\-validation\-schema \/\>
       .string()
       <% if (!isOptional) { -%>
         .required(t("inputs.<%= property %>.validation.required"))
+      <% } else { -%>
+        .defined()
       <% } -%>
       ,
   <% } else if (type === 'number') { -%>
@@ -17,17 +19,22 @@ before: \<create\-form\-validation\-schema \/\>
       .string()
       <% if (!isOptional) { -%>
         .required(t("inputs.<%= property %>.validation.required"))
+      <% } else { -%>
+        .defined()
       <% } -%>
       ,
   <% } else if (type === 'boolean') { -%>
-    <%= property %>: yup.boolean(),
+    <%= property %>: yup.boolean().defined(),
   <% } else if (type === 'Date') { -%>
     <%= property %>: yup
       .date()
       <% if (!isOptional) { -%>
         .required(t("inputs.<%= property %>.validation.required"))
       <% } -%>
-      .nullable(),
+      .nullable()
+      <% if (isOptional) { -%>
+        .defined()
+      <% } -%>,
   <% } -%>
 <% } else if (kind === 'reference') { -%>
   <% if (referenceType === 'toMany') { -%>
@@ -57,6 +64,9 @@ before: \<create\-form\-validation\-schema \/\>
       <% if (!isOptional) { -%>
         .required(t("inputs.<%= property %>.validation.required"))
       <% } -%>
-      .nullable(),
+      .nullable()
+      <% if (isOptional) { -%>
+        .defined()
+      <% } -%>,
   <% } -%>
 <% } -%>
