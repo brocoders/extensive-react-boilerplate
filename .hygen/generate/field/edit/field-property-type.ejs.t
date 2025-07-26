@@ -6,13 +6,13 @@ after: type EditFormData
 
 <% if (kind === 'primitive') { -%>
   <% if (type === 'string') { -%>
-    <%= property %><% if (isOptional) { -%>?<% } -%>: string;
+    <%= property %>: string;
   <% } else if (type === 'number') { -%>
-    <%= property %><% if (isOptional) { -%>?<% } -%>: string;
+    <%= property %>: string;
   <% } else if (type === 'boolean') { -%>
-    <%= property %><% if (isOptional) { -%>?<% } -%>: boolean;
+    <%= property %>: boolean;
   <% } else if (type === 'Date') { -%>
-    <%= property %><% if (isOptional) { -%>?<% } -%>: Date | null;
+    <%= property %>: Date | null;
   <% } -%>
 <% } else if (kind === 'reference') { -%>
   <% if (referenceType === 'toMany') { -%>
@@ -23,9 +23,9 @@ after: type EditFormData
     <% } -%>
   <% } else { -%>
     <% if (type === 'File') { -%>
-      <%= property %><% if (isOptional) { -%>?<% } -%>: FileEntity | null;
+      <%= property %>: FileEntity | null;
     <% } else { -%>
-      <%= property %><% if (isOptional) { -%>?<% } -%>: <%= type %> | null;
+      <%= property %>: <%= type %> | null;
     <% } -%>
   <% } -%>
 <% } -%>

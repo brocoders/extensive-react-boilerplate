@@ -9,7 +9,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
   Get<%= name %>Request,
   useGet<%= name %>Service,
-  useGet<%= h.inflection.transform(name, ['pluralize']) %>Service,
+  useGet<%= h.inflection.transform(name, ['pluralize']) %>ListService,
 } from "@/services/api/services/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>";
 
 export const <%= h.inflection.camelize(h.inflection.pluralize(name), true) %>QueryKeys = createQueryKeys(["<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>"], {
@@ -21,8 +21,8 @@ export const <%= h.inflection.camelize(h.inflection.pluralize(name), true) %>Que
   }),
 });
 
-export const useGet<%= h.inflection.transform(name, ['pluralize']) %>Query = () => {
-  const fetch = useGet<%= h.inflection.transform(name, ['pluralize']) %>Service();
+export const useGet<%= h.inflection.transform(name, ['pluralize']) %>ListQuery = () => {
+  const fetch = useGet<%= h.inflection.transform(name, ['pluralize']) %>ListService();
 
   const query = useInfiniteQuery({
     queryKey: <%= h.inflection.camelize(h.inflection.pluralize(name), true) %>QueryKeys.list().key,
