@@ -14,7 +14,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 
-type RadioInputProps<T> = {
+export type RadioInputProps<T> = {
   label: string;
   type?: string;
   autoFocus?: boolean;

@@ -13,7 +13,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
 
-type SelectInputProps<T extends object> = {
+export type SelectInputProps<T extends object> = {
   label: string;
   type?: string;
   autoFocus?: boolean;

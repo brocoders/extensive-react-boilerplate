@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
 import OutlinedInput from "@mui/material/OutlinedInput";
 
-type MultipleSelectInputProps<T extends object> = {
+export type MultipleSelectInputProps<T extends object> = {
   label: string;
   type?: string;
   autoFocus?: boolean;

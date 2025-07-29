@@ -13,7 +13,7 @@ import {
 } from "react-hook-form";
 import { InputBaseComponentProps } from "@mui/material/InputBase/InputBase";
 
-type TextInputProps = {
+export type TextInputProps = {
   label: string;
   type?: string;
   autoFocus?: boolean;

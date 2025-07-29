@@ -20,7 +20,7 @@ import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageList from "@mui/material/ImageList";
 
-type ImagePickerProps = {
+export type ImagePickerProps = {
   error?: string;
   onChange: (value: FileEntity | null) => void;
   onBlur: () => void;

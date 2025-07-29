@@ -16,7 +16,7 @@ import useLanguage from "@/services/i18n/use-language";
 import { getValueByKey } from "@/components/form/date-pickers/helper";
 
 type ValueDateType = Date | null | undefined;
-type DatePickerFieldProps = {
+export type DatePickerFieldProps = {
   disabled?: boolean;
   className?: string;
   views?: readonly DateView[] | undefined;
@@ -55,6 +55,7 @@ function DatePickerInput(
         disabled={props.disabled}
         autoFocus={props.autoFocus}
         defaultValue={props.defaultValue}
+        readOnly={props.readOnly}
         slotProps={{
           textField: {
             helperText: props.error,

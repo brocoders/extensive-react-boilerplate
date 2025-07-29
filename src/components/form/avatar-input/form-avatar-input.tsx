@@ -18,7 +18,7 @@ import { useTranslation } from "react-i18next";
 import IconButton from "@mui/material/IconButton";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 
-type AvatarInputProps = {
+export type AvatarInputProps = {
   error?: string;
   onChange: (value: FileEntity | null) => void;
   onBlur: () => void;
