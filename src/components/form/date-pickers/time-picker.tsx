@@ -11,7 +11,7 @@ import {
   FieldPath,
   FieldValues,
 } from "react-hook-form";
-import { ForwardedRef, forwardRef } from "react";
+import { Ref } from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import useLanguage from "@/services/i18n/use-language";
 import { getValueByKey } from "@/components/form/date-pickers/helper";
@@ -33,23 +33,14 @@ type TimePickerFieldProps = {
   timeSteps?: TimeStepOptions | undefined;
 };
 
-const TimePickerInput = forwardRef(TimePickerInputRaw) as never as (
+function TimePickerInput(
   props: TimePickerFieldProps & {
     name: string;
     value: ValueDateType;
     onChange: (value: ValueDateType) => void;
     onBlur: () => void;
-  } & { ref?: ForwardedRef<HTMLDivElement | null> }
-) => ReturnType<typeof TimePickerInputRaw>;
-
-function TimePickerInputRaw(
-  props: TimePickerFieldProps & {
-    name: string;
-    value: ValueDateType;
-    onChange: (value: ValueDateType) => void;
-    onBlur: () => void;
-  },
-  ref?: ForwardedRef<HTMLDivElement | null>
+    ref?: Ref<HTMLDivElement | null>;
+  }
 ) {
   const language = useLanguage();
 
@@ -59,7 +50,7 @@ function TimePickerInputRaw(
       adapterLocale={getValueByKey(language)}
     >
       <TimePicker
-        ref={ref}
+        ref={props.ref}
         name={props.name}
         label={props.label}
         value={props.value}
@@ -87,6 +78,7 @@ function TimePickerInputRaw(
     </LocalizationProvider>
   );
 }
+
 function FormTimePickerInput<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,

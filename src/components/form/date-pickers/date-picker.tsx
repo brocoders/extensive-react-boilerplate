@@ -10,7 +10,7 @@ import {
   FieldPath,
   FieldValues,
 } from "react-hook-form";
-import { ForwardedRef, forwardRef } from "react";
+import { Ref } from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import useLanguage from "@/services/i18n/use-language";
 import { getValueByKey } from "@/components/form/date-pickers/helper";
@@ -29,23 +29,15 @@ type DatePickerFieldProps = {
   error?: string;
   defaultValue?: ValueDateType;
 };
-const DatePickerInput = forwardRef(DatePickerInputRaw) as never as (
-  props: DatePickerFieldProps & {
-    name: string;
-    value: ValueDateType;
-    onChange: (value: ValueDateType) => void;
-    onBlur: () => void;
-  } & { ref?: ForwardedRef<HTMLDivElement | null> }
-) => ReturnType<typeof DatePickerInputRaw>;
 
-function DatePickerInputRaw(
+function DatePickerInput(
   props: DatePickerFieldProps & {
     name: string;
     value: ValueDateType;
     onChange: (value: ValueDateType) => void;
     onBlur: () => void;
-  },
-  ref?: ForwardedRef<HTMLDivElement | null>
+    ref?: Ref<HTMLDivElement | null>;
+  }
 ) {
   const language = useLanguage();
 
@@ -55,7 +47,7 @@ function DatePickerInputRaw(
       adapterLocale={getValueByKey(language)}
     >
       <DatePicker
-        ref={ref}
+        ref={props.ref}
         name={props.name}
         label={props.label}
         value={props.value}
@@ -79,6 +71,7 @@ function DatePickerInputRaw(
     </LocalizationProvider>
   );
 }
+
 function FormDatePickerInput<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,

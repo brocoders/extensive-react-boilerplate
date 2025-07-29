@@ -1,6 +1,6 @@
 "use client";
 
-import { ForwardedRef, forwardRef } from "react";
+import { Ref } from "react";
 import {
   Controller,
   ControllerProps,
@@ -26,19 +26,19 @@ export type AutocompleteInputProps<T> = {
   getOptionLabel: (option: T) => string;
 };
 
-function AutocompleteInputRaw<T>(
+function AutocompleteInput<T>(
   props: AutocompleteInputProps<T> & {
     name: string;
     value: T | undefined | null;
     onChange: (value: T) => void;
     onBlur: () => void;
-  },
-  ref?: ForwardedRef<HTMLDivElement | null>
+    ref?: Ref<HTMLDivElement | null>;
+  }
 ) {
   return (
     <FormControl error={!!props.error} disabled={props.disabled} fullWidth>
       <Autocomplete
-        ref={ref}
+        ref={props.ref}
         id={`autocomplete-${props.name}`}
         options={props.options}
         value={props.value}
@@ -65,15 +65,6 @@ function AutocompleteInputRaw<T>(
     </FormControl>
   );
 }
-
-const AutocompleteInput = forwardRef(AutocompleteInputRaw) as never as <T>(
-  props: AutocompleteInputProps<T> & {
-    name: string;
-    value: T | undefined | null;
-    onChange: (value: T) => void;
-    onBlur: () => void;
-  } & { ref?: ForwardedRef<HTMLDivElement | null> }
-) => ReturnType<typeof AutocompleteInputRaw>;
 
 function FormAutocompleteInput<
   TFieldValues extends FieldValues = FieldValues,

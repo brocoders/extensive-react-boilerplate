@@ -1,6 +1,6 @@
 "use client";
 
-import { ForwardedRef, forwardRef } from "react";
+import { Ref } from "react";
 import {
   Controller,
   ControllerProps,
@@ -27,20 +27,20 @@ type SelectInputProps<T extends object> = {
   renderOption: (option: T) => React.ReactNode;
 };
 
-function SelectInputRaw<T extends object>(
+function SelectInput<T extends object>(
   props: SelectInputProps<T> & {
     name: string;
     value: T | undefined | null;
     onChange: (value: T) => void;
     onBlur: () => void;
-  },
-  ref?: ForwardedRef<HTMLDivElement | null>
+    ref?: Ref<HTMLDivElement | null>;
+  }
 ) {
   return (
     <FormControl fullWidth error={!!props.error} disabled={props.disabled}>
       <InputLabel id={`select-label-${props.name}`}>{props.label}</InputLabel>
       <Select
-        ref={ref}
+        ref={props.ref}
         labelId={`select-label-${props.name}`}
         id={`select-${props.name}`}
         size={props.size}
@@ -79,15 +79,6 @@ function SelectInputRaw<T extends object>(
     </FormControl>
   );
 }
-
-const SelectInput = forwardRef(SelectInputRaw) as never as <T extends object>(
-  props: SelectInputProps<T> & {
-    name: string;
-    value: T | undefined | null;
-    onChange: (value: T) => void;
-    onBlur: () => void;
-  } & { ref?: ForwardedRef<HTMLDivElement | null> }
-) => ReturnType<typeof SelectInputRaw>;
 
 function FormSelectInput<
   TFieldValues extends FieldValues = FieldValues,

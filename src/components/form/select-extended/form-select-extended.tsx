@@ -5,13 +5,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import TextField from "@mui/material/TextField";
-import React, {
-  ForwardedRef,
-  forwardRef,
-  useState,
-  useRef,
-  useEffect,
-} from "react";
+import React, { Ref, useState, useRef, useEffect } from "react";
 import {
   Controller,
   ControllerProps,
@@ -47,20 +41,21 @@ type SelectExtendedInputProps<T extends object> = {
 );
 
 const MUIComponents = {
-  List: forwardRef<HTMLDivElement, ListProps>(function MuiList(
-    { style, children },
-    listRef
-  ) {
+  List: function MuiList({
+    style,
+    children,
+    ref,
+  }: ListProps & { ref?: Ref<HTMLDivElement> }) {
     return (
       <List
         style={{ padding: 0, ...style, margin: 0 }}
         component="div"
-        ref={listRef}
+        ref={ref}
       >
         {children}
       </List>
     );
-  }),
+  },
 
   Item: ({ children, ...props }: ItemProps<unknown>) => {
     return (
@@ -71,14 +66,14 @@ const MUIComponents = {
   },
 };
 
-function SelectExtendedInputRaw<T extends object>(
+function SelectExtendedInput<T extends object>(
   props: SelectExtendedInputProps<T> & {
     name: string;
     value: T | undefined | null;
     onChange: (value: T) => void;
     onBlur: () => void;
-  },
-  ref?: ForwardedRef<HTMLDivElement | null>
+    ref?: Ref<HTMLDivElement | null>;
+  }
 ) {
   const [isOpen, setIsOpen] = useState(false);
   const boxRef = useRef<HTMLInputElement | null>(null);
@@ -94,7 +89,7 @@ function SelectExtendedInputRaw<T extends object>(
       <div>
         <Box mb={0.5} ref={boxRef}>
           <TextField
-            ref={ref}
+            ref={props.ref}
             name={props.name}
             value={props.value ? props.renderOption(props.value) : ""}
             onBlur={props.onBlur}
@@ -182,17 +177,6 @@ function SelectExtendedInputRaw<T extends object>(
     </ClickAwayListener>
   );
 }
-
-const SelectExtendedInput = forwardRef(SelectExtendedInputRaw) as never as <
-  T extends object,
->(
-  props: SelectExtendedInputProps<T> & {
-    name: string;
-    value: T | undefined | null;
-    onChange: (value: T) => void;
-    onBlur: () => void;
-  } & { ref?: ForwardedRef<HTMLDivElement | null> }
-) => ReturnType<typeof SelectExtendedInputRaw>;
 
 function FormSelectExtendedInput<
   TFieldValues extends FieldValues = FieldValues,

@@ -10,7 +10,7 @@ import {
   FieldPath,
   FieldValues,
 } from "react-hook-form";
-import { ForwardedRef, forwardRef } from "react";
+import { Ref } from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import useLanguage from "@/services/i18n/use-language";
 import { getValueByKey } from "@/components/form/date-pickers/helper";
@@ -29,23 +29,15 @@ type DateTimePickerFieldProps = {
   error?: string;
   defaultValue?: ValueDateType;
 };
-const DateTimePickerInput = forwardRef(DateTimePickerInputRaw) as never as (
-  props: DateTimePickerFieldProps & {
-    name: string;
-    value: ValueDateType;
-    onChange: (value: ValueDateType) => void;
-    onBlur: () => void;
-  } & { ref?: ForwardedRef<HTMLDivElement | null> }
-) => ReturnType<typeof DateTimePickerInputRaw>;
 
-function DateTimePickerInputRaw(
+function DateTimePickerInput(
   props: DateTimePickerFieldProps & {
     name: string;
     value: ValueDateType;
     onChange: (value: ValueDateType) => void;
     onBlur: () => void;
-  },
-  ref?: ForwardedRef<HTMLDivElement | null>
+    ref?: Ref<HTMLDivElement | null>;
+  }
 ) {
   const language = useLanguage();
 
@@ -55,7 +47,7 @@ function DateTimePickerInputRaw(
       adapterLocale={getValueByKey(language)}
     >
       <DateTimePicker
-        ref={ref}
+        ref={props.ref}
         name={props.name}
         label={props.label}
         value={props.value}
@@ -81,6 +73,7 @@ function DateTimePickerInputRaw(
     </LocalizationProvider>
   );
 }
+
 function FormDateTimePickerInput<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,

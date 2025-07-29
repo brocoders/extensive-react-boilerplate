@@ -13,7 +13,7 @@ import FormLabel from "@mui/material/FormLabel";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
 import Switch from "@mui/material/Switch";
-import { ForwardedRef, forwardRef } from "react";
+import { Ref } from "react";
 
 export type SwitchInputProps<T> = {
   label: string;
@@ -28,14 +28,14 @@ export type SwitchInputProps<T> = {
   renderOption: (option: T) => React.ReactNode;
 };
 
-function SwitchInputRaw<T>(
+function SwitchInput<T>(
   props: SwitchInputProps<T> & {
     name: string;
     value: T[] | undefined | null;
     onChange: (value: T[]) => void;
     onBlur: () => void;
-  },
-  ref?: ForwardedRef<HTMLDivElement | null>
+    ref?: Ref<HTMLDivElement | null>;
+  }
 ) {
   const value = props.value ?? [];
 
@@ -63,7 +63,7 @@ function SwitchInputRaw<T>(
       <FormLabel component="legend" data-testid={`${props.testId}-label`}>
         {props.label}
       </FormLabel>
-      <FormGroup ref={ref}>
+      <FormGroup ref={props.ref}>
         {props.options.map((option) => (
           <FormControlLabel
             key={props.keyExtractor(option)}
@@ -89,15 +89,6 @@ function SwitchInputRaw<T>(
     </FormControl>
   );
 }
-
-const SwitchInput = forwardRef(SwitchInputRaw) as never as <T>(
-  props: SwitchInputProps<T> & {
-    name: string;
-    value: T[] | undefined | null;
-    onChange: (value: T[]) => void;
-    onBlur: () => void;
-  } & { ref?: ForwardedRef<HTMLDivElement | null> }
-) => ReturnType<typeof SwitchInputRaw>;
 
 function FormSwitchInput<
   TFieldValues extends FieldValues = FieldValues,
