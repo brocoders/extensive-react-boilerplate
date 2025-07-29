@@ -1,6 +1,6 @@
 "use client";
 
-import { ForwardedRef, forwardRef, ReactNode } from "react";
+import { Ref, ReactNode } from "react";
 import {
   Controller,
   ControllerProps,
@@ -28,14 +28,14 @@ type RadioInputProps<T> = {
   renderOption: (option: T) => ReactNode;
 };
 
-function RadioInputRaw<T>(
+function RadioInput<T>(
   props: RadioInputProps<T> & {
     name: string;
     value: T | undefined | null;
     onChange: (value: T) => void;
     onBlur: () => void;
-  },
-  ref?: ForwardedRef<HTMLDivElement | null>
+    ref?: Ref<HTMLDivElement | null>;
+  }
 ) {
   const value = props.value;
 
@@ -53,7 +53,7 @@ function RadioInputRaw<T>(
       <FormLabel component="legend" data-testid={`${props.testId}-label`}>
         {props.label}
       </FormLabel>
-      <RadioGroup ref={ref}>
+      <RadioGroup ref={props.ref}>
         {props.options.map((option) => (
           <FormControlLabel
             key={props.keyExtractor(option)}
@@ -77,15 +77,6 @@ function RadioInputRaw<T>(
     </FormControl>
   );
 }
-
-const RadioInput = forwardRef(RadioInputRaw) as never as <T>(
-  props: RadioInputProps<T> & {
-    name: string;
-    value: T | undefined | null;
-    onChange: (value: T) => void;
-    onBlur: () => void;
-  } & { ref?: ForwardedRef<HTMLDivElement | null> }
-) => ReturnType<typeof RadioInputRaw>;
 
 function FormRadioInput<
   TFieldValues extends FieldValues = FieldValues,

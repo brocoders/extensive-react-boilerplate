@@ -4,7 +4,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
-import React, { ChangeEvent, forwardRef, useState } from "react";
+import React, { ChangeEvent, Ref, useState } from "react";
 import {
   Controller,
   ControllerProps,
@@ -29,17 +29,17 @@ type TextInputProps = {
   size?: "small" | "medium";
 };
 
-const TextInput = forwardRef<
-  HTMLDivElement | null,
-  TextInputProps & {
+function TextInput(
+  props: TextInputProps & {
     name: string;
     value: string;
     onChange: (
       value: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => void;
     onBlur: () => void;
+    ref?: Ref<HTMLDivElement | null>;
   }
->(function TextInput(props, ref) {
+) {
   const [isShowPassword, setIsShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setIsShowPassword((show) => !show);
@@ -51,7 +51,7 @@ const TextInput = forwardRef<
   };
   return (
     <TextField
-      ref={ref}
+      ref={props.ref}
       name={props.name}
       size={props.size}
       value={props.value}
@@ -94,7 +94,7 @@ const TextInput = forwardRef<
       }}
     />
   );
-});
+}
 
 function FormTextInput<
   TFieldValues extends FieldValues = FieldValues,

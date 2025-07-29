@@ -1,6 +1,6 @@
 "use client";
 
-import { ForwardedRef, forwardRef } from "react";
+import { Ref } from "react";
 import {
   Controller,
   ControllerProps,
@@ -28,20 +28,20 @@ type MultipleSelectInputProps<T extends object> = {
   renderOption: (option: T) => React.ReactNode;
 };
 
-function MultipleSelectInputRaw<T extends object>(
+function MultipleSelectInput<T extends object>(
   props: MultipleSelectInputProps<T> & {
     name: string;
     value: T[] | undefined | null;
     onChange: (value: T[]) => void;
     onBlur: () => void;
-  },
-  ref?: ForwardedRef<HTMLDivElement | null>
+    ref?: Ref<HTMLDivElement | null>;
+  }
 ) {
   return (
     <FormControl fullWidth error={!!props.error} disabled={props.disabled}>
       <InputLabel id={`select-label-${props.name}`}>{props.label}</InputLabel>
       <Select
-        ref={ref}
+        ref={props.ref}
         labelId={`select-label-${props.name}`}
         id={`select-${props.name}`}
         value={props.value?.map(
@@ -95,17 +95,6 @@ function MultipleSelectInputRaw<T extends object>(
     </FormControl>
   );
 }
-
-const MultipleSelectInput = forwardRef(MultipleSelectInputRaw) as never as <
-  T extends object,
->(
-  props: MultipleSelectInputProps<T> & {
-    name: string;
-    value: T | undefined | null;
-    onChange: (value: T) => void;
-    onBlur: () => void;
-  } & { ref?: ForwardedRef<HTMLDivElement | null> }
-) => ReturnType<typeof MultipleSelectInputRaw>;
 
 function FormMultipleSelectInput<
   TFieldValues extends FieldValues = FieldValues,

@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, ForwardedRef, forwardRef } from "react";
+import { ChangeEvent, Ref } from "react";
 import {
   Controller,
   ControllerProps,
@@ -23,14 +23,14 @@ export type CheckboxBooleanInputProps = {
   testId?: string;
 };
 
-function CheckboxBooleanInputRaw(
+function CheckboxBooleanInput(
   props: CheckboxBooleanInputProps & {
     name: string;
     value: boolean | null;
     onChange: (value: boolean) => void;
     onBlur: () => void;
-  },
-  ref?: ForwardedRef<HTMLDivElement | null>
+    ref?: Ref<HTMLDivElement | null>;
+  }
 ) {
   const value = props.value ?? false;
   const onChange = (
@@ -46,7 +46,7 @@ function CheckboxBooleanInputRaw(
       variant="standard"
       error={!!props.error}
     >
-      <FormGroup ref={ref}>
+      <FormGroup ref={props.ref}>
         <FormControlLabel
           control={
             <Checkbox
@@ -67,15 +67,6 @@ function CheckboxBooleanInputRaw(
     </FormControl>
   );
 }
-
-const CheckboxBooleanInput = forwardRef(CheckboxBooleanInputRaw) as never as (
-  props: CheckboxBooleanInputProps & {
-    name: string;
-    value: boolean | null;
-    onChange: (value: boolean) => void;
-    onBlur: () => void;
-  } & { ref?: ForwardedRef<HTMLDivElement | null> }
-) => ReturnType<typeof CheckboxBooleanInputRaw>;
 
 function FormCheckboxBooleanInput<
   TFieldValues extends FieldValues = FieldValues,

@@ -1,6 +1,6 @@
 "use client";
 
-import { ForwardedRef, forwardRef } from "react";
+import { Ref } from "react";
 import {
   Controller,
   ControllerProps,
@@ -28,14 +28,14 @@ export type CheckboxInputProps<T> = {
   renderOption: (option: T) => React.ReactNode;
 };
 
-function CheckboxInputRaw<T>(
+function CheckboxInput<T>(
   props: CheckboxInputProps<T> & {
     name: string;
     value: T[] | undefined | null;
     onChange: (value: T[]) => void;
     onBlur: () => void;
-  },
-  ref?: ForwardedRef<HTMLDivElement | null>
+    ref?: Ref<HTMLDivElement | null>;
+  }
 ) {
   const value = props.value ?? [];
   const onChange = (checkboxValue: T) => () => {
@@ -61,7 +61,7 @@ function CheckboxInputRaw<T>(
       <FormLabel component="legend" data-testid={`${props.testId}-label`}>
         {props.label}
       </FormLabel>
-      <FormGroup ref={ref}>
+      <FormGroup ref={props.ref}>
         {props.options.map((option) => (
           <FormControlLabel
             key={props.keyExtractor(option)}
@@ -87,15 +87,6 @@ function CheckboxInputRaw<T>(
     </FormControl>
   );
 }
-
-const CheckboxInput = forwardRef(CheckboxInputRaw) as never as <T>(
-  props: CheckboxInputProps<T> & {
-    name: string;
-    value: T[] | undefined | null;
-    onChange: (value: T[]) => void;
-    onBlur: () => void;
-  } & { ref?: ForwardedRef<HTMLDivElement | null> }
-) => ReturnType<typeof CheckboxInputRaw>;
 
 function FormCheckboxInput<
   TFieldValues extends FieldValues = FieldValues,
