@@ -17,7 +17,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 
-type SelectExtendedInputProps<T extends object> = {
+export type SelectExtendedInputProps<T extends object> = {
   label: string;
   error?: string;
   testId?: string;

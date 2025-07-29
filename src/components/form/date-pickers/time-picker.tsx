@@ -17,7 +17,7 @@ import useLanguage from "@/services/i18n/use-language";
 import { getValueByKey } from "@/components/form/date-pickers/helper";
 
 type ValueDateType = Date | null | undefined;
-type TimePickerFieldProps = {
+export type TimePickerFieldProps = {
   disabled?: boolean;
   className?: string;
   views?: readonly TimeView[] | undefined;
@@ -57,6 +57,7 @@ function TimePickerInput(
         disabled={props.disabled}
         autoFocus={props.autoFocus}
         defaultValue={props.defaultValue}
+        readOnly={props.readOnly}
         onClose={props.onBlur}
         slotProps={{
           textField: {

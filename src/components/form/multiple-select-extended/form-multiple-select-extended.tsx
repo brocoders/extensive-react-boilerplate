@@ -17,7 +17,7 @@ import { ItemProps, ListProps, Virtuoso } from "react-virtuoso";
 import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
 
-type MultipleSelectExtendedInputProps<T extends object> = {
+export type MultipleSelectExtendedInputProps<T extends object> = {
   label: string;
   error?: string;
   testId?: string;
