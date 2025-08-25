@@ -5,6 +5,7 @@
   ],
   "packageRules": [
     {
+      "matchDepTypes": ["dependencies", "devDependencies"],
       "rangeStrategy": "pin"
     }
   ]
