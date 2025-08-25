@@ -59,7 +59,8 @@
     "@commitlint/cli": "19.8.1",
     "@commitlint/config-conventional": "19.8.1",
     "@playwright/test": "1.54.1",
-    "@release-it/conventional-changelog": "8.0.2",
+    "@release-it/conventional-changelog": "10.0.1",
+    "@storybook/addon-docs": "9.0.18",
     "@storybook/addon-links": "9.0.18",
     "@storybook/addon-onboarding": "9.0.18",
     "@storybook/nextjs": "9.0.18",
@@ -73,11 +74,11 @@
     "hygen": "6.2.11",
     "is-ci": "4.1.0",
     "prettier": "3.6.2",
-    "release-it": "17.11.0",
-    "storybook": "9.0.18",
-    "@storybook/addon-docs": "9.0.18"
+    "release-it": "19.0.4",
+    "storybook": "9.0.18"
   },
   "release-it": {
+    "$schema": "https://unpkg.com/release-it/schema/release-it.json",
     "git": {
       "commitMessage": "chore: release v${version}"
     },
