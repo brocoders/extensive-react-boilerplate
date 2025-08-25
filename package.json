@@ -68,7 +68,7 @@
     "@typescript-eslint/eslint-plugin": "7.18.0",
     "@typescript-eslint/parser": "7.18.0",
     "eslint-config-prettier": "10.1.8",
-    "eslint-plugin-prettier": "5.5.3",
+    "eslint-plugin-prettier": "5.5.4",
     "eslint-plugin-storybook": "9.0.18",
     "husky": "9.1.7",
     "hygen": "6.2.11",
