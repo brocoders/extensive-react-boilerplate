@@ -59,7 +59,7 @@
     "@commitlint/cli": "19.8.1",
     "@commitlint/config-conventional": "19.8.1",
     "@playwright/test": "1.54.1",
-    "@release-it/conventional-changelog": "8.0.2",
+    "@release-it/conventional-changelog": "10.0.1",
     "@storybook/addon-links": "9.0.18",
     "@storybook/addon-onboarding": "9.0.18",
     "@storybook/nextjs": "9.0.18",
