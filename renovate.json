@@ -8,5 +8,6 @@
       "matchDepTypes": ["dependencies", "devDependencies"],
       "rangeStrategy": "pin"
     }
-  ]
+  ],
+  "postUpdateOptions": ["npmInstallTwice"]
 }
