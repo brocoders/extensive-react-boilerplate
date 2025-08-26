@@ -3,11 +3,11 @@
   "extends": [
     "config:base"
   ],
+  "postUpdateOptions": ["npmInstallTwice"],
   "packageRules": [
     {
       "matchDepTypes": ["dependencies", "devDependencies"],
       "rangeStrategy": "pin"
     }
-  ],
-  "postUpdateOptions": ["npmInstallTwice"]
+  ]
 }
