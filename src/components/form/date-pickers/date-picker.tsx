@@ -63,7 +63,7 @@ function DatePickerInput(
             InputProps: { readOnly: props.readOnly },
           },
         }}
-        onAccept={props.onChange}
+        onChange={props.onChange}
         minDate={props.minDate}
         maxDate={props.maxDate}
         views={props.views}

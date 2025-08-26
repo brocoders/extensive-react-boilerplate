@@ -68,7 +68,7 @@ function TimePickerInput(
             },
           },
         }}
-        onAccept={props.onChange}
+        onChange={props.onChange}
         views={props.views}
         format={props.format}
         data-testid={props.testId}
