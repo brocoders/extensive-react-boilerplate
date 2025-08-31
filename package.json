@@ -33,7 +33,7 @@
     "@types/react": "19.1.11",
     "@types/react-dom": "19.1.8",
     "accept-language": "3.0.20",
-    "date-fns": "3.6.0",
+    "date-fns": "4.1.0",
     "dotenv": "16.5.0",
     "eslint": "8.57.1",
     "eslint-config-next": "15.5.1",
