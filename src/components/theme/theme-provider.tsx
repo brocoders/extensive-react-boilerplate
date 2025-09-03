@@ -5,6 +5,7 @@ import {
   ThemeProvider as MuiThemeProvider,
 } from "@mui/material/styles";
 import { useMemo, PropsWithChildren } from "react";
+import StyledJsxRegistry from "./registry";
 
 function ThemeProvider(props: PropsWithChildren<{}>) {
   const theme = useMemo(
@@ -18,7 +19,11 @@ function ThemeProvider(props: PropsWithChildren<{}>) {
     []
   );
 
-  return <MuiThemeProvider theme={theme}>{props.children}</MuiThemeProvider>;
+  return (
+    <StyledJsxRegistry>
+      <MuiThemeProvider theme={theme}>{props.children}</MuiThemeProvider>
+    </StyledJsxRegistry>
+  );
 }
 
 export default ThemeProvider;
