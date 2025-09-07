@@ -19,7 +19,7 @@ import Button from "@mui/material/Button";
 import NextLink from "next/link";
 import { useTranslation } from "../i18n/client";
 
-function Provider(props: PropsWithChildren<{}>) {
+function Provider(props: PropsWithChildren) {
   const [isOpen, setIsOpen] = useState(false);
   const [leavePage, setLeavePage] = useState<LeavePageContextParamsType>(null);
   const [leavePageCounter, setIsLeavePage] = useState(0);
@@ -132,7 +132,7 @@ function Modal() {
   );
 }
 
-export default function LeavePageProvider(props: PropsWithChildren<{}>) {
+export default function LeavePageProvider(props: PropsWithChildren) {
   return (
     <Provider>
       {props.children}
