@@ -7,7 +7,7 @@ import {
 import { useMemo, PropsWithChildren } from "react";
 import StyledJsxRegistry from "./registry";
 
-function ThemeProvider(props: PropsWithChildren<{}>) {
+function ThemeProvider(props: PropsWithChildren) {
   const theme = useMemo(
     () =>
       createTheme({

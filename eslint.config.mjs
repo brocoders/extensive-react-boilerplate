@@ -34,6 +34,7 @@ const eslintConfig = [
       "@typescript-eslint/ban-types": "off",
       "@typescript-eslint/no-namespace": "off",
       "array-callback-return": "error",
+      "@typescript-eslint/no-empty-object-type": "off",
       eqeqeq: "error",
       "no-alert": "error",
       "no-return-assign": "error",

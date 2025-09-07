@@ -9,7 +9,7 @@ import {
 } from "./store-language-context";
 import { cookieName, fallbackLanguage } from "./config";
 
-function StoreLanguageProvider(props: PropsWithChildren<{}>) {
+function StoreLanguageProvider(props: PropsWithChildren) {
   const [language, setLanguageRaw] = useState<Language>(
     () => Cookies.get(cookieName) ?? fallbackLanguage
   );
