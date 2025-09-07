@@ -1,5 +1,3 @@
-const { execSync } = require("child_process");
-
 const collectPromisesResults = (callback) => async (prevValues) => {
   const results = await callback(prevValues);
 

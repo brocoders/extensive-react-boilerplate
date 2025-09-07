@@ -66,7 +66,7 @@ const StyledOverlay = styled("div")(() => {
   };
 });
 
-const StyledAvatar = styled(Avatar)(({}) => ({ width: 100, height: 100 }));
+const StyledAvatar = styled(Avatar)(() => ({ width: 100, height: 100 }));
 
 function AvatarInput(props: AvatarInputProps) {
   const { onChange } = props;
