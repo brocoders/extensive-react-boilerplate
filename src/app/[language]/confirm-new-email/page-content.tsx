@@ -63,6 +63,9 @@ export default function ConfirmNewEmail() {
     };
 
     confirm();
+
+    // Do not add user to the dependencies
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     fetchConfirmNewEmail,
     router,
