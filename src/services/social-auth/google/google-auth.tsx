@@ -7,13 +7,10 @@ import useAuthTokens from "@/services/auth/use-auth-tokens";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { useState } from "react";
 import { FullPageLoader } from "@/components/full-page-loader";
-import useLanguage from "@/services/i18n/use-language";
-
 export default function GoogleAuth() {
   const { setUser } = useAuthActions();
   const { setTokensInfo } = useAuthTokens();
   const authGoogleLoginService = useAuthGoogleLoginService();
-  const language = useLanguage();
   const [isLoading, setIsLoading] = useState(false);
 
   const onSuccess = async (tokenResponse: CredentialResponse) => {
@@ -38,7 +35,7 @@ export default function GoogleAuth() {
 
   return (
     <>
-      <GoogleLogin onSuccess={onSuccess} locale={language} />
+      <GoogleLogin onSuccess={onSuccess} />
       <FullPageLoader isLoading={isLoading} />
     </>
   );

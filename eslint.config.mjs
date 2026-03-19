@@ -1,26 +1,36 @@
-import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
 import prettierPlugin from "eslint-plugin-prettier";
 
-const compat = new FlatCompat({
-  baseDirectory: import.meta.dirname,
-  recommendedConfig: js.configs.recommended,
-});
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
 
-const eslintConfig = [
-  // Base JavaScript recommendations
-  js.configs.recommended,
+  // Override default ignores of eslint-config-next
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
 
-  ...compat.config({
-    extends: ["next/core-web-vitals", "next/typescript"],
-  }),
+    // Additional build/test ignores
+    "node_modules/**",
+    "dist/**",
+    "playwright-report/**",
+    "test-results/**",
+    "*.config.js",
+    "*.config.mjs",
+  ]),
 
+  // Custom rules and overrides
   {
-    files: ["**/*.{js,jsx,ts,tsx}"],
     plugins: {
       prettier: prettierPlugin,
     },
     rules: {
+      // Prettier integration
       "prettier/prettier": [
         "error",
         {
@@ -31,13 +41,37 @@ const eslintConfig = [
           trailingComma: "es5",
         },
       ],
+
+      // TypeScript overrides
       "@typescript-eslint/ban-types": "off",
       "@typescript-eslint/no-namespace": "off",
-      "array-callback-return": "error",
       "@typescript-eslint/no-empty-object-type": "off",
+      "react-hooks/purity": "off",
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/use-memo": "off",
+      "react-hooks/immutability": "off",
+      "react-hooks/refs": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          ignoreRestSiblings: true,
+        },
+      ],
+      "@typescript-eslint/no-explicit-any": "warn",
+
+      // Code quality rules
+      "array-callback-return": "error",
       eqeqeq: "error",
       "no-alert": "error",
       "no-return-assign": "error",
+      "no-extra-boolean-cast": "error",
+      "no-unsafe-optional-chaining": "error",
+      "no-empty-pattern": "error",
+      "no-unused-vars": "off", // Let TypeScript handle this
+
+      // React Hook Form best practices
       "no-restricted-syntax": [
         "error",
         {
@@ -70,6 +104,8 @@ const eslintConfig = [
             'Do not use "condition ? true : false". Simplify "someVariable === 42 ? true : false " to "someVariable === 42"',
         },
       ],
+
+      // Import restrictions
       "no-restricted-imports": [
         "error",
         {
@@ -94,20 +130,6 @@ const eslintConfig = [
       ],
     },
   },
-  {
-    ignores: [
-      "node_modules/**",
-      ".next/**",
-      "out/**",
-      "build/**",
-      "dist/**",
-      "playwright-report/**",
-      "test-results/**",
-      "*.config.js",
-      "*.config.mjs",
-      "next-env.d.ts",
-    ],
-  },
-];
+]);
 
 export default eslintConfig;
