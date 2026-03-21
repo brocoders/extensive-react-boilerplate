@@ -6,6 +6,41 @@ import { FetchInputType, FetchInitType } from "./types/fetch-params";
 import useLanguage from "../i18n/use-language";
 import { getTokensInfo, setTokensInfo } from "../auth/auth-tokens-info";
 
+let refreshPromise: Promise<void> | null = null;
+
+async function refreshTokens(): Promise<void> {
+  if (refreshPromise) return refreshPromise;
+
+  refreshPromise = (async () => {
+    try {
+      const tokens = getTokensInfo();
+      const response = await fetch(AUTH_REFRESH_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${tokens?.refreshToken}`,
+        },
+      });
+
+      const newTokens = await response.json();
+
+      if (newTokens.token) {
+        setTokensInfo({
+          token: newTokens.token,
+          refreshToken: newTokens.refreshToken,
+          tokenExpires: newTokens.tokenExpires,
+        });
+      }
+    } catch {
+      // Refresh failed — callers will proceed with current token
+    } finally {
+      refreshPromise = null;
+    }
+  })();
+
+  return refreshPromise;
+}
+
 function useFetch() {
   const language = useLanguage();
 
@@ -32,24 +67,12 @@ function useFetch() {
       }
 
       if (tokens?.tokenExpires && tokens.tokenExpires - 60000 <= Date.now()) {
-        const newTokens = await fetch(AUTH_REFRESH_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${tokens.refreshToken}`,
-          },
-        }).then((res) => res.json());
-
-        if (newTokens.token) {
-          setTokensInfo({
-            token: newTokens.token,
-            refreshToken: newTokens.refreshToken,
-            tokenExpires: newTokens.tokenExpires,
-          });
-
+        await refreshTokens();
+        const refreshedTokens = getTokensInfo();
+        if (refreshedTokens?.token) {
           headers = {
             ...headers,
-            Authorization: `Bearer ${newTokens.token}`,
+            Authorization: `Bearer ${refreshedTokens.token}`,
           };
         }
       }
