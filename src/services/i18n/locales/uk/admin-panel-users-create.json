@@ -1,0 +1,61 @@
+{
+  "title": "Створити користувача",
+  "actions": {
+    "submit": "Зберегти",
+    "cancel": "Скасувати"
+  },
+  "inputs": {
+    "email": {
+      "label": "Email",
+      "validation": {
+        "invalid": "Недійсний email",
+        "required": "Email є обов'язковим",
+        "server": {
+          "emailAlreadyExists": "Такий email вже існує"
+        }
+      }
+    },
+    "firstName": {
+      "label": "Ім'я",
+      "validation": {
+        "required": "Ім'я є обов'язковим"
+      }
+    },
+    "lastName": {
+      "label": "Прізвище",
+      "validation": {
+        "required": "Прізвище є обов'язковим"
+      }
+    },
+    "role": {
+      "label": "Роль",
+      "validation": {
+        "required": "Роль є обов'язковою"
+      },
+      "options": {
+        "1": "Адміністратор",
+        "2": "Користувач"
+      }
+    },
+    "password": {
+      "label": "Пароль",
+      "validation": {
+        "required": "Пароль є обов'язковим",
+        "min": "Пароль має містити щонайменше 6 символів"
+      }
+    },
+    "passwordConfirmation": {
+      "label": "Підтвердження пароля",
+      "validation": {
+        "required": "Підтвердження пароля є обов'язковим",
+        "match": "Підтвердження пароля має збігатися з паролем"
+      }
+    },
+    "<system>": "Do not remove this property"
+  },
+  "alerts": {
+    "user": {
+      "success": "Профіль користувача успішно створено"
+    }
+  }
+}
