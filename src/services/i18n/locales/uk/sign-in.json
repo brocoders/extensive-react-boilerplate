@@ -1,0 +1,32 @@
+{
+  "title": "Увійти",
+  "actions": {
+    "submit": "Увійти",
+    "createAccount": "Створити акаунт",
+    "forgotPassword": "Забули пароль?"
+  },
+  "inputs": {
+    "email": {
+      "label": "Email",
+      "validation": {
+        "required": "Email є обов'язковим",
+        "invalid": "Недійсний формат email",
+        "server": {
+          "emailNotExists": "Email не існує",
+          "notFound": "Email не існує"
+        }
+      }
+    },
+    "password": {
+      "label": "Пароль",
+      "validation": {
+        "required": "Пароль є обов'язковим",
+        "min": "Пароль має містити щонайменше 6 символів",
+        "server": {
+          "incorrectPassword": "Недійсний пароль"
+        }
+      }
+    }
+  },
+  "or": "АБО"
+}

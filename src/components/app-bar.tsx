@@ -20,6 +20,7 @@ import Link from "@/components/link";
 import { RoleEnum } from "@/services/api/types/role";
 import Divider from "@mui/material/Divider";
 import ThemeSwitchButton from "@/components/switch-theme-button";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { IS_SIGN_UP_ENABLED } from "@/services/auth/config";
 
 function ResponsiveAppBar() {
@@ -193,10 +194,13 @@ function ResponsiveAppBar() {
           <Box
             sx={{
               display: "flex",
-              mr: 1,
+              alignItems: "center",
+              gap: 2,
+              mr: 2,
             }}
           >
             <ThemeSwitchButton />
+            <LanguageSwitcher />
           </Box>
 
           {!isLoaded ? (

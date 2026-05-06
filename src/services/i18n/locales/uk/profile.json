@@ -1,0 +1,78 @@
+{
+  "title": "Профіль",
+  "title1": "Редагувати профіль",
+  "title2": "Змінити Email",
+  "title3": "Змінити пароль",
+  "actions": {
+    "edit": "Редагувати",
+    "submit": "Зберегти",
+    "cancel": "Скасувати"
+  },
+  "inputs": {
+    "firstName": {
+      "label": "Ім'я",
+      "validation": {
+        "required": "Ім'я є обов'язковим"
+      }
+    },
+    "lastName": {
+      "label": "Прізвище",
+      "validation": {
+        "required": "Прізвище є обов'язковим"
+      }
+    },
+    "email": {
+      "label": "Новий Email",
+      "validation": {
+        "required": "Email є обов'язковим",
+        "email": "Email має бути дійсним",
+        "currentEmail": "Email має відрізнятися від поточного",
+        "server": {
+          "emailExists": "Такий Email вже зайнятий"
+        }
+      }
+    },
+    "emailConfirmation": {
+      "label": "Підтвердження Email",
+      "validation": {
+        "required": "Підтвердження Email є обов'язковим",
+        "match": "Підтвердження Email має збігатися з Email"
+      }
+    },
+    "oldPassword": {
+      "label": "Старий пароль",
+      "validation": {
+        "required": "Старий пароль є обов'язковим",
+        "min": "Старий пароль має містити щонайменше 6 символів",
+        "server": {
+          "incorrectOldPassword": "Старий пароль недійсний"
+        }
+      }
+    },
+    "password": {
+      "label": "Новий пароль",
+      "validation": {
+        "required": "Новий пароль є обов'язковим",
+        "min": "Новий пароль має містити щонайменше 6 символів"
+      }
+    },
+    "passwordConfirmation": {
+      "label": "Підтвердження пароля",
+      "validation": {
+        "required": "Підтвердження пароля є обов'язковим",
+        "match": "Підтвердження пароля має збігатися з паролем"
+      }
+    }
+  },
+  "alerts": {
+    "email": {
+      "success": "Запит на зміну email надіслано на вашу нову адресу. Будь ласка, перевірте пошту та перейдіть за посиланням, щоб підтвердити зміну."
+    },
+    "password": {
+      "success": "Пароль успішно оновлено"
+    },
+    "profile": {
+      "success": "Профіль успішно оновлено"
+    }
+  }
+}
