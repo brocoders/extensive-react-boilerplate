@@ -1,0 +1,49 @@
+{
+  "title": "Зареєструватися",
+  "actions": {
+    "submit": "Зареєструватися",
+    "accountAlreadyExists": "Вже маєте акаунт?"
+  },
+  "inputs": {
+    "firstName": {
+      "label": "Ім'я",
+      "validation": {
+        "required": "Ім'я є обов'язковим"
+      }
+    },
+    "lastName": {
+      "label": "Прізвище",
+      "validation": {
+        "required": "Прізвище є обов'язковим"
+      }
+    },
+    "email": {
+      "label": "Email",
+      "validation": {
+        "required": "Email є обов'язковим",
+        "invalid": "Недійсний формат email",
+        "server": {
+          "emailAlreadyExists": "Такий email вже існує"
+        }
+      }
+    },
+    "password": {
+      "label": "Пароль",
+      "validation": {
+        "required": "Пароль є обов'язковим",
+        "min": "Пароль має містити щонайменше 6 символів",
+        "server": {
+          "incorrectPassword": "Недійсний пароль"
+        }
+      }
+    },
+    "policy": {
+      "label": "Політика конфіденційності",
+      "agreement": "Я прочитав(-ла) та приймаю ",
+      "validation": {
+        "required": "Згода з Політикою конфіденційності є обов'язковою"
+      }
+    }
+  },
+  "or": "АБО"
+}
