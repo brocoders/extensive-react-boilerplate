@@ -29,7 +29,7 @@
     "@mui/icons-material": "7.3.9",
     "@mui/material": "7.3.9",
     "@mui/x-date-pickers": "8.27.2",
-    "@react-oauth/google": "0.13.4",
+    "@react-oauth/google": "0.13.5",
     "@tanstack/react-query": "5.95.2",
     "@tanstack/react-query-devtools": "5.95.2",
     "@types/node": "25.5.0",
