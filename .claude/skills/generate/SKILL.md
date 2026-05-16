@@ -1,6 +1,6 @@
 ---
 name: generate
-description: Generate frontend resources and fields from a natural language description
+description: Generate frontend admin-panel resources and fields via this project's hygen CLI (npm run generate:resource, npm run generate:field). Use when adding a new resource/entity or a new field/property to an admin panel in this Next.js boilerplate.
 ---
 
 # Generate Frontend Resources
