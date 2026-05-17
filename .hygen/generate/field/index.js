@@ -67,11 +67,18 @@ module.exports = {
                   value: "primitive",
                 },
                 { message: "Reference to entity", value: "reference" },
+                {
+                  message: "Denormalized data from entity",
+                  value: "denormalized",
+                },
               ],
             })
             .then(
               collectPromisesResults((values) => {
-                if (values.kind === "reference") {
+                if (
+                  values.kind === "reference" ||
+                  values.kind === "denormalized"
+                ) {
                   return prompter
                     .prompt({
                       type: "input",

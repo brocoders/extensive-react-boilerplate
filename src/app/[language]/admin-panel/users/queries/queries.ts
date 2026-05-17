@@ -21,7 +21,7 @@ export const usersQueryKeys = createQueryKeys(["users"], {
   }),
 });
 
-export const useGetUsersQuery = ({
+export const useGetUsersListQuery = ({
   sort,
   filter,
 }: {

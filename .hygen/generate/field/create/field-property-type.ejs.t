@@ -14,7 +14,7 @@ after: type CreateFormData
   <% } else if (type === 'Date') { -%>
     <%= property %>: Date | null;
   <% } -%>
-<% } else if (kind === 'reference') { -%>
+<% } else if (kind === 'reference' || kind === 'denormalized') { -%>
   <% if (referenceType === 'toMany') { -%>
     <% if (type === 'File') { -%>
       <%= property %>: FileEntity[];

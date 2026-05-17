@@ -5,7 +5,7 @@ before: from "react"
 skip_if: useCallback,
 ---
 
-<% if (kind === 'reference') { -%>
+<% if (kind === 'reference' || kind === 'denormalized') { -%>
   <% if (type !== 'File') { -%>
     useCallback,
   <% } -%>

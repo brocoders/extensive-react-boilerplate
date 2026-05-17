@@ -14,7 +14,7 @@ after: export type <%= name %>
   <% } else if (type === 'Date') { -%>
     <%= property %><% if (isOptional) { -%>?<% } -%>: string | null;
   <% } -%>
-<% } else if (kind === 'reference') { -%>
+<% } else if (kind === 'reference' || kind === 'denormalized') { -%>
   <% if (referenceType === 'toMany') { -%>
     <% if (type === 'File') { -%>
       <%= property %>: FileEntity[];

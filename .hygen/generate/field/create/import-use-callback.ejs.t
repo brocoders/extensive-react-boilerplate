@@ -5,7 +5,7 @@ at_line: 2
 skip_if: useCallback,
 ---
 
-<% if (kind === 'reference') { -%>
+<% if (kind === 'reference' || kind === 'denormalized') { -%>
   <% if (type !== 'File') { -%>
     import {
       // React dependencies here

@@ -14,7 +14,7 @@ before: \<index\-component\-body\-field \/\>
     <% } else if (type === 'Date') { -%>
       <TableCell>{item?.<%= property %>}</TableCell>
     <% } -%>
-  <% } else if (kind === 'reference') { -%>
+  <% } else if (kind === 'reference' || kind === 'denormalized') { -%>
     <% if (referenceType === 'toMany') { -%>
       <% if (type === 'File') { -%>
         <TableCell>

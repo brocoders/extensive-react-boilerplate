@@ -5,7 +5,7 @@ at_line: 2
 skip_if: import FormMultipleImagePicker from
 ---
 
-<% if (kind === 'reference') { -%>
+<% if (kind === 'reference' || kind === 'denormalized') { -%>
   <% if (referenceType === 'toMany') { -%>
     <% if (type === 'File') { -%>
       import FormMultipleImagePicker from "@/components/form/multiple-image-picker/multiple-image-picker";
