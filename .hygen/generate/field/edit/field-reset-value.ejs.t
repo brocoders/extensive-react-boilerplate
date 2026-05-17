@@ -14,7 +14,7 @@ before: \<edit\-form\-reset\-property \/\>
   <% } else if (type === 'Date') { -%>
     <%= property %>: initialData.data.<%= property %> ? new Date(initialData.data.<%= property %>) : null,
   <% } -%>
-<% } else if (kind === 'reference') { -%>
+<% } else if (kind === 'reference' || kind === 'denormalized') { -%>
   <% if (referenceType === 'toMany') { -%>
     <%= property %>: initialData.data.<%= property %> ?? [],
   <% } else { -%>

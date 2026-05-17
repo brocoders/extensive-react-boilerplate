@@ -5,7 +5,7 @@ before: from "react"
 skip_if: useMemo,
 ---
 
-<% if (kind === 'reference') { -%>
+<% if (kind === 'reference' || kind === 'denormalized') { -%>
   <% if (type !== 'File') { -%>
     useMemo,
   <% } -%>

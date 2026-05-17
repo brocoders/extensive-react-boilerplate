@@ -14,7 +14,7 @@ after: const defaultValues
   <% } else if (type === 'Date') { -%>
     <%= property %>: null,
   <% } -%>
-<% } else if (kind === 'reference') { -%>
+<% } else if (kind === 'reference' || kind === 'denormalized') { -%>
   <% if (referenceType === 'toMany') { -%>
     <%= property %>: [],
   <% } else { -%>

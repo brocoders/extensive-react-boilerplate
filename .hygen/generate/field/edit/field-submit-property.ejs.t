@@ -14,7 +14,7 @@ before: \<edit\-form\-submit\-property \/\>
   <% } else if (type === 'Date') { -%>
     <%= property %>: formData.<%= property %> ? formData.<%= property %>.toISOString() : null,
   <% } -%>
-<% } else if (kind === 'reference') { -%>
+<% } else if (kind === 'reference' || kind === 'denormalized') { -%>
   <% if (referenceType === 'toMany') { -%>
     <%= property %>: formData.<%= property %>,
   <% } else { -%>

@@ -36,7 +36,7 @@ before: \<create\-form\-validation\-schema \/\>
         .defined()
       <% } -%>,
   <% } -%>
-<% } else if (kind === 'reference') { -%>
+<% } else if (kind === 'reference' || kind === 'denormalized') { -%>
   <% if (referenceType === 'toMany') { -%>
     <%= property %>: yup
       .array()

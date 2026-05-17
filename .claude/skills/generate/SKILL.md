@@ -29,9 +29,10 @@ Analyze the user's description and design entities with their properties. Follow
 - When the backend uses `oneToMany`, **do NOT** create the corresponding `manyToOne` on the frontend — the backend generator handles it automatically.
 - For **File** relations, use only `oneToOne` (`toOne`) or `manyToMany` (`toMany`).
 
-#### Property kinds (frontend only supports two)
+#### Property kinds
 - `primitive` — basic types: `string`, `number`, `boolean`, `Date`
 - `reference` — relationship to another entity
+- `denormalized` — denormalized copy of another entity's data (stored inline instead of referenced)
 
 #### Reference types (simplified)
 - `toOne` — maps to backend's `oneToOne` or `manyToOne`
@@ -74,10 +75,10 @@ npm run generate:field -- --name {EntityName} --property {propertyName} --kind {
 **Argument rules:**
 - `--name` (required): Entity name, PascalCase
 - `--property` (required): Property name, camelCase
-- `--kind` (required): `primitive` | `reference`
-- `--type` (required): For primitive: `string` | `number` | `boolean` | `Date`. For reference: the referenced entity name (e.g., `User`, `File`, `Category`)
-- `--referenceType`: Only for reference kind. Values: `toOne` | `toMany`
-- `--propertyForSelect`: Only for reference kind when type is **not** `File`. The property name used for the dropdown display (e.g., `name`, `title`, `email`).
+- `--kind` (required): `primitive` | `reference` | `denormalized`
+- `--type` (required): For primitive: `string` | `number` | `boolean` | `Date`. For reference/denormalized: the referenced entity name (e.g., `User`, `File`, `Category`)
+- `--referenceType`: Only for reference/denormalized kind. Values: `toOne` | `toMany`
+- `--propertyForSelect`: Only for reference/denormalized kind when type is **not** `File`. The property name used for the dropdown display (e.g., `name`, `title`, `email`).
 - `--propertyInReference`: Only when applicable (e.g., for inverse relationships)
 - `--isOptional`: `true` | `false`
 - `--isShowInTable`: `true` | `false` — whether to display this field in the list table

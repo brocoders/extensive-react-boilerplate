@@ -39,7 +39,7 @@ before: \<edit\-component\-field \/\>
       />
     </Grid>
   <% } -%>
-<% } else if (kind === 'reference') { -%>
+<% } else if (kind === 'reference' || kind === 'denormalized') { -%>
   <% if (referenceType === 'toMany') { -%>
     <% if (type === 'File') { -%>
       <Grid size={{ xs: 12 }}>

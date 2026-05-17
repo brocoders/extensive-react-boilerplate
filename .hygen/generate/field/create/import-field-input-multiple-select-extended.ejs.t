@@ -5,7 +5,7 @@ at_line: 2
 skip_if: import FormMultipleSelectExtendedInput from
 ---
 
-<% if (kind === 'reference') { -%>
+<% if (kind === 'reference' || kind === 'denormalized') { -%>
   <% if (type !== 'File') { -%>
     <% if (referenceType === 'toMany') { -%>
       import FormMultipleSelectExtendedInput from "@/components/form/multiple-select-extended/form-multiple-select-extended";
