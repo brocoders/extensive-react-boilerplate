@@ -78,7 +78,7 @@ npm run test:e2e:generators:crud
 
 ### How it works
 
-1. **Backend boot** (`run-crud.sh`): generates a matching `Tag` entity on the NestJS side, lints + builds, then `docker compose up -d --build` against `docker-compose.generators-relational.test.yaml` which now maps host:3001 → container:3000.
+1. **Backend boot** (`run-crud.sh`): generates a matching `Tag` entity on the NestJS side, lints + builds, then `docker compose up -d --build` against `docker-compose.generators-relational.test.yaml` which now maps host:3001 → container:3001.
 2. **Frontend generate**: runs `generate:resource` + `generate:field` for `Tag` in this repo.
 3. **Playwright** (`playwright.config.generators-crud.ts`): boots Next.js via its `webServer` block at `http://localhost:3000`, then drives `generators-crud.spec.ts` (admin login + Tag CRUD).
 4. **Cleanup**: `docker compose down -v`, `git checkout -- src` + targeted `rm`s in both repos, generated TypeORM migration files removed.
