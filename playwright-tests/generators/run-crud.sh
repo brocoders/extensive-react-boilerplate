@@ -90,7 +90,7 @@ npm run add:property:to-relational -- --name Tag --property name --kind primitiv
 npm run lint
 npm run build
 
-echo "▶ Booting NestJS Docker stack (host port $HOST_API_PORT → container 3000)…"
+echo "▶ Booting NestJS Docker stack (host port $HOST_API_PORT → container 3001)…"
 docker compose -f "$COMPOSE_FILE" --env-file env-example-relational -p "$COMPOSE_PROJECT" up -d --build
 
 echo "▶ Waiting for backend to accept HTTP on http://127.0.0.1:$HOST_API_PORT/ …"

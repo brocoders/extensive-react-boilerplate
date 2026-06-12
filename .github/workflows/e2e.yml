@@ -17,8 +17,6 @@ jobs:
           # token: ${{ secrets.CI_PAT }}
           path: backend
       - run: cd backend && cp env-example-document .env
-      - run: cd backend && sed -i 's/APP_PORT=3000/APP_PORT=3001/g' .env
-      - run: cd backend && sed -i 's/BACKEND_DOMAIN=http:\/\/localhost:3000/BACKEND_DOMAIN=http:\/\/localhost:3001/g' .env
       - name: Run backend
         # print output of the command to file and store it as artifact
         run: cd backend && docker compose -f docker-compose.document.yaml up > ${{ runner.temp }}/backend.log 2>&1 &
