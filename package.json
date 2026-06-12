@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "prepare": "is-ci || husky",
     "release": "release-it",
+    "app:config": "node ./.install-scripts/index.js",
     "generate:resource": "hygen generate resource",
     "postgenerate:resource": "npm run lint -- --fix",
     "lint:fix": "eslint . --fix",

@@ -26,7 +26,13 @@ Backend: <https://github.com/brocoders/nestjs-boilerplate>
 
 ## Getting Started
 
-First, run the development server:
+When you start a new project from this boilerplate, first run the one-time configuration command. It removes the boilerplate's internal generator tests, keeping the resource and field generators in place. Skip this step if you are contributing to the boilerplate itself.
+
+```bash
+npm run app:config
+```
+
+Then, run the development server:
 
 ```bash
 cp example.env.local .env.local

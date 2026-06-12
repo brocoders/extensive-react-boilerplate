@@ -20,6 +20,7 @@ const eslintConfig = defineConfig([
     "dist/**",
     "playwright-report/**",
     "test-results/**",
+    ".install-scripts/**",
     "*.config.js",
     "*.config.mjs",
   ]),
