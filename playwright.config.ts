@@ -12,6 +12,7 @@ dotenv.config({ path: ".env.local" });
  */
 export default defineConfig({
   testDir: "./playwright-tests",
+  testIgnore: "**/generators/**",
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */

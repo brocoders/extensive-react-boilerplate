@@ -1,32 +1,70 @@
-name: CLI tests
+name: Generator tests
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+concurrency:
+  group: generators-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  test:
-    timeout-minutes: 60
+  static:
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - name: Check out frontend
-        uses: actions/checkout@v6
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v5
         with:
           node-version: 24
       - name: Install dependencies
         run: npm ci
-      - name: Generate resources and fields
-        run: npm run generate:resource -- --name=Department
-      - run: npm run generate:resource -- --name=People
-      - run: npm run generate:field -- --name=Department --property=name --kind=primitive --type=string --isOptional=false --isShowInTable=true
-      - run: npm run generate:field -- --name=People --property=profilePicture --kind=reference --referenceType=toOne --type=File --isOptional=true --isShowInTable=true
-      - run: npm run generate:field -- --name=People --property=firstName --kind=primitive --type=string --isOptional=false --isShowInTable=true
-      - run: npm run generate:field -- --name=People --property=lastName --kind=primitive --type=string --isOptional=false --isShowInTable=true
-      - run: npm run generate:field -- --name=People --property=department --kind=reference --referenceType=toOne --type=Department --isOptional=true --isShowInTable=true --propertyForSelect=name
-      - run: npm run generate:field -- --name=People --property=isActive --kind=primitive --type=boolean --isOptional=false --isShowInTable=true
-      - run: npm run generate:field -- --name=People --property=birthDate --kind=primitive --type=Date --isOptional=true --isShowInTable=true
-      - run: npm run generate:field -- --name=People --property=hireDate --kind=primitive --type=Date --isOptional=false --isShowInTable=true
-      - run: npm run generate:field -- --name=People --property=salary --kind=primitive --type=number --isOptional=false --isShowInTable=true
-      - name: Build
-        run: npm run build
+      - name: Set up env
+        run: cp example.env.local .env.local
+      - name: Run static generator suite
+        run: npm run test:generators:static
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: static-playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+  crud:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out frontend
+        uses: actions/checkout@v6
+      - name: Check out backend
+        uses: actions/checkout@v6
+        with:
+          repository: brocoders/nestjs-boilerplate
+          path: nestjs-boilerplate
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - name: Install dependencies
+        run: npm ci
+      - name: Set up env
+        run: cp example.env.local .env.local
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+      - name: Run CRUD generator suite
+        env:
+          NESTJS_DIR: ${{ github.workspace }}/nestjs-boilerplate
+        run: npm run test:e2e:generators:crud
+      - name: Capture backend logs
+        if: always()
+        run: docker compose -f nestjs-boilerplate/docker-compose.generators-relational.test.yaml -p tests-gen-frontend logs > ${{ runner.temp }}/backend.log 2>&1 || true
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: crud-playwright-report
+          path: playwright-report/
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: crud-backend-log
+          path: ${{ runner.temp }}/backend.log
+          retention-days: 30
