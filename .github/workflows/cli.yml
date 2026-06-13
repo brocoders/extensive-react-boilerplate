@@ -45,6 +45,9 @@ jobs:
           node-version: 24
       - name: Install dependencies
         run: npm ci
+      - name: Install backend dependencies
+        run: npm ci
+        working-directory: nestjs-boilerplate
       - name: Set up env
         run: cp example.env.local .env.local
       - name: Resolve Playwright version
