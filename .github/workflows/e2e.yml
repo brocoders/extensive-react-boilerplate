@@ -46,16 +46,10 @@ jobs:
       - name: Install Playwright system deps (cache hit)
         if: steps.pw-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps chromium
-      # Cache miss: full download, but bounded per attempt and retried so a
-      # throttled/stalled CDN connection fails fast instead of eating the job budget.
+      # Cache miss: download + extract browser binaries (completes on Node 24.16 with Playwright 1.60).
       - name: Install Playwright browsers (cache miss)
         if: steps.pw-cache.outputs.cache-hit != 'true'
-        run: |
-          for i in 1 2 3; do
-            timeout 600 npx playwright install --with-deps chromium && exit 0
-            echo "Attempt $i failed or stalled; retrying in 15s..." && sleep 15
-          done
-          echo "Playwright install failed after 3 attempts" && exit 1
+        run: npx playwright install --with-deps chromium
       - name: Run Playwright tests
         run: npx playwright test
       - uses: actions/upload-artifact@v4
