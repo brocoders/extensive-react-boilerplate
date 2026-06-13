@@ -45,9 +45,25 @@ jobs:
           node-version: 24
       - name: Install dependencies
         run: npm ci
+      - name: Install backend dependencies
+        run: npm ci
+        working-directory: nestjs-boilerplate
       - name: Set up env
         run: cp example.env.local .env.local
-      - name: Install Playwright Browsers
+      - name: Resolve Playwright version
+        id: pw
+        run: echo "version=$(node -e "console.log(require('@playwright/test/package.json').version)")" >> "$GITHUB_OUTPUT"
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ steps.pw.outputs.version }}
+      - name: Install Playwright system deps (cache hit)
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+      - name: Install Playwright browsers (cache miss)
+        if: steps.pw-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
       - name: Run CRUD generator suite
         env:
