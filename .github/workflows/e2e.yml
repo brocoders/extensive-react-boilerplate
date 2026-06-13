@@ -41,12 +41,9 @@ jobs:
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ steps.pw.outputs.version }}
-      # Cache hit: binaries already present; only (re)install the apt system libs,
-      # which are NOT stored in the ms-playwright cache and are quick to install.
       - name: Install Playwright system deps (cache hit)
         if: steps.pw-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps chromium
-      # Cache miss: download + extract browser binaries (completes on Node 24.16 with Playwright 1.60).
       - name: Install Playwright browsers (cache miss)
         if: steps.pw-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
