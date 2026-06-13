@@ -32,8 +32,30 @@ jobs:
         run: npm ci
       - name: Run lint
         run: npm run lint
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
+      - name: Resolve Playwright version
+        id: pw
+        run: echo "version=$(node -e "console.log(require('@playwright/test/package.json').version)")" >> "$GITHUB_OUTPUT"
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ steps.pw.outputs.version }}
+      # Cache hit: binaries already present; only (re)install the apt system libs,
+      # which are NOT stored in the ms-playwright cache and are quick to install.
+      - name: Install Playwright system deps (cache hit)
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+      # Cache miss: full download, but bounded per attempt and retried so a
+      # throttled/stalled CDN connection fails fast instead of eating the job budget.
+      - name: Install Playwright browsers (cache miss)
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        run: |
+          for i in 1 2 3; do
+            timeout 600 npx playwright install --with-deps chromium && exit 0
+            echo "Attempt $i failed or stalled; retrying in 15s..." && sleep 15
+          done
+          echo "Playwright install failed after 3 attempts" && exit 1
       - name: Run Playwright tests
         run: npx playwright test
       - uses: actions/upload-artifact@v4
