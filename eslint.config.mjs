@@ -23,6 +23,9 @@ const eslintConfig = defineConfig([
     ".install-scripts/**",
     "*.config.js",
     "*.config.mjs",
+
+    "backend/**",
+    "nestjs-boilerplate/**",
   ]),
 
   // Custom rules and overrides
