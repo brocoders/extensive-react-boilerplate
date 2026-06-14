@@ -8,12 +8,16 @@ import {
   LeavePageInfoContext,
   LeavePageModalContext,
 } from "./leave-page-context";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 // Need for leave page logic
 // eslint-disable-next-line no-restricted-imports
 import NextLink from "next/link";
@@ -89,46 +93,37 @@ function Modal() {
   const href = (leavePage?.push ?? leavePage?.replace) || "";
 
   return (
-    <Dialog
+    <AlertDialog
       open={isOpen}
-      onClose={closeModal}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-      data-testid="want-to-leave-modal"
+      onOpenChange={(open) => {
+        if (!open) {
+          closeModal();
+        }
+      }}
     >
-      <DialogTitle id="alert-dialog-title">
-        {t("common:leavePage.title")}
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          {t("common:leavePage.message")}
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          onClick={closeModal}
-          color="primary"
-          autoFocus
-          data-testid="stay"
-        >
-          {t("common:leavePage.stay")}
-        </Button>
-
-        <Button
-          component={NextLink}
-          color="primary"
-          onClick={closeModal}
-          // Remove once MUI fixes this
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          href={href}
-          replace={!!leavePage?.replace}
-          data-testid="leave"
-        >
-          {t("common:leavePage.leave")}
-        </Button>
-      </DialogActions>
-    </Dialog>
+      <AlertDialogContent data-testid="want-to-leave-modal">
+        <AlertDialogHeader>
+          <AlertDialogTitle>{t("common:leavePage.title")}</AlertDialogTitle>
+          <AlertDialogDescription>
+            {t("common:leavePage.message")}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={closeModal} data-testid="stay">
+            {t("common:leavePage.stay")}
+          </AlertDialogCancel>
+          <AlertDialogAction asChild data-testid="leave">
+            <NextLink
+              href={href}
+              replace={!!leavePage?.replace}
+              onClick={closeModal}
+            >
+              {t("common:leavePage.leave")}
+            </NextLink>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
 

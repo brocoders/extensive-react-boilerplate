@@ -1,3 +1,4 @@
+"use client";
 import useLanguage from "@/services/i18n/use-language";
 import {
   LeavePageActionsContext,
@@ -5,10 +6,12 @@ import {
 } from "@/services/leave-page/leave-page-context";
 // Need for leave page logic
 // eslint-disable-next-line no-restricted-imports
-import NextLink, { LinkProps } from "next/link";
-import { Ref, useContext } from "react";
+import NextLink from "next/link";
+import { ComponentProps, Ref, useContext } from "react";
 
-function Link(props: LinkProps & { ref?: Ref<HTMLAnchorElement> }) {
+function Link(
+  props: ComponentProps<typeof NextLink> & { ref?: Ref<HTMLAnchorElement> }
+) {
   const language = useLanguage();
   const { isLeavePage } = useContext(LeavePageContext);
   const { setLeavePage, openModal } = useContext(LeavePageActionsContext);

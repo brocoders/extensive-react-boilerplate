@@ -7,12 +7,8 @@ import {
   FieldPath,
   FieldValues,
 } from "react-hook-form";
-import FormControl from "@mui/material/FormControl";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormLabel from "@mui/material/FormLabel";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 export type RadioInputProps<T> = {
   label: string;
@@ -37,44 +33,52 @@ function RadioInput<T>(
     ref?: Ref<HTMLDivElement | null>;
   }
 ) {
-  const value = props.value;
-
-  const onChange = (radioValue: T) => () => {
-    props.onChange(radioValue);
-  };
+  const selectedKey = props.value?.[props.keyValue]?.toString() ?? "";
 
   return (
-    <FormControl
-      data-testid={props.testId}
-      component="fieldset"
-      variant="standard"
-      error={!!props.error}
-    >
-      <FormLabel component="legend" data-testid={`${props.testId}-label`}>
-        {props.label}
-      </FormLabel>
-      <RadioGroup ref={props.ref}>
-        {props.options.map((option) => (
-          <FormControlLabel
-            key={props.keyExtractor(option)}
-            control={
-              <Radio
-                checked={option[props.keyValue] === value?.[props.keyValue]}
-                name={props.name}
-                onChange={onChange(option)}
+    <div className="flex flex-col gap-1.5" data-testid={props.testId}>
+      <Label data-testid={`${props.testId}-label`}>{props.label}</Label>
+      <RadioGroup
+        ref={props.ref}
+        value={selectedKey}
+        disabled={props.disabled}
+        onValueChange={(newKey) => {
+          const newValue = props.options.find(
+            (option) => option[props.keyValue]?.toString() === newKey
+          );
+          if (!newValue) return;
+
+          props.onChange(newValue);
+        }}
+      >
+        {props.options.map((option) => {
+          const optionKey = option[props.keyValue]?.toString() ?? "";
+          const id = `radio-${props.name}-${props.keyExtractor(option)}`;
+
+          return (
+            <div
+              key={props.keyExtractor(option)}
+              className="flex items-center gap-2"
+            >
+              <RadioGroupItem
+                id={id}
+                value={optionKey}
                 data-testid={`${props.testId}-${props.keyExtractor(option)}`}
               />
-            }
-            label={props.renderOption(option)}
-          />
-        ))}
+              <Label htmlFor={id}>{props.renderOption(option)}</Label>
+            </div>
+          );
+        })}
       </RadioGroup>
       {!!props.error && (
-        <FormHelperText data-testid={`${props.testId}-error`}>
+        <p
+          data-testid={`${props.testId}-error`}
+          className="text-sm text-destructive"
+        >
           {props.error}
-        </FormHelperText>
+        </p>
       )}
-    </FormControl>
+    </div>
   );
 }
 

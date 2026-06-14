@@ -20,7 +20,7 @@ const Template: StoryFn<AutocompleteInputProps<Option> & { name: string }> = (
 ) => {
   const methods = useForm({
     defaultValues: {
-      sampleAutocomplete: [],
+      sampleAutocomplete: { id: 2, name: "Option 2" },
     },
   });
 
@@ -46,6 +46,5 @@ Default.args = {
   ],
   renderOption: (option: Option) => option.name,
   testId: "sampleAutocomplete",
-  value: { id: 2, name: "Option 2" },
   getOptionLabel: (option) => option.name,
 };

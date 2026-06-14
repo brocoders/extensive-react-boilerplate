@@ -1,10 +1,7 @@
 "use client";
 
-import Button from "@mui/material/Button";
+import { Button } from "@/components/ui/button";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import FormTextInput from "@/components/form/text-input/form-text-input";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -15,7 +12,6 @@ import Link from "@/components/link";
 import FormAvatarInput from "@/components/form/avatar-input/form-avatar-input";
 import { FileEntity } from "@/services/api/types/file-entity";
 import useLeavePage from "@/services/leave-page/use-leave-page";
-import Box from "@mui/material/Box";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 import {
@@ -99,12 +95,7 @@ function EditUserFormActions() {
   useLeavePage(isDirty);
 
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      type="submit"
-      disabled={isSubmitting}
-    >
+    <Button type="submit" disabled={isSubmitting}>
       {t("admin-panel-users-edit:actions.submit")}
     </Button>
   );
@@ -116,12 +107,7 @@ function ChangePasswordUserFormActions() {
   useLeavePage(isDirty);
 
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      type="submit"
-      disabled={isSubmitting}
-    >
+    <Button type="submit" disabled={isSubmitting}>
       {t("admin-panel-users-edit:actions.submit")}
     </Button>
   );
@@ -201,43 +187,43 @@ function FormEditUser() {
 
   return (
     <FormProvider {...methods}>
-      <Container maxWidth="xs">
+      <div className="mx-auto w-full max-w-md px-4">
         <form onSubmit={onSubmit}>
-          <Grid container spacing={2} mb={3} mt={3}>
-            <Grid size={{ xs: 12 }}>
-              <Typography variant="h6">
+          <div className="mt-6 mb-6 grid grid-cols-12 gap-4">
+            <div className="col-span-12">
+              <h1 className="text-xl font-semibold">
                 {t("admin-panel-users-edit:title1")}
-              </Typography>
-            </Grid>
-            <Grid size={{ xs: 12 }}>
+              </h1>
+            </div>
+            <div className="col-span-12">
               <FormAvatarInput<EditUserFormData> name="photo" testId="photo" />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<EditUserFormData>
                 name="email"
                 testId="email"
                 label={t("admin-panel-users-edit:inputs.email.label")}
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<EditUserFormData>
                 name="firstName"
                 testId="first-name"
                 label={t("admin-panel-users-edit:inputs.firstName.label")}
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<EditUserFormData>
                 name="lastName"
                 testId="last-name"
                 label={t("admin-panel-users-edit:inputs.lastName.label")}
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormSelectInput<EditUserFormData, Pick<Role, "id">>
                 name="role"
                 testId="role"
@@ -255,24 +241,21 @@ function FormEditUser() {
                   t(`admin-panel-users-edit:inputs.role.options.${option.id}`)
                 }
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <EditUserFormActions />
-              <Box ml={1} component="span">
-                <Button
-                  variant="contained"
-                  color="inherit"
-                  LinkComponent={Link}
-                  href="/admin-panel/users"
-                >
-                  {t("admin-panel-users-edit:actions.cancel")}
+              <span className="ml-2">
+                <Button asChild variant="secondary">
+                  <Link href="/admin-panel/users">
+                    {t("admin-panel-users-edit:actions.cancel")}
+                  </Link>
                 </Button>
-              </Box>
-            </Grid>
-          </Grid>
+              </span>
+            </div>
+          </div>
         </form>
-      </Container>
+      </div>
     </FormProvider>
   );
 }
@@ -323,24 +306,24 @@ function FormChangePasswordUser() {
 
   return (
     <FormProvider {...methods}>
-      <Container maxWidth="xs">
+      <div className="mx-auto w-full max-w-md px-4">
         <form onSubmit={onSubmit}>
-          <Grid container spacing={2} mb={3} mt={3}>
-            <Grid size={{ xs: 12 }}>
-              <Typography variant="h6">
+          <div className="mt-6 mb-6 grid grid-cols-12 gap-4">
+            <div className="col-span-12">
+              <h1 className="text-xl font-semibold">
                 {t("admin-panel-users-edit:title2")}
-              </Typography>
-            </Grid>
+              </h1>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<ChangeUserPasswordFormData>
                 name="password"
                 type="password"
                 label={t("admin-panel-users-edit:inputs.password.label")}
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<ChangeUserPasswordFormData>
                 name="passwordConfirmation"
                 label={t(
@@ -348,24 +331,21 @@ function FormChangePasswordUser() {
                 )}
                 type="password"
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <ChangePasswordUserFormActions />
-              <Box ml={1} component="span">
-                <Button
-                  variant="contained"
-                  color="inherit"
-                  LinkComponent={Link}
-                  href="/admin-panel/users"
-                >
-                  {t("admin-panel-users-edit:actions.cancel")}
+              <span className="ml-2">
+                <Button asChild variant="secondary">
+                  <Link href="/admin-panel/users">
+                    {t("admin-panel-users-edit:actions.cancel")}
+                  </Link>
                 </Button>
-              </Box>
-            </Grid>
-          </Grid>
+              </span>
+            </div>
+          </div>
         </form>
-      </Container>
+      </div>
     </FormProvider>
   );
 }

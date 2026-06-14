@@ -1,11 +1,8 @@
 "use client";
-import Button from "@mui/material/Button";
+import { Button } from "@/components/ui/button";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
 import { useAuthPatchMeService } from "@/services/api/services/auth";
 import useAuthActions from "@/services/auth/use-auth-actions";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import FormTextInput from "@/components/form/text-input/form-text-input";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -17,7 +14,6 @@ import Link from "@/components/link";
 import FormAvatarInput from "@/components/form/avatar-input/form-avatar-input";
 import { FileEntity } from "@/services/api/types/file-entity";
 import useLeavePage from "@/services/leave-page/use-leave-page";
-import Box from "@mui/material/Box";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 import { UserProviderEnum } from "@/services/api/types/user";
@@ -103,13 +99,7 @@ function BasicInfoFormActions() {
   useLeavePage(isDirty);
 
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      type="submit"
-      disabled={isSubmitting}
-      data-testid="save-profile"
-    >
+    <Button type="submit" disabled={isSubmitting} data-testid="save-profile">
       {t("profile:actions.submit")}
     </Button>
   );
@@ -121,13 +111,7 @@ function ChangeEmailFormActions() {
   useLeavePage(isDirty);
 
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      type="submit"
-      disabled={isSubmitting}
-      data-testid="save-email"
-    >
+    <Button type="submit" disabled={isSubmitting} data-testid="save-email">
       {t("profile:actions.submit")}
     </Button>
   );
@@ -139,13 +123,7 @@ function ChangePasswordFormActions() {
   useLeavePage(isDirty);
 
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      type="submit"
-      disabled={isSubmitting}
-      data-testid="save-password"
-    >
+    <Button type="submit" disabled={isSubmitting} data-testid="save-password">
       {t("profile:actions.submit")}
     </Button>
   );
@@ -207,52 +185,50 @@ function FormBasicInfo() {
 
   return (
     <FormProvider {...methods}>
-      <Container maxWidth="xs">
+      <div className="mx-auto w-full max-w-md px-4">
         <form onSubmit={onSubmit}>
-          <Grid container spacing={2} mb={3} mt={3}>
-            <Grid size={{ xs: 12 }}>
-              <Typography variant="h6">{t("profile:title1")}</Typography>
-            </Grid>
-            <Grid size={{ xs: 12 }}>
+          <div className="mt-6 mb-6 grid grid-cols-12 gap-4">
+            <div className="col-span-12">
+              <h2 className="text-xl font-semibold">{t("profile:title1")}</h2>
+            </div>
+            <div className="col-span-12">
               <FormAvatarInput<EditProfileBasicInfoFormData>
                 name="photo"
                 testId="photo"
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<EditProfileBasicInfoFormData>
                 name="firstName"
                 label={t("profile:inputs.firstName.label")}
                 testId="first-name"
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<EditProfileBasicInfoFormData>
                 name="lastName"
                 label={t("profile:inputs.lastName.label")}
                 testId="last-name"
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <BasicInfoFormActions />
-              <Box ml={1} component="span">
+              <span className="ml-2">
                 <Button
-                  variant="contained"
-                  color="inherit"
-                  LinkComponent={Link}
-                  href="/profile"
+                  asChild
+                  variant="secondary"
                   data-testid="cancel-edit-profile"
                 >
-                  {t("profile:actions.cancel")}
+                  <Link href="/profile">{t("profile:actions.cancel")}</Link>
                 </Button>
-              </Box>
-            </Grid>
-          </Grid>
+              </span>
+            </div>
+          </div>
         </form>
-      </Container>
+      </div>
     </FormProvider>
   );
 }
@@ -306,50 +282,48 @@ function FormChangeEmail() {
 
   return (
     <FormProvider {...methods}>
-      <Container maxWidth="xs">
+      <div className="mx-auto w-full max-w-md px-4">
         <form onSubmit={onSubmit}>
-          <Grid container spacing={2} mb={3}>
-            <Grid size={{ xs: 12 }}>
-              <Typography variant="h6">{t("profile:title2")}</Typography>
-            </Grid>
-            <Grid size={{ xs: 12 }}>
-              <Typography variant="body1">{user?.email}</Typography>
-            </Grid>
-            <Grid size={{ xs: 12 }}>
+          <div className="mb-6 grid grid-cols-12 gap-4">
+            <div className="col-span-12">
+              <h2 className="text-xl font-semibold">{t("profile:title2")}</h2>
+            </div>
+            <div className="col-span-12">
+              <p>{user?.email}</p>
+            </div>
+            <div className="col-span-12">
               <FormTextInput<EditProfileChangeEmailFormData>
                 name="email"
                 label={t("profile:inputs.email.label")}
                 type="email"
                 testId="email"
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<EditProfileChangeEmailFormData>
                 name="emailConfirmation"
                 label={t("profile:inputs.emailConfirmation.label")}
                 type="email"
                 testId="email-confirmation"
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <ChangeEmailFormActions />
-              <Box ml={1} component="span">
+              <span className="ml-2">
                 <Button
-                  variant="contained"
-                  color="inherit"
-                  LinkComponent={Link}
-                  href="/profile"
+                  asChild
+                  variant="secondary"
                   data-testid="cancel-edit-email"
                 >
-                  {t("profile:actions.cancel")}
+                  <Link href="/profile">{t("profile:actions.cancel")}</Link>
                 </Button>
-              </Box>
-            </Grid>
-          </Grid>
+              </span>
+            </div>
+          </div>
         </form>
-      </Container>
+      </div>
     </FormProvider>
   );
 }
@@ -405,56 +379,54 @@ function FormChangePassword() {
 
   return (
     <FormProvider {...methods}>
-      <Container maxWidth="xs">
+      <div className="mx-auto w-full max-w-md px-4">
         <form onSubmit={onSubmit}>
-          <Grid container spacing={2} mb={2}>
-            <Grid size={{ xs: 12 }}>
-              <Typography variant="h6">{t("profile:title3")}</Typography>
-            </Grid>
-            <Grid size={{ xs: 12 }}>
+          <div className="mb-4 grid grid-cols-12 gap-4">
+            <div className="col-span-12">
+              <h2 className="text-xl font-semibold">{t("profile:title3")}</h2>
+            </div>
+            <div className="col-span-12">
               <FormTextInput<EditProfileChangePasswordFormData>
                 name="oldPassword"
                 label={t("profile:inputs.oldPassword.label")}
                 type="password"
                 testId="old-password"
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<EditProfileChangePasswordFormData>
                 name="password"
                 label={t("profile:inputs.password.label")}
                 type="password"
                 testId="new-password"
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<EditProfileChangePasswordFormData>
                 name="passwordConfirmation"
                 label={t("profile:inputs.passwordConfirmation.label")}
                 type="password"
                 testId="password-confirmation"
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <ChangePasswordFormActions />
-              <Box ml={1} component="span">
+              <span className="ml-2">
                 <Button
-                  variant="contained"
-                  color="inherit"
-                  LinkComponent={Link}
-                  href="/profile"
+                  asChild
+                  variant="secondary"
                   data-testid="cancel-edit-password"
                 >
-                  {t("profile:actions.cancel")}
+                  <Link href="/profile">{t("profile:actions.cancel")}</Link>
                 </Button>
-              </Box>
-            </Grid>
-          </Grid>
+              </span>
+            </div>
+          </div>
         </form>
-      </Container>
+      </div>
     </FormProvider>
   );
 }

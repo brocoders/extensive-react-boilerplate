@@ -1,290 +1,207 @@
 "use client";
 import { useState } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
+import Loader2 from "lucide-react/dist/esm/icons/loader-2";
+import Menu from "lucide-react/dist/esm/icons/menu";
 import useAuth from "@/services/auth/use-auth";
 import useAuthActions from "@/services/auth/use-auth-actions";
-import CircularProgress from "@mui/material/CircularProgress";
 import { useTranslation } from "@/services/i18n/client";
 import Link from "@/components/link";
 import { RoleEnum } from "@/services/api/types/role";
-import Divider from "@mui/material/Divider";
 import ThemeSwitchButton from "@/components/switch-theme-button";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+import LanguageSwitcher from "@/components/language-switcher";
 import { IS_SIGN_UP_ENABLED } from "@/services/auth/config";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+
+const navButtonClass =
+  "hover:bg-primary-foreground/10 hover:text-primary-foreground";
 
 function ResponsiveAppBar() {
   const { t } = useTranslation("common");
   const { user, isLoaded } = useAuth();
   const { logOut } = useAuthActions();
-  const [anchorElementNav, setAnchorElementNav] = useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElementUser, setAnchorElementUser] =
-    useState<null | HTMLElement>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElementNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElementUser(event.currentTarget);
-  };
+  const isAdmin =
+    !!user?.role && [RoleEnum.ADMIN].includes(Number(user?.role?.id));
 
-  const handleCloseNavMenu = () => {
-    setAnchorElementNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElementUser(null);
-  };
+  const closeMobile = () => setMobileOpen(false);
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            {t("common:app-name")}
-          </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElementNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElementNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              <MenuItem onClick={handleCloseNavMenu} component={Link} href="/">
-                <Typography textAlign="center">
-                  {t("common:navigation.home")}
-                </Typography>
-              </MenuItem>
-
-              {!!user?.role &&
-                [RoleEnum.ADMIN].includes(Number(user?.role?.id)) && [
-                  <MenuItem
-                    key="users"
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    href="/admin-panel/users"
-                  >
-                    <Typography textAlign="center">
-                      {t("common:navigation.users")}
-                    </Typography>
-                  </MenuItem>,
-                  // mobile-menu-items
-                ]}
-              {isLoaded &&
-                !user && [
-                  <Divider key="divider" />,
-                  <MenuItem
-                    key="sign-in"
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    href="/sign-in"
-                  >
-                    <Typography textAlign="center">
-                      {t("common:navigation.signIn")}
-                    </Typography>
-                  </MenuItem>,
-                  IS_SIGN_UP_ENABLED ? (
-                    <MenuItem
-                      key="sign-up"
-                      onClick={handleCloseNavMenu}
-                      component={Link}
-                      href="/sign-up"
-                    >
-                      <Typography textAlign="center">
-                        {t("common:navigation.signUp")}
-                      </Typography>
-                    </MenuItem>
-                  ) : null,
-                ]}
-            </Menu>
-          </Box>
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            {t("common:app-name")}
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Button
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
-              component={Link}
-              href="/"
-            >
-              {t("common:navigation.home")}
-            </Button>
-
-            {!!user?.role &&
-              [RoleEnum.ADMIN].includes(Number(user?.role?.id)) && (
-                <>
-                  <Button
-                    onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: "white", display: "block" }}
-                    component={Link}
-                    href="/admin-panel/users"
-                  >
-                    {t("common:navigation.users")}
-                  </Button>
-                  {/* desktop-menu-items */}
-                </>
-              )}
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 2,
-              mr: 2,
-            }}
-          >
-            <ThemeSwitchButton />
-            <LanguageSwitcher />
-          </Box>
-
-          {!isLoaded ? (
-            <CircularProgress color="inherit" />
-          ) : user ? (
-            <>
-              <Box sx={{ flexGrow: 0 }}>
-                <Tooltip title="Profile menu">
-                  <IconButton
-                    onClick={handleOpenUserMenu}
-                    sx={{ p: 0 }}
-                    data-testid="profile-menu-item"
-                  >
-                    <Avatar
-                      alt={user?.firstName + " " + user?.lastName}
-                      src={user.photo?.path}
-                    />
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  sx={{ mt: 5.5 }}
-                  id="menu-appbar"
-                  anchorEl={anchorElementUser}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={Boolean(anchorElementUser)}
-                  onClose={handleCloseUserMenu}
-                >
-                  <MenuItem
-                    onClick={handleCloseUserMenu}
-                    component={Link}
-                    href="/profile"
-                    data-testid="user-profile"
-                  >
-                    <Typography textAlign="center">
-                      {t("common:navigation.profile")}
-                    </Typography>
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      logOut();
-                      handleCloseUserMenu();
-                    }}
-                    data-testid="logout-menu-item"
-                  >
-                    <Typography textAlign="center">
-                      {t("common:navigation.logout")}
-                    </Typography>
-                  </MenuItem>
-                </Menu>
-              </Box>
-            </>
-          ) : (
-            <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
+    <header className="bg-primary text-primary-foreground">
+      <div className="mx-auto flex h-16 max-w-screen-xl items-center gap-2 px-4">
+        {/* Mobile navigation */}
+        <div className="flex md:hidden">
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+            <SheetTrigger asChild>
               <Button
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-                component={Link}
-                href="/sign-in"
+                variant="ghost"
+                size="icon"
+                aria-label="open navigation menu"
+                className={navButtonClass}
               >
-                {t("common:navigation.signIn")}
+                <Menu />
               </Button>
-              {IS_SIGN_UP_ENABLED && (
+            </SheetTrigger>
+            <SheetContent side="left" className="text-foreground">
+              <SheetTitle className="px-4 pt-4 font-mono tracking-[.3rem]">
+                {t("common:app-name")}
+              </SheetTitle>
+              <nav className="flex flex-col px-2">
                 <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                  component={Link}
-                  href="/sign-up"
+                  asChild
+                  variant="ghost"
+                  className="justify-start"
+                  onClick={closeMobile}
                 >
-                  {t("common:navigation.signUp")}
+                  <Link href="/">{t("common:navigation.home")}</Link>
                 </Button>
-              )}
-            </Box>
+
+                {isAdmin && (
+                  <>
+                    <Button
+                      asChild
+                      variant="ghost"
+                      className="justify-start"
+                      onClick={closeMobile}
+                    >
+                      <Link href="/admin-panel/users">
+                        {t("common:navigation.users")}
+                      </Link>
+                    </Button>
+                    {/* mobile-menu-items */}
+                  </>
+                )}
+
+                {isLoaded && !user && (
+                  <>
+                    <div className="my-1 border-t" />
+                    <Button
+                      asChild
+                      variant="ghost"
+                      className="justify-start"
+                      onClick={closeMobile}
+                    >
+                      <Link href="/sign-in">
+                        {t("common:navigation.signIn")}
+                      </Link>
+                    </Button>
+                    {IS_SIGN_UP_ENABLED && (
+                      <Button
+                        asChild
+                        variant="ghost"
+                        className="justify-start"
+                        onClick={closeMobile}
+                      >
+                        <Link href="/sign-up">
+                          {t("common:navigation.signUp")}
+                        </Link>
+                      </Button>
+                    )}
+                  </>
+                )}
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
+
+        {/* Brand (desktop) */}
+        <Link
+          href="/"
+          className="mr-4 hidden font-mono text-lg font-bold tracking-[.3rem] md:flex"
+        >
+          {t("common:app-name")}
+        </Link>
+        {/* Brand (mobile) */}
+        <Link
+          href="/"
+          className="flex flex-grow font-mono text-lg font-bold tracking-[.3rem] md:hidden"
+        >
+          {t("common:app-name")}
+        </Link>
+
+        {/* Desktop navigation */}
+        <nav className="hidden flex-grow items-center gap-1 md:flex">
+          <Button asChild variant="ghost" className={navButtonClass}>
+            <Link href="/">{t("common:navigation.home")}</Link>
+          </Button>
+
+          {isAdmin && (
+            <>
+              <Button asChild variant="ghost" className={navButtonClass}>
+                <Link href="/admin-panel/users">
+                  {t("common:navigation.users")}
+                </Link>
+              </Button>
+              {/* desktop-menu-items */}
+            </>
           )}
-        </Toolbar>
-      </Container>
-    </AppBar>
+        </nav>
+
+        <div className="mr-2 flex items-center gap-2">
+          <ThemeSwitchButton />
+          <LanguageSwitcher />
+        </div>
+
+        {!isLoaded ? (
+          <Loader2 className="size-6 animate-spin" />
+        ) : user ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                aria-label="profile menu"
+                data-testid="profile-menu-item"
+                className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <Avatar>
+                  <AvatarImage
+                    src={user.photo?.path}
+                    alt={user?.firstName + " " + user?.lastName}
+                  />
+                  <AvatarFallback>
+                    {(user?.firstName?.[0] ?? "") + (user?.lastName?.[0] ?? "")}
+                  </AvatarFallback>
+                </Avatar>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild data-testid="user-profile">
+                <Link href="/profile">{t("common:navigation.profile")}</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                data-testid="logout-menu-item"
+                onClick={() => logOut()}
+              >
+                {t("common:navigation.logout")}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <div className="hidden items-center gap-1 md:flex">
+            <Button asChild variant="ghost" className={navButtonClass}>
+              <Link href="/sign-in">{t("common:navigation.signIn")}</Link>
+            </Button>
+            {IS_SIGN_UP_ENABLED && (
+              <Button asChild variant="ghost" className={navButtonClass}>
+                <Link href="/sign-up">{t("common:navigation.signUp")}</Link>
+              </Button>
+            )}
+          </div>
+        )}
+      </div>
+    </header>
   );
 }
 export default ResponsiveAppBar;

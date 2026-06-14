@@ -1,26 +1,33 @@
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
-import IconButton from "@mui/material/IconButton";
-import { useColorScheme } from "@mui/material/styles";
+"use client";
 
-const ThemeSwitchButton = () => {
-  const { colorScheme, setMode } = useColorScheme();
+import Moon from "lucide-react/dist/esm/icons/moon";
+import Sun from "lucide-react/dist/esm/icons/sun";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+
+function ThemeSwitchButton() {
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // `resolvedTheme` is undefined on the server and the first client render;
+  // wait until mounted to pick an icon and avoid a hydration mismatch.
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDark = mounted && resolvedTheme === "dark";
 
   return (
-    <IconButton
-      disableRipple
-      onClick={() => {
-        setMode(colorScheme === "light" ? "dark" : "light");
-      }}
-      color="inherit"
+    <Button
+      variant="ghost"
+      size="icon"
+      aria-label="Toggle theme"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
     >
-      {colorScheme === "dark" ? (
-        <Brightness7Icon sx={{ width: 35, height: 35 }} />
-      ) : (
-        <Brightness4Icon sx={{ width: 35, height: 35 }} />
-      )}
-    </IconButton>
+      {isDark ? <Sun className="size-5" /> : <Moon className="size-5" />}
+    </Button>
   );
-};
+}
 
 export default ThemeSwitchButton;

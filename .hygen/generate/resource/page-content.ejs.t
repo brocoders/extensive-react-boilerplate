@@ -6,26 +6,19 @@ to: src/app/[language]/admin-panel/<%= h.inflection.transform(name, ['pluralize'
 import { RoleEnum } from "@/services/api/types/role";
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
 import { useTranslation } from "@/services/i18n/client";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo } from "react";
 import { useGet<%= h.inflection.transform(name, ['pluralize']) %>ListQuery, <%= h.inflection.camelize(h.inflection.pluralize(name), true) %>QueryKeys } from "./queries/queries";
 import { TableVirtuoso } from "react-virtuoso";
-import TableCell from "@mui/material/TableCell";
-import TableRow from "@mui/material/TableRow";
-import LinearProgress from "@mui/material/LinearProgress";
-import { styled } from "@mui/material/styles";
+import ChevronDown from "lucide-react/dist/esm/icons/chevron-down";
 import TableComponents from "@/components/table/table-components";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import Button from "@mui/material/Button";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
-import Grow from "@mui/material/Grow";
-import Paper from "@mui/material/Paper";
-import Popper from "@mui/material/Popper";
-import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
+import { TableCell, TableHead, TableRow } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import Link from "@/components/link";
 import useConfirmDialog from "@/components/confirm-dialog/use-confirm-dialog";
 import removeDuplicatesFromArrayObjects from "@/services/helpers/remove-duplicates-from-array-of-objects";
@@ -33,32 +26,11 @@ import { InfiniteData, useQueryClient } from "@tanstack/react-query";
 import { <%= name %> } from "@/services/api/types/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>";
 import { useDelete<%= name %>Service } from "@/services/api/services/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>";
 
-const TableCellLoadingContainer = styled(TableCell)(() => ({
-  padding: 0,
-}));
-
 function Actions({ entityItem }: { entityItem: <%= name %> }) {
-  const [open, setOpen] = useState(false);
   const { confirmDialog } = useConfirmDialog();
   const fetchDelete<%= name %> = useDelete<%= name %>Service();
   const queryClient = useQueryClient();
-  const anchorRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation("admin-panel-<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>");
-
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
-
-  const handleClose = (event: Event) => {
-    if (
-      anchorRef.current &&
-      anchorRef.current.contains(event.target as HTMLElement)
-    ) {
-      return;
-    }
-
-    setOpen(false);
-  };
 
   const handleDelete = async () => {
     const isConfirmed = await confirmDialog({
@@ -67,8 +39,6 @@ function Actions({ entityItem }: { entityItem: <%= name %> }) {
     });
 
     if (isConfirmed) {
-      setOpen(false);
-
       const previousData = queryClient.getQueryData<
         InfiniteData<{ nextPage: number; data: <%= name %>[] }>
       >(<%= h.inflection.camelize(h.inflection.pluralize(name), true) %>QueryKeys.list().key);
@@ -93,82 +63,42 @@ function Actions({ entityItem }: { entityItem: <%= name %> }) {
     }
   };
 
-  const mainButton = (
-    <Button
-      size="small"
-      variant="contained"
-      LinkComponent={Link}
-      href={`/admin-panel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/edit/${entityItem.id}`}
-      data-testid="edit-button"
-    >
-      {t("actions.edit")}
-    </Button>
-  );
-
   return (
-    <>
-      <ButtonGroup
-        variant="contained"
-        ref={anchorRef}
-        aria-label="split button"
-        size="small"
+    <div className="inline-flex items-center">
+      <Button
+        asChild
+        size="sm"
+        className="rounded-r-none"
+        data-testid="edit-button"
       >
-        {mainButton}
-
-        <Button
-          size="small"
-          aria-controls={open ? "split-button-menu" : undefined}
-          aria-expanded={open ? "true" : undefined}
-          aria-label="select"
-          aria-haspopup="menu"
-          onClick={handleToggle}
-          data-testid="actions-button"
+        <Link
+          href={`/admin-panel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/edit/${entityItem.id}`}
         >
-          <ArrowDropDownIcon />
-        </Button>
-      </ButtonGroup>
-
-      <Popper
-        sx={{
-          zIndex: 1,
-        }}
-        open={open}
-        anchorEl={anchorRef.current}
-        role={undefined}
-        transition
-        disablePortal
-      >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin:
-                placement === "bottom" ? "center top" : "center bottom",
-            }}
+          {t("actions.edit")}
+        </Link>
+      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            size="sm"
+            aria-label="actions"
+            data-testid="actions-button"
+            className="rounded-l-none border-l border-l-primary-foreground/20 px-2"
           >
-            <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList id="split-button-menu" autoFocusItem>
-                  <MenuItem
-                    sx={{
-                      bgcolor: "error.main",
-                      color: `var(--mui-palette-common-white)`,
-                      "&:hover": {
-                        bgcolor: "error.light",
-                      },
-                    }}
-                    onClick={handleDelete}
-                    data-testid="delete-button"
-                  >
-                    {t("actions.delete")}
-                  </MenuItem>
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper>
-    </>
+            <ChevronDown />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem
+            variant="destructive"
+            onClick={handleDelete}
+            data-testid="delete-button"
+          >
+            {t("actions.delete")}
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   );
 }
 
@@ -190,28 +120,26 @@ function <%= h.inflection.transform(name, ['pluralize']) %>PageContent() {
   }, [data]);
 
   return (
-    <Container maxWidth="xl">
-      <Grid container spacing={3} pt={3}>
-        <Grid container size={{ xs: 12 }} spacing={3}>
-          <Grid size="grow">
-            <Typography variant="h3" data-testid="index-page-title">{t("title")}</Typography>
-          </Grid>
-          <Grid container size="auto" wrap="nowrap" spacing={2}>
-            <Grid size="auto">
-              <Button
-                variant="contained"
-                LinkComponent={Link}
-                href="/admin-panel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/create"
-                color="success"
-                data-testid="add-button"
-              >
+    <div className="mx-auto w-full max-w-screen-xl px-4">
+      <div className="flex flex-col gap-6 pt-6">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h3 className="text-3xl font-semibold" data-testid="index-page-title">
+            {t("title")}
+          </h3>
+          <div className="flex items-center gap-2">
+            <Button
+              asChild
+              className="bg-success text-success-foreground hover:bg-success/90"
+              data-testid="add-button"
+            >
+              <Link href="/admin-panel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/create">
                 {t("actions.create")}
-              </Button>
-            </Grid>
-          </Grid>
-        </Grid>
+              </Link>
+            </Button>
+          </div>
+        </div>
 
-        <Grid size={{ xs: 12 }} mb={2}>
+        <div className="mb-2">
           <TableVirtuoso
             useWindowScroll
             data={tableData}
@@ -222,36 +150,38 @@ function <%= h.inflection.transform(name, ['pluralize']) %>PageContent() {
             fixedHeaderContent={() => (
               <>
                 <TableRow>
-                  <TableCell>{t("table.column1")}</TableCell>
+                  <TableHead>{t("table.column1")}</TableHead>
 
                   {/* Do not remove this comment. <index-component-head-field />  */}
 
-                  <TableCell style={{ width: 130 }}></TableCell>
+                  <TableHead style={{ width: 130 }}></TableHead>
                 </TableRow>
                 {isFetchingNextPage && (
                   <TableRow>
-                    <TableCellLoadingContainer colSpan={2}>
-                      <LinearProgress />
-                    </TableCellLoadingContainer>
+                    <TableHead colSpan={2} className="p-0">
+                      <div className="h-1 w-full overflow-hidden bg-primary/20">
+                        <div className="animate-progress-bar h-full w-full origin-left bg-primary" />
+                      </div>
+                    </TableHead>
                   </TableRow>
                 )}
               </>
             )}
-            itemContent={(index, item) => (
+            itemContent={(_index, item) => (
               <>
                 <TableCell>{item?.id}</TableCell>
 
                 {/* Do not remove this comment. <index-component-body-field />  */}
 
-                <TableCell style={{ width: 130 }} align="right">
+                <TableCell style={{ width: 130 }} className="text-right">
                   {!!item && <Actions entityItem={item} />}
                 </TableCell>
               </>
             )}
           />
-        </Grid>
-      </Grid>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 }
 

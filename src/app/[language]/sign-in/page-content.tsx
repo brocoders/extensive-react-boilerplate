@@ -1,24 +1,18 @@
 "use client";
-import Button from "@mui/material/Button";
-import LinkItem from "@mui/material/Link";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import withPageRequiredGuest from "@/services/auth/with-page-required-guest";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
 import { useAuthLoginService } from "@/services/api/services/auth";
 import useAuthActions from "@/services/auth/use-auth-actions";
 import useAuthTokens from "@/services/auth/use-auth-tokens";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import FormTextInput from "@/components/form/text-input/form-text-input";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "@/components/link";
-import Box from "@mui/material/Box";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 import SocialAuth from "@/services/social-auth/social-auth";
-import Divider from "@mui/material/Divider";
-import Chip from "@mui/material/Chip";
 import { isGoogleAuthEnabled } from "@/services/social-auth/google/google-config";
 import { isFacebookAuthEnabled } from "@/services/social-auth/facebook/facebook-config";
 import { IS_SIGN_UP_ENABLED } from "@/services/auth/config";
@@ -48,13 +42,7 @@ function FormActions() {
   const { isSubmitting } = useFormState();
 
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      type="submit"
-      disabled={isSubmitting}
-      data-testid="sign-in-submit"
-    >
+    <Button type="submit" disabled={isSubmitting} data-testid="sign-in-submit">
       {t("sign-in:actions.submit")}
     </Button>
   );
@@ -107,13 +95,13 @@ function Form() {
 
   return (
     <FormProvider {...methods}>
-      <Container maxWidth="xs">
+      <div className="mx-auto w-full max-w-md px-4">
         <form onSubmit={onSubmit}>
-          <Grid container spacing={2} mb={2}>
-            <Grid size={{ xs: 12 }} mt={3}>
-              <Typography variant="h6">{t("sign-in:title")}</Typography>
-            </Grid>
-            <Grid size={{ xs: 12 }}>
+          <div className="mb-4 grid grid-cols-12 gap-4">
+            <div className="col-span-12 mt-6">
+              <h1 className="text-xl font-semibold">{t("sign-in:title")}</h1>
+            </div>
+            <div className="col-span-12">
               <FormTextInput<SignInFormData>
                 name="email"
                 label={t("sign-in:inputs.email.label")}
@@ -121,56 +109,60 @@ function Form() {
                 testId="email"
                 autoFocus
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<SignInFormData>
                 name="password"
                 label={t("sign-in:inputs.password.label")}
                 type="password"
                 testId="password"
               />
-            </Grid>
-            <Grid size={{ xs: 12 }}>
-              <LinkItem
-                component={Link}
+            </div>
+            <div className="col-span-12">
+              <Link
                 href="/forgot-password"
                 data-testid="forgot-password"
+                className="text-sm text-primary underline-offset-4 hover:underline"
               >
                 {t("sign-in:actions.forgotPassword")}
-              </LinkItem>
-            </Grid>
+              </Link>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormActions />
 
               {IS_SIGN_UP_ENABLED && (
-                <Box ml={1} component="span">
+                <span className="ml-2">
                   <Button
-                    variant="contained"
-                    color="inherit"
-                    LinkComponent={Link}
-                    href="/sign-up"
+                    asChild
+                    variant="secondary"
                     data-testid="create-account"
                   >
-                    {t("sign-in:actions.createAccount")}
+                    <Link href="/sign-up">
+                      {t("sign-in:actions.createAccount")}
+                    </Link>
                   </Button>
-                </Box>
+                </span>
               )}
-            </Grid>
+            </div>
 
             {[isGoogleAuthEnabled, isFacebookAuthEnabled].some(Boolean) && (
-              <Grid size={{ xs: 12 }}>
-                <Divider sx={{ mb: 2 }}>
-                  <Chip label={t("sign-in:or")} />
-                </Divider>
+              <div className="col-span-12">
+                <div className="mb-4 flex items-center gap-2">
+                  <Separator className="flex-1" />
+                  <span className="rounded-full border bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+                    {t("sign-in:or")}
+                  </span>
+                  <Separator className="flex-1" />
+                </div>
 
                 <SocialAuth />
-              </Grid>
+              </div>
             )}
-          </Grid>
+          </div>
         </form>
-      </Container>
+      </div>
     </FormProvider>
   );
 }

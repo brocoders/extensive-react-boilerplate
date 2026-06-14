@@ -1,12 +1,8 @@
 import { useFileUploadService } from "@/services/api/services/files";
-import { FileEntity } from "@/services/api/types/file-entity";
+import type { FileEntity } from "@/services/api/types/file-entity";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { styled } from "@mui/material/styles";
-import React, { useCallback, useState } from "react";
+import X from "lucide-react/dist/esm/icons/x";
+import { useCallback, useState, type MouseEvent } from "react";
 import { useDropzone } from "react-dropzone";
 import {
   Controller,
@@ -15,8 +11,9 @@ import {
   FieldValues,
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import IconButton from "@mui/material/IconButton";
-import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export type AvatarInputProps = {
   error?: string;
@@ -26,47 +23,6 @@ export type AvatarInputProps = {
   disabled?: boolean;
   testId?: string;
 };
-
-const AvatarInputContainer = styled("div")(({ theme }) => ({
-  display: "flex",
-  position: "relative",
-  flexDirection: "column",
-  alignItems: "center",
-  padding: theme.spacing(2),
-  marginTop: theme.spacing(2),
-  border: "1px dashed",
-  borderColor: theme.palette.divider,
-  borderRadius: theme.shape.borderRadius,
-  cursor: "pointer",
-
-  "&:hover": { borderColor: theme.palette.text.primary },
-}));
-
-const StyledWrapperAvatar = styled("div")(() => ({
-  position: "relative",
-  width: 100,
-  height: 100,
-}));
-
-const StyledOverlay = styled("div")(() => {
-  return {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: "50%",
-    position: "absolute",
-    top: 0,
-    right: 0,
-    left: 0,
-    bottom: 0,
-    background: "rgba(0, 0, 0, 0.7)",
-    transition: ".5s ease",
-    opacity: 0,
-    "&:hover": { opacity: 1 },
-  };
-});
-
-const StyledAvatar = styled(Avatar)(() => ({ width: 100, height: 100 }));
 
 function AvatarInput(props: AvatarInputProps) {
   const { onChange } = props;
@@ -97,86 +53,71 @@ function AvatarInput(props: AvatarInputProps) {
     disabled: isLoading || props.disabled,
   });
 
-  const removeAvatarHandle = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const removeAvatarHandle = (event: MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     onChange(null);
   };
 
   return (
-    <AvatarInputContainer {...getRootProps()}>
+    <div
+      {...getRootProps()}
+      className="relative mt-4 flex cursor-pointer flex-col items-center rounded-md border border-dashed border-border p-4 hover:border-foreground"
+    >
       {isDragActive && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            zIndex: 1,
-          }}
-        >
-          <Typography
-            sx={{
-              color: "white",
-              fontWeight: "bold",
-              textAlign: "center",
-              mt: 10,
-            }}
-            variant="h5"
-          >
+        <div className="absolute inset-0 z-10 bg-black/50">
+          <p className="mt-10 text-center text-xl font-bold text-white">
             {t("common:formInputs.avatarInput.dropzoneText")}
-          </Typography>
-        </Box>
+          </p>
+        </div>
       )}
       {props?.value ? (
-        <StyledWrapperAvatar>
-          <StyledAvatar src={props.value?.path} />
-          <StyledOverlay>
-            <IconButton
-              disableRipple
+        <div className="group/avatar relative size-[100px]">
+          <Avatar className="size-[100px]">
+            <AvatarImage src={props.value?.path} />
+            <AvatarFallback />
+          </Avatar>
+          <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/70 opacity-0 transition-opacity duration-500 group-hover/avatar:opacity-100">
+            <button
+              type="button"
+              aria-label="remove"
               onClick={removeAvatarHandle}
-              color="inherit"
+              className="text-white"
             >
-              <ClearOutlinedIcon
-                sx={{ width: 50, height: 50, color: "white" }}
-              />
-            </IconButton>
-          </StyledOverlay>
-        </StyledWrapperAvatar>
+              <X className="size-12" />
+            </button>
+          </div>
+        </div>
       ) : (
-        <StyledAvatar src={props.value?.path} />
+        <Avatar className="size-[100px]">
+          <AvatarFallback />
+        </Avatar>
       )}
 
-      <Box sx={{ mt: 2 }}>
+      <div className="mt-4">
         <Button
-          variant="contained"
-          component="label"
-          disabled={isLoading}
+          asChild
           data-testid={props.testId}
-          onClick={(e) => e.stopPropagation()}
+          className={cn(isLoading && "pointer-events-none opacity-50")}
         >
-          {isLoading
-            ? t("common:loading")
-            : t("common:formInputs.avatarInput.selectFile")}
-          <input {...getInputProps()} />
+          <label onClick={(event) => event.stopPropagation()}>
+            {isLoading
+              ? t("common:loading")
+              : t("common:formInputs.avatarInput.selectFile")}
+            <input {...getInputProps()} />
+          </label>
         </Button>
-      </Box>
+      </div>
 
-      <Box sx={{ mt: 1 }}>
-        <Typography>
-          {t("common:formInputs.avatarInput.dragAndDrop")}
-        </Typography>
-      </Box>
+      <div className="mt-2">
+        <p>{t("common:formInputs.avatarInput.dragAndDrop")}</p>
+      </div>
 
       {props.error && (
-        <Box sx={{ mt: 1 }}>
-          <Typography sx={{ color: "red" }}>{props.error}</Typography>
-        </Box>
+        <div className="mt-2">
+          <p className="text-destructive">{props.error}</p>
+        </div>
       )}
-    </AvatarInputContainer>
+    </div>
   );
 }
 

@@ -3,33 +3,29 @@
 import { RoleEnum } from "@/services/api/types/role";
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
 import { useTranslation } from "@/services/i18n/client";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import {
   PropsWithChildren,
   useCallback,
   useMemo,
-  useRef,
   useState,
+  type MouseEvent,
 } from "react";
 import { useGetUsersListQuery, usersQueryKeys } from "./queries/queries";
 import { TableVirtuoso } from "react-virtuoso";
-import TableCell from "@mui/material/TableCell";
-import TableRow from "@mui/material/TableRow";
-import Avatar from "@mui/material/Avatar";
-import LinearProgress from "@mui/material/LinearProgress";
-import { styled } from "@mui/material/styles";
+import ArrowDown from "lucide-react/dist/esm/icons/arrow-down";
+import ArrowUp from "lucide-react/dist/esm/icons/arrow-up";
+import ChevronDown from "lucide-react/dist/esm/icons/chevron-down";
+import ChevronsUpDown from "lucide-react/dist/esm/icons/chevrons-up-down";
 import TableComponents from "@/components/table/table-components";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import Button from "@mui/material/Button";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
-import Grow from "@mui/material/Grow";
-import Paper from "@mui/material/Paper";
-import Popper from "@mui/material/Popper";
-import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
+import { TableCell, TableHead, TableRow } from "@/components/ui/table";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { User } from "@/services/api/types/user";
 import Link from "@/components/link";
 import useAuth from "@/services/auth/use-auth";
@@ -39,15 +35,10 @@ import removeDuplicatesFromArrayObjects from "@/services/helpers/remove-duplicat
 import { InfiniteData, useQueryClient } from "@tanstack/react-query";
 import UserFilter from "./user-filter";
 import { useRouter, useSearchParams } from "next/navigation";
-import TableSortLabel from "@mui/material/TableSortLabel";
 import { UserFilterType, UserSortType } from "./user-filter-types";
 import { SortEnum } from "@/services/api/types/sort-type";
 
 type UsersKeys = keyof User;
-
-const TableCellLoadingContainer = styled(TableCell)(() => ({
-  padding: 0,
-}));
 
 function TableSortCellWrapper(
   props: PropsWithChildren<{
@@ -56,51 +47,42 @@ function TableSortCellWrapper(
     order: SortEnum;
     column: UsersKeys;
     handleRequestSort: (
-      event: React.MouseEvent<unknown>,
+      event: MouseEvent<HTMLButtonElement>,
       property: UsersKeys
     ) => void;
   }>
 ) {
+  const isActive = props.orderBy === props.column;
+
   return (
-    <TableCell
-      style={{ width: props.width }}
-      sortDirection={props.orderBy === props.column ? props.order : false}
-    >
-      <TableSortLabel
-        active={props.orderBy === props.column}
-        direction={props.orderBy === props.column ? props.order : SortEnum.ASC}
+    <TableHead style={{ width: props.width }}>
+      <button
+        type="button"
         onClick={(event) => props.handleRequestSort(event, props.column)}
+        className="inline-flex items-center gap-1 font-medium hover:text-foreground"
       >
         {props.children}
-      </TableSortLabel>
-    </TableCell>
+        {isActive ? (
+          props.order === SortEnum.ASC ? (
+            <ArrowUp className="size-4" />
+          ) : (
+            <ArrowDown className="size-4" />
+          )
+        ) : (
+          <ChevronsUpDown className="size-4 opacity-50" />
+        )}
+      </button>
+    </TableHead>
   );
 }
 
 function Actions({ user }: { user: User }) {
-  const [open, setOpen] = useState(false);
   const { user: authUser } = useAuth();
   const { confirmDialog } = useConfirmDialog();
   const fetchUserDelete = useDeleteUsersService();
   const queryClient = useQueryClient();
-  const anchorRef = useRef<HTMLDivElement>(null);
   const canDelete = user.id !== authUser?.id;
   const { t: tUsers } = useTranslation("admin-panel-users");
-
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
-
-  const handleClose = (event: Event) => {
-    if (
-      anchorRef.current &&
-      anchorRef.current.contains(event.target as HTMLElement)
-    ) {
-      return;
-    }
-
-    setOpen(false);
-  };
 
   const handleDelete = async () => {
     const isConfirmed = await confirmDialog({
@@ -109,8 +91,6 @@ function Actions({ user }: { user: User }) {
     });
 
     if (isConfirmed) {
-      setOpen(false);
-
       const searchParams = new URLSearchParams(window.location.search);
       const searchParamsFilter = searchParams.get("filter");
       const searchParamsSort = searchParams.get("sort");
@@ -154,84 +134,38 @@ function Actions({ user }: { user: User }) {
     }
   };
 
-  const mainButton = (
-    <Button
-      size="small"
-      variant="contained"
-      LinkComponent={Link}
-      href={`/admin-panel/users/edit/${user.id}`}
-    >
-      {tUsers("admin-panel-users:actions.edit")}
+  const editButton = (
+    <Button asChild size="sm" className={canDelete ? "rounded-r-none" : ""}>
+      <Link href={`/admin-panel/users/edit/${user.id}`}>
+        {tUsers("admin-panel-users:actions.edit")}
+      </Link>
     </Button>
   );
 
-  return (
-    <>
-      {[!canDelete].every(Boolean) ? (
-        mainButton
-      ) : (
-        <ButtonGroup
-          variant="contained"
-          ref={anchorRef}
-          aria-label="split button"
-          size="small"
-        >
-          {mainButton}
+  if (!canDelete) {
+    return editButton;
+  }
 
+  return (
+    <div className="inline-flex items-center">
+      {editButton}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
           <Button
-            size="small"
-            aria-controls={open ? "split-button-menu" : undefined}
-            aria-expanded={open ? "true" : undefined}
-            aria-label="select merge strategy"
-            aria-haspopup="menu"
-            onClick={handleToggle}
+            size="sm"
+            aria-label="more actions"
+            className="rounded-l-none border-l border-l-primary-foreground/20 px-2"
           >
-            <ArrowDropDownIcon />
+            <ChevronDown />
           </Button>
-        </ButtonGroup>
-      )}
-      <Popper
-        sx={{
-          zIndex: 1,
-        }}
-        open={open}
-        anchorEl={anchorRef.current}
-        role={undefined}
-        transition
-        disablePortal
-      >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin:
-                placement === "bottom" ? "center top" : "center bottom",
-            }}
-          >
-            <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList id="split-button-menu" autoFocusItem>
-                  {canDelete && (
-                    <MenuItem
-                      sx={{
-                        bgcolor: "error.main",
-                        color: `var(--mui-palette-common-white)`,
-                        "&:hover": {
-                          bgcolor: "error.light",
-                        },
-                      }}
-                      onClick={handleDelete}
-                    >
-                      {tUsers("admin-panel-users:actions.delete")}
-                    </MenuItem>
-                  )}
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper>
-    </>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem variant="destructive" onClick={handleDelete}>
+            {tUsers("admin-panel-users:actions.delete")}
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   );
 }
 
@@ -252,7 +186,7 @@ function Users() {
   });
 
   const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
+    event: MouseEvent<HTMLButtonElement>,
     property: UsersKeys
   ) => {
     const isAsc = orderBy === property && order === SortEnum.ASC;
@@ -295,32 +229,26 @@ function Users() {
   }, [data]);
 
   return (
-    <Container maxWidth="xl">
-      <Grid container spacing={3} pt={3}>
-        <Grid container spacing={3} size={{ xs: 12 }}>
-          <Grid size="grow">
-            <Typography variant="h3">
-              {tUsers("admin-panel-users:title")}
-            </Typography>
-          </Grid>
-          <Grid container size="auto" wrap="nowrap" spacing={2}>
-            <Grid size="auto">
-              <UserFilter />
-            </Grid>
-            <Grid size="auto">
-              <Button
-                variant="contained"
-                LinkComponent={Link}
-                href="/admin-panel/users/create"
-                color="success"
-              >
+    <div className="mx-auto w-full max-w-screen-xl px-4">
+      <div className="flex flex-col gap-6 pt-6">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h3 className="text-3xl font-semibold">
+            {tUsers("admin-panel-users:title")}
+          </h3>
+          <div className="flex items-center gap-2">
+            <UserFilter />
+            <Button
+              asChild
+              className="bg-success text-success-foreground hover:bg-success/90"
+            >
+              <Link href="/admin-panel/users/create">
                 {tUsers("admin-panel-users:actions.create")}
-              </Button>
-            </Grid>
-          </Grid>
-        </Grid>
+              </Link>
+            </Button>
+          </div>
+        </div>
 
-        <Grid size={{ xs: 12 }} mb={2}>
+        <div className="mb-2">
           <TableVirtuoso
             style={{ height: 500 }}
             data={result}
@@ -332,7 +260,7 @@ function Users() {
             fixedHeaderContent={() => (
               <>
                 <TableRow>
-                  <TableCell style={{ width: 50 }}></TableCell>
+                  <TableHead style={{ width: 50 }}></TableHead>
                   <TableSortCellWrapper
                     width={100}
                     orderBy={orderBy}
@@ -342,9 +270,9 @@ function Users() {
                   >
                     {tUsers("admin-panel-users:table.column1")}
                   </TableSortCellWrapper>
-                  <TableCell style={{ width: 200 }}>
+                  <TableHead style={{ width: 200 }}>
                     {tUsers("admin-panel-users:table.column2")}
-                  </TableCell>
+                  </TableHead>
                   <TableSortCellWrapper
                     orderBy={orderBy}
                     order={order}
@@ -354,45 +282,55 @@ function Users() {
                     {tUsers("admin-panel-users:table.column3")}
                   </TableSortCellWrapper>
 
-                  <TableCell style={{ width: 80 }}>
+                  <TableHead style={{ width: 80 }}>
                     {tUsers("admin-panel-users:table.column4")}
-                  </TableCell>
-                  <TableCell style={{ width: 130 }}></TableCell>
+                  </TableHead>
+                  <TableHead style={{ width: 130 }}></TableHead>
                 </TableRow>
                 {isFetchingNextPage && (
                   <TableRow>
-                    <TableCellLoadingContainer colSpan={6}>
-                      <LinearProgress />
-                    </TableCellLoadingContainer>
+                    <TableHead colSpan={6} className="p-0">
+                      <div className="h-1 w-full overflow-hidden bg-primary/20">
+                        <div className="animate-progress-bar h-full w-full origin-left bg-primary" />
+                      </div>
+                    </TableHead>
                   </TableRow>
                 )}
               </>
             )}
-            itemContent={(index, user) => (
-              <>
-                <TableCell style={{ width: 50 }}>
-                  <Avatar
-                    alt={user?.firstName + " " + user?.lastName}
-                    src={user?.photo?.path}
-                  />
-                </TableCell>
-                <TableCell style={{ width: 100 }}>{user?.id}</TableCell>
-                <TableCell style={{ width: 200 }}>
-                  {user?.firstName} {user?.lastName}
-                </TableCell>
-                <TableCell>{user?.email}</TableCell>
-                <TableCell style={{ width: 80 }}>
-                  {tRoles(`role.${user?.role?.id}`)}
-                </TableCell>
-                <TableCell style={{ width: 130 }}>
-                  {!!user && <Actions user={user} />}
-                </TableCell>
-              </>
-            )}
+            itemContent={(_index, user) => {
+              const initials =
+                (user?.firstName?.[0] ?? "") + (user?.lastName?.[0] ?? "");
+
+              return (
+                <>
+                  <TableCell style={{ width: 50 }}>
+                    <Avatar>
+                      <AvatarImage
+                        src={user?.photo?.path}
+                        alt={user?.firstName + " " + user?.lastName}
+                      />
+                      <AvatarFallback>{initials}</AvatarFallback>
+                    </Avatar>
+                  </TableCell>
+                  <TableCell style={{ width: 100 }}>{user?.id}</TableCell>
+                  <TableCell style={{ width: 200 }}>
+                    {user?.firstName} {user?.lastName}
+                  </TableCell>
+                  <TableCell>{user?.email}</TableCell>
+                  <TableCell style={{ width: 80 }}>
+                    {tRoles(`role.${user?.role?.id}`)}
+                  </TableCell>
+                  <TableCell style={{ width: 130 }}>
+                    {!!user && <Actions user={user} />}
+                  </TableCell>
+                </>
+              );
+            }}
           />
-        </Grid>
-      </Grid>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 }
 

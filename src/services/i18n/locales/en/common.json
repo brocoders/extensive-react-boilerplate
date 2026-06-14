@@ -1,6 +1,7 @@
 {
   "app-name": "APP",
   "loading": "Loading ...",
+  "close": "Close",
   "navigation": {
     "home": "Home",
     "signIn": "Sign In",

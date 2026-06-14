@@ -1,21 +1,22 @@
 "use client";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import TextField from "@mui/material/TextField";
-import React, { Ref, useState, useRef, useEffect } from "react";
+import { Ref, useState } from "react";
+import ChevronsUpDown from "lucide-react/dist/esm/icons/chevrons-up-down";
 import {
   Controller,
   ControllerProps,
   FieldPath,
   FieldValues,
 } from "react-hook-form";
-import { ItemProps, ListProps, Virtuoso } from "react-virtuoso";
-import ListItemText from "@mui/material/ListItemText";
-import Box from "@mui/material/Box";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
+import { Virtuoso } from "react-virtuoso";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 export type SelectExtendedInputProps<T extends object> = {
   label: string;
@@ -40,141 +41,108 @@ export type SelectExtendedInputProps<T extends object> = {
     }
 );
 
-const MUIComponents = {
-  List: function MuiList({
-    style,
-    children,
-    ref,
-  }: ListProps & { ref?: Ref<HTMLDivElement> }) {
-    return (
-      <List
-        style={{ padding: 0, ...style, margin: 0 }}
-        component="div"
-        ref={ref}
-      >
-        {children}
-      </List>
-    );
-  },
-
-  Item: ({ children, ...props }: ItemProps<unknown>) => {
-    return (
-      <ListItem component="div" {...props} style={{ margin: 0 }} disablePadding>
-        {children}
-      </ListItem>
-    );
-  },
-};
-
 function SelectExtendedInput<T extends object>(
   props: SelectExtendedInputProps<T> & {
     name: string;
     value: T | undefined | null;
     onChange: (value: T) => void;
     onBlur: () => void;
-    ref?: Ref<HTMLDivElement | null>;
+    ref?: Ref<HTMLButtonElement | null>;
   }
 ) {
-  const [isOpen, setIsOpen] = useState(false);
-  const boxRef = useRef<HTMLInputElement | null>(null);
-
-  useEffect(() => {
-    if (isOpen) {
-      boxRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [isOpen]);
+  const [open, setOpen] = useState(false);
+  const inputId = `select-extended-${props.name}`;
 
   return (
-    <ClickAwayListener onClickAway={() => setIsOpen(false)}>
-      <div>
-        <Box mb={0.5} ref={boxRef}>
-          <TextField
+    <div className="flex w-full flex-col gap-1.5">
+      <Label htmlFor={inputId}>{props.label}</Label>
+      <Popover
+        open={open}
+        onOpenChange={(next) => {
+          setOpen(next);
+          if (!next) props.onBlur();
+        }}
+      >
+        <PopoverTrigger asChild>
+          <Button
+            id={inputId}
             ref={props.ref}
-            name={props.name}
-            value={props.value ? props.renderOption(props.value) : ""}
-            onBlur={props.onBlur}
-            label={props.label}
-            variant="outlined"
-            onClick={() => {
-              if (props.disabled) return;
-
-              setIsOpen((prev) => !prev);
-            }}
-            fullWidth
-            error={!!props.error}
-            data-testid={props.testId}
-            helperText={props.error}
+            type="button"
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
             disabled={props.disabled}
-            slotProps={{
-              input: {
-                readOnly: true,
-              },
-              formHelperText: {
-                ["data-testid" as string]: `${props.testId}-error`,
-              },
+            data-testid={props.testId}
+            aria-invalid={!!props.error}
+            className={cn(
+              "w-full justify-between font-normal",
+              !props.value && "text-muted-foreground",
+              props.error && "border-destructive"
+            )}
+          >
+            <span className="truncate">
+              {props.value ? props.renderOption(props.value) : props.label}
+            </span>
+            <ChevronsUpDown className="opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          className="w-[var(--radix-popover-trigger-width)] p-0"
+          align="start"
+        >
+          {props.isSearchable && (
+            <div className="p-2">
+              <Input
+                placeholder={props.searchPlaceholder}
+                value={props.search}
+                onChange={(event) => props.onSearchChange?.(event.target.value)}
+                autoFocus
+                aria-label={props.searchLabel}
+                data-testid={`${props.testId}-search`}
+              />
+            </div>
+          )}
+
+          <Virtuoso
+            style={{
+              height:
+                props.options.length <= 6 ? props.options.length * 44 : 320,
+            }}
+            data={props.options}
+            endReached={props.onEndReached}
+            itemContent={(_index, item) => {
+              const isSelected = props.value
+                ? props.keyExtractor(item) === props.keyExtractor(props.value)
+                : false;
+
+              return (
+                <button
+                  type="button"
+                  onClick={() => {
+                    props.onChange(item);
+                    setOpen(false);
+                  }}
+                  className={cn(
+                    "flex w-full items-center px-3 py-2 text-left text-sm hover:bg-accent hover:text-accent-foreground",
+                    isSelected && "bg-accent/50"
+                  )}
+                >
+                  {item ? props.renderOption(item) : null}
+                </button>
+              );
             }}
           />
-        </Box>
-
-        {isOpen && (
-          <Card>
-            <CardContent
-              sx={{
-                p: 0,
-                "&:last-child": {
-                  pb: 0,
-                },
-              }}
-            >
-              {props.isSearchable && (
-                <Box p={2}>
-                  <TextField
-                    placeholder={props.searchPlaceholder}
-                    value={props.search}
-                    onChange={(e) => props.onSearchChange?.(e.target.value)}
-                    label={props.searchLabel}
-                    variant="outlined"
-                    autoFocus
-                    fullWidth
-                    data-testid={`${props.testId}-search`}
-                  />
-                </Box>
-              )}
-
-              <Virtuoso
-                style={{
-                  height:
-                    props.options.length <= 6 ? props.options.length * 48 : 320,
-                }}
-                data={props.options}
-                endReached={props.onEndReached}
-                components={MUIComponents}
-                itemContent={(index, item) => (
-                  <ListItemButton
-                    selected={
-                      props.value
-                        ? props.keyExtractor(item) ===
-                          props.keyExtractor(props.value)
-                        : false
-                    }
-                    onClick={() => {
-                      props.onChange(item);
-                      setIsOpen(false);
-                    }}
-                  >
-                    {item ? (
-                      <ListItemText primary={props.renderOption(item)} />
-                    ) : (
-                      <></>
-                    )}
-                  </ListItemButton>
-                )}
-              />
-            </CardContent>
-          </Card>
-        )}
-      </div>
-    </ClickAwayListener>
+        </PopoverContent>
+      </Popover>
+      {!!props.error && (
+        <p
+          data-testid={`${props.testId}-error`}
+          className="text-sm text-destructive"
+        >
+          {props.error}
+        </p>
+      )}
+    </div>
   );
 }
 

@@ -3,10 +3,12 @@
 import FormMultipleSelectInput from "@/components/form/multiple-select/form-multiple-select";
 import { Role, RoleEnum } from "@/services/api/types/role";
 import { useTranslation } from "@/services/i18n/client";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Popover from "@mui/material/Popover";
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -27,23 +29,12 @@ function UserFilter() {
 
   const { handleSubmit, reset } = methods;
 
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? "user-filter-popover" : undefined;
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const filter = searchParams.get("filter");
     if (filter) {
-      handleClose();
+      setOpen(false);
       const filterParsed = JSON.parse(filter);
       reset(filterParsed);
     }
@@ -51,21 +42,11 @@ function UserFilter() {
 
   return (
     <FormProvider {...methods}>
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
-      >
-        <Container
-          sx={{
-            minWidth: 300,
-          }}
-        >
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button>{t("admin-panel-users:filter.actions.filter")}</Button>
+        </PopoverTrigger>
+        <PopoverContent align="start" className="w-auto min-w-[300px]">
           <form
             onSubmit={handleSubmit((data) => {
               const searchParams = new URLSearchParams(window.location.search);
@@ -75,8 +56,8 @@ function UserFilter() {
               );
             })}
           >
-            <Grid container spacing={2} mb={3} mt={3}>
-              <Grid size={{ xs: 12 }}>
+            <div className="grid grid-cols-12 gap-4">
+              <div className="col-span-12">
                 <FormMultipleSelectInput<UserFilterFormData, Pick<Role, "id">>
                   name="roles"
                   testId="roles"
@@ -105,19 +86,16 @@ function UserFilter() {
                       .join(", ")
                   }
                 />
-              </Grid>
-              <Grid size={{ xs: 12 }}>
-                <Button variant="contained" type="submit">
+              </div>
+              <div className="col-span-12">
+                <Button type="submit">
                   {t("admin-panel-users:filter.actions.apply")}
                 </Button>
-              </Grid>
-            </Grid>
+              </div>
+            </div>
           </form>
-        </Container>
+        </PopoverContent>
       </Popover>
-      <Button aria-describedby={id} variant="contained" onClick={handleClick}>
-        {t("admin-panel-users:filter.actions.filter")}
-      </Button>
     </FormProvider>
   );
 }

@@ -1,11 +1,8 @@
 "use client";
-import Button from "@mui/material/Button";
+import { Button } from "@/components/ui/button";
 import withPageRequiredGuest from "@/services/auth/with-page-required-guest";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
 import { useAuthForgotPasswordService } from "@/services/api/services/auth";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import FormTextInput from "@/components/form/text-input/form-text-input";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -33,13 +30,7 @@ function FormActions() {
   const { isSubmitting } = useFormState();
 
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      type="submit"
-      disabled={isSubmitting}
-      data-testid="send-email"
-    >
+    <Button type="submit" disabled={isSubmitting} data-testid="send-email">
       {t("forgot-password:actions.submit")}
     </Button>
   );
@@ -87,27 +78,29 @@ function Form() {
 
   return (
     <FormProvider {...methods}>
-      <Container maxWidth="xs">
+      <div className="mx-auto w-full max-w-md px-4">
         <form onSubmit={onSubmit}>
-          <Grid container spacing={2} mb={2}>
-            <Grid size={{ xs: 12 }} mt={3}>
-              <Typography variant="h6">{t("forgot-password:title")}</Typography>
-            </Grid>
-            <Grid size={{ xs: 12 }}>
+          <div className="mb-4 grid grid-cols-12 gap-4">
+            <div className="col-span-12 mt-6">
+              <h1 className="text-xl font-semibold">
+                {t("forgot-password:title")}
+              </h1>
+            </div>
+            <div className="col-span-12">
               <FormTextInput<ForgotPasswordFormData>
                 name="email"
                 label={t("forgot-password:inputs.email.label")}
                 type="email"
                 testId="email"
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormActions />
-            </Grid>
-          </Grid>
+            </div>
+          </div>
         </form>
-      </Container>
+      </div>
     </FormProvider>
   );
 }

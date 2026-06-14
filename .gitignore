@@ -39,4 +39,5 @@ next-env.d.ts
 /playwright/.cache/
 
 *storybook.log
+/storybook-static
 .codegpt

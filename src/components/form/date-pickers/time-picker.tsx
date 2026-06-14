@@ -1,36 +1,27 @@
-import * as React from "react";
-import {
-  LocalizationProvider,
-  TimePicker,
-  TimeStepOptions,
-  TimeView,
-} from "@mui/x-date-pickers";
+"use client";
+import { ChangeEvent, Ref } from "react";
+import { format } from "date-fns";
 import {
   Controller,
   ControllerProps,
   FieldPath,
   FieldValues,
 } from "react-hook-form";
-import { Ref } from "react";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import useLanguage from "@/services/i18n/use-language";
-import { getValueByKey } from "@/components/form/date-pickers/helper";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
 type ValueDateType = Date | null | undefined;
+
 export type TimePickerFieldProps = {
   disabled?: boolean;
   className?: string;
-  views?: readonly TimeView[] | undefined;
   autoFocus?: boolean;
   readOnly?: boolean;
   label: string;
   testId?: string;
   error?: string;
   defaultValue?: ValueDateType;
-  format?: string;
-  minTime?: Date | undefined;
-  maxTime?: Date | undefined;
-  timeSteps?: TimeStepOptions | undefined;
 };
 
 function TimePickerInput(
@@ -39,44 +30,52 @@ function TimePickerInput(
     value: ValueDateType;
     onChange: (value: ValueDateType) => void;
     onBlur: () => void;
-    ref?: Ref<HTMLDivElement | null>;
+    ref?: Ref<HTMLInputElement | null>;
   }
 ) {
-  const language = useLanguage();
+  const inputId = `time-picker-${props.name}`;
+  const timeValue = props.value ? format(props.value, "HH:mm") : "";
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const time = event.target.value;
+    if (!time) {
+      props.onChange(null);
+      return;
+    }
+
+    const [hours, minutes] = time.split(":").map(Number);
+    const next = props.value ? new Date(props.value) : new Date();
+    next.setHours(hours, minutes, 0, 0);
+    props.onChange(next);
+  };
 
   return (
-    <LocalizationProvider
-      dateAdapter={AdapterDateFns}
-      adapterLocale={getValueByKey(language)}
-    >
-      <TimePicker
+    <div className="flex w-full flex-col gap-1.5">
+      <Label htmlFor={inputId}>{props.label}</Label>
+      <Input
+        id={inputId}
         ref={props.ref}
+        type="time"
         name={props.name}
-        label={props.label}
-        value={props.value}
-        disabled={props.disabled}
+        value={timeValue}
+        onChange={handleChange}
+        onBlur={props.onBlur}
         autoFocus={props.autoFocus}
-        defaultValue={props.defaultValue}
         readOnly={props.readOnly}
-        onClose={props.onBlur}
-        slotProps={{
-          textField: {
-            helperText: props.error,
-            error: !!props.error,
-            InputProps: {
-              readOnly: props.readOnly,
-            },
-          },
-        }}
-        onChange={props.onChange}
-        views={props.views}
-        format={props.format}
+        disabled={props.disabled}
         data-testid={props.testId}
-        minTime={props.minTime}
-        maxTime={props.maxTime}
-        timeSteps={props.timeSteps}
+        aria-invalid={!!props.error}
+        className={cn(props.error && "border-destructive", props.className)}
       />
-    </LocalizationProvider>
+      {!!props.error && (
+        <p
+          data-testid={`${props.testId}-error`}
+          className="text-sm text-destructive"
+        >
+          {props.error}
+        </p>
+      )}
+    </div>
   );
 }
 
@@ -100,13 +99,8 @@ function FormTimePickerInput<
             label={props.label}
             disabled={props.disabled}
             readOnly={props.readOnly}
-            views={props.views}
             testId={props.testId}
-            format={props.format}
             error={fieldState.error?.message}
-            minTime={props.minTime}
-            maxTime={props.maxTime}
-            timeSteps={props.timeSteps}
           />
         );
       }}

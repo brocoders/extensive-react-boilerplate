@@ -1,5 +1,6 @@
 "use client";
-import Button from "@mui/material/Button";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import withPageRequiredGuest from "@/services/auth/with-page-required-guest";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
 import {
@@ -8,20 +9,13 @@ import {
 } from "@/services/api/services/auth";
 import useAuthActions from "@/services/auth/use-auth-actions";
 import useAuthTokens from "@/services/auth/use-auth-tokens";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import FormTextInput from "@/components/form/text-input/form-text-input";
 import FormCheckboxInput from "@/components/form/checkbox/form-checkbox";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "@/components/link";
-import Box from "@mui/material/Box";
-import MuiLink from "@mui/material/Link";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
-import Divider from "@mui/material/Divider";
-import Chip from "@mui/material/Chip";
 import SocialAuth from "@/services/social-auth/social-auth";
 import { isGoogleAuthEnabled } from "@/services/social-auth/google/google-config";
 import { isFacebookAuthEnabled } from "@/services/social-auth/facebook/facebook-config";
@@ -69,13 +63,7 @@ function FormActions() {
   const { isSubmitting } = useFormState();
 
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      type="submit"
-      disabled={isSubmitting}
-      data-testid="sign-up-submit"
-    >
+    <Button type="submit" disabled={isSubmitting} data-testid="sign-up-submit">
       {t("sign-up:actions.submit")}
     </Button>
   );
@@ -141,13 +129,13 @@ function Form() {
 
   return (
     <FormProvider {...methods}>
-      <Container maxWidth="xs">
+      <div className="mx-auto w-full max-w-md px-4">
         <form onSubmit={onSubmit}>
-          <Grid container spacing={2} mb={2}>
-            <Grid size={{ xs: 12 }} mt={3}>
-              <Typography variant="h6">{t("sign-up:title")}</Typography>
-            </Grid>
-            <Grid size={{ xs: 12 }}>
+          <div className="mb-4 grid grid-cols-12 gap-4">
+            <div className="col-span-12 mt-6">
+              <h1 className="text-xl font-semibold">{t("sign-up:title")}</h1>
+            </div>
+            <div className="col-span-12">
               <FormTextInput<SignUpFormData>
                 name="firstName"
                 label={t("sign-up:inputs.firstName.label")}
@@ -155,35 +143,35 @@ function Form() {
                 autoFocus
                 testId="first-name"
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<SignUpFormData>
                 name="lastName"
                 label={t("sign-up:inputs.lastName.label")}
                 type="text"
                 testId="last-name"
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<SignUpFormData>
                 name="email"
                 label={t("sign-up:inputs.email.label")}
                 type="email"
                 testId="email"
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<SignUpFormData>
                 name="password"
                 label={t("sign-up:inputs.password.label")}
                 type="password"
                 testId="password"
               />
-            </Grid>
-            <Grid size={{ xs: 12 }}>
+            </div>
+            <div className="col-span-12">
               <FormCheckboxInput
                 name="policy"
                 label=""
@@ -194,41 +182,45 @@ function Form() {
                 renderOption={(option) => (
                   <span>
                     {option.name}
-                    <MuiLink href="/privacy-policy" target="_blank">
+                    <Link
+                      href="/privacy-policy"
+                      target="_blank"
+                      className="text-primary underline-offset-4 hover:underline"
+                    >
                       {t("sign-up:inputs.policy.label")}
-                    </MuiLink>
+                    </Link>
                   </span>
                 )}
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormActions />
-              <Box ml={1} component="span">
-                <Button
-                  variant="contained"
-                  color="inherit"
-                  LinkComponent={Link}
-                  data-testid="login"
-                  href="/sign-in"
-                >
-                  {t("sign-up:actions.accountAlreadyExists")}
+              <span className="ml-2">
+                <Button asChild variant="secondary" data-testid="login">
+                  <Link href="/sign-in">
+                    {t("sign-up:actions.accountAlreadyExists")}
+                  </Link>
                 </Button>
-              </Box>
-            </Grid>
+              </span>
+            </div>
 
             {[isGoogleAuthEnabled, isFacebookAuthEnabled].some(Boolean) && (
-              <Grid size={{ xs: 12 }}>
-                <Divider sx={{ mb: 2 }}>
-                  <Chip label={t("sign-up:or")} />
-                </Divider>
+              <div className="col-span-12">
+                <div className="mb-4 flex items-center gap-2">
+                  <Separator className="flex-1" />
+                  <span className="rounded-full border bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+                    {t("sign-up:or")}
+                  </span>
+                  <Separator className="flex-1" />
+                </div>
 
                 <SocialAuth />
-              </Grid>
+              </div>
             )}
-          </Grid>
+          </div>
         </form>
-      </Container>
+      </div>
     </FormProvider>
   );
 }

@@ -31,23 +31,6 @@ Default.args = {
   testId: "sampleTime",
 };
 
-export const WithCustomFormat = Template.bind({});
-WithCustomFormat.args = {
-  label: "Custom Format Time Picker",
-  name: "sampleTime",
-  format: "HH:mm:ss",
-  testId: "customFormatTime",
-};
-
-export const WithMinMaxTime = Template.bind({});
-WithMinMaxTime.args = {
-  label: "Time Picker with Min/Max",
-  name: "sampleTime",
-  minTime: new Date(0, 0, 0, 9, 0),
-  maxTime: new Date(0, 0, 0, 17, 0),
-  testId: "minMaxTime",
-};
-
 export const Disabled = Template.bind({});
 Disabled.args = {
   label: "Disabled Time Picker",
@@ -62,12 +45,4 @@ ReadOnly.args = {
   name: "sampleTime",
   readOnly: true,
   testId: "readOnlyTime",
-};
-
-export const HoursMinutesView = Template.bind({});
-HoursMinutesView.args = {
-  label: "Hours/Minutes View",
-  name: "sampleTime",
-  views: ["hours", "minutes"],
-  testId: "hoursMinutesTime",
 };
