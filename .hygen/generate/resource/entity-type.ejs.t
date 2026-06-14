@@ -1,7 +1,7 @@
 ---
 to: src/services/api/types/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.ts
 ---
-export type <%= name %> = {
+export type <%= h.pascalName(name) %> = {
   id: string;
   createdAt: string;
   updatedAt: string;

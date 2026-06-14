@@ -18,8 +18,8 @@ import useLeavePage from "@/services/leave-page/use-leave-page";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 import { useParams, useRouter } from "next/navigation";
-import { useEdit<%= name %>Service } from "@/services/api/services/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>";
-import { useGet<%= name %>Query } from "../../queries/queries";
+import { useEdit<%= h.pascalName(name) %>Service } from "@/services/api/services/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>";
+import { useGet<%= h.pascalName(name) %>Query } from "../../queries/queries";
 
 type EditFormData = {
   // types here
@@ -56,10 +56,10 @@ function FormEdit() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const entityId = params.id;
-  const fetchEdit<%= name %> = useEdit<%= name %>Service();
+  const fetchEdit<%= h.pascalName(name) %> = useEdit<%= h.pascalName(name) %>Service();
   const { t } = useTranslation("admin-panel-<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>-edit");
   const validationSchema = useValidationSchema();
-  const { data: initialData } = useGet<%= name %>Query({ id: entityId });
+  const { data: initialData } = useGet<%= h.pascalName(name) %>Query({ id: entityId });
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -74,7 +74,7 @@ function FormEdit() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     formData
   ) => {
-    const { data, status } = await fetchEdit<%= name %>({
+    const { data, status } = await fetchEdit<%= h.pascalName(name) %>({
       id: entityId,
       data: {
         // Do not remove this comment. <edit-form-submit-property />

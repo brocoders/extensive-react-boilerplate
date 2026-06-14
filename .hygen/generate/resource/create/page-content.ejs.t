@@ -14,7 +14,7 @@ import useLeavePage from "@/services/leave-page/use-leave-page";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 import { useRouter } from "next/navigation";
-import { useCreate<%= name %>Service } from "@/services/api/services/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>";
+import { useCreate<%= h.pascalName(name) %>Service } from "@/services/api/services/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>";
 
 type CreateFormData = {
   // types here
@@ -49,7 +49,7 @@ function CreateFormActions() {
 
 function FormCreate() {
   const router = useRouter();
-  const fetchCreate<%= name %> = useCreate<%= name %>Service();
+  const fetchCreate<%= h.pascalName(name) %> = useCreate<%= h.pascalName(name) %>Service();
   const { t } = useTranslation("admin-panel-<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>-create");
   const validationSchema = useValidationSchema();
 
@@ -67,7 +67,7 @@ function FormCreate() {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       formData
     ) => {
-      const { data, status } = await fetchCreate<%= name %>({
+      const { data, status } = await fetchCreate<%= h.pascalName(name) %>({
         // Do not remove this comment. <create-form-submit-property />
       });
 

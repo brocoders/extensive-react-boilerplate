@@ -7,7 +7,7 @@ import { RoleEnum } from "@/services/api/types/role";
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
 import { useTranslation } from "@/services/i18n/client";
 import { useCallback, useMemo } from "react";
-import { useGet<%= h.inflection.transform(name, ['pluralize']) %>ListQuery, <%= h.inflection.camelize(h.inflection.pluralize(name), true) %>QueryKeys } from "./queries/queries";
+import { useGet<%= h.pascalPluralName(name) %>ListQuery, <%= h.inflection.camelize(h.inflection.pluralize(name), true) %>QueryKeys } from "./queries/queries";
 import { TableVirtuoso } from "react-virtuoso";
 import ChevronDown from "lucide-react/dist/esm/icons/chevron-down";
 import TableComponents from "@/components/table/table-components";
@@ -23,12 +23,12 @@ import Link from "@/components/link";
 import useConfirmDialog from "@/components/confirm-dialog/use-confirm-dialog";
 import removeDuplicatesFromArrayObjects from "@/services/helpers/remove-duplicates-from-array-of-objects";
 import { InfiniteData, useQueryClient } from "@tanstack/react-query";
-import { <%= name %> } from "@/services/api/types/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>";
-import { useDelete<%= name %>Service } from "@/services/api/services/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>";
+import { <%= h.pascalName(name) %> } from "@/services/api/types/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>";
+import { useDelete<%= h.pascalName(name) %>Service } from "@/services/api/services/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>";
 
-function Actions({ entityItem }: { entityItem: <%= name %> }) {
+function Actions({ entityItem }: { entityItem: <%= h.pascalName(name) %> }) {
   const { confirmDialog } = useConfirmDialog();
-  const fetchDelete<%= name %> = useDelete<%= name %>Service();
+  const fetchDelete<%= h.pascalName(name) %> = useDelete<%= h.pascalName(name) %>Service();
   const queryClient = useQueryClient();
   const { t } = useTranslation("admin-panel-<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>");
 
@@ -40,7 +40,7 @@ function Actions({ entityItem }: { entityItem: <%= name %> }) {
 
     if (isConfirmed) {
       const previousData = queryClient.getQueryData<
-        InfiniteData<{ nextPage: number; data: <%= name %>[] }>
+        InfiniteData<{ nextPage: number; data: <%= h.pascalName(name) %>[] }>
       >(<%= h.inflection.camelize(h.inflection.pluralize(name), true) %>QueryKeys.list().key);
 
       await queryClient.cancelQueries({
@@ -57,7 +57,7 @@ function Actions({ entityItem }: { entityItem: <%= name %> }) {
 
       queryClient.setQueryData(<%= h.inflection.camelize(h.inflection.pluralize(name), true) %>QueryKeys.list().key, newData);
 
-      await fetchDelete<%= name %>({
+      await fetchDelete<%= h.pascalName(name) %>({
         id: entityItem.id,
       });
     }
@@ -102,11 +102,11 @@ function Actions({ entityItem }: { entityItem: <%= name %> }) {
   );
 }
 
-function <%= h.inflection.transform(name, ['pluralize']) %>PageContent() {
+function <%= h.pascalPluralName(name) %>PageContent() {
   const { t } = useTranslation("admin-panel-<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>");
 
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
-    useGet<%= h.inflection.transform(name, ['pluralize']) %>ListQuery();
+    useGet<%= h.pascalPluralName(name) %>ListQuery();
 
   const handleScroll = useCallback(() => {
     if (!hasNextPage || isFetchingNextPage) return;
@@ -185,4 +185,4 @@ function <%= h.inflection.transform(name, ['pluralize']) %>PageContent() {
   );
 }
 
-export default withPageRequiredAuth(<%= h.inflection.transform(name, ['pluralize']) %>PageContent, { roles: [RoleEnum.ADMIN] });
+export default withPageRequiredAuth(<%= h.pascalPluralName(name) %>PageContent, { roles: [RoleEnum.ADMIN] });
