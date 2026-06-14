@@ -1,4 +1,6 @@
 import ResponsiveAppBar from "@/components/app-bar";
+import AppSidebar from "@/components/app-sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import AuthProvider from "@/services/auth/auth-provider";
 import "../globals.css";
 import { Roboto } from "next/font/google";
@@ -68,8 +70,13 @@ export default async function RootLayout(props: {
                   <GoogleAuthProvider>
                     <FacebookAuthProvider>
                       <LeavePageProvider>
-                        <ResponsiveAppBar />
-                        {children}
+                        <SidebarProvider className="flex-col [--header-height:4rem]">
+                          <ResponsiveAppBar />
+                          <div className="flex flex-1">
+                            <AppSidebar />
+                            <SidebarInset>{children}</SidebarInset>
+                          </div>
+                        </SidebarProvider>
                         <ToastContainer
                           position="bottom-left"
                           hideProgressBar
