@@ -105,13 +105,13 @@ test.describe("Generators — file-level assertions", () => {
     });
   }
 
-  test.describe("app-bar nav wiring", () => {
-    const appBar = resolve(SRC, "components", "app-bar.tsx");
+  test.describe("sidebar nav wiring", () => {
+    const appSidebar = resolve(SRC, "components", "app-sidebar.tsx");
 
     for (const entity of matrix.entities) {
       const route = entityRouteSegment(entity.name);
       test(`adds /admin-panel/${route} nav link`, () => {
-        const content = readFile(appBar);
+        const content = readFile(appSidebar);
         expect(content).toContain(`/admin-panel/${route}`);
       });
     }
