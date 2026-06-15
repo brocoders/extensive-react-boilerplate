@@ -14,4 +14,6 @@ export const loginAsAdmin = async (page: Page): Promise<void> => {
   );
   await page.getByTestId("sign-in-submit").click();
   await apiLoggedIn;
+
+  await page.waitForURL((url) => !url.pathname.endsWith("/sign-in"));
 };
