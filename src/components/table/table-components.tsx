@@ -12,12 +12,7 @@ type TableSectionProps = Pick<ComponentProps<"thead">, "children" | "style"> & {
 
 const TableComponents = {
   Scroller: function Scroller(props: ScrollerProps) {
-    return (
-      <div
-        {...props}
-        className="relative w-full overflow-auto rounded-md border bg-card"
-      />
-    );
+    return <div {...props} className="relative w-full overflow-visible" />;
   },
   Table: function VirtuosoTable(props: TableProps) {
     return (

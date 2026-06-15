@@ -17,21 +17,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
-const navButtonClass =
-  "hover:bg-primary-foreground/10 hover:text-primary-foreground";
-
 function ResponsiveAppBar() {
   const { t } = useTranslation("common");
   const { user, isLoaded } = useAuth();
   const { logOut } = useAuthActions();
 
   return (
-    <header className="sticky top-0 z-20 bg-primary text-primary-foreground">
-      <div className="mx-auto flex h-[var(--header-height,4rem)] max-w-screen-xl items-center gap-2 px-4">
+    <header className="sticky top-0 z-20 border-b bg-background text-foreground">
+      <div className="flex h-[var(--header-height,4rem)] items-center gap-2 px-4">
         {/* Mobile sidebar trigger */}
         <SidebarTrigger
           aria-label="open navigation menu"
-          className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground md:hidden"
+          className="md:hidden"
         />
 
         {/* Brand */}
@@ -82,11 +79,11 @@ function ResponsiveAppBar() {
           </DropdownMenu>
         ) : (
           <div className="flex items-center gap-1">
-            <Button asChild variant="ghost" className={navButtonClass}>
+            <Button asChild variant="ghost">
               <Link href="/sign-in">{t("common:navigation.signIn")}</Link>
             </Button>
             {IS_SIGN_UP_ENABLED && (
-              <Button asChild variant="ghost" className={navButtonClass}>
+              <Button asChild variant="ghost">
                 <Link href="/sign-up">{t("common:navigation.signUp")}</Link>
               </Button>
             )}

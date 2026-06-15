@@ -248,9 +248,8 @@ function Users() {
           </div>
         </div>
 
-        <div className="mb-2">
+        <div className="mb-2 overflow-x-auto overflow-y-hidden rounded-md border bg-card">
           <TableVirtuoso
-            style={{ height: 500 }}
             data={result}
             components={TableComponents}
             endReached={handleScroll}

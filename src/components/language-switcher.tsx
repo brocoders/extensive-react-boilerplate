@@ -35,10 +35,7 @@ export default function LanguageSwitcher() {
 
   return (
     <Select value={currentLang} onValueChange={handleChange}>
-      <SelectTrigger
-        size="sm"
-        className="min-w-[120px] border-primary-foreground/50 text-primary-foreground"
-      >
+      <SelectTrigger size="sm" className="min-w-[120px]">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
