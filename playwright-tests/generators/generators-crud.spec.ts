@@ -89,7 +89,7 @@ test.describe("Generators CRUD — Tag", () => {
     await expect(deleteItem).toBeVisible();
     await deleteItem.click({ force: true });
 
-    const dialog = page.getByRole("dialog");
+    const dialog = page.getByRole("alertdialog");
     await expect(dialog).toBeVisible({ timeout: 10000 });
     const yesButton = dialog.getByRole("button", { name: "Yes" });
     await expect(yesButton).toBeVisible();
