@@ -8,26 +8,14 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("Sign Up", () => {
   test("should be successful", async ({ page }) => {
-    await page
-      .getByTestId("first-name")
-      .locator("input")
-      .fill(faker.person.firstName());
-    await page
-      .getByTestId("last-name")
-      .locator("input")
-      .fill(faker.person.lastName());
-    await page
-      .getByTestId("email")
-      .locator("input")
-      .fill(
-        faker.internet.email({
-          provider: "example.com",
-        })
-      );
-    await page
-      .getByTestId("password")
-      .locator("input")
-      .fill(faker.internet.password());
+    await page.getByTestId("first-name").fill(faker.person.firstName());
+    await page.getByTestId("last-name").fill(faker.person.lastName());
+    await page.getByTestId("email").fill(
+      faker.internet.email({
+        provider: "example.com",
+      })
+    );
+    await page.getByTestId("password").fill(faker.internet.password());
 
     await page
       .getByTestId("privacy-policy")
@@ -47,16 +35,10 @@ test.describe("Sign Up", () => {
     const lastName = faker.person.lastName();
     const password = faker.internet.password();
     await apiCreateNewUser(email, password, firstName, lastName);
-    await page
-      .getByTestId("first-name")
-      .locator("input")
-      .fill(faker.person.firstName());
-    await page
-      .getByTestId("last-name")
-      .locator("input")
-      .fill(faker.person.lastName());
-    await page.getByTestId("email").locator("input").fill(email);
-    await page.getByTestId("password").locator("input").fill(password);
+    await page.getByTestId("first-name").fill(faker.person.firstName());
+    await page.getByTestId("last-name").fill(faker.person.lastName());
+    await page.getByTestId("email").fill(email);
+    await page.getByTestId("password").fill(password);
     await page
       .getByTestId("privacy-policy")
       .locator("input[type=checkbox]")
@@ -75,32 +57,20 @@ test.describe("Sign Up", () => {
     await expect(page.getByTestId("password-error")).toBeVisible();
     await expect(page.getByTestId("privacy-error")).toBeVisible();
 
-    await page
-      .getByTestId("first-name")
-      .locator("input")
-      .fill(faker.person.firstName());
+    await page.getByTestId("first-name").fill(faker.person.firstName());
     await expect(page.getByTestId("first-name-error")).not.toBeVisible();
 
-    await page
-      .getByTestId("last-name")
-      .locator("input")
-      .fill(faker.person.lastName());
+    await page.getByTestId("last-name").fill(faker.person.lastName());
     await expect(page.getByTestId("last-name-error")).not.toBeVisible();
 
-    await page
-      .getByTestId("email")
-      .locator("input")
-      .fill(
-        faker.internet.email({
-          provider: "example.com",
-        })
-      );
+    await page.getByTestId("email").fill(
+      faker.internet.email({
+        provider: "example.com",
+      })
+    );
     await expect(page.getByTestId("email-error")).not.toBeVisible();
 
-    await page
-      .getByTestId("password")
-      .locator("input")
-      .fill(faker.internet.password());
+    await page.getByTestId("password").fill(faker.internet.password());
     await expect(page.getByTestId("password-error")).not.toBeVisible();
 
     await page
@@ -115,34 +85,25 @@ test.describe("Sign Up", () => {
   });
 
   test("should show validation errors for password field", async ({ page }) => {
-    await page
-      .getByTestId("first-name")
-      .locator("input")
-      .fill(faker.person.firstName());
-    await page
-      .getByTestId("last-name")
-      .locator("input")
-      .fill(faker.person.lastName());
-    await page
-      .getByTestId("email")
-      .locator("input")
-      .fill(
-        faker.internet.email({
-          provider: "example.com",
-        })
-      );
+    await page.getByTestId("first-name").fill(faker.person.firstName());
+    await page.getByTestId("last-name").fill(faker.person.lastName());
+    await page.getByTestId("email").fill(
+      faker.internet.email({
+        provider: "example.com",
+      })
+    );
 
-    await page.getByTestId("password").locator("input").fill("p");
+    await page.getByTestId("password").fill("p");
     await page.getByTestId("sign-up-submit").click();
     await expect(page.getByTestId("password-error")).toBeVisible();
 
-    await page.getByTestId("password").locator("input").fill("passw");
+    await page.getByTestId("password").fill("passw");
     await expect(page.getByTestId("password-error")).toBeVisible();
 
-    await page.getByTestId("password").locator("input").fill("passw1");
+    await page.getByTestId("password").fill("passw1");
     await expect(page.getByTestId("password-error")).not.toBeVisible();
 
-    await page.getByTestId("password").locator("input").fill("passw");
+    await page.getByTestId("password").fill("passw");
     await expect(page.getByTestId("password-error")).toBeVisible();
   });
 });

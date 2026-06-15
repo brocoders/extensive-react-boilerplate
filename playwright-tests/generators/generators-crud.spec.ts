@@ -37,7 +37,7 @@ test.describe("Generators CRUD — Tag", () => {
     await page.getByTestId("add-button").click();
 
     await expect(page).toHaveURL(/\/admin-panel\/tags\/create$/);
-    await page.getByTestId("name").locator("input").fill(createdName);
+    await page.getByTestId("name").fill(createdName);
 
     const apiCreated = page.waitForResponse(
       (response) =>
@@ -61,7 +61,7 @@ test.describe("Generators CRUD — Tag", () => {
     await row.getByTestId("edit-button").click();
 
     await expect(page).toHaveURL(/\/admin-panel\/tags\/edit\//);
-    const input = page.getByTestId("name").locator("input");
+    const input = page.getByTestId("name");
     await input.fill("");
     await input.fill(updatedName);
 

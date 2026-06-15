@@ -38,24 +38,16 @@ test.describe("User Profile", () => {
     });
     await page.getByTestId("edit-profile").click();
     await page.waitForURL(/\/profile\/edit/);
-    await expect(page.getByTestId("first-name").locator("input")).toHaveValue(
-      firstName
-    );
-    await expect(page.getByTestId("last-name").locator("input")).toHaveValue(
-      lastName
-    );
+    await expect(page.getByTestId("first-name")).toHaveValue(firstName);
+    await expect(page.getByTestId("last-name")).toHaveValue(lastName);
   });
 
   test("should be successful update user data", async ({ page }) => {
     await page.goto("/profile/edit");
-    await page.getByTestId("first-name").locator("input").fill("James");
-    await expect(page.getByTestId("first-name").locator("input")).toHaveValue(
-      "James"
-    );
-    await page.getByTestId("last-name").locator("input").fill("Bond");
-    await expect(page.getByTestId("last-name").locator("input")).toHaveValue(
-      "Bond"
-    );
+    await page.getByTestId("first-name").fill("James");
+    await expect(page.getByTestId("first-name")).toHaveValue("James");
+    await page.getByTestId("last-name").fill("Bond");
+    await expect(page.getByTestId("last-name")).toHaveValue("Bond");
     await page.getByTestId("save-profile").click();
     await page.waitForSelector(".Toastify > .Toastify__toast-container");
 
@@ -69,12 +61,8 @@ test.describe("User Profile", () => {
     });
     await page.getByTestId("edit-profile").click();
     await page.waitForURL(/\/profile\/edit/);
-    await expect(page.getByTestId("first-name").locator("input")).toHaveValue(
-      "James"
-    );
-    await expect(page.getByTestId("last-name").locator("input")).toHaveValue(
-      "Bond"
-    );
+    await expect(page.getByTestId("first-name")).toHaveValue("James");
+    await expect(page.getByTestId("last-name")).toHaveValue("Bond");
   });
 
   test("should be successful upload avatar", async ({ page }) => {
@@ -106,16 +94,14 @@ test.describe("User Profile", () => {
     page,
   }) => {
     await page.goto("/profile/edit");
-    await page.getByTestId("first-name").locator("input").fill("James");
+    await page.getByTestId("first-name").fill("James");
     await page.getByTestId("cancel-edit-profile").click();
     await expect(page.getByTestId("want-to-leave-modal")).toBeVisible();
     await page.getByTestId("stay").click();
 
     await expect(page.getByTestId("want-to-leave-modal")).not.toBeVisible();
     await expect(page).toHaveURL(/\/profile\/edit/);
-    await expect(page.getByTestId("first-name").locator("input")).toHaveValue(
-      "James"
-    );
+    await expect(page.getByTestId("first-name")).toHaveValue("James");
 
     await page.getByTestId("cancel-edit-profile").click();
     await expect(page.getByTestId("want-to-leave-modal")).toBeVisible();
@@ -129,12 +115,9 @@ test.describe("User Profile", () => {
   test("should be successful change user password", async ({ page }) => {
     newPassword = "password1";
     await page.goto("/profile/edit");
-    await page.getByTestId("old-password").locator("input").fill(password);
-    await page.getByTestId("new-password").locator("input").fill(newPassword);
-    await page
-      .getByTestId("password-confirmation")
-      .locator("input")
-      .fill(newPassword);
+    await page.getByTestId("old-password").fill(password);
+    await page.getByTestId("new-password").fill(newPassword);
+    await page.getByTestId("password-confirmation").fill(newPassword);
     await page.getByTestId("save-password").click();
     await page.waitForSelector(".Toastify > .Toastify__toast-container");
 
@@ -146,12 +129,12 @@ test.describe("User Profile", () => {
     await page.getByTestId("logout-menu-item").click();
     await apiProfileUpdate;
 
-    await page.getByTestId("email").locator("input").fill(email);
-    await page.getByTestId("password").locator("input").fill(password);
+    await page.getByTestId("email").fill(email);
+    await page.getByTestId("password").fill(password);
     await page.getByTestId("sign-in-submit").click();
     await expect(page.getByTestId("password-error")).toBeVisible();
 
-    await page.getByTestId("password").locator("input").fill(newPassword);
+    await page.getByTestId("password").fill(newPassword);
     await page.getByTestId("sign-in-submit").click();
     await expect(page).not.toHaveURL(/\/sign-in/);
   });
@@ -166,40 +149,28 @@ test.describe("User Profile", () => {
     await expect(page.getByTestId("new-password-error")).toBeVisible();
     await expect(page.getByTestId("password-confirmation-error")).toBeVisible();
 
-    await page
-      .getByTestId("old-password")
-      .locator("input")
-      .fill("incorrectpassword");
+    await page.getByTestId("old-password").fill("incorrectpassword");
     await expect(page.getByTestId("old-password-error")).not.toBeVisible();
 
-    await page.getByTestId("new-password").locator("input").fill("passw");
+    await page.getByTestId("new-password").fill("passw");
     await expect(page.getByTestId("new-password-error")).toBeVisible();
-    await page.getByTestId("new-password").locator("input").fill(newPassword);
+    await page.getByTestId("new-password").fill(newPassword);
     await expect(page.getByTestId("new-password-error")).not.toBeVisible();
 
-    await page
-      .getByTestId("password-confirmation")
-      .locator("input")
-      .fill(newPassword);
+    await page.getByTestId("password-confirmation").fill(newPassword);
     await expect(
       page.getByTestId("password-confirmation-error")
     ).not.toBeVisible();
-    await page
-      .getByTestId("password-confirmation")
-      .locator("input")
-      .fill("different password");
+    await page.getByTestId("password-confirmation").fill("different password");
     await expect(page.getByTestId("password-confirmation-error")).toBeVisible();
-    await page
-      .getByTestId("password-confirmation")
-      .locator("input")
-      .fill(newPassword);
+    await page.getByTestId("password-confirmation").fill(newPassword);
     await expect(
       page.getByTestId("password-confirmation-error")
     ).not.toBeVisible();
     await page.getByTestId("save-password").click();
     await expect(page.getByTestId("old-password-error")).toBeVisible();
 
-    await page.getByTestId("old-password").locator("input").fill(password);
+    await page.getByTestId("old-password").fill(password);
     await expect(page.getByTestId("old-password-error")).not.toBeVisible();
     await page.getByTestId("save-password").click();
     await page.waitForSelector(".Toastify > .Toastify__toast-container");

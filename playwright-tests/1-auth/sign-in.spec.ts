@@ -21,8 +21,8 @@ test.describe("Sign In", () => {
   });
 
   test("should be successful", async ({ page }) => {
-    await page.getByTestId("email").locator("input").fill(email);
-    await page.getByTestId("password").locator("input").fill(password);
+    await page.getByTestId("email").fill(email);
+    await page.getByTestId("password").fill(password);
     await page.getByTestId("sign-in-submit").click();
 
     await expect(page.getByTestId("profile-menu-item")).toBeVisible();
@@ -33,8 +33,8 @@ test.describe("Sign In", () => {
     await page.goto("/profile");
     await expect(page).toHaveURL(/\/sign-in/);
 
-    await page.getByTestId("email").locator("input").fill(email);
-    await page.getByTestId("password").locator("input").fill(password);
+    await page.getByTestId("email").fill(email);
+    await page.getByTestId("password").fill(password);
     await page.getByTestId("sign-in-submit").click();
 
     await expect(page.getByTestId("user-email")).toBeVisible();
@@ -43,8 +43,8 @@ test.describe("Sign In", () => {
   });
 
   test("should fail if password is incorrect", async ({ page }) => {
-    await page.getByTestId("email").locator("input").fill(email);
-    await page.getByTestId("password").locator("input").fill("password1");
+    await page.getByTestId("email").fill(email);
+    await page.getByTestId("password").fill("password1");
     await page.getByTestId("sign-in-submit").click();
 
     await expect(page.getByTestId("password-error")).toBeVisible();
@@ -62,27 +62,21 @@ test.describe("Form", () => {
     await page.getByTestId("sign-in-submit").click();
     await expect(page.getByTestId("email-error")).toBeVisible();
     await expect(page.getByTestId("password-error")).toBeVisible();
-    await page
-      .getByTestId("email")
-      .locator("input")
-      .fill("useremail@gmail.com");
+    await page.getByTestId("email").fill("useremail@gmail.com");
     await expect(page.getByTestId("email-error")).not.toBeVisible();
     await page.getByTestId("sign-in-submit").click();
     await expect(page.getByTestId("password-error")).toBeVisible();
-    await page.getByTestId("password").locator("input").fill("password1");
+    await page.getByTestId("password").fill("password1");
     await expect(page.getByTestId("password-error")).not.toBeVisible();
-    await page.getByTestId("email").locator("input").fill("");
+    await page.getByTestId("email").fill("");
     await expect(page.getByTestId("email-error")).toBeVisible();
   });
 
   test("should be display error message if email isn't registered in the system", async ({
     page,
   }) => {
-    await page
-      .getByTestId("email")
-      .locator("input")
-      .fill("notexistedemail@gmail.com");
-    await page.getByTestId("password").locator("input").fill("password1");
+    await page.getByTestId("email").fill("notexistedemail@gmail.com");
+    await page.getByTestId("password").fill("password1");
     await page.getByTestId("sign-in-submit").click();
 
     await expect(page.getByTestId("email-error")).toBeVisible();
