@@ -1,6 +1,10 @@
-import { Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
 
-export async function login(email: string, password: string, page: Page) {
+export async function login(
+  email: string,
+  password: string,
+  page: Page
+): Promise<void> {
   await page.getByTestId("email").fill(email);
   await page.getByTestId("password").fill(password);
   const apiUserLoggedIn = page.waitForResponse(
@@ -9,4 +13,6 @@ export async function login(email: string, password: string, page: Page) {
   );
   await page.getByTestId("sign-in-submit").click();
   await apiUserLoggedIn;
+
+  await page.waitForURL((url) => !url.pathname.endsWith("/sign-in"));
 }
