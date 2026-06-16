@@ -1,0 +1,78 @@
+{
+  "title": "Perfil",
+  "title1": "Editar perfil",
+  "title2": "Cambiar correo electrónico",
+  "title3": "Cambiar contraseña",
+  "actions": {
+    "edit": "Editar",
+    "submit": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "inputs": {
+    "firstName": {
+      "label": "Nombre",
+      "validation": {
+        "required": "El nombre es obligatorio"
+      }
+    },
+    "lastName": {
+      "label": "Apellidos",
+      "validation": {
+        "required": "Los apellidos son obligatorios"
+      }
+    },
+    "email": {
+      "label": "Nuevo correo electrónico",
+      "validation": {
+        "required": "El correo electrónico es obligatorio",
+        "email": "El correo electrónico debe ser válido",
+        "currentEmail": "El correo electrónico debe ser distinto del actual",
+        "server": {
+          "emailExists": "El correo electrónico ya está en uso"
+        }
+      }
+    },
+    "emailConfirmation": {
+      "label": "Confirmación de correo electrónico",
+      "validation": {
+        "required": "La confirmación de correo electrónico es obligatoria",
+        "match": "La confirmación de correo electrónico debe coincidir con el correo electrónico"
+      }
+    },
+    "oldPassword": {
+      "label": "Contraseña actual",
+      "validation": {
+        "required": "La contraseña actual es obligatoria",
+        "min": "La contraseña actual debe tener al menos 6 caracteres",
+        "server": {
+          "incorrectOldPassword": "La contraseña actual no es válida"
+        }
+      }
+    },
+    "password": {
+      "label": "Nueva contraseña",
+      "validation": {
+        "required": "La nueva contraseña es obligatoria",
+        "min": "La nueva contraseña debe tener al menos 6 caracteres"
+      }
+    },
+    "passwordConfirmation": {
+      "label": "Confirmación de contraseña",
+      "validation": {
+        "required": "La confirmación de contraseña es obligatoria",
+        "match": "La confirmación de contraseña debe coincidir con la contraseña"
+      }
+    }
+  },
+  "alerts": {
+    "email": {
+      "success": "Se ha enviado una solicitud de cambio de correo electrónico a tu nueva dirección. Revisa tu correo y haz clic en el enlace para confirmar el cambio."
+    },
+    "password": {
+      "success": "La contraseña se ha actualizado correctamente"
+    },
+    "profile": {
+      "success": "El perfil se ha actualizado correctamente"
+    }
+  }
+}

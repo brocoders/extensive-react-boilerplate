@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 export function useSnackbar() {
   const enqueueSnackbar = useCallback(
@@ -7,15 +7,18 @@ export function useSnackbar() {
       message: string,
       config?: { variant?: "success" | "error"; autoHideDuration?: number }
     ) => {
-      toast(
-        message,
-        config
-          ? {
-              type: config.variant,
-              autoClose: config.autoHideDuration,
-            }
-          : undefined
-      );
+      const options =
+        config?.autoHideDuration !== undefined
+          ? { duration: config.autoHideDuration }
+          : undefined;
+
+      if (config?.variant === "success") {
+        toast.success(message, options);
+      } else if (config?.variant === "error") {
+        toast.error(message, options);
+      } else {
+        toast(message, options);
+      }
     },
     []
   );

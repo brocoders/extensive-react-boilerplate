@@ -1,0 +1,65 @@
+{
+  "title1": "उपयोगकर्ता संपादित करें",
+  "title2": "पासवर्ड बदलें",
+  "actions": {
+    "submit": "सहेजें",
+    "cancel": "रद्द करें"
+  },
+  "inputs": {
+    "email": {
+      "label": "ईमेल",
+      "validation": {
+        "invalid": "ईमेल अमान्य है",
+        "required": "ईमेल आवश्यक है",
+        "server": {
+          "emailAlreadyExists": "ईमेल पहले से मौजूद है"
+        }
+      }
+    },
+    "firstName": {
+      "label": "पहला नाम",
+      "validation": {
+        "required": "पहला नाम आवश्यक है"
+      }
+    },
+    "lastName": {
+      "label": "अंतिम नाम",
+      "validation": {
+        "required": "अंतिम नाम आवश्यक है"
+      }
+    },
+    "role": {
+      "label": "भूमिका",
+      "validation": {
+        "required": "भूमिका आवश्यक है"
+      },
+      "options": {
+        "1": "एडमिन",
+        "2": "उपयोगकर्ता"
+      }
+    },
+    "password": {
+      "label": "पासवर्ड",
+      "validation": {
+        "required": "पासवर्ड आवश्यक है",
+        "min": "पासवर्ड कम से कम 6 अक्षरों का होना चाहिए"
+      }
+    },
+    "passwordConfirmation": {
+      "label": "पासवर्ड की पुष्टि",
+      "validation": {
+        "required": "पासवर्ड की पुष्टि आवश्यक है",
+        "match": "पासवर्ड की पुष्टि पासवर्ड से मेल खानी चाहिए"
+      }
+    },
+    "<system>": "Do not remove this property"
+  },
+  "alerts": {
+    "password": {
+      "success": "पासवर्ड सफलतापूर्वक अपडेट किया गया"
+    },
+    "user": {
+      "success": "उपयोगकर्ता की प्रोफ़ाइल सफलतापूर्वक अपडेट की गई"
+    }
+  }
+}

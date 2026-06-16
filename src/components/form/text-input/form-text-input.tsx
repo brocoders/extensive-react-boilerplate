@@ -84,7 +84,7 @@ function TextInput(
             className={cn(
               props.error && "border-destructive",
               props.size === "small" && "h-8",
-              isPassword && "pr-10"
+              isPassword && "pe-10"
             )}
           />
         )}
@@ -93,7 +93,7 @@ function TextInput(
             type="button"
             aria-label="toggle password visibility"
             onClick={handleClickShowPassword}
-            className="absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground hover:text-foreground"
+            className="absolute inset-y-0 end-0 flex items-center px-3 text-muted-foreground hover:text-foreground"
           >
             {isShowPassword ? (
               <EyeOff className="size-4" />

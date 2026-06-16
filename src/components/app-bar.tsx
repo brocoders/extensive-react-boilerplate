@@ -20,7 +20,7 @@ function ResponsiveAppBar() {
         {/* Brand */}
         <Link
           href="/"
-          className="mr-auto font-mono text-lg font-bold tracking-[.3rem]"
+          className="me-auto font-mono text-lg font-bold tracking-[.3rem]"
         >
           {t("common:app-name")}
         </Link>

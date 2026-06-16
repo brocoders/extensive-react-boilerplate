@@ -36,7 +36,7 @@ export default async function Home(props: Props) {
                   key="1"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-primary underline-offset-4 hover:underline"
+                  className="text-primary underline-offset-4 underline"
                   href="https://github.com/brocoders/extensive-react-boilerplate/blob/main/docs/README.md"
                 >
                   {}
@@ -48,9 +48,9 @@ export default async function Home(props: Props) {
         <div className="mx-auto">
           <Link
             href="/privacy-policy"
-            className="text-primary underline-offset-4 hover:underline"
+            className="text-primary underline-offset-4 underline"
           >
-            Privacy Policy
+            {t("privacyPolicy")}
           </Link>
         </div>
       </div>

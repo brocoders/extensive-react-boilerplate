@@ -5,11 +5,11 @@ type Props = {
   params: Promise<{ language: string }>;
 };
 
-const linkClass = "text-primary underline-offset-4 hover:underline";
+const linkClass = "text-primary underline-offset-4 underline";
 const h2Class = "mt-14 mb-4 text-3xl font-semibold tracking-tight";
 const h3Class = "mt-10 mb-4 text-2xl font-semibold";
 const h4Class = "mt-8 mb-2 text-xl font-semibold";
-const ulClass = "mb-6 list-disc pl-10";
+const ulClass = "mb-6 list-disc ps-10";
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
@@ -102,7 +102,7 @@ async function PrivacyPolicy(props: Props) {
       <h3 className={h3Class}>{t("types_of_data_collected")}</h3>
       <h4 className={h4Class}>{t("personal_data")}</h4>
       <p className="mb-4">{t("personal_data_description")}</p>
-      <ul className="mb-6 list-disc pl-10">
+      <ul className="mb-6 list-disc ps-10">
         <li>{t("usage_data")}</li>
       </ul>
       <h4 className={h4Class}>{t("usage_data")}</h4>

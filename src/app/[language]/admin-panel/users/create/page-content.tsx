@@ -219,7 +219,7 @@ function FormCreateUser() {
 
             <div className="col-span-12">
               <CreateUserFormActions />
-              <span className="ml-2">
+              <span className="ms-2">
                 <Button asChild variant="secondary">
                   <Link href="/admin-panel/users">
                     {t("admin-panel-users-create:actions.cancel")}

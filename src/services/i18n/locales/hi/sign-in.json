@@ -1,0 +1,32 @@
+{
+  "title": "साइन इन",
+  "actions": {
+    "submit": "साइन इन",
+    "createAccount": "खाता बनाएं",
+    "forgotPassword": "पासवर्ड भूल गए?"
+  },
+  "inputs": {
+    "email": {
+      "label": "ईमेल",
+      "validation": {
+        "required": "ईमेल आवश्यक है",
+        "invalid": "ईमेल मान्य नहीं है",
+        "server": {
+          "emailNotExists": "ईमेल मौजूद नहीं है",
+          "notFound": "ईमेल मौजूद नहीं है"
+        }
+      }
+    },
+    "password": {
+      "label": "पासवर्ड",
+      "validation": {
+        "required": "पासवर्ड आवश्यक है",
+        "min": "पासवर्ड कम से कम 6 अक्षरों का होना चाहिए",
+        "server": {
+          "incorrectPassword": "पासवर्ड मान्य नहीं है"
+        }
+      }
+    }
+  },
+  "or": "या"
+}

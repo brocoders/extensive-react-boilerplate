@@ -1,0 +1,78 @@
+{
+  "title": "Profil",
+  "title1": "Modifier le profil",
+  "title2": "Modifier l'e-mail",
+  "title3": "Modifier le mot de passe",
+  "actions": {
+    "edit": "Modifier",
+    "submit": "Enregistrer",
+    "cancel": "Annuler"
+  },
+  "inputs": {
+    "firstName": {
+      "label": "Prénom",
+      "validation": {
+        "required": "Le prénom est requis"
+      }
+    },
+    "lastName": {
+      "label": "Nom",
+      "validation": {
+        "required": "Le nom est requis"
+      }
+    },
+    "email": {
+      "label": "Nouvel e-mail",
+      "validation": {
+        "required": "L'e-mail est requis",
+        "email": "L'e-mail doit être valide",
+        "currentEmail": "L'e-mail doit être différent de l'e-mail actuel",
+        "server": {
+          "emailExists": "Cet e-mail est déjà utilisé"
+        }
+      }
+    },
+    "emailConfirmation": {
+      "label": "Confirmation de l'e-mail",
+      "validation": {
+        "required": "La confirmation de l'e-mail est requise",
+        "match": "La confirmation de l'e-mail doit correspondre à l'e-mail"
+      }
+    },
+    "oldPassword": {
+      "label": "Ancien mot de passe",
+      "validation": {
+        "required": "L'ancien mot de passe est requis",
+        "min": "L'ancien mot de passe doit contenir au moins 6 caractères",
+        "server": {
+          "incorrectOldPassword": "L'ancien mot de passe n'est pas valide"
+        }
+      }
+    },
+    "password": {
+      "label": "Nouveau mot de passe",
+      "validation": {
+        "required": "Le nouveau mot de passe est requis",
+        "min": "Le nouveau mot de passe doit contenir au moins 6 caractères"
+      }
+    },
+    "passwordConfirmation": {
+      "label": "Confirmation du mot de passe",
+      "validation": {
+        "required": "La confirmation du mot de passe est requise",
+        "match": "La confirmation du mot de passe doit correspondre au mot de passe"
+      }
+    }
+  },
+  "alerts": {
+    "email": {
+      "success": "La demande de modification de l'e-mail a été envoyée à votre nouvelle adresse e-mail. Veuillez consulter votre boîte de réception et cliquer sur le lien pour confirmer la modification."
+    },
+    "password": {
+      "success": "Le mot de passe a été mis à jour avec succès"
+    },
+    "profile": {
+      "success": "Le profil a été mis à jour avec succès"
+    }
+  }
+}

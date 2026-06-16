@@ -185,7 +185,7 @@ function Form() {
                     <Link
                       href="/privacy-policy"
                       target="_blank"
-                      className="text-primary underline-offset-4 hover:underline"
+                      className="text-primary underline-offset-4 underline"
                     >
                       {t("sign-up:inputs.policy.label")}
                     </Link>
@@ -196,7 +196,7 @@ function Form() {
 
             <div className="col-span-12">
               <FormActions />
-              <span className="ml-2">
+              <span className="ms-2">
                 <Button asChild variant="secondary" data-testid="login">
                   <Link href="/sign-in">
                     {t("sign-up:actions.accountAlreadyExists")}

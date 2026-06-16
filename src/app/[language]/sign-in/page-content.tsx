@@ -123,7 +123,7 @@ function Form() {
               <Link
                 href="/forgot-password"
                 data-testid="forgot-password"
-                className="text-sm text-primary underline-offset-4 hover:underline"
+                className="text-sm text-primary underline-offset-4 underline"
               >
                 {t("sign-in:actions.forgotPassword")}
               </Link>
@@ -133,7 +133,7 @@ function Form() {
               <FormActions />
 
               {IS_SIGN_UP_ENABLED && (
-                <span className="ml-2">
+                <span className="ms-2">
                   <Button
                     asChild
                     variant="secondary"

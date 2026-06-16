@@ -1,0 +1,41 @@
+{
+  "app-name": "Boilerplate",
+  "loading": "جارٍ التحميل ...",
+  "close": "إغلاق",
+  "navigation": {
+    "home": "الرئيسية",
+    "signIn": "تسجيل الدخول",
+    "signUp": "إنشاء حساب",
+    "profile": "الملف الشخصي",
+    "users": "المستخدمون",
+    "logout": "تسجيل الخروج"
+  },
+  "formInputs": {
+    "avatarInput": {
+      "dropzoneText": "أفلت الصورة هنا ...",
+      "dragAndDrop": "أو اسحب وأفلت صورة هنا",
+      "selectFile": "اختر صورة"
+    },
+    "multipleImageInput": {
+      "dropzoneText": "أفلت الصورة هنا ...",
+      "dragAndDrop": "أو اسحب وأفلت بعض الصور هنا",
+      "selectFile": "اختر صورة"
+    },
+    "singleImageInput": {
+      "dropzoneText": "أفلت الصورة هنا ...",
+      "dragAndDrop": "أو اسحب وأفلت بعض الصور هنا",
+      "selectFile": "اختر صورة"
+    }
+  },
+  "leavePage": {
+    "title": "مغادرة هذه الصفحة؟",
+    "message": "قد لا يتم حفظ التغييرات التي أجريتها",
+    "stay": "البقاء في الصفحة",
+    "leave": "مغادرة الصفحة"
+  },
+  "auth": {
+    "facebook": {
+      "action": "تسجيل الدخول عبر فيسبوك"
+    }
+  }
+}

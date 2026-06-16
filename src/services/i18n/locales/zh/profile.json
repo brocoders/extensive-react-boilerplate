@@ -1,0 +1,78 @@
+{
+  "title": "个人资料",
+  "title1": "编辑个人资料",
+  "title2": "修改邮箱",
+  "title3": "修改密码",
+  "actions": {
+    "edit": "编辑",
+    "submit": "保存",
+    "cancel": "取消"
+  },
+  "inputs": {
+    "firstName": {
+      "label": "名字",
+      "validation": {
+        "required": "请输入名字"
+      }
+    },
+    "lastName": {
+      "label": "姓氏",
+      "validation": {
+        "required": "请输入姓氏"
+      }
+    },
+    "email": {
+      "label": "新邮箱",
+      "validation": {
+        "required": "请输入邮箱",
+        "email": "邮箱格式必须有效",
+        "currentEmail": "新邮箱必须与当前邮箱不同",
+        "server": {
+          "emailExists": "该邮箱已被占用"
+        }
+      }
+    },
+    "emailConfirmation": {
+      "label": "确认邮箱",
+      "validation": {
+        "required": "请确认邮箱",
+        "match": "两次输入的邮箱必须一致"
+      }
+    },
+    "oldPassword": {
+      "label": "旧密码",
+      "validation": {
+        "required": "请输入旧密码",
+        "min": "旧密码长度至少为 6 个字符",
+        "server": {
+          "incorrectOldPassword": "旧密码无效"
+        }
+      }
+    },
+    "password": {
+      "label": "新密码",
+      "validation": {
+        "required": "请输入新密码",
+        "min": "新密码长度至少为 6 个字符"
+      }
+    },
+    "passwordConfirmation": {
+      "label": "确认密码",
+      "validation": {
+        "required": "请确认密码",
+        "match": "两次输入的密码必须一致"
+      }
+    }
+  },
+  "alerts": {
+    "email": {
+      "success": "更改邮箱的请求已发送至您的新邮箱地址。请查收邮件并点击链接以确认更改。"
+    },
+    "password": {
+      "success": "密码已成功更新"
+    },
+    "profile": {
+      "success": "个人资料已成功更新"
+    }
+  }
+}

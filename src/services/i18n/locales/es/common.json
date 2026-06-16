@@ -1,0 +1,41 @@
+{
+  "app-name": "Boilerplate",
+  "loading": "Cargando ...",
+  "close": "Cerrar",
+  "navigation": {
+    "home": "Inicio",
+    "signIn": "Iniciar sesión",
+    "signUp": "Crear cuenta",
+    "profile": "Perfil",
+    "users": "Usuarios",
+    "logout": "Cerrar sesión"
+  },
+  "formInputs": {
+    "avatarInput": {
+      "dropzoneText": "Suelta la imagen aquí ...",
+      "dragAndDrop": "O arrastra y suelta una imagen aquí",
+      "selectFile": "Seleccionar una imagen"
+    },
+    "multipleImageInput": {
+      "dropzoneText": "Suelta la imagen aquí ...",
+      "dragAndDrop": "O arrastra y suelta algunas imágenes aquí",
+      "selectFile": "Seleccionar una imagen"
+    },
+    "singleImageInput": {
+      "dropzoneText": "Suelta la imagen aquí ...",
+      "dragAndDrop": "O arrastra y suelta algunas imágenes aquí",
+      "selectFile": "Seleccionar una imagen"
+    }
+  },
+  "leavePage": {
+    "title": "¿Salir de esta página?",
+    "message": "Es posible que los cambios que realizaste no se guarden",
+    "stay": "Permanecer en la página",
+    "leave": "Salir de la página"
+  },
+  "auth": {
+    "facebook": {
+      "action": "Iniciar sesión con Facebook"
+    }
+  }
+}

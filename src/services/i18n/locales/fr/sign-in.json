@@ -1,0 +1,32 @@
+{
+  "title": "Connexion",
+  "actions": {
+    "submit": "Se connecter",
+    "createAccount": "Créer un compte",
+    "forgotPassword": "Mot de passe oublié ?"
+  },
+  "inputs": {
+    "email": {
+      "label": "E-mail",
+      "validation": {
+        "required": "L'e-mail est requis",
+        "invalid": "L'e-mail n'est pas valide",
+        "server": {
+          "emailNotExists": "Cet e-mail n'existe pas",
+          "notFound": "Cet e-mail n'existe pas"
+        }
+      }
+    },
+    "password": {
+      "label": "Mot de passe",
+      "validation": {
+        "required": "Le mot de passe est requis",
+        "min": "Le mot de passe doit contenir au moins 6 caractères",
+        "server": {
+          "incorrectPassword": "Le mot de passe n'est pas valide"
+        }
+      }
+    }
+  },
+  "or": "OU"
+}

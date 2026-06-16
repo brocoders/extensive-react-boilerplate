@@ -5,10 +5,11 @@ import AuthProvider from "@/services/auth/auth-provider";
 import "../globals.css";
 import { Roboto } from "next/font/google";
 import { dir } from "i18next";
+import { DirectionProvider } from "@radix-ui/react-direction";
 import "@/services/i18n/config";
 import { languages } from "@/services/i18n/config";
 import type { Metadata } from "next";
-import ToastContainer from "@/components/snackbar-provider";
+import { Toaster } from "@/components/ui/sonner";
 import { getServerTranslation } from "@/services/i18n";
 import StoreLanguageProvider from "@/services/i18n/store-language-provider";
 import ThemeProvider from "@/components/theme/theme-provider";
@@ -61,34 +62,33 @@ export default async function RootLayout(props: {
       className={roboto.variable}
     >
       <body suppressHydrationWarning className="font-sans antialiased">
-        <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools initialIsOpen={false} />
-          <ThemeProvider>
-            <StoreLanguageProvider>
-              <ConfirmDialogProvider>
-                <AuthProvider>
-                  <GoogleAuthProvider>
-                    <FacebookAuthProvider>
-                      <LeavePageProvider>
-                        <SidebarProvider className="flex-col [--header-height:4rem]">
-                          <ResponsiveAppBar />
-                          <div className="flex flex-1">
-                            <AppSidebar />
-                            <SidebarInset>{children}</SidebarInset>
-                          </div>
-                        </SidebarProvider>
-                        <ToastContainer
-                          position="bottom-left"
-                          hideProgressBar
-                        />
-                      </LeavePageProvider>
-                    </FacebookAuthProvider>
-                  </GoogleAuthProvider>
-                </AuthProvider>
-              </ConfirmDialogProvider>
-            </StoreLanguageProvider>
-          </ThemeProvider>
-        </QueryClientProvider>
+        <DirectionProvider dir={dir(language)}>
+          <QueryClientProvider client={queryClient}>
+            <ReactQueryDevtools initialIsOpen={false} />
+            <ThemeProvider>
+              <StoreLanguageProvider>
+                <ConfirmDialogProvider>
+                  <AuthProvider>
+                    <GoogleAuthProvider>
+                      <FacebookAuthProvider>
+                        <LeavePageProvider>
+                          <SidebarProvider className="flex-col [--header-height:4rem]">
+                            <ResponsiveAppBar />
+                            <div className="flex flex-1">
+                              <AppSidebar />
+                              <SidebarInset>{children}</SidebarInset>
+                            </div>
+                          </SidebarProvider>
+                          <Toaster />
+                        </LeavePageProvider>
+                      </FacebookAuthProvider>
+                    </GoogleAuthProvider>
+                  </AuthProvider>
+                </ConfirmDialogProvider>
+              </StoreLanguageProvider>
+            </ThemeProvider>
+          </QueryClientProvider>
+        </DirectionProvider>
       </body>
     </html>
   );

@@ -135,7 +135,7 @@ function Actions({ user }: { user: User }) {
   };
 
   const editButton = (
-    <Button asChild size="sm" className={canDelete ? "rounded-r-none" : ""}>
+    <Button asChild size="sm" className={canDelete ? "rounded-e-none" : ""}>
       <Link href={`/admin-panel/users/edit/${user.id}`}>
         {tUsers("admin-panel-users:actions.edit")}
       </Link>
@@ -154,7 +154,7 @@ function Actions({ user }: { user: User }) {
           <Button
             size="sm"
             aria-label="more actions"
-            className="rounded-l-none border-l border-l-primary-foreground/20 px-2"
+            className="rounded-s-none border-s border-s-primary-foreground/20 px-2"
           >
             <ChevronDown />
           </Button>

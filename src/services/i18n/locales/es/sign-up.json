@@ -1,0 +1,49 @@
+{
+  "title": "Crear cuenta",
+  "actions": {
+    "submit": "Crear cuenta",
+    "accountAlreadyExists": "¿Ya tienes una cuenta?"
+  },
+  "inputs": {
+    "firstName": {
+      "label": "Nombre",
+      "validation": {
+        "required": "El nombre es obligatorio"
+      }
+    },
+    "lastName": {
+      "label": "Apellidos",
+      "validation": {
+        "required": "Los apellidos son obligatorios"
+      }
+    },
+    "email": {
+      "label": "Correo electrónico",
+      "validation": {
+        "required": "El correo electrónico es obligatorio",
+        "invalid": "El correo electrónico no es válido",
+        "server": {
+          "emailAlreadyExists": "El correo electrónico ya existe"
+        }
+      }
+    },
+    "password": {
+      "label": "Contraseña",
+      "validation": {
+        "required": "La contraseña es obligatoria",
+        "min": "La contraseña debe tener al menos 6 caracteres",
+        "server": {
+          "incorrectPassword": "La contraseña no es válida"
+        }
+      }
+    },
+    "policy": {
+      "label": "Política de privacidad",
+      "agreement": "He leído y acepto ",
+      "validation": {
+        "required": "Es obligatorio aceptar la Política de privacidad"
+      }
+    }
+  },
+  "or": "O"
+}

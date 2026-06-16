@@ -216,7 +216,7 @@ function FormBasicInfo() {
 
             <div className="col-span-12">
               <BasicInfoFormActions />
-              <span className="ml-2">
+              <span className="ms-2">
                 <Button
                   asChild
                   variant="secondary"
@@ -311,7 +311,7 @@ function FormChangeEmail() {
 
             <div className="col-span-12">
               <ChangeEmailFormActions />
-              <span className="ml-2">
+              <span className="ms-2">
                 <Button
                   asChild
                   variant="secondary"
@@ -414,7 +414,7 @@ function FormChangePassword() {
 
             <div className="col-span-12">
               <ChangePasswordFormActions />
-              <span className="ml-2">
+              <span className="ms-2">
                 <Button
                   asChild
                   variant="secondary"

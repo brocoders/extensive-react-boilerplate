@@ -1,0 +1,65 @@
+{
+  "title1": "تعديل المستخدم",
+  "title2": "تغيير كلمة المرور",
+  "actions": {
+    "submit": "حفظ",
+    "cancel": "إلغاء"
+  },
+  "inputs": {
+    "email": {
+      "label": "البريد الإلكتروني",
+      "validation": {
+        "invalid": "البريد الإلكتروني غير صالح",
+        "required": "البريد الإلكتروني مطلوب",
+        "server": {
+          "emailAlreadyExists": "البريد الإلكتروني مستخدم بالفعل"
+        }
+      }
+    },
+    "firstName": {
+      "label": "الاسم الأول",
+      "validation": {
+        "required": "الاسم الأول مطلوب"
+      }
+    },
+    "lastName": {
+      "label": "اسم العائلة",
+      "validation": {
+        "required": "اسم العائلة مطلوب"
+      }
+    },
+    "role": {
+      "label": "الدور",
+      "validation": {
+        "required": "الدور مطلوب"
+      },
+      "options": {
+        "1": "مسؤول",
+        "2": "مستخدم"
+      }
+    },
+    "password": {
+      "label": "كلمة المرور",
+      "validation": {
+        "required": "كلمة المرور مطلوبة",
+        "min": "يجب ألا تقل كلمة المرور عن 6 أحرف"
+      }
+    },
+    "passwordConfirmation": {
+      "label": "تأكيد كلمة المرور",
+      "validation": {
+        "required": "تأكيد كلمة المرور مطلوب",
+        "match": "يجب أن يتطابق تأكيد كلمة المرور مع كلمة المرور"
+      }
+    },
+    "<system>": "Do not remove this property"
+  },
+  "alerts": {
+    "password": {
+      "success": "تم تحديث كلمة المرور بنجاح"
+    },
+    "user": {
+      "success": "تم تحديث ملف المستخدم بنجاح"
+    }
+  }
+}
