@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { getServerTranslation } from "@/services/i18n";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import MuiLink from "@mui/material/Link";
+import Link from "@/components/link";
 import { Trans } from "react-i18next/TransWithoutContext";
 
 type Props = {
@@ -24,40 +21,39 @@ export default async function Home(props: Props) {
   const { t } = await getServerTranslation(params.language, "home");
 
   return (
-    <Container maxWidth="md">
-      <Grid
-        container
-        spacing={3}
-        wrap="nowrap"
-        pt={3}
-        direction="column"
-        sx={{ height: "90vh", justifyContent: "space-between" }}
-      >
-        <Grid size="grow">
-          <Typography variant="h3" data-testid="home-title" gutterBottom>
+    <div className="mx-auto w-full max-w-3xl px-4">
+      <div className="flex h-[90vh] flex-col justify-between gap-6 pt-6">
+        <div className="flex-grow">
+          <h1 className="mb-4 text-3xl font-semibold" data-testid="home-title">
             {t("title")}
-          </Typography>
-          <Typography>
+          </h1>
+          <p>
             <Trans
               i18nKey={`description`}
               t={t}
               components={[
-                <MuiLink
+                <a
                   key="1"
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="text-primary underline-offset-4 underline"
                   href="https://github.com/brocoders/extensive-react-boilerplate/blob/main/docs/README.md"
                 >
                   {}
-                </MuiLink>,
+                </a>,
               ]}
             />
-          </Typography>
-        </Grid>
-        <Grid sx={{ mx: "auto" }}>
-          <MuiLink href="/privacy-policy">Privacy Policy</MuiLink>
-        </Grid>
-      </Grid>
-    </Container>
+          </p>
+        </div>
+        <div className="mx-auto">
+          <Link
+            href="/privacy-policy"
+            className="text-primary underline-offset-4 underline"
+          >
+            {t("privacyPolicy")}
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }

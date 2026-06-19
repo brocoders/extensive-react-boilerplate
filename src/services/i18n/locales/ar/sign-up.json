@@ -1,0 +1,49 @@
+{
+  "title": "إنشاء حساب",
+  "actions": {
+    "submit": "إنشاء حساب",
+    "accountAlreadyExists": "لديك حساب بالفعل؟"
+  },
+  "inputs": {
+    "firstName": {
+      "label": "الاسم الأول",
+      "validation": {
+        "required": "الاسم الأول مطلوب"
+      }
+    },
+    "lastName": {
+      "label": "اسم العائلة",
+      "validation": {
+        "required": "اسم العائلة مطلوب"
+      }
+    },
+    "email": {
+      "label": "البريد الإلكتروني",
+      "validation": {
+        "required": "البريد الإلكتروني مطلوب",
+        "invalid": "البريد الإلكتروني غير صالح",
+        "server": {
+          "emailAlreadyExists": "البريد الإلكتروني مستخدم بالفعل"
+        }
+      }
+    },
+    "password": {
+      "label": "كلمة المرور",
+      "validation": {
+        "required": "كلمة المرور مطلوبة",
+        "min": "يجب ألا تقل كلمة المرور عن 6 أحرف",
+        "server": {
+          "incorrectPassword": "كلمة المرور غير صالحة"
+        }
+      }
+    },
+    "policy": {
+      "label": "سياسة الخصوصية",
+      "agreement": "لقد قرأت وأوافق على ",
+      "validation": {
+        "required": "الموافقة على سياسة الخصوصية مطلوبة"
+      }
+    }
+  },
+  "or": "أو"
+}

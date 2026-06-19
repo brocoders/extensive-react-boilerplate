@@ -1,17 +1,17 @@
 "use client";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Visibility from "@mui/icons-material/Visibility";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import TextField from "@mui/material/TextField";
-import React, { ChangeEvent, Ref, useState } from "react";
+import Eye from "lucide-react/dist/esm/icons/eye";
+import EyeOff from "lucide-react/dist/esm/icons/eye-off";
+import { ChangeEvent, Ref, useState } from "react";
 import {
   Controller,
   ControllerProps,
   FieldPath,
   FieldValues,
 } from "react-hook-form";
-import type { InputBaseComponentProps } from "@mui/material/InputBase";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
 export type TextInputProps = {
   label: string;
@@ -22,7 +22,6 @@ export type TextInputProps = {
   error?: string;
   testId?: string;
   autoComplete?: string;
-  inputComponent?: React.ElementType<InputBaseComponentProps>;
   multiline?: boolean;
   minRows?: number;
   maxRows?: number;
@@ -37,62 +36,82 @@ function TextInput(
       value: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => void;
     onBlur: () => void;
-    ref?: Ref<HTMLDivElement | null>;
+    ref?: Ref<HTMLInputElement | HTMLTextAreaElement | null>;
   }
 ) {
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const isPassword = props.type === "password";
+  const inputId = `text-input-${props.name}`;
 
   const handleClickShowPassword = () => setIsShowPassword((show) => !show);
 
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
   return (
-    <TextField
-      ref={props.ref}
-      name={props.name}
-      size={props.size}
-      value={props.value}
-      onChange={props.onChange}
-      onBlur={props.onBlur}
-      label={props.label}
-      autoFocus={props.autoFocus}
-      type={props.type === "password" && isShowPassword ? "text" : props.type}
-      variant="outlined"
-      fullWidth
-      error={!!props.error}
-      data-testid={props.testId}
-      helperText={props.error}
-      disabled={props.disabled}
-      autoComplete={props.autoComplete}
-      multiline={props.multiline}
-      minRows={props.minRows}
-      maxRows={props.maxRows}
-      slotProps={{
-        formHelperText: {
-          ["data-testid" as string]: `${props.testId}-error`,
-        },
-        input: {
-          readOnly: props.readOnly,
-          inputComponent: props.inputComponent,
-          endAdornment:
-            props.type === "password" ? (
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {isShowPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ) : undefined,
-        },
-      }}
-    />
+    <div className="flex w-full flex-col gap-1.5">
+      <Label htmlFor={inputId}>{props.label}</Label>
+      <div className="relative">
+        {props.multiline ? (
+          <Textarea
+            id={inputId}
+            ref={props.ref as Ref<HTMLTextAreaElement>}
+            name={props.name}
+            value={props.value}
+            onChange={props.onChange}
+            onBlur={props.onBlur}
+            autoFocus={props.autoFocus}
+            readOnly={props.readOnly}
+            disabled={props.disabled}
+            autoComplete={props.autoComplete}
+            rows={props.minRows}
+            data-testid={props.testId}
+            aria-invalid={!!props.error}
+            className={cn(props.error && "border-destructive")}
+          />
+        ) : (
+          <Input
+            id={inputId}
+            ref={props.ref as Ref<HTMLInputElement>}
+            name={props.name}
+            value={props.value}
+            onChange={props.onChange}
+            onBlur={props.onBlur}
+            autoFocus={props.autoFocus}
+            readOnly={props.readOnly}
+            disabled={props.disabled}
+            autoComplete={props.autoComplete}
+            type={isPassword && isShowPassword ? "text" : props.type}
+            data-testid={props.testId}
+            aria-invalid={!!props.error}
+            className={cn(
+              props.error && "border-destructive",
+              props.size === "small" && "h-8",
+              isPassword && "pe-10"
+            )}
+          />
+        )}
+        {isPassword && (
+          <button
+            type="button"
+            aria-label="toggle password visibility"
+            onClick={handleClickShowPassword}
+            className="absolute inset-y-0 end-0 flex items-center px-3 text-muted-foreground hover:text-foreground"
+          >
+            {isShowPassword ? (
+              <EyeOff className="size-4" />
+            ) : (
+              <Eye className="size-4" />
+            )}
+          </button>
+        )}
+      </div>
+      {!!props.error && (
+        <p
+          data-testid={`${props.testId}-error`}
+          className="text-sm text-destructive"
+        >
+          {props.error}
+        </p>
+      )}
+    </div>
   );
 }
 
@@ -120,7 +139,7 @@ function FormTextInput<
           multiline={props.multiline}
           minRows={props.minRows}
           maxRows={props.maxRows}
-          inputComponent={props.inputComponent}
+          autoComplete={props.autoComplete}
           size={props.size}
         />
       )}

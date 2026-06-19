@@ -1,13 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+import Loader2 from "lucide-react/dist/esm/icons/loader-2";
 import { useAuthConfirmEmailService } from "@/services/api/services/auth";
 import { useRouter } from "next/navigation";
 import { useSnackbar } from "@/hooks/use-snackbar";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 
@@ -45,21 +42,10 @@ export default function ConfirmEmail() {
   }, [fetchConfirmEmail, router, enqueueSnackbar, t]);
 
   return (
-    <Container maxWidth="sm">
-      <Grid container>
-        <Grid size={{ xs: 12 }}>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              p: 2,
-            }}
-          >
-            <CircularProgress />
-          </Box>
-        </Grid>
-      </Grid>
-    </Container>
+    <div className="mx-auto w-full max-w-xl px-4">
+      <div className="flex items-center justify-center p-4">
+        <Loader2 className="size-10 animate-spin" />
+      </div>
+    </div>
   );
 }

@@ -1,0 +1,36 @@
+{
+  "title": "用户",
+  "table": {
+    "column1": "ID",
+    "column2": "姓名",
+    "column3": "邮箱",
+    "column4": "角色"
+  },
+  "actions": {
+    "add": "添加用户",
+    "edit": "编辑",
+    "delete": "删除",
+    "create": "创建用户"
+  },
+  "confirm": {
+    "delete": {
+      "title": "删除用户",
+      "message": "确定要删除该用户吗？"
+    }
+  },
+  "filter": {
+    "actions": {
+      "filter": "筛选",
+      "apply": "应用"
+    },
+    "inputs": {
+      "role": {
+        "label": "角色",
+        "options": {
+          "1": "管理员",
+          "2": "用户"
+        }
+      }
+    }
+  }
+}

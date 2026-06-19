@@ -1,11 +1,8 @@
 "use client";
-import Button from "@mui/material/Button";
+import { Button } from "@/components/ui/button";
 import withPageRequiredGuest from "@/services/auth/with-page-required-guest";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
 import { useAuthResetPasswordService } from "@/services/api/services/auth";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import FormTextInput from "@/components/form/text-input/form-text-input";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -14,7 +11,6 @@ import { useRouter } from "next/navigation";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 import { useEffect, useMemo, useState } from "react";
-import Alert from "@mui/material/Alert";
 
 type PasswordChangeFormData = {
   password: string;
@@ -46,13 +42,7 @@ function FormActions() {
   const { isSubmitting } = useFormState();
 
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      type="submit"
-      disabled={isSubmitting}
-      data-testid="set-password"
-    >
+    <Button type="submit" disabled={isSubmitting} data-testid="set-password">
       {t("password-change:actions.submit")}
     </Button>
   );
@@ -85,11 +75,15 @@ function ExpiresAlert() {
 
   return (
     isExpired && (
-      <Grid size={{ xs: 12 }}>
-        <Alert severity="error" data-testid="reset-link-expired-alert">
+      <div className="col-span-12">
+        <div
+          role="alert"
+          data-testid="reset-link-expired-alert"
+          className="rounded-md border border-destructive/50 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+        >
           {t("password-change:alerts.expired")}
-        </Alert>
-      </Grid>
+        </div>
+      </div>
     )
   );
 }
@@ -147,36 +141,38 @@ function Form() {
 
   return (
     <FormProvider {...methods}>
-      <Container maxWidth="xs">
+      <div className="mx-auto w-full max-w-md px-4">
         <form onSubmit={onSubmit}>
-          <Grid container spacing={2} mb={2}>
-            <Grid size={{ xs: 12 }} mt={3}>
-              <Typography variant="h6">{t("password-change:title")}</Typography>
-            </Grid>
+          <div className="mb-4 grid grid-cols-12 gap-4">
+            <div className="col-span-12 mt-6">
+              <h1 className="text-xl font-semibold">
+                {t("password-change:title")}
+              </h1>
+            </div>
             <ExpiresAlert />
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<PasswordChangeFormData>
                 name="password"
                 label={t("password-change:inputs.password.label")}
                 type="password"
                 testId="password"
               />
-            </Grid>
-            <Grid size={{ xs: 12 }}>
+            </div>
+            <div className="col-span-12">
               <FormTextInput<PasswordChangeFormData>
                 name="passwordConfirmation"
                 label={t("password-change:inputs.passwordConfirmation.label")}
                 type="password"
                 testId="password-confirmation"
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormActions />
-            </Grid>
-          </Grid>
+            </div>
+          </div>
         </form>
-      </Container>
+      </div>
     </FormProvider>
   );
 }

@@ -1,4 +1,5 @@
 {
   "title": "Home",
-  "description": "Welcome to the reactjs-boilerplate example app. Full documentation can be found <0>here</0>."
+  "description": "Welcome to the reactjs-boilerplate example app. Full documentation can be found <0>here</0>.",
+  "privacyPolicy": "Privacy Policy"
 }

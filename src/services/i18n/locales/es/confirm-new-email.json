@@ -1,0 +1,5 @@
+{
+  "title": "Confirmación del nuevo correo electrónico",
+  "emailConfirmed": "¡El correo electrónico se ha cambiado!",
+  "emailConfirmFailed": "¡No se pudo cambiar la dirección de correo electrónico!"
+}

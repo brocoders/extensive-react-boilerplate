@@ -1,0 +1,41 @@
+{
+  "app-name": "Boilerplate",
+  "loading": "加载中 ...",
+  "close": "关闭",
+  "navigation": {
+    "home": "首页",
+    "signIn": "登录",
+    "signUp": "注册",
+    "profile": "个人资料",
+    "users": "用户",
+    "logout": "退出登录"
+  },
+  "formInputs": {
+    "avatarInput": {
+      "dropzoneText": "将图片拖放到此处 ...",
+      "dragAndDrop": "或将图片拖拽到此处",
+      "selectFile": "选择图片"
+    },
+    "multipleImageInput": {
+      "dropzoneText": "将图片拖放到此处 ...",
+      "dragAndDrop": "或将图片拖拽到此处",
+      "selectFile": "选择图片"
+    },
+    "singleImageInput": {
+      "dropzoneText": "将图片拖放到此处 ...",
+      "dragAndDrop": "或将图片拖拽到此处",
+      "selectFile": "选择图片"
+    }
+  },
+  "leavePage": {
+    "title": "要离开此页面吗？",
+    "message": "您所做的更改可能不会被保存",
+    "stay": "留在本页",
+    "leave": "离开页面"
+  },
+  "auth": {
+    "facebook": {
+      "action": "使用 Facebook 登录"
+    }
+  }
+}

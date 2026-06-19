@@ -7,9 +7,9 @@ import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { createQueryKeys } from "@/services/react-query/query-key-factory";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
-  Get<%= name %>Request,
-  useGet<%= name %>Service,
-  useGet<%= h.inflection.transform(name, ['pluralize']) %>ListService,
+  Get<%= h.pascalName(name) %>Request,
+  useGet<%= h.pascalName(name) %>Service,
+  useGet<%= h.pascalPluralName(name) %>ListService,
 } from "@/services/api/services/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>";
 
 export const <%= h.inflection.camelize(h.inflection.pluralize(name), true) %>QueryKeys = createQueryKeys(["<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>"], {
@@ -21,8 +21,8 @@ export const <%= h.inflection.camelize(h.inflection.pluralize(name), true) %>Que
   }),
 });
 
-export const useGet<%= h.inflection.transform(name, ['pluralize']) %>ListQuery = () => {
-  const fetch = useGet<%= h.inflection.transform(name, ['pluralize']) %>ListService();
+export const useGet<%= h.pascalPluralName(name) %>ListQuery = () => {
+  const fetch = useGet<%= h.pascalPluralName(name) %>ListService();
 
   const query = useInfiniteQuery({
     queryKey: <%= h.inflection.camelize(h.inflection.pluralize(name), true) %>QueryKeys.list().key,
@@ -53,8 +53,8 @@ export const useGet<%= h.inflection.transform(name, ['pluralize']) %>ListQuery =
   return query;
 };
 
-export const useGet<%= name %>Query = ({ id }: Get<%= name %>Request) => {
-  const fetch = useGet<%= name %>Service();
+export const useGet<%= h.pascalName(name) %>Query = ({ id }: Get<%= h.pascalName(name) %>Request) => {
+  const fetch = useGet<%= h.pascalName(name) %>Service();
 
   return useQuery({
     queryKey: <%= h.inflection.camelize(h.inflection.pluralize(name), true) %>QueryKeys.byId(id).key,

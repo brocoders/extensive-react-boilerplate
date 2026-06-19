@@ -1,17 +1,14 @@
 "use client";
 
-import { ChangeEvent, Ref } from "react";
+import { Ref } from "react";
 import {
   Controller,
   ControllerProps,
   FieldPath,
   FieldValues,
 } from "react-hook-form";
-import FormControl from "@mui/material/FormControl";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import FormGroup from "@mui/material/FormGroup";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 export type CheckboxBooleanInputProps = {
   label: string;
@@ -29,42 +26,37 @@ function CheckboxBooleanInput(
     value: boolean | null;
     onChange: (value: boolean) => void;
     onBlur: () => void;
-    ref?: Ref<HTMLDivElement | null>;
+    ref?: Ref<HTMLButtonElement | null>;
   }
 ) {
   const value = props.value ?? false;
-  const onChange = (
-    event: ChangeEvent<HTMLInputElement>,
-    checkboxValue: boolean
-  ) => {
-    props.onChange(checkboxValue);
-  };
+  const id = `checkbox-${props.name}`;
+
   return (
-    <FormControl
-      data-testid={props.testId}
-      component="fieldset"
-      variant="standard"
-      error={!!props.error}
-    >
-      <FormGroup ref={props.ref}>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={value}
-              onChange={onChange}
-              name={props.name}
-              data-testid={`${props.testId}-checkbox`}
-            />
-          }
-          label={props.label}
+    <div className="flex flex-col gap-1.5" data-testid={props.testId}>
+      <div className="flex items-center gap-2">
+        <Checkbox
+          id={id}
+          ref={props.ref}
+          name={props.name}
+          checked={value}
+          disabled={props.disabled}
+          onBlur={props.onBlur}
+          onCheckedChange={(checked) => props.onChange(checked === true)}
+          aria-invalid={!!props.error}
+          data-testid={`${props.testId}-checkbox`}
         />
-      </FormGroup>
+        <Label htmlFor={id}>{props.label}</Label>
+      </div>
       {!!props.error && (
-        <FormHelperText data-testid={`${props.testId}-error`}>
+        <p
+          data-testid={`${props.testId}-error`}
+          className="text-sm text-destructive"
+        >
           {props.error}
-        </FormHelperText>
+        </p>
       )}
-    </FormControl>
+    </div>
   );
 }
 

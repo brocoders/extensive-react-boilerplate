@@ -1,12 +1,9 @@
 "use client";
 import { useFileUploadService } from "@/services/api/services/files";
-import { FileEntity } from "@/services/api/types/file-entity";
+import type { FileEntity } from "@/services/api/types/file-entity";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { styled } from "@mui/material/styles";
-import React, { useCallback, useState } from "react";
+import X from "lucide-react/dist/esm/icons/x";
+import { useCallback, useState, type MouseEvent, type ReactNode } from "react";
 import { useDropzone } from "react-dropzone";
 import {
   Controller,
@@ -15,10 +12,8 @@ import {
   FieldValues,
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import IconButton from "@mui/material/IconButton";
-import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
-import ImageListItem from "@mui/material/ImageListItem";
-import ImageList from "@mui/material/ImageList";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export type ImagePickerProps = {
   error?: string;
@@ -27,40 +22,8 @@ export type ImagePickerProps = {
   value?: FileEntity;
   disabled?: boolean;
   testId?: string;
-  label?: React.ReactNode;
+  label?: ReactNode;
 };
-
-const ImagePickerContainer = styled("div")(({ theme }) => ({
-  display: "flex",
-  position: "relative",
-  flexDirection: "column",
-  alignItems: "center",
-  padding: theme.spacing(2),
-  marginTop: theme.spacing(2),
-  border: "1px dashed",
-  borderColor: theme.palette.divider,
-  borderRadius: theme.shape.borderRadius,
-  cursor: "pointer",
-
-  "&:hover": { borderColor: theme.palette.text.primary },
-}));
-
-const StyledOverlay = styled("div")(() => {
-  return {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-    top: 0,
-    right: 0,
-    left: 0,
-    bottom: 0,
-    background: "rgba(0, 0, 0, 0.7)",
-    transition: ".5s ease",
-    opacity: 0,
-    "&:hover": { opacity: 1 },
-  };
-});
 
 function ImagePicker(props: ImagePickerProps) {
   const { onChange } = props;
@@ -91,90 +54,70 @@ function ImagePicker(props: ImagePickerProps) {
     disabled: isLoading || props.disabled,
   });
 
-  const removeImageHandle = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const removeImageHandle = (event: MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     onChange(null);
   };
 
   return (
-    <ImagePickerContainer {...getRootProps()}>
+    <div
+      {...getRootProps()}
+      className="relative mt-4 flex cursor-pointer flex-col items-center rounded-md border border-dashed border-border p-4 hover:border-foreground"
+    >
       {isDragActive && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            zIndex: 1,
-          }}
-        >
-          <Typography
-            sx={{
-              color: "white",
-              fontWeight: "bold",
-              textAlign: "center",
-              mt: 10,
-            }}
-            variant="h5"
-          >
+        <div className="absolute inset-0 z-10 bg-black/50">
+          <p className="mt-10 text-center text-xl font-bold text-white">
             {t("common:formInputs.singleImageInput.dropzoneText")}
-          </Typography>
-        </Box>
+          </p>
+        </div>
       )}
       {props?.value ? (
-        <>
-          <ImageList sx={{ width: `100%` }} cols={3} rowHeight={250}>
-            <ImageListItem style={{ overflow: "hidden" }}>
-              <StyledOverlay>
-                <IconButton
-                  disableRipple
-                  onClick={removeImageHandle}
-                  color="inherit"
-                >
-                  <ClearOutlinedIcon
-                    sx={{ width: 50, height: 50, color: "white" }}
-                  />
-                </IconButton>
-              </StyledOverlay>
-              <img src={props.value.path} loading="lazy" />
-            </ImageListItem>
-          </ImageList>
-        </>
-      ) : (
-        <></>
-      )}
+        <div className="grid w-full grid-cols-3 gap-2">
+          <div className="group/img relative h-[250px] overflow-hidden rounded-md">
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/70 opacity-0 transition-opacity duration-500 group-hover/img:opacity-100">
+              <button
+                type="button"
+                aria-label="remove"
+                onClick={removeImageHandle}
+                className="text-white"
+              >
+                <X className="size-12" />
+              </button>
+            </div>
+            <img
+              src={props.value.path}
+              loading="lazy"
+              className="size-full object-cover"
+            />
+          </div>
+        </div>
+      ) : null}
 
-      <Box sx={{ mt: 2 }}>
+      <div className="mt-4">
         <Button
-          variant="contained"
-          component="label"
-          disabled={isLoading}
+          asChild
           data-testid={props.testId}
-          onClick={(e) => e.stopPropagation()}
+          className={cn(isLoading && "pointer-events-none opacity-50")}
         >
-          {isLoading
-            ? t("common:loading")
-            : t("common:formInputs.singleImageInput.selectFile")}
-          <input {...getInputProps()} />
+          <label onClick={(event) => event.stopPropagation()}>
+            {isLoading
+              ? t("common:loading")
+              : t("common:formInputs.singleImageInput.selectFile")}
+            <input {...getInputProps()} />
+          </label>
         </Button>
-      </Box>
+      </div>
 
-      <Box sx={{ mt: 1 }}>
-        <Typography>
-          {t("common:formInputs.singleImageInput.dragAndDrop")}
-        </Typography>
-      </Box>
+      <div className="mt-2">
+        <p>{t("common:formInputs.singleImageInput.dragAndDrop")}</p>
+      </div>
 
       {props.error && (
-        <Box sx={{ mt: 1 }}>
-          <Typography sx={{ color: "red" }}>{props.error}</Typography>
-        </Box>
+        <div className="mt-2">
+          <p className="text-destructive">{props.error}</p>
+        </div>
       )}
-    </ImagePickerContainer>
+    </div>
   );
 }
 
@@ -185,7 +128,7 @@ function FormImagePicker<
   props: Pick<ControllerProps<TFieldValues, TName>, "name" | "defaultValue"> & {
     disabled?: boolean;
     testId?: string;
-    label?: React.ReactNode;
+    label?: ReactNode;
   }
 ) {
   return (

@@ -1,6 +1,7 @@
 {
-  "app-name": "APP",
+  "app-name": "Boilerplate",
   "loading": "Loading ...",
+  "close": "Close",
   "navigation": {
     "home": "Home",
     "signIn": "Sign In",

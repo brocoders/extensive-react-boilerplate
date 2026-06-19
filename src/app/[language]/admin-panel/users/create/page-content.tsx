@@ -1,10 +1,7 @@
 "use client";
 
-import Button from "@mui/material/Button";
+import { Button } from "@/components/ui/button";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import FormTextInput from "@/components/form/text-input/form-text-input";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -14,7 +11,6 @@ import Link from "@/components/link";
 import FormAvatarInput from "@/components/form/avatar-input/form-avatar-input";
 import { FileEntity } from "@/services/api/types/file-entity";
 import useLeavePage from "@/services/leave-page/use-leave-page";
-import Box from "@mui/material/Box";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 import { usePostUserService } from "@/services/api/services/users";
@@ -87,12 +83,7 @@ function CreateUserFormActions() {
   useLeavePage(isDirty);
 
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      type="submit"
-      disabled={isSubmitting}
-    >
+    <Button type="submit" disabled={isSubmitting}>
       {t("admin-panel-users-create:actions.submit")}
     </Button>
   );
@@ -148,28 +139,28 @@ function FormCreateUser() {
 
   return (
     <FormProvider {...methods}>
-      <Container maxWidth="xs">
+      <div className="mx-auto w-full max-w-md px-4">
         <form onSubmit={onSubmit} autoComplete="create-new-user">
-          <Grid container spacing={2} mb={3} mt={3}>
-            <Grid size={{ xs: 12 }}>
-              <Typography variant="h6">
+          <div className="mt-6 mb-6 grid grid-cols-12 gap-4">
+            <div className="col-span-12">
+              <h1 className="text-xl font-semibold">
                 {t("admin-panel-users-create:title")}
-              </Typography>
-            </Grid>
-            <Grid size={{ xs: 12 }}>
+              </h1>
+            </div>
+            <div className="col-span-12">
               <FormAvatarInput<CreateFormData> name="photo" testId="photo" />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<CreateFormData>
                 name="email"
                 testId="new-user-email"
                 autoComplete="new-user-email"
                 label={t("admin-panel-users-create:inputs.email.label")}
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<CreateFormData>
                 name="password"
                 type="password"
@@ -177,9 +168,9 @@ function FormCreateUser() {
                 autoComplete="new-user-password"
                 label={t("admin-panel-users-create:inputs.password.label")}
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<CreateFormData>
                 name="passwordConfirmation"
                 testId="new-user-password-confirmation"
@@ -188,25 +179,25 @@ function FormCreateUser() {
                 )}
                 type="password"
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<CreateFormData>
                 name="firstName"
                 testId="first-name"
                 label={t("admin-panel-users-create:inputs.firstName.label")}
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormTextInput<CreateFormData>
                 name="lastName"
                 testId="last-name"
                 label={t("admin-panel-users-create:inputs.lastName.label")}
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <FormSelectInput<CreateFormData, Pick<Role, "id">>
                 name="role"
                 testId="role"
@@ -224,24 +215,21 @@ function FormCreateUser() {
                   t(`admin-panel-users-create:inputs.role.options.${option.id}`)
                 }
               />
-            </Grid>
+            </div>
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <CreateUserFormActions />
-              <Box ml={1} component="span">
-                <Button
-                  variant="contained"
-                  color="inherit"
-                  LinkComponent={Link}
-                  href="/admin-panel/users"
-                >
-                  {t("admin-panel-users-create:actions.cancel")}
+              <span className="ms-2">
+                <Button asChild variant="secondary">
+                  <Link href="/admin-panel/users">
+                    {t("admin-panel-users-create:actions.cancel")}
+                  </Link>
                 </Button>
-              </Box>
-            </Grid>
-          </Grid>
+              </span>
+            </div>
+          </div>
         </form>
-      </Container>
+      </div>
     </FormProvider>
   );
 }

@@ -1,0 +1,61 @@
+{
+  "title": "创建用户",
+  "actions": {
+    "submit": "保存",
+    "cancel": "取消"
+  },
+  "inputs": {
+    "email": {
+      "label": "邮箱",
+      "validation": {
+        "invalid": "邮箱格式无效",
+        "required": "请输入邮箱",
+        "server": {
+          "emailAlreadyExists": "该邮箱已被注册"
+        }
+      }
+    },
+    "firstName": {
+      "label": "名字",
+      "validation": {
+        "required": "请输入名字"
+      }
+    },
+    "lastName": {
+      "label": "姓氏",
+      "validation": {
+        "required": "请输入姓氏"
+      }
+    },
+    "role": {
+      "label": "角色",
+      "validation": {
+        "required": "请选择角色"
+      },
+      "options": {
+        "1": "管理员",
+        "2": "用户"
+      }
+    },
+    "password": {
+      "label": "密码",
+      "validation": {
+        "required": "请输入密码",
+        "min": "密码长度至少为 6 个字符"
+      }
+    },
+    "passwordConfirmation": {
+      "label": "确认密码",
+      "validation": {
+        "required": "请确认密码",
+        "match": "两次输入的密码必须一致"
+      }
+    },
+    "<system>": "Do not remove this property"
+  },
+  "alerts": {
+    "user": {
+      "success": "用户资料已成功创建"
+    }
+  }
+}

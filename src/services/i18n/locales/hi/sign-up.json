@@ -1,0 +1,49 @@
+{
+  "title": "साइन अप",
+  "actions": {
+    "submit": "साइन अप",
+    "accountAlreadyExists": "पहले से ही खाता है?"
+  },
+  "inputs": {
+    "firstName": {
+      "label": "पहला नाम",
+      "validation": {
+        "required": "पहला नाम आवश्यक है"
+      }
+    },
+    "lastName": {
+      "label": "अंतिम नाम",
+      "validation": {
+        "required": "अंतिम नाम आवश्यक है"
+      }
+    },
+    "email": {
+      "label": "ईमेल",
+      "validation": {
+        "required": "ईमेल आवश्यक है",
+        "invalid": "ईमेल मान्य नहीं है",
+        "server": {
+          "emailAlreadyExists": "ईमेल पहले से मौजूद है"
+        }
+      }
+    },
+    "password": {
+      "label": "पासवर्ड",
+      "validation": {
+        "required": "पासवर्ड आवश्यक है",
+        "min": "पासवर्ड कम से कम 6 अक्षरों का होना चाहिए",
+        "server": {
+          "incorrectPassword": "पासवर्ड मान्य नहीं है"
+        }
+      }
+    },
+    "policy": {
+      "label": "गोपनीयता नीति",
+      "agreement": "मैंने पढ़ लिया है और स्वीकार करता हूँ ",
+      "validation": {
+        "required": "गोपनीयता नीति के लिए सहमति आवश्यक है"
+      }
+    }
+  },
+  "or": "या"
+}

@@ -31,7 +31,7 @@
     "role": {
       "label": "Role",
       "validation": {
-        "required": "Last Name is required"
+        "required": "Role is required"
       },
       "options": {
         "1": "Admin",

@@ -1,16 +1,30 @@
 "use client";
 
-import { Ref } from "react";
+import { Ref, useState } from "react";
+import Check from "lucide-react/dist/esm/icons/check";
+import ChevronsUpDown from "lucide-react/dist/esm/icons/chevrons-up-down";
 import {
   Controller,
   ControllerProps,
   FieldPath,
   FieldValues,
 } from "react-hook-form";
-import FormControl from "@mui/material/FormControl";
-import Autocomplete from "@mui/material/Autocomplete";
-import TextField from "@mui/material/TextField";
-import FormHelperText from "@mui/material/FormHelperText";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 export type AutocompleteInputProps<T> = {
   label: string;
@@ -20,7 +34,6 @@ export type AutocompleteInputProps<T> = {
   error?: string;
   testId?: string;
   size?: "small" | "medium";
-  value: T | null;
   options: T[];
   renderOption: (option: T) => React.ReactNode;
   getOptionLabel: (option: T) => string;
@@ -32,37 +45,85 @@ function AutocompleteInput<T>(
     value: T | undefined | null;
     onChange: (value: T) => void;
     onBlur: () => void;
-    ref?: Ref<HTMLDivElement | null>;
+    ref?: Ref<HTMLButtonElement | null>;
   }
 ) {
-  return (
-    <FormControl error={!!props.error} disabled={props.disabled} fullWidth>
-      <Autocomplete
-        ref={props.ref}
-        id={`autocomplete-${props.name}`}
-        options={props.options}
-        value={props.value}
-        onChange={(_, newValue) => {
-          if (!newValue) return;
+  const [open, setOpen] = useState(false);
+  const inputId = `autocomplete-${props.name}`;
 
-          props.onChange(newValue);
-        }}
-        onBlur={props.onBlur}
-        data-testid={props.testId}
-        getOptionLabel={props.getOptionLabel}
-        renderOption={(htmlProps, option) => (
-          <li {...htmlProps}>{props.renderOption(option)}</li>
-        )}
-        renderInput={(params) => (
-          <TextField {...params} label={props.label} size={props.size} />
-        )}
-      />
+  return (
+    <div className="flex w-full flex-col gap-1.5">
+      <Label htmlFor={inputId}>{props.label}</Label>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            id={inputId}
+            ref={props.ref}
+            type="button"
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            disabled={props.disabled || props.readOnly}
+            onBlur={props.onBlur}
+            data-testid={props.testId}
+            aria-invalid={!!props.error}
+            className={cn(
+              "w-full justify-between font-normal",
+              !props.value && "text-muted-foreground",
+              props.error && "border-destructive"
+            )}
+          >
+            <span className="truncate">
+              {props.value ? props.renderOption(props.value) : props.label}
+            </span>
+            <ChevronsUpDown className="opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          className="w-[var(--radix-popover-trigger-width)] p-0"
+          align="start"
+        >
+          <Command>
+            <CommandInput placeholder={props.label} />
+            <CommandList>
+              <CommandEmpty>&mdash;</CommandEmpty>
+              <CommandGroup>
+                {props.options.map((option) => {
+                  const optionLabel = props.getOptionLabel(option);
+                  const isSelected =
+                    !!props.value &&
+                    props.getOptionLabel(props.value) === optionLabel;
+
+                  return (
+                    <CommandItem
+                      key={optionLabel}
+                      value={optionLabel}
+                      onSelect={() => {
+                        props.onChange(option);
+                        setOpen(false);
+                      }}
+                    >
+                      <Check
+                        className={cn(isSelected ? "opacity-100" : "opacity-0")}
+                      />
+                      {props.renderOption(option)}
+                    </CommandItem>
+                  );
+                })}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
       {!!props.error && (
-        <FormHelperText data-testid={`${props.testId}-error`}>
+        <p
+          data-testid={`${props.testId}-error`}
+          className="text-sm text-destructive"
+        >
           {props.error}
-        </FormHelperText>
+        </p>
       )}
-    </FormControl>
+    </div>
   );
 }
 
@@ -91,7 +152,6 @@ function FormAutocompleteInput<
           renderOption={props.renderOption}
           getOptionLabel={props.getOptionLabel}
           size={props.size}
-          value={props.value}
         />
       )}
     />

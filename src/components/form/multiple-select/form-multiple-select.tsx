@@ -1,18 +1,22 @@
 "use client";
 
-import { Ref } from "react";
+import { Ref, useState } from "react";
+import Check from "lucide-react/dist/esm/icons/check";
+import ChevronsUpDown from "lucide-react/dist/esm/icons/chevrons-up-down";
 import {
   Controller,
   ControllerProps,
   FieldPath,
   FieldValues,
 } from "react-hook-form";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import FormHelperText from "@mui/material/FormHelperText";
-import OutlinedInput from "@mui/material/OutlinedInput";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 export type MultipleSelectInputProps<T extends object> = {
   label: string;
@@ -34,65 +38,99 @@ function MultipleSelectInput<T extends object>(
     value: T[] | undefined | null;
     onChange: (value: T[]) => void;
     onBlur: () => void;
-    ref?: Ref<HTMLDivElement | null>;
+    ref?: Ref<HTMLButtonElement | null>;
   }
 ) {
-  return (
-    <FormControl fullWidth error={!!props.error} disabled={props.disabled}>
-      <InputLabel id={`select-label-${props.name}`}>{props.label}</InputLabel>
-      <Select
-        ref={props.ref}
-        labelId={`select-label-${props.name}`}
-        id={`select-${props.name}`}
-        value={props.value?.map(
-          (value) => value?.[props.keyValue]?.toString() ?? ""
-        )}
-        input={<OutlinedInput label={props.label} />}
-        multiple
-        inputProps={{
-          readOnly: props.readOnly,
-        }}
-        onChange={(event) => {
-          const value = event.target.value;
-          const selectedStrings =
-            typeof value === "string" ? value.split(",") : value;
+  const [open, setOpen] = useState(false);
+  const value = props.value ?? [];
+  const inputId = `multiple-select-${props.name}`;
 
-          const newValue = selectedStrings
-            .map((selectedString) => {
-              const option = props.options.find(
-                (option) =>
-                  option[props.keyValue]?.toString() === selectedString
+  const toggle = (option: T) => {
+    const isExist = value.some(
+      (item) => item[props.keyValue] === option[props.keyValue]
+    );
+
+    const newValue = isExist
+      ? value.filter((item) => item[props.keyValue] !== option[props.keyValue])
+      : [...value, option];
+
+    props.onChange(newValue);
+  };
+
+  return (
+    <div className="flex w-full flex-col gap-1.5">
+      <Label htmlFor={inputId}>{props.label}</Label>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            id={inputId}
+            ref={props.ref}
+            type="button"
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            disabled={props.disabled || props.readOnly}
+            onBlur={props.onBlur}
+            data-testid={props.testId}
+            aria-invalid={!!props.error}
+            className={cn(
+              "w-full justify-between font-normal",
+              value.length === 0 && "text-muted-foreground",
+              props.error && "border-destructive"
+            )}
+          >
+            <span className="truncate">
+              {value.length > 0 ? props.renderValue(value) : props.label}
+            </span>
+            <ChevronsUpDown className="opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          className="w-[var(--radix-popover-trigger-width)] p-1"
+          align="start"
+        >
+          <div className="max-h-72 overflow-y-auto">
+            {props.options.map((option) => {
+              const optionKey = option[props.keyValue]?.toString() ?? "";
+              const isSelected = value.some(
+                (item) => item[props.keyValue] === option[props.keyValue]
               );
 
-              if (!option) return undefined;
-
-              return option;
-            })
-            .filter((option) => option !== undefined) as T[];
-
-          props.onChange(newValue);
-        }}
-        onBlur={props.onBlur}
-        data-testid={props.testId}
-        renderValue={() => {
-          return props.value ? props.renderValue(props.value) : undefined;
-        }}
-      >
-        {props.options.map((option) => (
-          <MenuItem
-            key={option[props.keyValue]?.toString()}
-            value={option[props.keyValue]?.toString()}
-          >
-            {props.renderOption(option)}
-          </MenuItem>
-        ))}
-      </Select>
+              return (
+                <button
+                  key={optionKey}
+                  type="button"
+                  data-testid={`${props.testId}-${optionKey}`}
+                  onClick={() => toggle(option)}
+                  className={cn(
+                    "flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground",
+                    isSelected && "bg-accent/50"
+                  )}
+                >
+                  <Check
+                    className={cn(
+                      "size-4 shrink-0",
+                      isSelected ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                  <span className="flex-1 text-left">
+                    {props.renderOption(option)}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </PopoverContent>
+      </Popover>
       {!!props.error && (
-        <FormHelperText data-testid={`${props.testId}-error`}>
+        <p
+          data-testid={`${props.testId}-error`}
+          className="text-sm text-destructive"
+        >
           {props.error}
-        </FormHelperText>
+        </p>
       )}
-    </FormControl>
+    </div>
   );
 }
 

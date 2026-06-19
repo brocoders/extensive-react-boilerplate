@@ -1,0 +1,32 @@
+{
+  "title": "登录",
+  "actions": {
+    "submit": "登录",
+    "createAccount": "创建账户",
+    "forgotPassword": "忘记密码？"
+  },
+  "inputs": {
+    "email": {
+      "label": "邮箱",
+      "validation": {
+        "required": "请输入邮箱",
+        "invalid": "邮箱格式无效",
+        "server": {
+          "emailNotExists": "邮箱不存在",
+          "notFound": "邮箱不存在"
+        }
+      }
+    },
+    "password": {
+      "label": "密码",
+      "validation": {
+        "required": "请输入密码",
+        "min": "密码长度至少为 6 个字符",
+        "server": {
+          "incorrectPassword": "密码无效"
+        }
+      }
+    }
+  },
+  "or": "或"
+}

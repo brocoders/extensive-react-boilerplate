@@ -56,10 +56,10 @@ ReadOnly.args = {
   testId: "readOnlyDate",
 };
 
-export const YearMonthView = Template.bind({});
-YearMonthView.args = {
-  label: "Year/Month View",
+export const LabelCaption = Template.bind({});
+LabelCaption.args = {
+  label: "Date Picker (label caption)",
   name: "sampleDate",
-  views: ["year", "month"],
-  testId: "yearMonthDate",
+  captionLayout: "label",
+  testId: "labelCaptionDate",
 };

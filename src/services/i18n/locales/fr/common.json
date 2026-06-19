@@ -1,0 +1,41 @@
+{
+  "app-name": "Boilerplate",
+  "loading": "Chargement…",
+  "close": "Fermer",
+  "navigation": {
+    "home": "Accueil",
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire",
+    "profile": "Profil",
+    "users": "Utilisateurs",
+    "logout": "Se déconnecter"
+  },
+  "formInputs": {
+    "avatarInput": {
+      "dropzoneText": "Déposez l'image ici…",
+      "dragAndDrop": "Ou glissez-déposez une image ici",
+      "selectFile": "Sélectionner une image"
+    },
+    "multipleImageInput": {
+      "dropzoneText": "Déposez l'image ici…",
+      "dragAndDrop": "Ou glissez-déposez des images ici",
+      "selectFile": "Sélectionner une image"
+    },
+    "singleImageInput": {
+      "dropzoneText": "Déposez l'image ici…",
+      "dragAndDrop": "Ou glissez-déposez des images ici",
+      "selectFile": "Sélectionner une image"
+    }
+  },
+  "leavePage": {
+    "title": "Quitter cette page ?",
+    "message": "Les modifications que vous avez effectuées risquent de ne pas être enregistrées",
+    "stay": "Rester sur la page",
+    "leave": "Quitter la page"
+  },
+  "auth": {
+    "facebook": {
+      "action": "Se connecter avec Facebook"
+    }
+  }
+}

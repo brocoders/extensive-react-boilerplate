@@ -6,14 +6,9 @@ import {
   FieldPath,
   FieldValues,
 } from "react-hook-form";
-
-import FormControl from "@mui/material/FormControl";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormLabel from "@mui/material/FormLabel";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
-import Switch from "@mui/material/Switch";
 import { Ref } from "react";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 export type SwitchInputProps<T> = {
   label: string;
@@ -54,39 +49,42 @@ function SwitchInput<T>(
   };
 
   return (
-    <FormControl
-      component="fieldset"
-      variant="standard"
-      error={!!props.error}
-      data-testid={props.testId}
-    >
-      <FormLabel component="legend" data-testid={`${props.testId}-label`}>
-        {props.label}
-      </FormLabel>
-      <FormGroup ref={props.ref}>
-        {props.options.map((option) => (
-          <FormControlLabel
-            key={props.keyExtractor(option)}
-            control={
+    <div className="flex flex-col gap-1.5" data-testid={props.testId}>
+      <Label data-testid={`${props.testId}-label`}>{props.label}</Label>
+      <div ref={props.ref} className="flex flex-col gap-3">
+        {props.options.map((option) => {
+          const checked = value
+            .map((val) => val[props.keyValue])
+            .includes(option[props.keyValue]);
+          const id = `switch-${props.name}-${props.keyExtractor(option)}`;
+
+          return (
+            <div
+              key={props.keyExtractor(option)}
+              className="flex items-center gap-2"
+            >
               <Switch
-                checked={value
-                  .map((val) => val[props.keyValue])
-                  .includes(option[props.keyValue])}
-                onChange={onChange(option)}
+                id={id}
                 name={props.name}
+                checked={checked}
+                disabled={props.disabled}
+                onCheckedChange={onChange(option)}
                 data-testid={`${props.testId}-${props.keyExtractor(option)}`}
               />
-            }
-            label={props.renderOption(option)}
-          />
-        ))}
-      </FormGroup>
+              <Label htmlFor={id}>{props.renderOption(option)}</Label>
+            </div>
+          );
+        })}
+      </div>
       {!!props.error && (
-        <FormHelperText data-testid={`${props.testId}-error`}>
+        <p
+          data-testid={`${props.testId}-error`}
+          className="text-sm text-destructive"
+        >
           {props.error}
-        </FormHelperText>
+        </p>
       )}
-    </FormControl>
+    </div>
   );
 }
 

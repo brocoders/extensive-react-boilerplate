@@ -1,0 +1,41 @@
+{
+  "app-name": "Boilerplate",
+  "loading": "लोड हो रहा है ...",
+  "close": "बंद करें",
+  "navigation": {
+    "home": "होम",
+    "signIn": "साइन इन",
+    "signUp": "साइन अप",
+    "profile": "प्रोफ़ाइल",
+    "users": "उपयोगकर्ता",
+    "logout": "लॉगआउट"
+  },
+  "formInputs": {
+    "avatarInput": {
+      "dropzoneText": "छवि यहाँ छोड़ें ...",
+      "dragAndDrop": "या कोई छवि यहाँ खींचकर छोड़ें",
+      "selectFile": "एक छवि चुनें"
+    },
+    "multipleImageInput": {
+      "dropzoneText": "छवि यहाँ छोड़ें ...",
+      "dragAndDrop": "या कुछ छवियाँ यहाँ खींचकर छोड़ें",
+      "selectFile": "एक छवि चुनें"
+    },
+    "singleImageInput": {
+      "dropzoneText": "छवि यहाँ छोड़ें ...",
+      "dragAndDrop": "या कुछ छवियाँ यहाँ खींचकर छोड़ें",
+      "selectFile": "एक छवि चुनें"
+    }
+  },
+  "leavePage": {
+    "title": "यह पेज छोड़ें?",
+    "message": "आपके द्वारा किए गए बदलाव सहेजे नहीं जा सकते हैं",
+    "stay": "पेज पर रहें",
+    "leave": "पेज छोड़ें"
+  },
+  "auth": {
+    "facebook": {
+      "action": "Facebook से लॉगिन करें"
+    }
+  }
+}

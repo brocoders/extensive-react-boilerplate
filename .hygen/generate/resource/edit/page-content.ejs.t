@@ -7,23 +7,19 @@ import {
   // React dependencies here
   useEffect
 } from "react";
-import Button from "@mui/material/Button";
+import { Button } from "@/components/ui/button";
 import { useForm, FormProvider, useFormState } from "react-hook-form";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
 import { useSnackbar } from "@/hooks/use-snackbar";
 import Link from "@/components/link";
 import useLeavePage from "@/services/leave-page/use-leave-page";
-import Box from "@mui/material/Box";
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
 import { useTranslation } from "@/services/i18n/client";
 import { useParams, useRouter } from "next/navigation";
-import { useEdit<%= name %>Service } from "@/services/api/services/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>";
-import { useGet<%= name %>Query } from "../../queries/queries";
+import { useEdit<%= h.pascalName(name) %>Service } from "@/services/api/services/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>";
+import { useGet<%= h.pascalName(name) %>Query } from "../../queries/queries";
 
 type EditFormData = {
   // types here
@@ -50,13 +46,7 @@ function EditFormActions() {
   useLeavePage(isDirty);
 
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      type="submit"
-      disabled={isSubmitting}
-      data-testid="submit-button"
-    >
+    <Button type="submit" disabled={isSubmitting} data-testid="submit-button">
       {t("actions.submit")}
     </Button>
   );
@@ -66,10 +56,10 @@ function FormEdit() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const entityId = params.id;
-  const fetchEdit<%= name %> = useEdit<%= name %>Service();
+  const fetchEdit<%= h.pascalName(name) %> = useEdit<%= h.pascalName(name) %>Service();
   const { t } = useTranslation("admin-panel-<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>-edit");
   const validationSchema = useValidationSchema();
-  const { data: initialData } = useGet<%= name %>Query({ id: entityId });
+  const { data: initialData } = useGet<%= h.pascalName(name) %>Query({ id: entityId });
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -84,7 +74,7 @@ function FormEdit() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     formData
   ) => {
-    const { data, status } = await fetchEdit<%= name %>({
+    const { data, status } = await fetchEdit<%= h.pascalName(name) %>({
       id: entityId,
       data: {
         // Do not remove this comment. <edit-form-submit-property />
@@ -118,31 +108,28 @@ function FormEdit() {
 
   return (
     <FormProvider {...methods}>
-      <Container maxWidth="md">
+      <div className="mx-auto w-full max-w-3xl px-4">
         <form onSubmit={onSubmit}>
-          <Grid container spacing={2} mb={3} mt={3}>
-            <Grid size={{ xs: 12 }}>
-              <Typography variant="h6">{t("title")}</Typography>
-            </Grid>
+          <div className="mt-6 mb-6 grid grid-cols-12 gap-4">
+            <div className="col-span-12">
+              <h1 className="text-xl font-semibold">{t("title")}</h1>
+            </div>
 
             {/* Do not remove this comment. <edit-component-field />  */}
 
-            <Grid size={{ xs: 12 }}>
+            <div className="col-span-12">
               <EditFormActions />
-              <Box ml={1} component="span">
-                <Button
-                  variant="contained"
-                  color="inherit"
-                  LinkComponent={Link}
-                  href="/admin-panel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>"
-                >
-                  {t("actions.cancel")}
+              <span className="ml-2">
+                <Button asChild variant="secondary">
+                  <Link href="/admin-panel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>">
+                    {t("actions.cancel")}
+                  </Link>
                 </Button>
-              </Box>
-            </Grid>
-          </Grid>
+              </span>
+            </div>
+          </div>
         </form>
-      </Container>
+      </div>
     </FormProvider>
   );
 }

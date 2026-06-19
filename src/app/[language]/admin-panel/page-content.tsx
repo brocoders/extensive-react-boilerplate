@@ -3,24 +3,19 @@
 import { RoleEnum } from "@/services/api/types/role";
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth";
 import { useTranslation } from "@/services/i18n/client";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 
 function AdminPanel() {
   const { t } = useTranslation("admin-panel-home");
 
   return (
-    <Container maxWidth="md">
-      <Grid container spacing={3} wrap="nowrap" pt={3}>
-        <Grid>
-          <Typography variant="h3" gutterBottom>
-            {t("title")}
-          </Typography>
-          <Typography>{t("description")}</Typography>
-        </Grid>
-      </Grid>
-    </Container>
+    <div className="mx-auto w-full max-w-3xl px-4">
+      <div className="flex gap-6 pt-6">
+        <div>
+          <h1 className="mb-2 text-3xl font-semibold">{t("title")}</h1>
+          <p>{t("description")}</p>
+        </div>
+      </div>
+    </div>
   );
 }
 

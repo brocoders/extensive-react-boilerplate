@@ -4,5 +4,5 @@ to: src/app/[language]/admin-panel/<%= h.inflection.transform(name, ['pluralize'
 before: \<index\-component\-head\-field \/\>
 ---
 <% if (isShowInTable) { -%>
-  <TableCell>{t("table.<%= property %>")}</TableCell>
+  <TableHead>{t("table.<%= property %>")}</TableHead>
 <% } -%>

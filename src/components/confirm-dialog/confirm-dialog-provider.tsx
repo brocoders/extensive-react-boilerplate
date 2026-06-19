@@ -1,11 +1,15 @@
 "use client";
 
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import {
   ConfirmDialogActionsContext,
   ConfirmDialogOptions,
@@ -71,29 +75,31 @@ function ConfirmDialogProvider({ children }: { children: React.ReactNode }) {
       <ConfirmDialogActionsContext.Provider value={contextActions}>
         {children}
       </ConfirmDialogActionsContext.Provider>
-      <Dialog
+      <AlertDialog
         open={isOpen}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        onOpenChange={(open) => {
+          if (!open) {
+            handleClose();
+          }
+        }}
       >
-        <DialogTitle id="alert-dialog-title">
-          {confirmDialogInfo.title}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {confirmDialogInfo.message}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={onCancel}>
-            {confirmDialogInfo.cancelButtonText}
-          </Button>
-          <Button onClick={onSuccess} autoFocus>
-            {confirmDialogInfo.successButtonText}
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{confirmDialogInfo.title}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {confirmDialogInfo.message}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={onCancel}>
+              {confirmDialogInfo.cancelButtonText}
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={onSuccess}>
+              {confirmDialogInfo.successButtonText}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }

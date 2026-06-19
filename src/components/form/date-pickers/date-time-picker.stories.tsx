@@ -60,10 +60,10 @@ ReadOnly.args = {
   testId: "readOnlyDateTime",
 };
 
-export const CustomViews = Template.bind({});
-CustomViews.args = {
-  label: "Custom Views Date Time Picker",
+export const LabelCaption = Template.bind({});
+LabelCaption.args = {
+  label: "Date Time Picker (label caption)",
   name: "sampleDateTime",
-  views: ["day", "hours", "minutes"],
-  testId: "customViewsDateTime",
+  captionLayout: "label",
+  testId: "labelCaptionDateTime",
 };

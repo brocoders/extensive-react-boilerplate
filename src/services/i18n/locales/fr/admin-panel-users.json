@@ -1,0 +1,36 @@
+{
+  "title": "Utilisateurs",
+  "table": {
+    "column1": "ID",
+    "column2": "Nom",
+    "column3": "E-mail",
+    "column4": "Rôle"
+  },
+  "actions": {
+    "add": "Ajouter un utilisateur",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "create": "Créer un utilisateur"
+  },
+  "confirm": {
+    "delete": {
+      "title": "Supprimer l'utilisateur",
+      "message": "Voulez-vous vraiment supprimer cet utilisateur ?"
+    }
+  },
+  "filter": {
+    "actions": {
+      "filter": "Filtrer",
+      "apply": "Appliquer"
+    },
+    "inputs": {
+      "role": {
+        "label": "Rôle",
+        "options": {
+          "1": "Administrateur",
+          "2": "Utilisateur"
+        }
+      }
+    }
+  }
+}

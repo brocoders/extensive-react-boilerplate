@@ -1,0 +1,65 @@
+{
+  "title1": "Editar usuario",
+  "title2": "Cambiar contraseña",
+  "actions": {
+    "submit": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "inputs": {
+    "email": {
+      "label": "Correo electrónico",
+      "validation": {
+        "invalid": "El correo electrónico no es válido",
+        "required": "El correo electrónico es obligatorio",
+        "server": {
+          "emailAlreadyExists": "El correo electrónico ya existe"
+        }
+      }
+    },
+    "firstName": {
+      "label": "Nombre",
+      "validation": {
+        "required": "El nombre es obligatorio"
+      }
+    },
+    "lastName": {
+      "label": "Apellidos",
+      "validation": {
+        "required": "Los apellidos son obligatorios"
+      }
+    },
+    "role": {
+      "label": "Rol",
+      "validation": {
+        "required": "El rol es obligatorio"
+      },
+      "options": {
+        "1": "Administrador",
+        "2": "Usuario"
+      }
+    },
+    "password": {
+      "label": "Contraseña",
+      "validation": {
+        "required": "La contraseña es obligatoria",
+        "min": "La contraseña debe tener al menos 6 caracteres"
+      }
+    },
+    "passwordConfirmation": {
+      "label": "Confirmación de contraseña",
+      "validation": {
+        "required": "La confirmación de contraseña es obligatoria",
+        "match": "La confirmación de contraseña debe coincidir con la contraseña"
+      }
+    },
+    "<system>": "Do not remove this property"
+  },
+  "alerts": {
+    "password": {
+      "success": "La contraseña se ha actualizado correctamente"
+    },
+    "user": {
+      "success": "El perfil del usuario se ha actualizado correctamente"
+    }
+  }
+}

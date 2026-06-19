@@ -1,32 +1,47 @@
-import { Ref } from "react";
-import Table, { TableProps } from "@mui/material/Table";
-import TableBody, { TableBodyProps } from "@mui/material/TableBody";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableFooter from "@mui/material/TableFooter";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import type { ComponentProps, Ref } from "react";
 import {
+  ItemProps,
   ScrollerProps,
-  TableComponents as TableComponentsType,
+  TableBodyProps,
+  TableProps,
 } from "react-virtuoso";
 
+type TableSectionProps = Pick<ComponentProps<"thead">, "children" | "style"> & {
+  ref?: Ref<HTMLTableSectionElement>;
+};
+
 const TableComponents = {
-  Scroller: function Scroller(
-    props: ScrollerProps & { ref?: Ref<HTMLDivElement> }
-  ) {
-    return <TableContainer component={Paper} {...props} ref={props.ref} />;
+  Scroller: function Scroller(props: ScrollerProps) {
+    return <div {...props} className="relative w-full overflow-visible" />;
   },
-  Table: (props: TableProps) => (
-    <Table stickyHeader {...props} style={{ borderCollapse: "separate" }} />
-  ),
-  TableHead: TableHead as unknown as TableComponentsType["TableHead"],
-  TableFoot: TableFooter as unknown as TableComponentsType["TableFoot"],
-  TableRow: TableRow,
-  TableBody: function BodyTable(
-    props: TableBodyProps & { ref?: Ref<HTMLTableSectionElement> }
-  ) {
-    return <TableBody {...props} ref={props.ref} />;
+  Table: function VirtuosoTable(props: TableProps) {
+    return (
+      <table
+        {...props}
+        className="w-full caption-bottom text-sm"
+        style={{ ...props.style, borderCollapse: "separate", borderSpacing: 0 }}
+      />
+    );
+  },
+  TableHead: function VirtuosoTableHead(props: TableSectionProps) {
+    return (
+      <thead {...props} className="sticky top-0 z-10 bg-card [&_th]:border-b" />
+    );
+  },
+  TableFoot: function VirtuosoTableFoot(props: TableSectionProps) {
+    return <tfoot {...props} className="border-t bg-muted/50 font-medium" />;
+  },
+  TableRow: function VirtuosoTableRow({
+    item: _item,
+    context: _context,
+    ...props
+  }: ItemProps<unknown> & { context?: unknown }) {
+    return (
+      <tr {...props} className="border-b transition-colors hover:bg-muted/50" />
+    );
+  },
+  TableBody: function VirtuosoTableBody(props: TableBodyProps) {
+    return <tbody {...props} />;
   },
 };
 

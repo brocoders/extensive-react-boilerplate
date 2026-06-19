@@ -6,67 +6,67 @@ before: \<create\-component\-field \/\>
 
 <% if (kind === 'primitive') { -%>
   <% if (type === 'string') { -%>
-    <Grid size={{ xs: 12 }}>
+    <div className="col-span-12">
       <FormTextInput<CreateFormData>
         name="<%= property %>"
         testId="<%= property %>"
         label={t("inputs.<%= property %>.label")}
       />
-    </Grid>
+    </div>
   <% } else if (type === 'number') { -%>
-    <Grid size={{ xs: 12 }}>
+    <div className="col-span-12">
       <FormTextInput<CreateFormData>
         name="<%= property %>"
         testId="<%= property %>"
         label={t("inputs.<%= property %>.label")}
         type="number"
       />
-    </Grid>
+    </div>
   <% } else if (type === 'boolean') { -%>
-    <Grid size={{ xs: 12 }}>
+    <div className="col-span-12">
       <FormCheckboxBooleanInput<CreateFormData>
         name="<%= property %>"
         testId="<%= property %>"
         label={t("inputs.<%= property %>.label")}
       />
-    </Grid>
+    </div>
   <% } else if (type === 'Date') { -%>
-    <Grid size={{ xs: 12 }}>
+    <div className="col-span-12">
       <FormDateTimePickerInput<CreateFormData>
         name="<%= property %>"
         testId="<%= property %>"
         label={t("inputs.<%= property %>.label")}
       />
-    </Grid>
+    </div>
   <% } -%>
 <% } else if (kind === 'reference' || kind === 'denormalized') { -%>
   <% if (referenceType === 'toMany') { -%>
     <% if (type === 'File') { -%>
-      <Grid size={{ xs: 12 }}>
+      <div className="col-span-12">
         <FormMultipleImagePicker<CreateFormData>
           name="<%= property %>"
           testId="<%= property %>"
           label={t("inputs.<%= property %>.label")}
         />
-      </Grid>
+      </div>
     <% } else { -%>
-      <Grid size={{ xs: 12 }}>
+      <div className="col-span-12">
         <<%= h.inflection.camelize(property, false) %>Field />
-      </Grid>
+      </div>
     <% } -%>
   <% } else { -%>
     <% if (type === 'File') { -%>
-      <Grid size={{ xs: 12 }}>
+      <div className="col-span-12">
         <FormImagePicker<CreateFormData>
           name="<%= property %>"
           testId="<%= property %>"
           label={t("inputs.<%= property %>.label")}
         />
-      </Grid>
+      </div>
     <% } else { -%>
-      <Grid size={{ xs: 12 }}>
+      <div className="col-span-12">
         <<%= h.inflection.camelize(property, false) %>Field />
-      </Grid>
+      </div>
     <% } -%>
   <% } -%>
 <% } -%>

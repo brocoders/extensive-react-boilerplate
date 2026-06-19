@@ -20,6 +20,7 @@ const eslintConfig = defineConfig([
     "dist/**",
     "playwright-report/**",
     "test-results/**",
+    "storybook-static/**",
     ".install-scripts/**",
     "*.config.js",
     "*.config.mjs",
@@ -115,19 +116,19 @@ const eslintConfig = defineConfig([
         {
           paths: [
             {
-              name: "@mui/material",
-              message:
-                "Please use \"import ComponentName from '@mui/material/ComponentName'\" instead.",
-            },
-            {
-              name: "@mui/icons-material",
-              message:
-                "Please use \"import IconName from '@mui/icons-material/IconName'\" instead.",
-            },
-            {
               name: "next/link",
               message:
                 'Please use "import Link from "@/components/link"" instead. This is need for "leave page" logic',
+            },
+            {
+              name: "radix-ui",
+              message:
+                "Please use \"import * as ComponentName from '@radix-ui/react-component-name'\" instead to avoid bundle size increase.",
+            },
+            {
+              name: "lucide-react",
+              message:
+                "Please use \"import IconName from 'lucide-react/dist/esm/icons/icon-name'\" instead to avoid bundle size increase.",
             },
           ],
         },
