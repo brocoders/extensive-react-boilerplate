@@ -10,8 +10,6 @@ function ThemeSwitchButton() {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // `resolvedTheme` is undefined on the server and the first client render;
-  // wait until mounted to pick an icon and avoid a hydration mismatch.
   useEffect(() => {
     setMounted(true);
   }, []);

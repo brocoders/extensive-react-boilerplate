@@ -29,8 +29,6 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-// Close the mobile drawer whenever the route changes. Isolated into its own
-// component so the navigation list does not re-render when the sidebar toggles.
 function CloseSidebarOnNavigate() {
   const pathname = usePathname();
   const { setOpenMobile } = useSidebar();
