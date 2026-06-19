@@ -11,7 +11,6 @@ let lastName: string;
 let newPassword: string;
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/sign-in");
   email = faker.internet.email({
     provider: "example.com",
   });

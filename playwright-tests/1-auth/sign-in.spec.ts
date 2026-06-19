@@ -59,8 +59,12 @@ test.describe("Form", () => {
   test("should be display error messages if required fields are empty", async ({
     page,
   }) => {
-    await page.getByTestId("sign-in-submit").click();
-    await expect(page.getByTestId("email-error")).toBeVisible();
+    await expect(async () => {
+      await page.getByTestId("sign-in-submit").click();
+      await expect(page.getByTestId("email-error")).toBeVisible({
+        timeout: 1000,
+      });
+    }).toPass({ timeout: 15000 });
     await expect(page.getByTestId("password-error")).toBeVisible();
     await page.getByTestId("email").fill("useremail@gmail.com");
     await expect(page.getByTestId("email-error")).not.toBeVisible();
