@@ -157,7 +157,9 @@ function Form() {
                   <Separator className="flex-1" />
                 </div>
 
-                <SocialAuth />
+                <div className="flex flex-col items-center gap-2 w-full">
+                  <SocialAuth />
+                </div>
               </div>
             )}
           </div>

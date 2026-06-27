@@ -44,7 +44,9 @@ export default function FacebookAuth() {
 
   return (
     <>
-      <Button onClick={onLogin}>{t("common:auth.facebook.action")}</Button>
+      <Button className="w-full" onClick={onLogin}>
+        {t("common:auth.facebook.action")}
+      </Button>
       <FullPageLoader isLoading={isLoading} />
     </>
   );
