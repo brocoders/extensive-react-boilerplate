@@ -7,7 +7,7 @@ import { isGoogleAuthEnabled } from "./google/google-config";
 
 export default function SocialAuth() {
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div className="flex flex-col gap-4 w-full max-w-[400px] mx-auto">
       {isGoogleAuthEnabled && (
         <div className="w-full">
           <GoogleAuth />
