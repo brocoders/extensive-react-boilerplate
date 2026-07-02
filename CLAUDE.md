@@ -1,6 +1,6 @@
 # Project instructions
 
-Next.js 16 admin-panel boilerplate (React 19, TypeScript, MUI, TanStack Query, react-hook-form, i18next).
+Next.js 16 admin-panel boilerplate (React 19, TypeScript, shadcn, TanStack Query, react-hook-form, i18next).
 
 ## When adding resources or fields
 
