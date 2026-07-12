@@ -22,7 +22,7 @@ jobs:
         run: cp example.env.local .env.local
       - name: Run static generator suite
         run: npm run test:generators:static
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
           name: static-playwright-report
@@ -72,13 +72,13 @@ jobs:
       - name: Capture backend logs
         if: always()
         run: docker compose -f nestjs-boilerplate/docker-compose.generators-relational.test.yaml -p tests-gen-frontend logs > ${{ runner.temp }}/backend.log 2>&1 || true
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
           name: crud-playwright-report
           path: playwright-report/
           retention-days: 30
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
           name: crud-backend-log
