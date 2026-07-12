@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: 24
       - name: Install dependencies
@@ -40,7 +40,7 @@ jobs:
         with:
           repository: brocoders/nestjs-boilerplate
           path: nestjs-boilerplate
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: 24
       - name: Install dependencies
