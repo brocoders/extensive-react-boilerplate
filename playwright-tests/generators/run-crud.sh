@@ -10,7 +10,8 @@
 #    admin UI against the real backend).
 # 4. Tears everything down on EXIT — bounded by path on both repos.
 #
-# Defaults: NESTJS_DIR=../nestjs-boilerplate (override via env if elsewhere).
+# Defaults: NESTJS_DIR=../nestjs-boilerplate (override via env if elsewhere),
+# BACKEND_LOG_PATH=test-results/backend.log (container logs, always written).
 #
 # Usage: bash playwright-tests/generators/run-crud.sh
 
@@ -23,6 +24,9 @@ NESTJS_DIR="${NESTJS_DIR:-$(cd "$REPO_ROOT/../nestjs-boilerplate" 2>/dev/null &&
 COMPOSE_FILE="docker-compose.generators-relational.test.yaml"
 COMPOSE_PROJECT="tests-gen-frontend"
 HOST_API_PORT="${HOST_API_PORT:-3001}"
+# Inside Playwright's (gitignored, run-scoped) output dir — it is cleared at the
+# start of a run, and this is written at the end, so the two never collide.
+BACKEND_LOG_PATH="${BACKEND_LOG_PATH:-$REPO_ROOT/test-results/backend.log}"
 
 # ── Pre-flight ───────────────────────────────────────────────────────────────
 
@@ -62,6 +66,14 @@ cleanup() {
   local exit_code=$?
   echo ""
   echo "▶ Cleanup: tearing down backend stack and reverting generated source on both sides…"
+
+  # Dump container logs BEFORE the stack is destroyed. `down -v` takes the
+  # containers and their logs with it, so anything running after this script —
+  # a CI capture step included — finds nothing left to read.
+  mkdir -p "$(dirname "$BACKEND_LOG_PATH")" 2>/dev/null || true
+  (cd "$NESTJS_DIR" && docker compose -f "$COMPOSE_FILE" -p "$COMPOSE_PROJECT" logs --no-color) \
+    > "$BACKEND_LOG_PATH" 2>&1 || true
+  echo "  backend logs → $BACKEND_LOG_PATH"
 
   (cd "$NESTJS_DIR" && docker compose -f "$COMPOSE_FILE" -p "$COMPOSE_PROJECT" down -v) 2>/dev/null || true
 

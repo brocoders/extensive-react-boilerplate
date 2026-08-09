@@ -31,5 +31,11 @@
     "./.next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "**/*.stories.ts", "**/*.stories.tsx"]
+  "exclude": [
+    "node_modules",
+    "**/*.stories.ts",
+    "**/*.stories.tsx",
+    "nestjs-boilerplate",
+    "backend"
+  ]
 }

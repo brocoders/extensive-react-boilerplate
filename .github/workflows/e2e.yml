@@ -21,7 +21,7 @@ jobs:
         # print output of the command to file and store it as artifact
         run: cd backend && docker compose -f docker-compose.document.yaml up > ${{ runner.temp }}/backend.log 2>&1 &
       - run: cd backend && sed -i 's/\r//g' wait-for-it.sh
-      - run: cd backend && ./wait-for-it.sh localhost:3001 -- echo "Backend is up"
+      - run: cd backend && ./wait-for-it.sh localhost:3001 -t 600 --strict -- echo "Backend is up"
 
       - name: Check out frontend
         uses: actions/checkout@v6
