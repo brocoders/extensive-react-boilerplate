@@ -22,7 +22,7 @@ jobs:
         run: cp example.env.local .env.local
       - name: Run static generator suite
         run: npm run test:generators:static
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
           name: static-playwright-report
@@ -69,13 +69,13 @@ jobs:
         env:
           NESTJS_DIR: ${{ github.workspace }}/nestjs-boilerplate
         run: npm run test:e2e:generators:crud
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
           name: crud-playwright-report
           path: playwright-report/
           retention-days: 30
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
           name: crud-backend-log
