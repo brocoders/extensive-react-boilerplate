@@ -238,4 +238,4 @@ function CreateUser() {
   return <FormCreateUser />;
 }
 
-export default withPageRequiredAuth(CreateUser);
+export default withPageRequiredAuth(CreateUser, { roles: [RoleEnum.ADMIN] });

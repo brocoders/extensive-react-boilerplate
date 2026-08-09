@@ -32,17 +32,39 @@ i18next
     preload: runsOnServerSide ? languages : [],
   });
 
+let hasHydrated = false;
+const suspendedNamespaces = new Set<string>();
+
+function canSuspendOn(namespace: string) {
+  if (!hasHydrated) return true;
+
+  const key = `${i18next.resolvedLanguage}|${namespace}`;
+
+  if (suspendedNamespaces.has(key)) return false;
+
+  suspendedNamespaces.add(key);
+
+  return true;
+}
+
 export function useTranslation(namespace: string, options?: object) {
   const language = useLanguage();
   const { language: cookies } = useStoreLanguage();
   const { setLanguage: setCookie } = useStoreLanguageActions();
-  const originalInstance = useTranslationOriginal(namespace, options);
+  const originalInstance = useTranslationOriginal(namespace, {
+    ...options,
+    useSuspense: runsOnServerSide || canSuspendOn(namespace),
+  });
   const { i18n } = originalInstance;
   if (runsOnServerSide && language && i18n.resolvedLanguage !== language) {
     i18n.changeLanguage(language);
   } else {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [activeLanguage, setActiveLanguage] = useState(i18n.resolvedLanguage);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+      hasHydrated = true;
+    }, []);
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       if (activeLanguage === i18n.resolvedLanguage) return;

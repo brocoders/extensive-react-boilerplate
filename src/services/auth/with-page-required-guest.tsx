@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import useAuth from "./use-auth";
 import React, { FunctionComponent, useEffect } from "react";
 import useLanguage from "@/services/i18n/use-language";
+import getSafeReturnTo from "./get-safe-return-to";
 
 type PropsType = {
   params?: { [key: string]: string | string[] | undefined };
@@ -20,7 +21,12 @@ function withPageRequiredGuest(Component: FunctionComponent<PropsType>) {
         if (!user || !isLoaded) return;
 
         const params = new URLSearchParams(window.location.search);
-        const returnTo = params.get("returnTo") ?? `/${language}`;
+        // Accept only same-origin paths, or an attacker-supplied ?returnTo
+        // redirects the user off-site after login.
+        const returnTo = getSafeReturnTo(
+          params.get("returnTo"),
+          `/${language}`
+        );
         router.replace(returnTo);
       };
 

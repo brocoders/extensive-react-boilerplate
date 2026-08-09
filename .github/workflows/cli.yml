@@ -69,9 +69,6 @@ jobs:
         env:
           NESTJS_DIR: ${{ github.workspace }}/nestjs-boilerplate
         run: npm run test:e2e:generators:crud
-      - name: Capture backend logs
-        if: always()
-        run: docker compose -f nestjs-boilerplate/docker-compose.generators-relational.test.yaml -p tests-gen-frontend logs > ${{ runner.temp }}/backend.log 2>&1 || true
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
@@ -82,5 +79,5 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           name: crud-backend-log
-          path: ${{ runner.temp }}/backend.log
+          path: test-results/backend.log
           retention-days: 30

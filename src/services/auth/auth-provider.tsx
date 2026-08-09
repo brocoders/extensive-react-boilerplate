@@ -21,6 +21,8 @@ import {
   getTokensInfo,
   setTokensInfo as setTokensInfoToStorage,
 } from "./auth-tokens-info";
+import { emitAuthEvent, onAuthEvent } from "./auth-events";
+import queryClient from "@/services/react-query/query-client";
 
 function AuthProvider(props: PropsWithChildren) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -30,20 +32,28 @@ function AuthProvider(props: PropsWithChildren) {
   const setTokensInfo = useCallback((tokensInfo: TokensInfo) => {
     setTokensInfoToStorage(tokensInfo);
 
-    if (!tokensInfo) {
+    if (tokensInfo) {
+      emitAuthEvent({ type: "login" });
+    } else {
       setUser(null);
+      emitAuthEvent({ type: "logout" });
     }
   }, []);
 
   const logOut = useCallback(async () => {
     const tokens = getTokensInfo();
 
-    if (tokens?.token) {
-      await fetchBase(AUTH_LOGOUT_URL, {
-        method: "POST",
-      });
+    try {
+      if (tokens?.token) {
+        await fetchBase(AUTH_LOGOUT_URL, {
+          method: "POST",
+        });
+      }
+    } finally {
+      // Local auth state must be cleared even when the logout request fails
+      // (offline, server down) — otherwise the user stays logged in.
+      setTokensInfo(null);
     }
-    setTokensInfo(null);
   }, [setTokensInfo, fetchBase]);
 
   const loadData = useCallback(async () => {
@@ -70,6 +80,19 @@ function AuthProvider(props: PropsWithChildren) {
 
   useEffect(() => {
     loadData();
+  }, [loadData]);
+
+  useEffect(() => {
+    return onAuthEvent((event) => {
+      if (event.type === "logout") {
+        setUser(null);
+        // Cached queries belong to the previous user; keeping them would
+        // show that user's data to the next account on this machine.
+        queryClient.clear();
+      } else {
+        loadData();
+      }
+    });
   }, [loadData]);
 
   const contextValue = useMemo(
